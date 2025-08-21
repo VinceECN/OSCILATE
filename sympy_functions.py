@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Apr  9 13:39:41 2025
+Started on Wed Apr  9 13:39:41 2025
 
-@author: vmahe241
+@author: Vincent MAHE
 
 Sympy functions useful to the use of MMS functions.
 """
 
 #%% Imports
 import copy
-from sympy import sqrt
+from sympy import sqrt, solve
 
-#%% Workaround functions
+#%% Functions
 def sub_deep(expr, sub):
     """
     Performs deep substitutions of an expression. This is needed when a substitution involves terms that can still be substituted.
@@ -68,7 +68,10 @@ def solve_poly2(poly,x):
     
     # Ensure the polynomial is written only with positive powers of x
     min_power = min(list(keys), key=lambda expr: get_exponent(expr, x))
-    poly = (poly/min_power).expand()
+    min_expo = get_exponent(min_power, x)
+    if min_expo<=0:
+        poly = (poly/min_power).expand()
+    
     dic_x = poly.expand().collect(x, evaluate=False)
     keys = set(dic_x.keys())
     
@@ -89,11 +92,13 @@ def solve_poly2(poly,x):
         c        = dic_x[1]
         T2       = sqrt(- 4*a*c)/(2*a)
         x_sol    = [-T2, T2]
-        
+
+    elif keys == set([x, 1]) or keys == set([x**2, x]):
+        x_sol = solve(poly.expand(), x)
+
     else:
         x_sol = []
-        print('Trying to use solve_poly_2() with a polynomial different '+
-              'from p(x) = a*x**2 + b*x + c')
+        print('Trying to use solve_poly2() with a polynomial different from p(x) = a*x**2 + b*x + c')
         
     return x_sol
 
@@ -112,3 +117,5 @@ def get_exponent(expr, x):
     else:
         return float('inf')  # Handle unexpected expressions
     
+
+# %%

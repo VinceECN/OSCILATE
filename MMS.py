@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Feb 15 17:25:59 2022
+Started on Tue Feb 15 17:25:59 2022
 
 @author: Vincent MAHE
 
@@ -10,9 +10,9 @@ Solve systems of coupled nonlinear equations using the method of multiple scales
 #%% Imports and initialisation
 from sympy import (exp, I, conjugate, re, im, Rational, 
                    symbols, Symbol, Function, solve, dsolve,
-                   cos, sin, srepr, sympify, simplify, 
+                   cos, sin, tan, srepr, sympify, simplify, 
                    zeros, det, trace, eye, Mod, lambdify)
-from sympy.simplify.fu import TR8, TR10
+from sympy.simplify.fu import TR5, TR8, TR10
 import sympy_functions as sfun
 import numpy as np
 import itertools
@@ -395,7 +395,7 @@ class Multiple_scales_system:
             
             # Feed EqMMSO with higher orders of epsilon
             for io in range(1, self.Ne+1):
-                EqMMSO.append( ((Eq_eps[ix].series(self.eps, n=io+1).removeO() - retrieve_EqMMSO) / self.eps**io).simplify() )
+                EqMMSO.append( ((Eq_eps[ix].series(self.eps, n=io+1).removeO() - retrieve_EqMMSO) / self.eps**io).simplify().expand() )
                 
                 # Update the terms that are to be substracted at order io+1
                 retrieve_EqMMSO += self.eps**io * EqMMSO[io]
@@ -404,9 +404,15 @@ class Multiple_scales_system:
             
         self.EqMMS = EqMMS
         
-    def apply_MMS(self):
+    def apply_MMS(self, rewrite_polar=0):
         """
         Apply the MMS.
+
+        Parameters
+        ----------
+        rewrite_polar : str, int or list of int, optional
+            The orders at which the solutions will be rewritten in polar form.
+            See sol_xMMS_polar().
         """
         
         # Write a temporary equivalent system depending only on t0
@@ -425,7 +431,7 @@ class Multiple_scales_system:
         self.evolution_equations()
         
         # Write the x solutions in terms of polar coordinates
-        # self.sol_xMMS_polar()
+        self.sol_xMMS_polar(rewrite_polar=rewrite_polar)
 
 
     def system_t0(self):
@@ -699,14 +705,32 @@ class Multiple_scales_system:
         self.sol.fbeta  = fbeta
                     
 
-    def sol_xMMS_polar(self):
+    def sol_xMMS_polar(self, rewrite_polar=0):
         """
-        Write the solutions at each order using the polar coordinates.
+        Write the solutions using the polar coordinates.
+
+        Parameters
+        ----------
+        rewrite_polar : str, int or list of int, optional
+            The orders at which the solutions will be rewritten in polar form.
+            If "all", then all solution orders will be rewritten.
+            If int, then only a single order will be rewritten.
+            If list of int, then the listed orders will be rewritten.
+            Default is 0, so only the leading order solution will be rewritten.
         """
         
         # Information
         print("Rewritting the solutions in polar form")
         
+        # Orders to rewrite
+        if rewrite_polar=="all":
+            rewrite_polar = range(self.Ne+1)
+        elif not isinstance(rewrite_polar, list):
+            rewrite_polar = [rewrite_polar]
+        if max(rewrite_polar)>self.Ne:
+            print("Trying to rewrite a solution order that exceeds the maximum order computed.")
+            return
+
         # Prepare substitutions
         sub_t_back = [ (item[1], item[0]) for item in self.sub.sub_t]
         sub_sigma  = [ (self.eps*self.sigma, self.omega-self.omegaMMS)]
@@ -720,7 +744,7 @@ class Multiple_scales_system:
         x          = [0 for dummy in range(self.ndof)]
         for ix in range(self.ndof):
             xMMS_polar.append([])
-            for io in range(self.Ne+1):
+            for io in rewrite_polar:
                 xMMS_polar[ix].append( TR10(TR8((self.sol.xMMS[ix][io]
                                         .subs(self.sub.sub_A).doit().expand()
                                         .subs(self.sub.sub_phi).doit()) 
@@ -729,9 +753,10 @@ class Multiple_scales_system:
                                       .expand()
                                       .collect(collect_omega)
                                       )
-
-            x[ix] = sum([self.eps**(io+self.eps_pow_0) * xMMS_polar[ix][io] for io in range(self.Ne+1)]).simplify()
-
+            if rewrite_polar == range(self.Ne+1): # Construct the full response if relevant
+                x[ix] = sum([self.eps**(io+self.eps_pow_0) * xMMS_polar[ix][io] for io in range(self.Ne+1)]).simplify()
+            else:
+                x[ix] = "all solution orders were not rewritten in polar form"
         # Store
         self.sol.xMMS_polar = xMMS_polar
         self.sol.x          = x
@@ -1144,7 +1169,7 @@ class Steady_state:
             sub_cart.append( (a[ix]*cos(beta[ix]*ratio_omega)     , p[ix]) )
             sub_cart.append( (a[ix]*sin(beta[ix]*ratio_omega)     , q[ix]) )
             sub_cart.append( (a[ix]**2*cos(2*beta[ix]*ratio_omega), p[ix]**2 - q[ix]**2) )
-            sub_cart.append( (a[ix]**2*sin(2*beta[ix]*ratio_omega), p[ix]*q[ix]) )
+            sub_cart.append( (a[ix]**2*sin(2*beta[ix]*ratio_omega), 2*p[ix]*q[ix]) )
             sub_cart.append( (a[ix]**2                            , p[ix]**2 + q[ix]**2) )
             
             sub_polar.append( (p[ix], a[ix]*cos(beta[ix]*ratio_omega)) )
@@ -1269,7 +1294,7 @@ class Steady_state:
         
         return J
 
-    def eval_sol_stability(self, coord="cartesian", eigenvalues=False, bifurcation_curves=False):
+    def eval_sol_stability(self, coord="cartesian", rewrite_polar=False, eigenvalues=False, bifurcation_curves=False):
         """
         Evaluate the stability of a solution. 
         
@@ -1280,6 +1305,10 @@ class Steady_state:
             "cartesian" is recommended as it prevents divisions by 0, which occur when at least 1 of the dof
             has a null ampliutude.
             Default is "cartesian".
+        rewrite_polar: bool
+            Rewrite the Jacobian, its determinant and trace in polar coordinates (if computed using cartesian ones).
+            This is time consuming and the current back substitutions from cartesian to polar coordinates are not always sufficient.
+            Default is False.
         eigenvalues: bool
             To compute the eigenvalues of the Jacobian.
             Default is False.
@@ -1298,8 +1327,21 @@ class Steady_state:
         
         # Introduce the cartesian coordinates and evolution equations
         if coord == "cartesian":
+            print("   Rewritting the system in cartesian coordinates")
+
+            self.stab.analysis_coord = "cartesian"
             self.cartesian_coordinates()
             self.evolution_equations_cartesian()
+
+        else:
+            self.stab.analysis_coord = "polar"
+        
+        # Compute the Jacobian
+        print("   Computing the Jacobian")
+        if coord=="cartesian":
+            J = self.Jacobian_cartesian()
+        else:
+            J = self.Jacobian_polar()
         
         # Set every dof amplitude to 0 except the one solved for
         if coord=="cartesian":
@@ -1307,32 +1349,37 @@ class Steady_state:
                 if ix != self.sol.solve_dof:
                     self.sub.sub_solve.extend( [(self.coord.p[ix], 0), (self.coord.q[ix], 0)] )
          
-        # Use the steady-state solutions to perform substitutions XXX: to review due to hard forcing/linear functions of beta. Use solve?
+        # Use the steady-state solutions to perform substitutions
         self.sub.sub_solve.extend( [(self.forcing.F*self.sol.sin_phase[0], self.forcing.F*self.sol.sin_phase[1]),
                                     (self.forcing.F*self.sol.cos_phase[0], self.forcing.F*self.sol.cos_phase[1])] )
         
-        if coord=="cartesian":
+        if coord=="cartesian": 
             if self.forcing.F in self.sol.fp[self.sol.solve_dof].atoms(Symbol): 
-                self.sub.sub_solve.append( (self.forcing.F, solve(self.sol.fp[self.sol.solve_dof], self.forcing.F)[0]) )
+                self.sub.sub_solve.append( (self.forcing.F, solve(self.sol.fp[self.sol.solve_dof].subs(self.sub.sub_solve), self.forcing.F)[0]) )
             else:
-                self.sub.sub_solve.append( (self.forcing.F, solve(self.sol.fq[self.sol.solve_dof], self.forcing.F)[0]) )
-        
-        # Compute the Jacobian
-        if coord=="cartesian":
-            J = self.Jacobian_cartesian()
-        else:
-            J = self.Jacobian_polar()
+                self.sub.sub_solve.append( (self.forcing.F, solve(self.sol.fq[self.sol.solve_dof].subs(self.sub.sub_solve), self.forcing.F)[0]) )
         
         # Evaluate the Jacobian on the solution
         Jsol = simplify(J.subs(self.sub.sub_solve)) 
-        
-        if coord=="cartesian": # Substitute back the polar coordinates
-            Jsol = simplify(Jsol.subs(self.sub.sub_polar))
         
         # Analyse the Jacobian
         tr_Jsol  = trace(Jsol).simplify()
         det_Jsol = det(Jsol).simplify()
         
+        # Rewrite the results in polar form if cartesian coordinates were used (time consuming)
+        if coord=="cartesian" and rewrite_polar: 
+            # Save cartesian results
+            self.stab.Jsolc     = Jsol
+            self.stab.tr_Jsolc  = tr_Jsol
+            self.stab.det_Jsolc = det_Jsol
+            
+            # Write the results in polar form
+            print("   Expressing the stability results in polar coordinates")
+
+            Jsol     = cartesian_to_polar(Jsol, self.sub.sub_polar)
+            tr_Jsol  = cartesian_to_polar(tr_Jsol, self.sub.sub_polar)
+            det_Jsol = cartesian_to_polar(det_Jsol, self.sub.sub_polar)
+
         # Store results
         self.stab.Jsol     = Jsol
         self.stab.tr_Jsol  = tr_Jsol
@@ -1340,49 +1387,68 @@ class Steady_state:
         
         # Compute the eigenvalues of the Jacobian
         if eigenvalues:
-            self.eigenvalues()
+            print("   Computing the eigenvalues of the Jacobian")
+            self.stab.eigvals = self.eigenvalues(J=Jsol)
         
         # Compute the bifurcation curves
         if bifurcation_curves:
-            self.bifurcation_curves()
+            print("   Computing the bifurcation curves")
+            self.stab.bif_a, self.stab.bif_sigma = self.bifurcation_curves(detJ=det_Jsol, trJ=tr_Jsol)
 
-    
-    def eigenvalues(self):
+    def eigenvalues(self, J):
         """
         Computes the eigenvalues of the Jacobian.
+
+        Parameters
+        ----------
+        J: Matrix
+            The matrix whose eigenvalues are computed.
         """
         
         lamb        = symbols(r"\lambda")
-        eig_problem = self.stab.Jsol - lamb * eye(*self.stab.Jsol.shape)
+        eig_problem = J - lamb * eye(*J.shape)
         detEP       = eig_problem.det()
         eigvals     = solve(detEP, lamb)
         
-        self.stab.eigvals = eigvals
+        return eigvals
             
-    def bifurcation_curves(self):
+    def bifurcation_curves(self, detJ, trJ):
         """
-        Compute bifurcation curves. This can only be done one the stability analysis of a solution 
-        has been performed.
+        Compute bifurcation curves. 
+
+        Parameters
+        ----------
+        detJ: Expr
+            The determinant of the matrix.
+        trJ: Expr
+            The trace of the matrix.
         """
         
-        # Check if a solution has been computed and its stability assessed
+        # Check if the stability analysis is expressed in polar coordinates
+        if "p" in self.coord.__dict__.keys():
+            cartesian_coordinates = self.coord.p + self.coord.q
+            symbols_det = list(detJ.atoms(Symbol)) 
+            for cartesian_coordinate in cartesian_coordinates:
+                if cartesian_coordinate in symbols_det:
+                    print("Substitutions from cartesian back to polar coordinates were incomplete. \n ",
+                          "Try other substitutions manually or compute the Jacobian's determinant using block partitions if possible")
+
         if not "Jsol" in self.stab.__dict__.keys():
             print("There was no stability analysis performed.")
             return
         
         # Compute the bifurcation curves from the determinant of the Jacobian
-        bif_a   = sfun.solve_poly2(self.stab.det_Jsol, self.coord.a[self.sol.solve_dof]**2)
-        bif_sig = sfun.solve_poly2(self.stab.det_Jsol, self.sigma)
+        bif_a   = sfun.solve_poly2(detJ, self.coord.a[self.sol.solve_dof]**2)
+        bif_sig = sfun.solve_poly2(detJ, self.sigma)
         
         # Add bifurcation curves related to the trace of the Jacobian if it is not a constant
-        if self.coord.a[self.sol.solve_dof] in self.stab.tr_Jsol.atoms(Symbol):
-            bif_a   += sfun.solve_poly2(self.stab.tr_Jsol, self.coord.a[self.sol.solve_dof]**2)
-        if self.sigma in list(self.stab.tr_Jsol.atoms(Symbol)):
-            bif_sig += sfun.solve_poly2(self.stab.tr_Jsol, self.sigma)
+        if self.coord.a[self.sol.solve_dof] in trJ.atoms(Symbol):
+            bif_a   += sfun.solve_poly2(trJ, self.coord.a[self.sol.solve_dof]**2)
+        if self.sigma in list(trJ.atoms(Symbol)):
+            bif_sig += sfun.solve_poly2(trJ, self.sigma)
         
-        # Store
-        self.stab.bif_a     = bif_a
-        self.stab.bif_sigma = bif_sig
+        # Return
+        return bif_a, bif_sig
     
     @staticmethod
     def plot_FRC(FRC, **kwargs):
@@ -1525,9 +1591,8 @@ class Sol_SS:
     def __init__(self, ss, mms):
         
         self.x = []
-        if hasattr(mms.sol, "xMMS_polar"):
-            for ix in range(ss.ndof):
-                self.x.append( [xio.subs(mms.sub.sub_t[:-1]+ss.sub.sub_SS) for xio in mms.sol.xMMS_polar[ix]] )
+        for ix in range(ss.ndof):
+            self.x.append( [xio.subs(mms.sub.sub_t[:-1]+ss.sub.sub_SS) for xio in mms.sol.xMMS_polar[ix]] )
         
 class Stab_SS:
     """
@@ -1602,6 +1667,36 @@ def Chain_rule_ddfdt2(f_t, f, t, tS, eps):
             ddfdt2 += eps**(jj+ii) * f.diff(tS[ii]).diff(tS[jj])
     
     return ddfdt2
+
+def cartesian_to_polar(y, sub_polar, sub_phase=None):
+    """
+    Rewrites an expression of a Matrix y from cartesian to polar coordinates.
+
+    Parameters
+    ----------
+    y : Expr or Matrix
+        A sympy expression or matrix written in cartesian coordinates.
+    sub_polar: list
+        A list of substitutions to perform to go from cartesian to polar coordinates. 
+    sub_phase: list, optional
+        Additional substitutions to try and get rid of phases, so that only the amplitude remains in the expression.
+
+    Returns
+    -------
+    yp: Expr or Matrix
+        The initial expression or matrix written in polar coordinates.
+    """
+
+    if y.is_Matrix:
+        yp = simplify(y.subs(sub_polar))
+    else:
+        if sub_phase == None:
+            yp = y.subs(sub_polar).expand().simplify()
+        else:
+            phase     = sub_phase[0][0].args[0]
+            sub_tan   = [(tan(phase/2), sin(phase)/(cos(phase)+1))]
+            yp = TR8((TR5(y.subs(sub_polar)).expand())).subs(sub_phase).simplify().subs(sub_tan).subs(sub_phase).expand().simplify()
+    return yp
 
 #%% Numpy transforms and plot functions
 def sympy_to_numpy(expr_sy, param):
