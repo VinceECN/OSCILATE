@@ -11,6 +11,8 @@ Several examples are proposed below:
 - Coupled nonlinear oscillators with quadratic nonlinearities
 - Parametrically excited oscillators
 - Hard forcing of a Duffing oscillator
+- Subharmonic response of 2 coupled centrifugal pendulum modes
+
 Results are returned as sympy expressions.
 They can be printed using LaTeX if the code is run in an appropriate interactive Window. 
 It is the case VS Code's interactive Window or Spyder's IPython consol.
@@ -561,22 +563,13 @@ ss.sol.fa    = [fa_ix.subs(sub_param+sub_nt).simplify().expand().collect(collect
 ss.sol.fbeta = [fbeta_ix.subs(sub_param+sub_nt).simplify().expand().collect(collect_f) for fbeta_ix in ss.sol.fbeta]
 
 # Solve the evolution equations for a given dof
-solve_dof = 1 # dof to solve for
+solve_dof = 0 # dof to solve for
 ss.solve_forced(solve_dof=solve_dof)
 ss.solve_bbc(solve_dof=solve_dof, c=param_scaled[-2])
 
 # Stability analysis 
-ss.eval_sol_stability(coord="cartesian", eigenvalues=False, bifurcation_curves=False)
-
-A = 1/eps * ss.stab.Jsol[:2,:2] # Upper left 2*2 block
-B = 1/eps * ss.stab.Jsol[2:,2:] # Lower right 2*2 block
-
-sub_phase = [ss.sol.sin_phase, ss.sol.cos_phase]
-detA, detB = [MMS.cartesian_to_polar(sy.det(mat), ss.sub.sub_polar, sub_phase=sub_phase).factor() for mat in [A, B]]
-trA, trB   = [MMS.cartesian_to_polar(sy.trace(mat), ss.sub.sub_polar, sub_phase=sub_phase).factor() for mat in [A, B]]
-
-bif_aA, bif_sigA = [sy.solve(detA, var) for var in [ss.coord.a[solve_dof]**2, mms.sigma]]
-bif_aB, bif_sigB = [sy.solve(detB, var) for var in [ss.coord.a[solve_dof]**2, mms.sigma]]
+kwargs_stab = dict(coord="cartesian", eigenvalues=True, bifurcation_curves=True, analyse_blocks=True, kwargs_bif=dict(var_a=True, var_sig=True, solver=sy.solve))
+ss.eval_sol_stability(**kwargs_stab)
 
 #%% Display the execution time
 end = time.time()

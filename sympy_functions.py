@@ -38,7 +38,7 @@ def sub_deep(expr, sub):
     
     return expr_sub
 
-def solve_poly2(poly,x):
+def solve_poly2(poly, x):
     """
     Finds the roots of a polynomial of degree 2 of the form
     p(x) = a*x**2 + b*x + c
@@ -61,20 +61,16 @@ def solve_poly2(poly,x):
     x_sol: list of Expr
         list containing the two roots of the polynomial
     """
-    
+
+    # Check the solvability
+    if not check_solvability(poly, x):
+        print("The polynomial cannot be solved")
+        return False
+
     # Polynomial terms
-    dic_x = poly.expand().collect(x, evaluate=False)
-    keys = set(dic_x.keys())
-    
-    # Ensure the polynomial is written only with positive powers of x
-    min_power = min(list(keys), key=lambda expr: get_exponent(expr, x))
-    min_expo = get_exponent(min_power, x)
-    if min_expo<=0:
-        poly = (poly/min_power).expand()
-    
-    dic_x = poly.expand().collect(x, evaluate=False)
-    keys = set(dic_x.keys())
-    
+    dic_x = poly_positive_pow(poly, x)
+    keys  = set(dic_x.keys())
+
     # Solve
     if keys == set([x**2, x, 1]):
         a     = dic_x[x**2].factor()
@@ -102,6 +98,64 @@ def solve_poly2(poly,x):
         
     return x_sol
 
+def poly_positive_pow(poly, x):
+    """
+    Identify the terms of a polynomial. If the expression given for poly is of the form
+    p(x) = q(x)*x**(-n), where the powers of x in q(x) are all superior or equal to 0,
+    then an auxiliary polynomial P(x) = p(x)/x**-n is constructed. 
+
+    Parameters
+    ----------
+    poly : Expr
+        The polynomial considered.
+    x : Symbol
+        The variable to solve for.
+
+    Returns
+    -------
+    dic_x: dict
+        The polynomial terms.
+    """
+    # Polynomial terms
+    dic_x = poly.expand().collect(x, evaluate=False)
+    keys = set(dic_x.keys())
+
+    # Increase the polynomial order if it contains negative powers of x so the lowest possible order is x**0=1
+    min_power = min(list(keys), key=lambda expr: get_exponent(expr, x))
+    min_expo = get_exponent(min_power, x)
+    if min_expo<=0:
+        poly = (poly/min_power).expand()
+    
+    # Terms of the increased-order polynomial
+    dic_x = poly.expand().collect(x, evaluate=False)
+
+    return dic_x
+
+def check_solvability(poly, x):
+    """
+    Check the solvability of a polynomial.
+
+    Parameters
+    ----------
+    poly : Expr
+        The polynomial considered.
+    x : Symbol
+        The variable to solve for.
+
+    Returns
+    -------
+    bool : True is solvable, False otherwise.
+    """
+    dic_x = poly_positive_pow(poly, x)
+    poly_terms = set(dic_x.keys())
+    min_power  = min(poly_terms, key=lambda expr: get_exponent(expr, x))
+    poly_terms = set([poly_term/min_power for poly_term in poly_terms])
+
+    if poly_terms in [set([x**2, x, 1]), set([x**2, 1]), set([x, 1])]:
+        return True
+    else:
+        return False
+    
 def get_exponent(expr, x):
     """
     Get the exponent of x in an expression
@@ -116,6 +170,73 @@ def get_exponent(expr, x):
     
     else:
         return float('inf')  # Handle unexpected expressions
-    
 
-# %%
+def get_block_diagonal_indices(matrix, block_sizes):
+    """
+    Generate a list of (i, j) indices for all elements in the diagonal blocks of a block-diagonal matrix.
+
+    Parameters
+    ----------
+    matrix: Matrix.
+        The matrix to check for block diagonality.
+    block_sizes: int or list of int
+        Size(s) of the diagonal blocks.
+
+    Returns
+    -------
+    indices : list
+        A list of tuples (i, j) representing the indices of elements in the diagonal blocks.
+    """
+
+    if isinstance(block_sizes, int):
+        block_sizes = [block_sizes]*(matrix.rows // block_sizes)
+
+    indices = []
+    start = 0
+
+    for size in block_sizes:
+        end = start + size
+        # Iterate over the current block
+        for ii in range(start, end):
+            for jj in range(start, end):
+                indices.append((ii, jj))
+        start = end
+
+    return indices
+
+def is_block_diagonal(matrix, block_sizes):
+    """
+    Check if a SymPy matrix is block-diagonal given block sizes.
+
+    Parameters
+    ----------
+    matrix: Matrix.
+        The matrix to check for block diagonality.
+    block_sizes: int or list of int
+        Size(s) of the diagonal blocks.
+
+    Returns
+    -------
+        bool: True if the matrix is block-diagonal, False otherwise.
+    """
+    n = matrix.rows
+    if isinstance(block_sizes, int):
+        block_sizes = [block_sizes]*(n // block_sizes)
+    if sum(block_sizes) != n:
+        return False
+
+    # Get the block-diagonal elements indices
+    indices_diag_blocks = get_block_diagonal_indices(matrix, block_sizes)
+
+    # Initialize the starting index of the current block
+    start = 0
+
+    # Iterate over the matrix elements
+    for i in range(n):
+        for j in range(n):
+            # Skip elements inside the diagonal blocks
+            if (i, j) not in indices_diag_blocks:
+                if matrix[i, j] != 0:
+                    return False
+
+    return True

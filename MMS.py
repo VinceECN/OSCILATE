@@ -1025,6 +1025,7 @@ class Steady_state:
         # Store the solutions
         self.sol.sin_phase = (collect_sin_cos[0], sin_phase)
         self.sol.cos_phase = (collect_sin_cos[1], cos_phase)
+        self.sub.sub_phase = [self.sol.sin_phase, self.sol.cos_phase]
     
     def solve_sigma(self):
         """
@@ -1294,7 +1295,7 @@ class Steady_state:
         
         return J
 
-    def eval_sol_stability(self, coord="cartesian", rewrite_polar=False, eigenvalues=False, bifurcation_curves=False):
+    def eval_sol_stability(self, coord="cartesian", rewrite_polar=False, eigenvalues=False, bifurcation_curves=False, analyse_blocks=False, kwargs_bif=dict()):
         """
         Evaluate the stability of a solution. 
         
@@ -1312,9 +1313,14 @@ class Steady_state:
         eigenvalues: bool
             To compute the eigenvalues of the Jacobian.
             Default is False.
-        bifurcatino_curves: bool
+        bifurcation_curves: bool
             To compute the bifurcation curves.
             Default is False.
+        analyse_blocks: bool, optional
+            Analyse the diagonal blocks of the Jacobian rather than the Jacobian itself. This is relevant if the Jacobian is block-diagonal.
+        kwargs_bif: dict, optional
+            Passed to bifurcation_curves()
+            Default is dict().
         """
         
         # Check if a solution has been computed
@@ -1367,33 +1373,71 @@ class Steady_state:
         det_Jsol = det(Jsol).simplify()
         
         # Rewrite the results in polar form if cartesian coordinates were used (time consuming)
-        if coord=="cartesian" and rewrite_polar: 
+        if coord=="cartesian": 
             # Save cartesian results
             self.stab.Jsolc     = Jsol
             self.stab.tr_Jsolc  = tr_Jsol
             self.stab.det_Jsolc = det_Jsol
             
             # Write the results in polar form
-            print("   Expressing the stability results in polar coordinates")
-
-            Jsol     = cartesian_to_polar(Jsol, self.sub.sub_polar)
-            tr_Jsol  = cartesian_to_polar(tr_Jsol, self.sub.sub_polar)
-            det_Jsol = cartesian_to_polar(det_Jsol, self.sub.sub_polar)
+            if rewrite_polar:
+                print("   Expressing the stability results in polar coordinates")
+                Jsol     = cartesian_to_polar(Jsol, self.sub.sub_polar, sub_phase=self.sub.sub_phase)
+                tr_Jsol  = cartesian_to_polar(tr_Jsol, self.sub.sub_polar, sub_phase=self.sub.sub_phase)
+                det_Jsol = cartesian_to_polar(det_Jsol, self.sub.sub_polar, sub_phase=self.sub.sub_phase)
 
         # Store results
         self.stab.Jsol     = Jsol
         self.stab.tr_Jsol  = tr_Jsol
         self.stab.det_Jsol = det_Jsol
         
-        # Compute the eigenvalues of the Jacobian
-        if eigenvalues:
-            print("   Computing the eigenvalues of the Jacobian")
-            self.stab.eigvals = self.eigenvalues(J=Jsol)
-        
-        # Compute the bifurcation curves
-        if bifurcation_curves:
-            print("   Computing the bifurcation curves")
-            self.stab.bif_a, self.stab.bif_sigma = self.bifurcation_curves(detJ=det_Jsol, trJ=tr_Jsol)
+        # Compute eigenvalues and bifurcation curves from the analysis of Jsol
+        if not analyse_blocks:
+            if eigenvalues:
+                self.stab.eigvals = self.eigenvalues(Jsol)
+            if bifurcation_curves:
+                self.stab.bif_a, self.stab.bif_sigma = self.bifurcation_curves(det_Jsol, tr_Jsol, **kwargs_bif)
+
+        # Analyse the blocks of Jsol
+        if analyse_blocks:
+            print("   Block analysis")
+
+            if coord == "cartesian":
+                Jsol = self.stab.Jsolc
+
+            if sfun.is_block_diagonal(Jsol, 2):
+                self.stab.blocks         = []
+                self.stab.blocks_det     = []
+                self.stab.blocks_tr      = []
+                self.stab.blocks_eigvals = []
+                self.stab.blocks_bif_a   = []
+                self.stab.blocks_bif_sig = []
+
+                for idx in range(0, Jsol.rows, 2):
+                    A = Jsol[idx:idx+2, idx:idx+2] 
+                    self.stab.blocks.append(A)
+                    detA = det(A)
+                    trA  = trace(A) 
+                    if coord=="cartesian":
+                        detA = cartesian_to_polar(detA, self.sub.sub_polar, sub_phase=self.sub.sub_phase).factor()
+                        trA  = cartesian_to_polar(trA, self.sub.sub_polar, sub_phase=self.sub.sub_phase).factor()
+                    
+                    self.stab.blocks_det.append(detA)
+                    self.stab.blocks_tr.append(trA)
+
+                    if eigenvalues:
+                        eigvalsA = self.eigenvalues(A)
+                        if coord=="cartesian":
+                            eigvalsA = [cartesian_to_polar(eigval, self.sub.sub_polar, sub_phase=self.sub.sub_phase) for eigval in eigvalsA]
+                        self.stab.blocks_eigvals.append(eigvalsA)
+
+                    if bifurcation_curves:
+                        bif_aA, bif_sigA = self.bifurcation_curves(detA, trA, **kwargs_bif)
+                        self.stab.blocks_bif_a.append(bif_aA)
+                        self.stab.blocks_bif_sig.append(bif_sigA)
+
+            else:
+                print("Trying to perform a block analysis while the Jacobian is not block-diagonal")
 
     def eigenvalues(self, J):
         """
@@ -1404,6 +1448,8 @@ class Steady_state:
         J: Matrix
             The matrix whose eigenvalues are computed.
         """
+
+        print("   Computing eigenvalues")
         
         lamb        = symbols(r"\lambda")
         eig_problem = J - lamb * eye(*J.shape)
@@ -1412,7 +1458,7 @@ class Steady_state:
         
         return eigvals
             
-    def bifurcation_curves(self, detJ, trJ):
+    def bifurcation_curves(self, detJ, trJ, var_a=False, var_sig=True, solver=sfun.solve_poly2):
         """
         Compute bifurcation curves. 
 
@@ -1422,8 +1468,28 @@ class Steady_state:
             The determinant of the matrix.
         trJ: Expr
             The trace of the matrix.
+        var_a: bool, optional
+            Consider the oscillator's amplitude a as the variable and find the bifurcation curve as an expression for a.
+            detJ is rarely a quadratic polynomial in a, so this can rarely be computed easily.
+            Default is False.
+        var_sig: bool, optional
+            Consider the detuning sigma as the variable and find the bifurcation curve as an expression for sigma.
+            detJ is often a quadratic polynomial in sigma, so this can often be computed.
+            Default is True.
+        solver: function
+            The solver to use to compute the bifurcation curves.
+            Available are solver called as solve(expr, x), which solve expr=0 for x.
+            sy.solve() can be used but is sometimes slow.
+            Default is sfun.solve_poly2.
         """
         
+        print("   Computing bifurcation curves")
+
+        # Check if a stability analysis was performed
+        if not "Jsol" in self.stab.__dict__.keys():
+            print("There was no stability analysis performed.")
+            return
+
         # Check if the stability analysis is expressed in polar coordinates
         if "p" in self.coord.__dict__.keys():
             cartesian_coordinates = self.coord.p + self.coord.q
@@ -1433,19 +1499,22 @@ class Steady_state:
                     print("Substitutions from cartesian back to polar coordinates were incomplete. \n ",
                           "Try other substitutions manually or compute the Jacobian's determinant using block partitions if possible")
 
-        if not "Jsol" in self.stab.__dict__.keys():
-            print("There was no stability analysis performed.")
-            return
-        
         # Compute the bifurcation curves from the determinant of the Jacobian
-        bif_a   = sfun.solve_poly2(detJ, self.coord.a[self.sol.solve_dof]**2)
-        bif_sig = sfun.solve_poly2(detJ, self.sigma)
+        if var_a and sfun.check_solvability(detJ, self.coord.a[self.sol.solve_dof]**2):
+            bif_a = solver(detJ, self.coord.a[self.sol.solve_dof]**2)
+        else:
+            bif_a = []
+
+        if var_sig and sfun.check_solvability(detJ, self.sigma):
+            bif_sig = solver(detJ, self.sigma)
+        else:
+            bif_sig = []
         
         # Add bifurcation curves related to the trace of the Jacobian if it is not a constant
         if self.coord.a[self.sol.solve_dof] in trJ.atoms(Symbol):
-            bif_a   += sfun.solve_poly2(trJ, self.coord.a[self.sol.solve_dof]**2)
+            bif_a   += solver(trJ, self.coord.a[self.sol.solve_dof]**2)
         if self.sigma in list(trJ.atoms(Symbol)):
-            bif_sig += sfun.solve_poly2(trJ, self.sigma)
+            bif_sig += solver(trJ, self.sigma)
         
         # Return
         return bif_a, bif_sig
