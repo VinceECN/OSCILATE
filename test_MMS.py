@@ -19,7 +19,7 @@ It is the case VS Code's interactive Window or Spyder's IPython consol.
 
 On top of applying the MMS, the code can
 - Evaluate the results at steady-state
-- Compute steady-state responses (if mathematically possible)
+- Compute steady-state responses (if analytical solutions exist)
 - Evaluate the stability of a computed steady-state response
 - Change coordinates from polar to cartesian
 - Evaluate steady-state responses for some given numerical parameter values and plot them
