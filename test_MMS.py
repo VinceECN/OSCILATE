@@ -52,7 +52,7 @@ from IPython.display import display
 # print_py() function - useful to display outputs as python code
 from sympy.printing import sstrrepr as print_py 
 
-#%% MMS - Duffing (Nayfeh & Mook, 4.1, 4.1.1)
+#%% Duffing (Nayfeh & Mook, 4.1, 4.1.1)
 
 # Parameters and variables
 omega0, F, c = symbols(r'\omega_0, F, c', real=True,positive=True)
@@ -120,7 +120,7 @@ kwargs   = dict(phase_name=vlatex(ss.sol.cos_phase[0].args[0]),
                 amp_name=vlatex(ss.coord.a[0]))
 ss.plot_ARC(ARC, **kwargs)
 
-#%% MMS - coupled Duffing in 1:3 internal resonance (Nayfeh & Mook, 6.6, 6.6.2) 
+#%% Coupled Duffing in 1:3 internal resonance (Nayfeh & Mook, 6.6, 6.6.2) 
 
 # Parameters and variables
 omega0, omega1, F, mu0, ma0 = symbols(r'\omega_0, \omega_1, F, \mu_0, \mu_1', real=True, positive=True)
@@ -175,7 +175,7 @@ ss.solve_bbc(solve_dof=1, c=param_scaled[9:11])
 # a0_sol        = Rational(1,2)*(sum(a0_sols) + chi2*(a0_sols[1] - a0_sols[0])).simplify()
 # sig_bbc       = solve(fbeta_free[1].subs(ss.coord.a[0], a0_sol), mms.sigma)[0].subs([(chi**2,1), (chi2**2,1)]) # Not possible as it is not a polynomial in sigma 
 
-#%% MMS - coupled Duffing in 1:1 internal resonance (not treated in Nayfeh & Mook)
+#%% Coupled Duffing in 1:1 internal resonance (not treated in Nayfeh & Mook)
 
 # Parameters and variables
 omega0, F, c0, c1       = symbols(r'\omega_0, F, c_0, c_1', real=True, positive=True)
@@ -213,9 +213,10 @@ ss.solve_bbc(solve_dof=solve_dof, c=param_scaled[-2:])
 ss.solve_forced(solve_dof=solve_dof)
 
 # Stability analysis of the 1dof solution
-ss.eval_sol_stability(coord="cartesian", eigenvalues=False)
+ss.eval_sol_stability(coord="cartesian", eigenvalues=False, rewrite_polar=True)
 
 # Computation of the coupled free solution
+print("Manual computation of the coupled free solution")
 Dbeta         = symbols(r"\Delta\beta", real=True) # Phase difference beta0-beta0
 sub_phase     = [(ss.coord.beta[1], ss.coord.beta[0]+Dbeta)] # Substitute the phases by the phase difference
 fa_free       = [fai.subs(ss.sub.sub_free+sub_phase) for fai in ss.sol.fa]
@@ -226,7 +227,7 @@ fbeta_free    = [fbetai.subs(ss.sub.sub_free + sub_phase + sub_cos2Dbeta) for fb
 a02_sol       = solve(fbeta_free[0], ss.coord.a[0]**2)[1]
 sig_bbc       = solve(fbeta_free[1].subs(ss.coord.a[0]**2, a02_sol), mms.sigma)[0].subs(chi**2,1)
 
-#%% MMS - coupled quadratic oscillators in 1:2 internal resonance (Nayfeh & Mook, 6.5, 6.5.1)
+#%% Coupled quadratic oscillators in 1:2 internal resonance (Nayfeh & Mook, 6.5, 6.5.1)
 
 # Parameters and variables
 omega0, omega1, F, mu0, ma0 = symbols(r'\omega_0, \omega_1, F, \mu_0, \mu_1', real=True, positive=True)
@@ -269,6 +270,8 @@ ss = MMS.Steady_state(mms)
 ss.solve_bbc(solve_dof=0, c=param_scaled[3:5])
 
 # Computation of the coupled forced solution
+print("Manual computation of the coupled forced solution")
+
 a, beta = ss.coord.a, ss.coord.beta
 
 Dbeta     = symbols(r"\Delta\beta", real=True) # Phase difference beta0-beta0
@@ -329,7 +332,7 @@ ss.solve_forced(solve_dof=solve_dof)
 # Stability analysis
 ss.eval_sol_stability(coord="polar", eigenvalues=True)
 
-#%% Van der Pol's oscillator- (Not treated in Nayfeh and Mook, Rayleigh oscillator's is considered instead)
+#%% Van der Pol's oscillator (Not treated in Nayfeh and Mook, Rayleigh oscillator's is considered instead)
 
 # Parameters and variables
 omega0, F, c = symbols(r'\omega_0, F, c', real=True, positive=True)
@@ -358,13 +361,6 @@ mms.apply_MMS()
 
 # Evaluation at steady state
 ss = MMS.Steady_state(mms)
-
-# Amplitude evolution
-a_sol      = sy.dsolve(mms.sol.fa[0].expand() - mms.coord.a[0].diff(mms.tS[1]), mms.coord.a[0])[1].rhs
-C1         = list(a_sol.atoms(Symbol).difference(mms.sol.fa[0].expand().atoms(Symbol)))[0]
-a_sol_init = 1
-C1_sol     = sy.solve(a_sol.subs(mms.tS[1],0) - a_sol_init, C1)[0]
-a_sol      = a_sol.subs(C1, C1_sol)
 
 #%% Rayleigh's oscillator (Nayfeh and Mook, 5.7.2)
 
@@ -405,7 +401,7 @@ ss.solve_forced(solve_dof=solve_dof)
 # Stability analysis
 ss.eval_sol_stability(coord="polar", eigenvalues=True)
 
-#%% MMS - Duffing superharmonic resonance (Nayfeh and Mook, 4.1.2, 4.1.3)
+#%% Duffing superharmonic resonance (Nayfeh and Mook, 4.1.2, 4.1.3)
 
 # Parameters and variables
 omega0, F, c = symbols(r'\omega_0, F, c', real=True,positive=True)
@@ -440,7 +436,7 @@ solve_dof = 0 # dof to solve for
 ss.solve_bbc(solve_dof=solve_dof, c=param_scaled[-1])
 ss.solve_forced(solve_dof=solve_dof)
 
-#%% MMS - Duffing subharmonic resonance (Nayfeh and Mook, 4.1.2, 4.1.4)
+#%% Duffing subharmonic resonance (Nayfeh and Mook, 4.1.2, 4.1.4)
 
 # Parameters and variables
 omega0, F, c = symbols(r'\omega_0, F, c', real=True,positive=True)
@@ -475,7 +471,7 @@ solve_dof = 0 # dof to solve for
 ss.solve_bbc(solve_dof=solve_dof, c=param_scaled[-1])
 ss.solve_forced(solve_dof=solve_dof)
 
-#%% CPVA with 2 pendulum modes in 1:1 internal resonance (Mahe, 2022, Subharmonic CPVAs & On the dynamic stability and efficiency of CPVAs)
+#%% CPVA with 2 pendulum modes in 1:1 internal resonance (Mahe, 2022, Subharmonic CPVAs)
 
 # Parameters and variables
 nP, nt, mu, eta, Lm, b, T1  = symbols(r"n_p, n_t, \mu, \eta, \Lambda_m, b, T_1", real=True, positive=True)
