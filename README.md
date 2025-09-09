@@ -30,3 +30,7 @@ If you encounter any issues, find a bug, or have suggestions for improvements, p
 Your feedback is highly appreciated!
 
 Vincent MAHE
+
+## License
+This project is licensed under the **Apache License 2.0** – see the LICENSE file for details.
+
