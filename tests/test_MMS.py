@@ -29,7 +29,7 @@ On top of applying the MMS, the code can
 import sympy as sy
 from sympy import (symbols, Function, Symbol, cos, sin, exp, I, conjugate, re, im, Rational, fraction, solve, dsolve)
 from sympy.physics.vector.printing import init_vprinting, vlatex
-import MMS
+from src import MMS
 
 # Initialise latex printing - only works in Interactive Windows backed by the Jupyter kernel (not in the regular Python REPL in VS Code)
 init_vprinting(use_latex=True, forecolor='White') 
