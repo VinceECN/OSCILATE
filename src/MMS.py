@@ -24,26 +24,27 @@ class Dynamical_system:
     r"""
     The dynamical system studied.
 
-    Systems considered are typically composed of $N$ coupled nonlinear equations of the form
-    $$
-    \begin{cases}
-    \ddot{x}_1 + \omega_1^2 x_1 & = f_1(\bm{x}, \dot{\bm{x}}, \ddot{\bm{x}}, t), \\
-    & \vdots \\
-    \ddot{x}_N + \omega_N^2 x_N & = f_N(\bm{x}, \dot{\bm{x}}, \ddot{\bm{x}}, t).
-    \end{cases}
-    $$
-    The $x_i(t)$ ($i=1,...,N$) are the oscillators' coordinates, 
-    $\omega_i$ are their natural frequencies, 
-    $\bm{x}$ is the vector containing all the oscillators' coordinates, 
-    $t$ is the time, 
-    $\dot{(\bullet)}$ denotes a time-derivative $d(\bullet)/dt$, 
-    $f_i$ is a function which can contain
-    - Additional terms in $x_i$, $\dot{x}_i$ or $\ddot{x}_i$, typically those that will be considered small in the MMS
-    - Weak coupling terms in $x_j$, $\dot{x}_j$ or $\ddot{x}_j$, $j\neq i$
-    - Weak nonlinear terms. Only polynomial nonlinearities are supported. Taylor expansions are performed if nonlinearities are not polynomial.
+    Systems considered are typically composed of :math:`N` coupled nonlinear equations of the form
+
+    .. math::
+        \begin{cases}
+        \ddot{x}_1 + \omega_1^2 x_1 & = f_1(\bm{x}, \dot{\bm{x}}, \ddot{\bm{x}}, t), \\
+        & \vdots \\
+        \ddot{x}_N + \omega_N^2 x_N & = f_N(\bm{x}, \dot{\bm{x}}, \ddot{\bm{x}}, t).
+        \end{cases}
+    
+    The :math:`x_i(t)` (:math:`i=1,...,N`) are the oscillators' coordinates, 
+    :math:`\omega_i` are their natural frequencies, 
+    :math:`\bm{x}` is the vector containing all the oscillators' coordinates, 
+    :math:`t` is the time, 
+    :math:`\dot{(\bullet)}` denotes a time-derivative :math:`d(\bullet)/dt`, 
+    :math:`f_i` is a function which can contain
+    - Additional terms in :math:`x_i`, :math:`\dot{x}_i` or :math:`\ddot{x}_i`, typically those that will be considered small in the MMS,
+    - Weak coupling terms in :math:`x_j`, :math:`\dot{x}_j` or :math:`\ddot{x}_j`, :math:`j\neq i`,
+    - Weak nonlinear terms. Only polynomial nonlinearities are supported. Taylor expansions are performed if nonlinearities are not polynomial,
     - Forcing, which can be hard (at first order) or weak (small). Harmonic and parametric forcing are supported.
 
-    The internal resonance relations can be specified in a second step by expressing the $\omega_i$ as a function of a reference frequency. Detuning can also be introduced during this step.
+    The internal resonance relations can be specified in a second step by expressing the :math:`\omega_i` as a function of a reference frequency. Detuning can also be introduced during this step.
     """
     
     def __init__(self, t, x, Eq, omegas, **kwargs):
@@ -53,7 +54,7 @@ class Dynamical_system:
         Parameters
         ----------
         t : Symbol
-            time $t$.
+            time :math:`t`.
         x : Function or list of Function
             Unknown(s) of the problem.
         Eq : Expr or list of Expr
@@ -65,11 +66,11 @@ class Dynamical_system:
         Keyword arguments
         -----------------
         F : Symbol or 0
-            Forcing amplitude $F$. 
+            Forcing amplitude :math:`F`. 
             Default is 0.
         f_coeff : Expr of list of Expr
             For each dof, specify the coefficient multiplying the forcing terms in the equation.
-            It can be used to define parametric forcing. Typically, if the forcing is $x F \cos(\omega t)$, then f_coeff = x.
+            It can be used to define parametric forcing. Typically, if the forcing is :math:`x F \cos(\omega t)`, then f_coeff = x.
             Default is a list of 1, so the forcing is direct. 
         """
         
@@ -107,8 +108,8 @@ class Forcing:
     - A forcing amplitude F,
     - Forcing coefficients f_coeff, used to introduce parametric forcing.
     
-    For the $i^\textrm{th}$ oscillator, denoting f_coeff[i] as $\Gamma_i(\bm{x}(t), \dot{\bm{x}}(t), \ddot{\bm{x}}(t))$, 
-    the forcing term on that oscillator is $\Gamma_i F \cos(\omega t)$.
+    For the :math:`i^\textrm{th}` oscillator, denoting f_coeff[i] as :math:`\Gamma_i(\bm{x}(t), \dot{\bm{x}}(t), \ddot{\bm{x}}(t))`, 
+    the forcing term on that oscillator is :math:`\Gamma_i F \cos(\omega t)`.
     """
     
     def __init__(self, F, f_coeff):
@@ -118,11 +119,12 @@ class Forcing:
         
 def scale_parameters(param, scaling, eps):
     r"""
-    Scale parameters with the scaling parameter $\epsilon$.
-    For a given parameter $p$ and a scaling order $\lambda$, the associated scaled parameter is 
-    $$
-    \tilde{p}$ = \epsilon^\lambda p .
-    $$
+    Scale parameters with the scaling parameter :math:`\epsilon`.
+    For a given parameter :math:`p` and a scaling order :math:`\lambda`, the associated scaled parameter is 
+
+    .. math::
+        \tilde{p} = \epsilon^{\lambda} p .
+    
 
     Parameters
     ----------
@@ -131,7 +133,7 @@ def scale_parameters(param, scaling, eps):
     scaling : list of int or float
         The scaling for each parameters.
     eps : Symbol
-        Small parameter $\epsilon$.
+        Small parameter :math:`\epsilon`.
 
     Returns
     -------
@@ -167,35 +169,37 @@ class Multiple_scales_system:
         r"""
         Transform the dynamical system introducing asymptotic series and multiple time scales. 
 
-        The solution for oscillator $i$ is sought as a series expansion. For a leading order term at $\epsilon^0 = 1$, the expansion takes the form
-        $$
-        x_i(t) = x_{i0}(t) + \epsilon x_{i1}(t) + \epsilon^2 x_{i2}(t) + \cdots.
-        $$
+        The solution for oscillator :math:`i` is sought as a series expansion. For a leading order term at :math:`\epsilon^0 = 1`, the expansion takes the form
+        
+        .. math::
+            x_i(t) = x_{i0}(t) + \epsilon x_{i1}(t) + \epsilon^2 x_{i2}(t) + \cdots.
 
         The time scales are 
-        $$
-        t_0 = t, \; t_1 = \epsilon t, \; t_2 = \epsilon^2 t, \cdots,
-        $$
-        where $t_0$ is the fast time, i.e. the time used to describe the oscillations, 
-        while $t_1, \; t_2$, ... are slow times, associated to amplitude and phase variations of the solution in time.
         
-        The solutions for the $x_i$ will be sought around at frequency $\omega$, defined as 
-        $$
-        \omega = \omega_{\textrm{MMS}} + \epsilon \sigma,
-        $$ 
+        .. math::
+            t_0 = t, \; t_1 = \epsilon t, \; t_2 = \epsilon^2 t, \cdots,
+        
+        where :math:`t_0` is the fast time, i.e. the time used to describe the oscillations, 
+        while :math:`t_1, \; t_2`, ... are slow times, associated to amplitude and phase variations of the solution in time.
+        
+        The solutions for the :math:`x_i` will be sought around at frequency :math:`\omega`, defined as 
+        
+        .. math::
+            \omega = \omega_{\textrm{MMS}} + \epsilon \sigma,
+        
         where
-        $\omega_{\textrm{MMS}}$ is the ``central'' MMS frequency and $\sigma$ is a detuning about that frequency. 
+        :math:`\omega_{\textrm{MMS}}` is the ``central'' MMS frequency and :math:`\sigma` is a detuning about that frequency. 
 
         Parameters
         ----------
         dynamical_system : Dynamical_system
             The dynamical system. 
         eps : Symbol
-            Small perturbation parameter $\epsilon$.
+            Small perturbation parameter :math:`\epsilon`.
         Ne : int
             Truncation order of the asymptotic and order of the slowest time scale.
         omega_ref : Symbol
-            Reference frequency $\omega_{\textrm{ref}}$ of the MMS. 
+            Reference frequency :math:`\omega_{\textrm{ref}}` of the MMS. 
             Not necessarily the frequency around which the MMS is going to be applied, see ratio_omegaMMS.
         sub_scaling : list of tuples
             Substitutions to do to scale the equations. 
@@ -204,37 +208,41 @@ class Multiple_scales_system:
         Keyword arguments
         -----------------    
         ratio_omegaMMS : int or Rational
-            Specify the frequency omegaMMS around which the MMS is going to be applied in terms of $\omega_{\textrm{ref}}$.
-            Denoting ratio_omegaMMS as $r_{\textrm{MMS}}$, this means that
-            $$
-            \omega_{\textrm{MMS}} = r_{\textrm{MMS}} \omega_{\textrm{ref}}.
-            $$
+            Specify the frequency omegaMMS around which the MMS is going to be applied in terms of :math:`\omega_{\textrm{ref}}`.
+            Denoting ratio_omegaMMS as :math:`r_{\textrm{MMS}}`, this means that
+            
+            .. math::
+                \omega_{\textrm{MMS}} = r_{\textrm{MMS}} \omega_{\textrm{ref}}.
+            
             Use Rational(p,q) for 
-            $$
-            q \omega_{\textrm{MMS}} = p \omega_{\textrm{ref}}
-            $$ 
-            to get better-looking results than the float $p/q$.
+            
+            .. math::
+                q \omega_{\textrm{MMS}} = p \omega_{\textrm{ref}}
+            
+            to get better-looking results than the float :math:`p/q`.
             Default is 1.
         eps_pow_0 : int
             Order of the leading-order term in the asymptotic series of each oscillators' response.
-            For the $i^{\textrm{th}}$ dof and denoting eps_pow_0 as $\lambda_0$, this means that
-            $$
-            x_i = \epsilon^{\lambda_0} x_{i0} + \epsilon^{\lambda_0+1} x_{i1} + \cdots.
-            $$
+            For the :math:`i^{\textrm{th}}` dof and denoting eps_pow_0 as :math:`\lambda_0`, this means that
+            .. math::
+                x_i = \epsilon^{\lambda_0} x_{i0} + \epsilon^{\lambda_0+1} x_{i1} + \cdots.
+            
             Default is 0.
         ratio_omega_osc : list of int, Rational or None
-            Specify the natural frequencies of the oscillators $\omega_i$ in terms of the reference frequency $\omega_{\textrm{ref}}$. 
-            Denoting ratio_omega_osc[i] as $r_i$, this means that 
-            $$
-            \omega_i \approx r_i \omega_{\textrm{ref}}.
-            $$
-            Default is None for each oscillator, so the $\omega_i$ are arbitrary and there are no internal resonances.
+            Specify the natural frequencies of the oscillators :math:`\omega_i` in terms of the reference frequency :math:`\omega_{\textrm{ref}}`. 
+            Denoting ratio_omega_osc[i] as :math:`r_i`, this means that 
+            
+            .. math::
+                \omega_i \approx r_i \omega_{\textrm{ref}}.
+            
+            Default is None for each oscillator, so the :math:`\omega_i` are arbitrary and there are no internal resonances.
             Detuning can be introduced through the detunings keyword argument. 
         detunings : list of Symbol or int
-            The detuning of each oscillator. Denoting detunings[i] as $\delta_i$, this means that 
-            $$
+            The detuning of each oscillator. Denoting detunings[i] as :math:`\delta_i`, this means that 
+            
+            .. math::
             \omega_i = r_i \omega_{\textrm{ref}} + \delta_i.
-            $$
+            
             Defaut is 0 for each oscillator. 
         """
         
@@ -292,10 +300,11 @@ class Multiple_scales_system:
     def _time_scales(self):
         r"""
         Create the time scales 
-        $$
-        t_i = \epsilon^i t, \quad i=0, 1, ...
-        $$
-        and prepare substitutions from the physical time $t$ to these time scales $t_i$.
+        
+        .. math::
+            t_i = \epsilon^i t, \quad i=0, 1, ...
+        
+        and prepare substitutions from the physical time :math:`t` to these time scales :math:`t_i`.
         """
         
         tS  = []
@@ -313,15 +322,17 @@ class Multiple_scales_system:
         Define series expansions for each dof and prepare substitutions from 
         1. dof x to temporary t-dependent asymptotic terms xMMS_t
         2. Temporary xMMS_t to the time scales-dependent xMMS 
-        For the $i^\textrm{th}$ oscillator and with eps_pow_0=0, stage 1 introduces temporary $t$-dependent terms such that 
-        $$
-        x_i(t) = x_{i0}(t) + \epsilon x_{i1}(t) + \epsilon^2 x_{i2}(t) + \cdots, 
-        $$
-        while stage 2 introduces the $t_i$-dependent terms $x_{i0}(\bm{t}),\; x_{i1}(\bm{t}),\; x_{i2}(\bm{t}),\; \cdots$, where 
-        $\bm{t} = [t_0, t_1, t_2, ...]$ is the vector containing the time scales, such that
-        $$
-        x_i(\bm{t}) = x_{i0}(\bm{t}) + \epsilon x_{i1}(\bm{t}) + \epsilon^2 x_{i2}(\bm{t}) + \cdots. 
-        $$
+        For the :math:`i^\textrm{th}` oscillator and with eps_pow_0=0, stage 1 introduces temporary :math:`t`-dependent terms such that 
+        
+        .. math::
+            x_i(t) = x_{i0}(t) + \epsilon x_{i1}(t) + \epsilon^2 x_{i2}(t) + \cdots, 
+        
+        while stage 2 introduces the :math:`t_i`-dependent terms :math:`x_{i0}(\bm{t}),\; x_{i1}(\bm{t}),\; x_{i2}(\bm{t}),\; \cdots`, where 
+        :math:`\bm{t} = [t_0, t_1, t_2, ...]` is the vector containing the time scales, such that
+        
+        .. math::
+            x_i(\bm{t}) = x_{i0}(\bm{t}) + \epsilon x_{i1}(\bm{t}) + \epsilon^2 x_{i2}(\bm{t}) + \cdots. 
+        
         """
         
         # Initialisation
@@ -358,15 +369,16 @@ class Multiple_scales_system:
         
     def _forcing_MMS(self, dynamical_system):
         r"""
-        Rewrite the forcing terms $\Gamma_i(\bm{x}(t), \dot{\bm{x}}(t), \ddot{\bm{x}}(t)) F \cos(\omega t)$, $i=1,...,N$ where $N$ is the number of oscillators.
+        Rewrite the forcing terms :math:`\Gamma_i(\bm{x}(t), \dot{\bm{x}}(t), \ddot{\bm{x}}(t)) F \cos(\omega t)`, :math:`i=1,...,N` where :math:`N` is the number of oscillators.
         This involves
-        1. Replacing the $x_i(t)$ by their series expansions written in terms of time scales,
-        2. Scaling the forcing and the parameters in $\Gamma_i$ if any,
+        1. Replacing the :math:`x_i(t)` by their series expansions written in terms of time scales,
+        2. Scaling the forcing and the parameters in :math:`\Gamma_i` if any,
         3. Truncating terms whose order is larger than the largest order retained in the MMS,
-        4. Rewrite the $\cos(\omega t)$ as 
-        $$
-        \cos(\omega t) = \frac{1}{2} e^{\mathrm{i}($\omega_{\textrm{MMS}} + \epsilon \sigma)t} + cc = \frac{1}{2} e^{\mathrm{i}($\omega_{\textrm{MMS}}t_0 + \sigma t_1)} + cc.
-        $$
+        4. Rewrite the :math:`\cos(\omega t)` as 
+        
+        .. math::
+            \cos(\omega t) = \frac{1}{2} e^{\mathrm{i}(\omega_{\textrm{MMS}} + \epsilon \sigma)t} + cc = \frac{1}{2} e^{\mathrm{i}(\omega_{\textrm{MMS}}t_0 + \sigma t_1)} + cc.
+        
 
         Parameters
         ----------
@@ -421,14 +433,16 @@ class Multiple_scales_system:
     def _oscillators_frequencies(self):
         r"""
         Gives the expression of every oscillator frequency in terms of the reference frequency, possibly with a detuning.
-        For the $i^\textrm{th}$ oscillator, this corresponds to expression its frequency as 
-        $$
-        \omega_i = r_i \omega_{\textrm{ref}} + \delta_i .
-        $$
-        An associated first-order natural frequency $\omega_{i0}$ is defined by neglecting the detuning $\delta_i$, which is at least of order $\epsilon$, resulting in
-        $$
-        \omega_{i0} = r_i \omega_{\textrm{ref}}.
-        $$
+        For the :math:`i^\textrm{th}` oscillator, this corresponds to expression its frequency as 
+        
+        .. math::
+            \omega_i = r_i \omega_{\textrm{ref}} + \delta_i .
+        
+        An associated first-order natural frequency :math:`\omega_{i0}` is defined by neglecting the detuning :math:`\delta_i`, which is at least of order :math:`\epsilon`, resulting in
+        
+        .. math::
+            \omega_{i0} = r_i \omega_{\textrm{ref}}.
+        
         """
         
         self.sub.sub_omegas = [] # Substitutions from the omegas to their expression in terms of omega_ref
@@ -452,10 +466,10 @@ class Multiple_scales_system:
         
     def compute_EqMMS(self, dynamical_system):
         r"""
-        Compute the system of equations at each order of $\epsilon$ for each dof.
+        Compute the system of equations at each order of :math:`\epsilon` for each dof.
         The output EqMMS is a list of lists. 
-        - The 1$^\textrm{st}$ level lists are associated to the orders of $\epsilon$ from the lowest to the highest order,
-        - The 2$^\textrm{nd}$ level lists are associated to the equations for each oscillator.
+        - The :math:`1^{\mathrm{st}}` level lists are associated to the orders of :math:`\epsilon` from the lowest to the highest order,
+        - The :math:`2^{\mathrm{nd}}` level lists are associated to the equations for each oscillator.
 
         Parameters
         ----------
@@ -498,16 +512,16 @@ class Multiple_scales_system:
         self.EqMMS = EqMMS
         
     def apply_MMS(self, rewrite_polar=0):
-        """
+        r"""
         Apply the MMS. This is operated as follows:
-        1. An equivalent system is written in terms of the fast scale $t_0$. This introduces the temporary unknowns $\tilde{x}_{ij}(t_0)$, and allows the use of dsolve().
+        1. An equivalent system is written in terms of the fast scale :math:`t_0`. This introduces the temporary unknowns :math:`\tilde{x}_{ij}(t_0)`, and allows the use of dsolve().
         2. Leading order solutions are introduced.
         3. The leading order solutions are introduced in the equations and the secular terms at each order are identified. 
-           Cancelling those secular terms is a condition for bounded solutions and leads to a system of equations governing the slow evolution of the leading order solutions. 
-           After cancelling the secular terms the equations are solved to express the higher order solutions in terms of the leading order ones.
+        Cancelling those secular terms is a condition for bounded solutions and leads to a system of equations governing the slow evolution of the leading order solutions. 
+        After cancelling the secular terms the equations are solved to express the higher order solutions in terms of the leading order ones.
         4. The phase coordinates are changed to cancel the slow time in the secular terms. This will be used afterwards to obtain an autonomous system.
         5. The secular conditions are split into real and imaginary parts, polar coordinates are introduced and the autonomous phases are introduced, 
-           resulting in a system of evolution equations. This is the key result of the MMS.
+        resulting in a system of evolution equations. This is the key result of the MMS.
         6. The leading and higher order solutions are rewritten in terms of polar coordinates.
 
         Parameters
@@ -538,7 +552,7 @@ class Multiple_scales_system:
 
     def system_t0(self):
         r"""
-        Rewrite the equations in terms of new coordinates $\tilde{x}_{ij}(t_0)$, with $i,j$ denoting the oscillator number and order. 
+        Rewrite the equations in terms of new coordinates :math:`\tilde{x}_{ij}(t_0)`, with :math:`i,j` denoting the oscillator number and order. 
         This is a trick to use dsolve(), which only accepts functions of 1 variable. 
         """
         
@@ -557,17 +571,19 @@ class Multiple_scales_system:
         r"""
         Compute the leading-order solutions for each oscillator. 
 
-        For oscillator $i$, the homogeneous solution takes the general form
-        $$
-        x_{i,0}^{(\textrm{h})}(\bm{t}) = A_i(t_1, t_2, ...) e^{(\textrm{j} \omega_{i0} t_0)} + cc,
-        $$
-        where $A_i$ is a complex amplitudes to be determined.
+        For oscillator :math:`i`, the homogeneous solution takes the general form
+        
+        .. math::
+            x_{i,0}^{(\textrm{h})}(\bm{t}) = A_i(t_1, t_2, ...) e^{(\textrm{j} \omega_{i0} t_0)} + cc,
+        
+        where :math:`A_i` is a complex amplitudes to be determined.
         
         If the oscillator is subject to hard forcing (i.e. forcing appears at leading order), then the particular solution
-        $$
-        x_{i,0}^{(\textrm{p})} = B_i e^{(\textrm{j} \omega t)} + cc = B_i e^{(\textrm{j} (\omega_{\textrm{MMS}} t_0 + \sigma t_1)} + cc,
-        $$
-        is also taken into account. $B_i$ is a time-independent function of the forcing parameters.
+        
+        .. math::
+            x_{i,0}^{(\textrm{p})} = B_i e^{(\textrm{j} \omega t)} + cc = B_i e^{(\textrm{j} (\omega_{\textrm{MMS}} t_0 + \sigma t_1)} + cc,
+        
+        is also taken into account. :math:`B_i` is a time-independent function of the forcing parameters.
         """
         
         # Information
@@ -624,10 +640,10 @@ class Multiple_scales_system:
         r"""
         Identification of the secular terms in the equations. 
         This allows to:
-        1. Compute the slow-times evolution of the complex amplitudes $A_i$ that cancel the secular terms. 
-           These slow time evolutions are written $D_j A_i$, with the notation $D_j(\bullet) $ \partial (\bullet)/\partial t_j$.
+        1. Compute the slow-times evolution of the complex amplitudes :math:`A_i` that cancel the secular terms. 
+        These slow time evolutions are written :math:`D_j A_i`, with the notation :math:`D_j(\bullet)` \partial (\bullet)/\partial t_j`.
         2. Write the equations with the secular terms cancelled (nonsecular equations).
-        3. Compute the higher order solutions $x_{i,j}, $j>0$, in terms of the $A_k$ from the nonsecular equations.
+        3. Compute the higher order solutions :math:`x_{i,j}, j>0`, in terms of the :math:`A_k` from the nonsecular equations.
         """
         
         # Information
@@ -696,16 +712,16 @@ class Multiple_scales_system:
     
     def sol_higher_order(self, EqMMS_t0, xMMS_t0, io, ix):
         r"""
-        Compute higher order solutions $x_{i,j}, $j>0$.
+        Compute higher order solutions :math:`x_{i,j}, j>0`.
 
         Parameters
         ----------
         EqMMS_t0 : list of list of expr
-            The MMS equations at each order and for each oscillator written with $t_0$ as the only independent variable. 
+            The MMS equations at each order and for each oscillator written with :math:`t_0` as the only independent variable. 
         xMMS_t0 : list of list of Function
-            Oscillators' solutions at each order, $\tilde{x}_{i,j}(t_0)$.
+            Oscillators' solutions at each order, :math:`\tilde{x}_{i,j}(t_0)`.
         io : int
-            The current order of $\epsilon$.
+            The current order of :math:`\epsilon`.
         ix : int
             The current oscillator number.
         """
@@ -732,10 +748,11 @@ class Multiple_scales_system:
         
     def polar_coordinates(self):
         r"""
-        Introduce polar coordinates such that, for oscillator $i$, 
-        $$
-        A_i = \frac{1}{2} a_i e^{(\textrm{j} \phi_i)}.
-        $$
+        Introduce polar coordinates such that, for oscillator :math:`i`, 
+        
+        .. math::
+            A_i = \frac{1}{2} a_i e^{(\textrm{j} \phi_i)}.
+        
         """
         
         self.coord.a   = [ Function(r'a_{}'.format(ix)   , real=True, positive=True)(*self.tS[1:]) for ix in range(self.ndof) ]
@@ -745,14 +762,15 @@ class Multiple_scales_system:
     
     def autonomous_phases(self):
         r"""
-        Introduce new phase coordinates $beta_i$ to transform nonautonomous equations into autonomous ones. 
-        The $beta_i$ are defined as
-        $$
-        beta_i = - \frac{r_{\textrm{MMS}}}{r_i} \phi_i + \sigma t_1,
-        $$ 
+        Introduce new phase coordinates :math:`beta_i` to transform nonautonomous equations into autonomous ones. 
+        The :math:`beta_i` are defined as
+        
+        .. math::
+            beta_i = - \frac{r_{\textrm{MMS}}}{r_i} \phi_i + \sigma t_1,
+        
         where we recall that
-        $\omega = r_{\textrm{MMS}} \omega_{\textrm{ref}} + \epsilon \sigma$ and
-        $\omega_{i0} = r_i \omega_{\textrm{ref}}$. 
+        :math:`\omega = r_{\textrm{MMS}} \omega_{\textrm{ref}} + \epsilon \sigma` and
+        :math:`\omega_{i0} = r_i \omega_{\textrm{ref}}`. 
         """
         
         self.coord.beta   = [ Function(r'\beta_{}'.format(ix), real=True)(*self.tS[1:])                                            for ix in range(self.ndof) ]
@@ -763,16 +781,17 @@ class Multiple_scales_system:
 
     def evolution_equations(self):
         r"""
-        Derive the evolution equations from the secular conditions. For oscillator $i$, these are defined as
-        $$
-        \begin{cases}
-        \frac{\textrm{d} a_i}{\textrm{d} t}         & = f_{a_i}(\bm{a}, \bm{\beta}), \\
-        a_i \frac{\textrm{d} \beta_i}{\textrm{d} t} & = f_{\beta_i}(\bm{a}, \bm{\beta}),
-        \end{cases}
-        $$
-        where $\bm{a}$ and $\bm{\beta}$ are vectors containing the polar amplitudes and phases.
+        Derive the evolution equations from the secular conditions. For oscillator :math:`i`, these are defined as
+        
+        .. math::
+            \begin{cases}
+            \frac{\textrm{d} a_i}{\textrm{d} t}         & = f_{a_i}(\bm{a}, \bm{\beta}), \\
+            a_i \frac{\textrm{d} \beta_i}{\textrm{d} t} & = f_{\beta_i}(\bm{a}, \bm{\beta}),
+            \end{cases}
+        
+        where :math:`\bm{a}` and :math:`\bm{\beta}` are vectors containing the polar amplitudes and phases.
 
-        The aim here is to compute all the $f_{a_i}$ and $f_{\beta_i}$.
+        The aim here is to compute all the :math:`f_{a_i}` and :math:`f_{\beta_i}`.
         This is done by:
         - Introducing polar coordinates in the secular terms
         - Splitting the real and imaginary parts
@@ -1101,9 +1120,9 @@ class Steady_state:
         
     def solve_phase(self):
         r"""
-        Find implicit solutions for the oscillator's phase $\beta_i$. 
+        Find implicit solutions for the oscillator's phase :math:`\beta_i`. 
         The solutions returned are
-        $\sin(k \beta_i)$ and $\cos(k beta_i)$ where $k$ is an integer or rational.
+        :math:`\sin(k \beta_i)` and :math:`\cos(k beta_i)` where :math:`k` is an integer or rational.
         """
         
         # Evaluate the evolution equations for a single oscillator responding
@@ -1171,8 +1190,8 @@ class Steady_state:
     
     def solve_sigma(self):
         r"""
-        Solve the forced response in terms of the detuning $\sigma$. 
-        We recall that $\omega = \omega_{\textrm{MMS}} + \epsilon \sigma $. 
+        Solve the forced response in terms of the detuning :math:`\sigma`. 
+        We recall that :math:`\omega = \omega_{\textrm{MMS}} + \epsilon \sigma`. 
         """
         
         sin_phase = self.sol.sin_phase[1]
@@ -1189,7 +1208,7 @@ class Steady_state:
     def solve_a(self):
         r"""
         Solve the forced response in terms of the oscillator's amplitude.
-        For readability, the output actually returned in $a^2$. 
+        For readability, the output actually returned in :math:`a^2`. 
         """
         
         sin_phase = self.sol.sin_phase[1]
@@ -1214,7 +1233,7 @@ class Steady_state:
     
     def solve_F(self):
         r"""
-        Solve the forced response in terms of the forcing amplitude $F$.
+        Solve the forced response in terms of the forcing amplitude :math:`F`.
         """
         
         sin_phase = self.sol.sin_phase[1]
@@ -1286,26 +1305,29 @@ class Steady_state:
         -------
         J : Matrix
             Jacobian of the polar system, defined as
-            $$
-            \bm{J} = 
-            \begin{bmatrix}
-            \bm{J}_0 \\
-            \vdots
-            \bm{J}_{N-1}} \\
-            \end{bmatrix}
-            $$
-            where $\bm{J}_i$ is the $2 \times N$ matrix associated to the evolution of dof $i$ and defined as
-            $$
-            \bm{J}_i = 
-            \begin{bmatrix}
-            \frac{\partial f_{a_i}}      {a_0} & \frac{\partial f_{a_i}}      {\beta_0} & \cdots & \frac{\partial f_{a_i}}      {a_{N-1}} & \frac{\partial f_{a_i}}      {\beta_{N-1}} \\
-            \frac{\partial f_{\beta_i}}^*{a_0} & \frac{\partial f_{\beta_i}}^*{\beta_0} & \cdots & \frac{\partial f_{\beta_i}}^*{a_{N-1}} & \frac{\partial f_{\beta_i}}^*{\beta_{N-1}}
-            \end{bmatrix}.
-            $$
-            Functions f_{\beta_i}^* are defined as
-            $$
-            f_{\beta_i}^* = \frac{f_{\beta_i}}{a_i}.
-            $$
+            
+            .. math::
+                \bm{J} = 
+                \begin{bmatrix}
+                \bm{J}_0 \\
+                \vdots \\
+                \bm{J}_{N-1} 
+                \end{bmatrix}
+            
+            where :math:`\bm{J}_i` is the :math:`2 \times N` matrix associated to the evolution of dof :math:`i` and defined as
+            
+            .. math::
+                \bm{J}_i = 
+                \begin{bmatrix}
+                \frac{\partial f_{a_i}}      {a_0} & \frac{\partial f_{a_i}}      {\beta_0} & \cdots & \frac{\partial f_{a_i}}      {a_{N-1}} & \frac{\partial f_{a_i}}      {\beta_{N-1}} \\
+                \frac{\partial f_{\beta_i}^*}{a_0} & \frac{\partial f_{\beta_i}^*}{\beta_0} & \cdots & \frac{\partial f_{\beta_i}^*}{a_{N-1}} & \frac{\partial f_{\beta_i}^*}{\beta_{N-1}}
+                \end{bmatrix}.
+            
+            Functions :math:`f_{\beta_i}^*` are defined as
+            
+            .. math::
+                f_{\beta_i}^* = \frac{f_{\beta_i}}{a_i}.
+            
         """
         
         J = zeros(2*self.ndof,2*self.ndof)
@@ -1322,27 +1344,31 @@ class Steady_state:
         
     def cartesian_coordinates(self):
         r"""
-        Define cartesian coordinates from the polar ones. 
-        The leading order solution for oscillator $i$ expressed in polar coordinates takes the form
-        $$
-        \begin{split}
-        x_{i0}(t) & = a_i \cos(\frac{r_i}{r_{\textrm{MMS}}}(\omega t - \beta_i)), \\
-                  & = a_i \cos(\frac{r_i}{r_{\textrm{MMS}}}\beta_i)\cos(\frac{r_i}{r_{\textrm{MMS}}}\omega t)
-                    + a_i \sin(\frac{r_i}{r_{\textrm{MMS}}}\beta_i)\sin(\frac{r_i}{r_{\textrm{MMS}}}\omega t)
-        \end{split}
-        $$
-        The polar coordinates are defined as
-        $$
-        \begin{cases}
-        p_i & = a_i \cos(\frac{r_i}{r_{\textrm{MMS}}}\beta_i), \\
-        q_i & = a_i \sin(\frac{r_i}{r_{\textrm{MMS}}}\beta_i),
-        \end{cases}
-        $$
-        Such that the leading order solution can be written
-        $$
-        x_{i0}(t) & = p_i \cos(\frac{r_i}{r_{\textrm{MMS}}}\omega t) + q_i \sin(\frac{r_i}{r_{\textrm{MMS}}}\omega t).
-        $$
+        Define cartesian coordinates from the polar ones.
+
+        The leading order solution for oscillator \(i\) expressed in polar coordinates takes the form:
+
+        .. math::
+            \begin{split}
+            x_{i0}(t) & = a_i \cos\left(\frac{r_i}{r_{\textrm{MMS}}}(\omega t - \beta_i)\right), \\
+                    & = a_i \cos\left(\frac{r_i}{r_{\textrm{MMS}}}\beta_i\right)\cos\left(\frac{r_i}{r_{\textrm{MMS}}}\omega t\right) \\
+                    & \quad + a_i \sin\left(\frac{r_i}{r_{\textrm{MMS}}}\beta_i\right)\sin\left(\frac{r_i}{r_{\textrm{MMS}}}\omega t\right)
+            \end{split}
+
+        The polar coordinates are defined as:
+
+        .. math::
+            \begin{cases}
+            p_i = a_i \cos\left(\frac{r_i}{r_{\textrm{MMS}}}\beta_i\right), \\
+            q_i = a_i \sin\left(\frac{r_i}{r_{\textrm{MMS}}}\beta_i\right),
+            \end{cases}
+
+        Such that the leading order solution can be written as:
+
+        .. math::
+            x_{i0}(t) = p_i \cos\left(\frac{r_i}{r_{\textrm{MMS}}}\omega t\right) + q_i \sin\left(\frac{r_i}{r_{\textrm{MMS}}}\omega t\right).
         """
+
         
         # Define the cartesian coordinates
         p = [symbols(r'p_{}'.format(ix), real=True) for ix in range(0, self.ndof)]
@@ -1374,14 +1400,15 @@ class Steady_state:
     def evolution_equations_cartesian(self):
         r"""
         Write the evolution equations using the cartesian coordinates. 
-        For oscillator $i$, this results in
-        $$
-        \begin{cases}
-        \frac{\textrm{d} p_i}{\textrm{d} t} & = f_{p_i}(\bm{p}, \bm{q}), \\
-        \frac{\textrm{d} q_i}{\textrm{d} t} & = f_{q_i}(\bm{p}, \bm{q}),
-        \end{cases}
-        $$
-        where $\bm{p}$ and $\bm{q}$ are vectors containing the cartesian coordinates.
+        For oscillator :math:`i`, this results in
+        
+        .. math::
+            \begin{cases}
+            \frac{\textrm{d} p_i}{\textrm{d} t} & = f_{p_i}(\bm{p}, \bm{q}), \\
+            \frac{\textrm{d} q_i}{\textrm{d} t} & = f_{q_i}(\bm{p}, \bm{q}),
+            \end{cases}
+        
+        where :math:`\bm{p}` and :math:`\bm{q}` are vectors containing the cartesian coordinates.
         """
         
         # Compute the functions fp(p,q) and fq(p,q)
@@ -1433,9 +1460,9 @@ class Steady_state:
         beta: list of Symbol
             Phases of the leading order solutions.
         fp: list of expr
-            Evolution functions for the cartesian coordinates $p_i$.
+            Evolution functions for the cartesian coordinates :math:`p_i`.
         fq: list of expr
-            Evolution functions for the cartesian coordinates $q_i$.
+            Evolution functions for the cartesian coordinates :math:`q_i`.
 
         Returns
         -------
@@ -1465,19 +1492,19 @@ class Steady_state:
         Parameters
         ----------
         fp: list of expr
-            Evolution functions for the cartesian coordinates $p_i$.
+            Evolution functions for the cartesian coordinates :math:`p_i`.
             There are polar coordinates remaining.
         fq: list of expr
-            Evolution functions for the cartesian coordinates $q_i$.
+            Evolution functions for the cartesian coordinates :math:`q_i`.
             There are polar coordinates remaining.
 
         Returns
         -------
         fp: list of expr
-            Evolution functions for the cartesian coordinates $p_i$.
+            Evolution functions for the cartesian coordinates :math:`p_i`.
             Additional substitutions were performed to get rid of polar coordinates.
         fq: list of expr
-            Evolution functions for the cartesian coordinates $q_i$.
+            Evolution functions for the cartesian coordinates :math:`q_i`.
             Additional substitutions were performed to get rid of polar coordinates.
         """
         
@@ -1517,22 +1544,24 @@ class Steady_state:
         -------
         J : Matrix
             Jacobian of the cartesian system, defined as
-            $$
-            \bm{J} = 
-            \begin{bmatrix}
-            \bm{J}_0 \\
-            \vdots
-            \bm{J}_{N-1}} \\
-            \end{bmatrix}
-            $$
-            where $\bm{J}_i$ is the $2 \times N$ matrix associated to the evolution of dof $i$ and defined as
-            $$
-            \bm{J}_i = 
-            \begin{bmatrix}
-            \frac{\partial f_{p_i}}{p_0} & \frac{\partial f_{p_i}}{q_0} & \cdots & \frac{\partial f_{p_i}}{p_{N-1}}} & \frac{\partial f_{p_i}}{q_{N-1}} \\
-            \frac{\partial f_{q_i}}{p_0} & \frac{\partial f_{q_i}}{q_0} & \cdots & \frac{\partial f_{q_i}}{p_{N-1}}} & \frac{\partial f_{q_i}}{q_{N-1}} 
-            \end{bmatrix}.
-            $$
+            
+            .. math::
+                \bm{J} = 
+                \begin{bmatrix}
+                \bm{J}_0 \\
+                \vdots
+                \bm{J}_{N-1} \\
+                \end{bmatrix}
+            
+            where :math:`\bm{J}_i` is the :math:`2 \times N` matrix associated to the evolution of dof :math:`i` and defined as
+            
+            .. math::
+                \bm{J}_i = 
+                \begin{bmatrix}
+                \frac{\partial f_{p_i}}{p_0} & \frac{\partial f_{p_i}}{q_0} & \cdots & \frac{\partial f_{p_i}}{p_{N-1}} & \frac{\partial f_{p_i}}{q_{N-1}} \\
+                \frac{\partial f_{q_i}}{p_0} & \frac{\partial f_{q_i}}{q_0} & \cdots & \frac{\partial f_{q_i}}{p_{N-1}} & \frac{\partial f_{q_i}}{q_{N-1}} 
+                \end{bmatrix}.
+            
         """
         
         J = zeros(2*self.ndof,2*self.ndof)
@@ -1741,9 +1770,9 @@ class Steady_state:
         Returns
         -------
         bif_a : list
-            The bifurcation curves expressed in terms of $a^2$.
+            The bifurcation curves expressed in terms of :math:`a^2`.
         bif_sig : list
-            The bifurcation curves expressed in terms of $\sigma$. 
+            The bifurcation curves expressed in terms of :math:`\sigma`. 
         """
         
         print("   Computing bifurcation curves")
@@ -1796,9 +1825,9 @@ class Steady_state:
         Returns
         -------
         fig1 : Figure
-            The amplitude plot $a(\omega)$.
+            The amplitude plot :math:`a(\omega)`.
         fig2 : Figure
-            The phase plot $\beta(\omega)$.
+            The phase plot :math:`\beta(\omega)`.
         """
 
         # Extract the FRC data
@@ -1858,9 +1887,9 @@ class Steady_state:
         Returns
         -------
         fig1 : Figure
-            The amplitude plot $a(\omega)$.
+            The amplitude plot :math:`a(\omega)`.
         fig2 : Figure
-            The phase plot $\beta(\omega)$.
+            The phase plot :math:`\beta(\omega)`.
         """
     
         # Extract the FRC data and keyword arguments
@@ -1951,23 +1980,23 @@ class Stab_SS:
 #%% Chain rule functions written for the MMS
 def Chain_rule_dfdt(f, tS, eps):
     r"""
-    Consider a function $f_t(t)$ and its expression in terms of the time scales $f(t_0, t_1, ...)$, 
-    where $t_0$ is the fast time and $t_1, ...$ are the slow times. 
-    This function uses the chain rule to give the expression of $\mathrm{d}f_t/ \mathrm{d}t$ in terms of the time scales.
+    Consider a function :math:`f_t(t)` and its expression in terms of the time scales :math:`f(t_0, t_1, ...)`, 
+    where :math:`t_0` is the fast time and :math:`t_1, ...` are the slow times. 
+    This function uses the chain rule to give the expression of :math:`\mathrm{d}f_t/ \mathrm{d}t` in terms of the time scales.
     
     Parameters
     ----------
     f: Function  
-        Function $f(t_0,t_1,...)$, i.e. $f_t(t)$ expressed in terms of the time scales.
+        Function :math:`f(t_0,t_1,...)`, i.e. :math:`f_t(t)` expressed in terms of the time scales.
     tS: list 
         Time scales.
     eps: Symbol
-        Small parameter $\epsilon$.
+        Small parameter :math:`\epsilon`.
     
     Returns
     -------
     dfdt: Function
-        $\mathrm{d}f_t/ \mathrm{d}t$ expressed in terms of the time scales.
+        :math:`\mathrm{d}f_t/ \mathrm{d}t` expressed in terms of the time scales.
     """
     
     Nt = len(tS)
@@ -1979,23 +2008,23 @@ def Chain_rule_dfdt(f, tS, eps):
 
 def Chain_rule_d2fdt2(f, tS, eps):
     r"""
-    Consider a function $f_t(t)$ and its expression in terms of the time scales $f(t_0, t_1, ...)$, 
-    where $t_0$ is the fast time and $t_1, ...$ are the slow times. 
-    This function uses the chain rule to give the expression of $\mathrm{d}^2f_t/ \mathrm{d}t^2$ in terms of the time scales.
+    Consider a function :math:`f_t(t)` and its expression in terms of the time scales :math:`f(t_0, t_1, ...)`, 
+    where :math:`t_0` is the fast time and :math:`t_1, ...` are the slow times. 
+    This function uses the chain rule to give the expression of :math:`\mathrm{d}^2f_t/ \mathrm{d}t^2` in terms of the time scales.
     
     Parameters
     ----------
     f: Function  
-        Function $f(t_0,t_1,...)$, i.e. $f_t(t)$ expressed in terms of the time scales.
+        Function :math:`f(t_0,t_1,...)`, i.e. :math:`f_t(t)` expressed in terms of the time scales.
     tS: list 
         Time scales.
     eps: Symbol
-        Small parameter $\epsilon$.
+        Small parameter :math:`\epsilon`.
     
     Returns
     -------
     d2fdt2: Function
-        $\mathrm{d}^2f_t/ \mathrm{d}t^2$ expressed in terms of the time scales.
+        :math:`\mathrm{d}^2f_t/ \mathrm{d}t^2` expressed in terms of the time scales.
     """
     
     Nt = len(tS)
@@ -2069,8 +2098,8 @@ def rescale(expr, mms):
 
 def numpise_FRC(mms, ss, dyn, param, bbc=True, forced=True, bif=True):
     """
-    Evaluate the frequency-response and bifurcation curves at given numerical values. 
-    This transforms the sympy expressions to numpy arrays. 
+    Evaluate the frequency-response and bifurcation curves at given numerical values.
+    This transforms the sympy expressions to numpy arrays.
 
     Parameters
     ----------
@@ -2081,26 +2110,26 @@ def numpise_FRC(mms, ss, dyn, param, bbc=True, forced=True, bif=True):
     dyn : Dynamical_system
         The initial dynamical system.
     param : dict
-        A dictionnary whose values are tuples with 2 elements:
-            1. The sympy symbol of a parameter
-            2. The numerical value(s) taken by that parameter
+        A dictionary whose values are tuples with 2 elements:
+
+        1. The sympy symbol of a parameter.
+        2. The numerical value(s) taken by that parameter.
+
         The key of the amplitude vector must be "a".
         The key of the forcing amplitude must be "F".
     bbc : bool, optional
-        Evaluate the backbone curve.
-        Default is True.
+        Evaluate the backbone curve. Default is True.
     forced : bool, optional
-        Evaluate the forced response.
-        Default is True.
+        Evaluate the forced response. Default is True.
     bif : bool, optional
-        Evaluate the bifurcation curves.
-        Default is True.
+        Evaluate the bifurcation curves. Default is True.
 
     Returns
     -------
-    FRC: dict
+    FRC : dict
         The frequency-response curves data.
     """
+
     
     # Information
     print("Converting sympy FRC expressions to numpy")
@@ -2137,8 +2166,10 @@ def numpise_ARC(mms, ss, dyn, param):
         The initial dynamical system.
     param : dict
         A dictionnary whose values are tuples with 2 elements:
-            1. The sympy symbol of a parameter
-            2. The numerical value(s) taken by that parameter
+
+        1. The sympy symbol of a parameter
+        2. The numerical value(s) taken by that parameter
+
         The key of the amplitude vector must be "a".
         The key of the angular frequency must be "omega".
 

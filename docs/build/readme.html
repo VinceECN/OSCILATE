@@ -1,0 +1,187 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>README &mdash; MMS_solver 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=8d563738"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="License" href="license.html" />
+    <link rel="prev" title="Modules" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            MMS_solver
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Modules</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">README</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#nonlinear-systems-considered">Nonlinear systems considered</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#solver">Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tests-and-examples">Tests and examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#additional-functions">Additional functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#outputs">Outputs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#disclaimer">Disclaimer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#license">License</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">MMS_solver</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">README</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/readme.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="readme">
+<h1>README<a class="headerlink" href="#readme" title="Link to this heading"></a></h1>
+<section id="nonlinear-systems-considered">
+<h2>Nonlinear systems considered<a class="headerlink" href="#nonlinear-systems-considered" title="Link to this heading"></a></h2>
+<p>The proposed code allows the application of the Method of Multiple Scales (MMS) to nonlinear equations and systems of $N$ coupled nonlinear equations of the form
+$$
+\begin{cases}
+\ddot{x}_1 + \omega_1^2 x_1 &amp; = f_1(\bm{x}, \dot{\bm{x}}, \ddot{\bm{x}}, t), \
+&amp; \vdots \
+\ddot{x}_N + \omega_N^2 x_N &amp; = f_N(\bm{x}, \dot{\bm{x}}, \ddot{\bm{x}}, t).
+\end{cases}
+$$
+The $x_i$ ($i=1,…,N$) are the oscillators’ coordinates, $\omega_i$ are their natural frequencies, $\bm{x}$ is the vector containing all the oscillators’ coordinates, $t$ is the time, $\dot{(\bullet)}$ denotes a time-derivative $d(\bullet)/dt$, $f_i$ is a function which can contain</p>
+<ul class="simple">
+<li><p>Additional terms in $x_i$, $\dot{x}_i$ or $\ddot{x}_i$, typically those that will be considered small in the MMS</p></li>
+<li><p>Weak coupling terms in $x_j$, $\dot{x}_j$ or $\ddot{x}_j$, $j\neq i$</p></li>
+<li><p>Weak nonlinear terms. Only polynomial nonlinearities are supported. Taylor expansions are performed if nonlinearities are not polynomial.</p></li>
+<li><p>Forcing, which can be hard (at first order) or weak (small). Harmonic and parametric forcing are supported.</p></li>
+</ul>
+<p>The internal resonance relations can be specified in a second step by expressing the $\omega_i$ as a function of a reference frequency. Detuning can also be introduced during this step.</p>
+</section>
+<section id="solver">
+<h2>Solver<a class="headerlink" href="#solver" title="Link to this heading"></a></h2>
+<p>MMS.py is the MMS solver. It contains 3 main classes:</p>
+<ul class="simple">
+<li><p>Dynamical_system : the dynamical system considered</p></li>
+<li><p>Multiple_scales_system : the system obtained after applying the MMS to the dynamical system</p></li>
+<li><p>Stead_state : the MMS results evaluated at steady state and (if computed) the system’s response and its stability. Plotting functions</p></li>
+</ul>
+</section>
+<section id="tests-and-examples">
+<h2>Tests and examples<a class="headerlink" href="#tests-and-examples" title="Link to this heading"></a></h2>
+<p>test_MMS.py is a script containing several application examples of the MMS solver. Among the examples are</p>
+<ul class="simple">
+<li><p>The Duffing oscillator</p></li>
+<li><p>Coupled Duffing oscillators</p></li>
+<li><p>Coupled nonlinear oscillators with quadratic nonlinearities</p></li>
+<li><p>Parametrically excited oscillators</p></li>
+<li><p>Hard forcing of a Duffing oscillator</p></li>
+<li><p>Subharmonic response of 2 coupled centrifugal pendulum modes</p></li>
+</ul>
+</section>
+<section id="additional-functions">
+<h2>Additional functions<a class="headerlink" href="#additional-functions" title="Link to this heading"></a></h2>
+<p>sympy_functions.py contains additional functions that are not directly related to the MMS but which are used MMS.py.</p>
+</section>
+<section id="outputs">
+<h2>Outputs<a class="headerlink" href="#outputs" title="Link to this heading"></a></h2>
+<p>Results are returned as sympy expressions.
+They can be printed using LaTeX if the code is run in an appropriate interactive Window.
+It is the case with VS Code’s interactive Window or Spyder’s IPython consol.</p>
+<p>Methods of Steady_state also allow to evaluate sympy results for given numerical values of system parameters and plot them.</p>
+</section>
+<section id="disclaimer">
+<h2>Disclaimer<a class="headerlink" href="#disclaimer" title="Link to this heading"></a></h2>
+<p>This code is provided as-is and has been tested on a limited number of nonlinear systems.
+Other test cases might trigger bugs or unexpected behavior that I am not yet aware of.
+If you encounter any issues, find a bug, or have suggestions for improvements, please feel free to:</p>
+<ul class="simple">
+<li><p>Open an issue on the GitHub repository (if applicable).</p></li>
+<li><p>Contact me directly at [vincent.mahe&#64;ec-nantes.fr].</p></li>
+</ul>
+<p>Your feedback is highly appreciated!</p>
+<p>Vincent MAHE</p>
+</section>
+<section id="license">
+<h2>License<a class="headerlink" href="#license" title="Link to this heading"></a></h2>
+<p>This project is licensed under the <strong>Apache License 2.0</strong> – see the LICENSE file for details.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modules.html" class="btn btn-neutral float-left" title="Modules" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="license.html" class="btn btn-neutral float-right" title="License" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Vincent MAHE.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
