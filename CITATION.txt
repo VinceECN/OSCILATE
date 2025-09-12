@@ -1,2 +1,2 @@
 If you use this code in your work, please cite it as follows:
-[https://github.com/VinceECN/MMS_solver]. 
+[https://github.com/VinceECN/MMS_solver].
