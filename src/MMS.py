@@ -4,7 +4,7 @@ Started on Tue Feb 15 17:25:59 2022
 
 @author: Vincent MAHE
 
-Solve systems of coupled nonlinear equations using the method of multiple scales (MMS)
+Analyse systems of coupled nonlinear equations using the Method of Multiple Scales (MMS).
 """
 
 #%% Imports and initialisation
@@ -13,7 +13,7 @@ from sympy import (exp, I, conjugate, re, im, Rational,
                    cos, sin, tan, srepr, sympify, simplify, 
                    zeros, det, trace, eye, Mod, lambdify)
 from sympy.simplify.fu import TR5, TR8, TR10
-from src import sympy_functions as sfun
+from . import sympy_functions as sfun
 import numpy as np
 import itertools
 import warnings
@@ -38,9 +38,9 @@ class Dynamical_system:
     :math:`\boldsymbol{x}` is the vector containing all the oscillators' coordinates, 
     :math:`t` is the time, 
     :math:`\dot{(\bullet)}` denotes a time-derivative :math:`d(\bullet)/dt`, 
-    :math:`f_i` is a function which can contain
+    :math:`f_i` is a function which can contain:
 
-    - Additional terms in :math:`x_i`, :math:`\dot{x}_i` or :math:`\ddot{x}_i`, typically those that will be considered small in the MMS,
+    - Linear terms in :math:`x_i`, :math:`\dot{x}_i` or :math:`\ddot{x}_i`, typically those that will be considered small in the MMS,
     
     - Weak coupling terms in :math:`x_j`, :math:`\dot{x}_j` or :math:`\ddot{x}_j`, :math:`j\neq i`,
     
@@ -48,7 +48,7 @@ class Dynamical_system:
     
     - Forcing, which can be hard (at first order) or weak (small). Harmonic and parametric forcing are supported.
 
-    The internal resonance relations can be specified in a second step by expressing the :math:`\omega_i` as a function of a reference frequency. Detuning can also be introduced during this step.
+    Internal resonance relations among oscillators can be specified in a second step by expressing the :math:`\omega_i` as a function of a reference frequency. Detuning can also be introduced during this step.
     """
     
     def __init__(self, t, x, Eq, omegas, **kwargs):
@@ -62,17 +62,14 @@ class Dynamical_system:
         x : Function or list of Function
             Unknown(s) of the problem.
         Eq : Expr or list of Expr
-            System's equations without forcing, which can be defined separately (see keyword arguments).
+            System's equations without forcing, which can be defined separately (see `F` and `f_coeff`).
             Eq is the unforced system of equations describing the system's dynamics. 
         omegas : Symbol or list of Symbol
             The natural frequency of each oscillator.
-            
-        Keyword arguments
-        -----------------
-        F : Symbol or 0
+        F : Symbol or 0, optional
             Forcing amplitude :math:`F`. 
             Default is 0.
-        f_coeff : Expr of list of Expr
+        f_coeff : Expr of list of Expr, optional
             For each dof, specify the coefficient multiplying the forcing terms in the equation.
             It can be used to define parametric forcing. Typically, if the forcing is :math:`x F \cos(\omega t)`, then f_coeff = x.
             Default is a list of 1, so the forcing is direct. 
@@ -126,10 +123,10 @@ class Forcing:
 def scale_parameters(param, scaling, eps):
     r"""
     Scale parameters with the scaling parameter :math:`\epsilon`.
-    For a given parameter :math:`p` and a scaling order :math:`\lambda`, the associated scaled parameter is 
+    For a given parameter :math:`p` and a scaling order :math:`\lambda`, the associated scaled parameter :math:`\tilde{p}` is 
 
     .. math::
-        \tilde{p} = \epsilon^{\lambda} p .
+        p = \epsilon^{\lambda} \tilde{p} .
     
 
     Parameters
@@ -137,7 +134,7 @@ def scale_parameters(param, scaling, eps):
     param : list of Symbol and/or Function
         Unscaled parameters.
     scaling : list of int or float
-        The scaling for each parameters.
+        The scaling for each parameter.
     eps : Symbol
         Small parameter :math:`\epsilon`.
 
@@ -146,10 +143,11 @@ def scale_parameters(param, scaling, eps):
     param_scaled: list of Symbol and/or Function
         Scaled parameters.
     sub_scaling: list of 2 lists of tuple
+        Substitutions from scaled to unscaled parameters and vice-versa. 
+
+        - :math:`1^{\text{st}}` list: The substitutions to do to introduce the scaled parameters in an expression.
         
-        1:sup`st` list: The substitutions to do to introduce the scaled parameters in an expression.
-        
-        :math:`2^{\text{nd}}` list: The substitutions to do to reintroduce the unscaled parameters in a scaled expression.
+        - :math:`2^{\text{nd}}` list: The substitutions to do to reintroduce the unscaled parameters in a scaled expression.
     """
     
     param_scaled     = []
@@ -212,10 +210,7 @@ class Multiple_scales_system:
         sub_scaling : list of tuples
             Substitutions to do to scale the equations. 
             Links small parameters to their scaled counterpart through :math:`\epsilon`.
-            
-        Keyword arguments
-        -----------------    
-        ratio_omegaMMS : int or Rational
+        ratio_omegaMMS : int or Rational, optional
             Specify the frequency `omegaMMS` around which the MMS is going to be applied in terms of :math:`\omega_{\textrm{ref}}`.
             Denoting `ratio_omegaMMS` as :math:`r_{\textrm{MMS}}`, this means that
             
@@ -229,14 +224,14 @@ class Multiple_scales_system:
             
             to get better-looking results than the float :math:`p/q`.
             Default is 1.
-        eps_pow_0 : int
+        eps_pow_0 : int, optional
             Order of the leading-order term in the asymptotic series of each oscillators' response.
             For the :math:`i^{\textrm{th}}` dof and denoting `eps_pow_0` as :math:`\lambda_0`, this means that
             .. math::
                 x_i = \epsilon^{\lambda_0} x_{i0} + \epsilon^{\lambda_0+1} x_{i1} + \cdots.
             
             Default is 0.
-        ratio_omega_osc : list of int or Rational or None
+        ratio_omega_osc : list of int or Rational or None, optional
             Specify the natural frequencies of the oscillators :math:`\omega_i` in terms of the reference frequency :math:`\omega_{\textrm{ref}}`. 
             Denoting `ratio_omega_osc[i]` as :math:`r_i`, this means that 
             
@@ -245,7 +240,7 @@ class Multiple_scales_system:
             
             Default is `None` for each oscillator, so the :math:`\omega_i` are arbitrary and there are no internal resonances.
             Detuning can be introduced through the `detunings` keyword argument. 
-        detunings : list of Symbol or int
+        detunings : list of Symbol or int, optional
             The detuning of each oscillator. Denoting `detunings[i]` as :math:`\delta_i`, this means that 
             
             .. math::
@@ -532,7 +527,7 @@ class Multiple_scales_system:
         r"""
         Apply the MMS. This is operated as follows:
 
-        #. An equivalent system is written in terms of the fast scale :math:`t_0`. This introduces the temporary unknowns :math:`\tilde{x}_{ij}(t_0)`, and allows the use of ``dsolve()``.
+        #. An equivalent system is written in terms of the fast scale :math:`t_0`. This introduces the temporary unknowns :math:`\tilde{x}_{ij}(t_0)`, which allows the use of ``dsolve()``.
 
         #. Leading order solutions are introduced.
 
@@ -576,7 +571,7 @@ class Multiple_scales_system:
     def system_t0(self):
         r"""
         Rewrite the equations in terms of new coordinates :math:`\tilde{x}_{ij}(t_0)`, with :math:`i,j` denoting the oscillator number and :math:`\epsilon` order, respectively. 
-        This is a trick to use `dsolve()`, which only accepts functions of 1 variable. 
+        This is a trick to use ``dsolve()``, which only accepts functions of 1 variable. 
         """
         
         xMMS_t0  = [] # t0-dependent variables xij(t0). Higher time scales dependency is ignored.
@@ -604,7 +599,7 @@ class Multiple_scales_system:
         If the oscillator is subject to hard forcing (i.e. forcing appears at leading order), then the particular solution
         
         .. math::
-            x_{i0}^{(\textrm{p})} = B_i e^{\textrm{j} \omega t} + cc = B_i e^{\textrm{j} (\omega_{\textrm{MMS}} t_0 + \sigma t_1)} + cc,
+            x_{i0}^{(\textrm{p})}(\boldsymbol{t}) = B_i e^{\textrm{j} \omega t} + cc = B_i e^{\textrm{j} (\omega_{\textrm{MMS}} t_0 + \sigma t_1)} + cc,
         
         is also taken into account. :math:`B_i` is a time-independent function of the forcing parameters.
         """
@@ -961,10 +956,9 @@ class Multiple_scales_system:
 class Substitutions_MMS:
     """
     Substitutions used in the MMS.
-    Only the initial ones are defined here, others are defined along the procedure.
     """
     
-    def __init__(self, sub_t, sub_xMMS_t, sub_x, sub_scaling, sub_omega, sub_sigma):
+    def __init__(self, sub_t, sub_xMMS_t, sub_x, sub_scaling, sub_omega, sub_sigma): 
         self.sub_t            = sub_t
         self.sub_xMMS_t       = sub_xMMS_t
         self.sub_x            = sub_x
@@ -979,7 +973,7 @@ class Forcing_MMS:
     
     - A forcing amplitude `F`
     
-    - A Scaling order `f_order` for the forcing
+    - A scaling order `f_order` for the forcing
     
     - Forcing coefficients `f_coeff`
     
@@ -995,7 +989,6 @@ class Forcing_MMS:
 class Coord_MMS:
     """
     The coordinates used in the MMS.
-    Only some are defined here, others are defined along the procedure.
     """      
     
     def __init__(self, mms):
@@ -1109,9 +1102,9 @@ class Steady_state:
         Find the steady state solution for a given oscillator.
         The response of other oscillators is set to 0.
                 
-        Keyword argument
-        ----------------
-        solve_dof: None or int
+        Parameters
+        ----------
+        solve_dof: None or int, oprtional
             The dof number to solve for. Start from 0. 
             If `None`, no dof is solved for.
             Default is `None`.
@@ -1297,13 +1290,13 @@ class Steady_state:
         Find the backbone curve of a given oscillator.
         The response of other oscillators is set to 0.
         
-        Keyword argument
-        ----------------
-        c: list
+        Parameters
+        ----------
+        c: list, oprtional
             Damping terms. They will be set to 0 to compute the backbone curve.
             Note that these are the scaled damping terms.
             Default is `[]`.
-        solve_dof: None or int
+        solve_dof: None or int, oprtional
             The dof number to solve for. Start from 0. If `None`, no dof is solved for.
             Default is `None`.
         """
@@ -1334,7 +1327,7 @@ class Steady_state:
 
     def Jacobian_polar(self):
         r"""
-        Compute the Jacobian of the evolution equations systems using polar coordinates.
+        Compute the Jacobian of the evolution equations systems using polar coordinates (see :func:`polar_coordinates` and :func:`evolution_equations`).
         
         Returns
         -------
@@ -1572,7 +1565,7 @@ class Steady_state:
     
     def Jacobian_cartesian(self):
         r"""
-        Compute the Jacobian of the evolution equations using cartesian coordinates.
+        Compute the Jacobian of the evolution equations expressed in cartesian coordinates (see :func:`cartesian_coordinates` and :func:`evolution_equations_cartesian`).
         
         Returns
         -------
@@ -1613,21 +1606,21 @@ class Steady_state:
         """
         Evaluate the stability of a solution. 
         
-        Keyword parameter
-        -----------------
-        coord: str
+        Parameters
+        ----------
+        coord: str, optional
             Either ``"cartesian"`` or ``"polar"``. 
             Specifies the coordinates to use for the stability analysis.
             ``"cartesian"`` is recommended as it prevents divisions by 0, which occur when at least one of the dof has a null ampliutude.
             Default is ``"cartesian"``.
-        rewrite_polar: bool
+        rewrite_polar: bool, optional
             Rewrite the Jacobian's determinant and trace in polar coordinates (if computed using cartesian ones).
             This is time consuming and the current back substitutions from cartesian to polar coordinates are not always sufficient.
             Default is `False`.
-        eigenvalues: bool
+        eigenvalues: bool, optional
             Compute the eigenvalues of the Jacobian.
             Default is `False`.
-        bifurcation_curves: bool
+        bifurcation_curves: bool, optional
             Compute the bifurcation curves.
             Default is `False`.
         analyse_blocks: bool, optional
@@ -1779,7 +1772,7 @@ class Steady_state:
             
     def bifurcation_curves(self, detJ, trJ, var_a=False, var_sig=True, solver=sfun.solve_poly2):
         r"""
-        Compute bifurcation curves. 
+        Compute bifurcation curves, i.e. the curves defining the bifurcation points. 
 
         Parameters
         ----------
@@ -1965,7 +1958,6 @@ class Steady_state:
 class Substitutions_SS:
     """
     Substitutions used in the steady state evaluations.
-    Only some are given here, others are defined along the procedure.
     """
     
     def __init__(self, mms):

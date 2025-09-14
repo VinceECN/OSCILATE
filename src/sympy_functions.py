@@ -41,13 +41,15 @@ def sub_deep(expr, sub):
 def solve_poly2(poly, x):
     """
     Finds the roots of a polynomial of degree 2 of the form
-    p(x) = a*x**2 + b*x + c
-    Note that b can be null but not a or c
+
+    .. math::
+        p(x) = a x^2 + bx + c
     
-    It is a workaround to using solve() or solveset(). 
-    These two work but can be very long when coefficients a, b, c 
-    are expressions involving many parameters.
-    Note that solve() is significantly slower than solveset() .
+    Note that :math:`b` can be null but not :math:`a` or :math:`c`.
+    
+    It is a workaround to using :func:`solve` or :func:`solveset`. 
+    These two work but can be very long when coefficients :math:`a,\; b,\; c` are expressions involving many parameters.
+    Note that :func:`solve` is significantly slower than :func:`solveset`.
     
     Parameters
     ----------
@@ -101,8 +103,17 @@ def solve_poly2(poly, x):
 def poly_positive_pow(poly, x):
     """
     Identify the terms of a polynomial. If the expression given for poly is of the form
-    p(x) = q(x)*x**(-n), where the powers of x in q(x) are all superior or equal to 0,
-    then an auxiliary polynomial P(x) = p(x)/x**-n is constructed. 
+    
+    .. math::
+        p(x) = q(x) x^{-n},
+
+    where the powers of :math:`x` in :math:`q(x)` are all superior or equal to :math:`0`,
+    then an auxiliary polynomial 
+    
+    .. math::
+        P(x) = \dfrac{p(x)}{x^{-n}} 
+    
+    is constructed. 
 
     Parameters
     ----------
@@ -133,7 +144,7 @@ def poly_positive_pow(poly, x):
 
 def check_solvability(poly, x):
     """
-    Check the solvability of a polynomial.
+    Check the solvability of a polynomial :math:`p(x)`.
 
     Parameters
     ----------
@@ -144,7 +155,8 @@ def check_solvability(poly, x):
 
     Returns
     -------
-    bool : True is solvable, False otherwise.
+    bool : bool,
+        True is solvable, False otherwise.
     """
     dic_x = poly_positive_pow(poly, x)
     poly_terms = set(dic_x.keys())
@@ -158,7 +170,7 @@ def check_solvability(poly, x):
     
 def get_exponent(expr, x):
     """
-    Get the exponent of :math:`x` in an expression
+    Get the exponent of :math:`x` in an expression of the type :math:`\lambda x^n` where :math:`\lambda` is a constant while :math:`n` is an integer or rational.
     """
     # This assumes expr is a power of x
     if expr.is_Number:
@@ -177,7 +189,7 @@ def get_block_diagonal_indices(matrix, block_sizes):
 
     Parameters
     ----------
-    matrix: Matrix.
+    matrix: Matrix
         The matrix to check for block diagonality.
     block_sizes: int or list of int
         Size(s) of the diagonal blocks.
@@ -185,7 +197,7 @@ def get_block_diagonal_indices(matrix, block_sizes):
     Returns
     -------
     indices : list
-        A list of tuples (i, j) representing the indices of elements in the diagonal blocks.
+        A list of tuples `(i, j)` representing the indices of elements in the diagonal blocks.
     """
 
     if isinstance(block_sizes, int):
@@ -206,11 +218,11 @@ def get_block_diagonal_indices(matrix, block_sizes):
 
 def is_block_diagonal(matrix, block_sizes):
     """
-    Check if a SymPy matrix is block-diagonal given block sizes.
+    Check if a matrix is block-diagonal given block sizes.
 
     Parameters
     ----------
-    matrix: Matrix.
+    matrix: Matrix
         The matrix to check for block diagonality.
     block_sizes: int or list of int
         Size(s) of the diagonal blocks.
@@ -227,9 +239,6 @@ def is_block_diagonal(matrix, block_sizes):
 
     # Get the block-diagonal elements indices
     indices_diag_blocks = get_block_diagonal_indices(matrix, block_sizes)
-
-    # Initialize the starting index of the current block
-    start = 0
 
     # Iterate over the matrix elements
     for i in range(n):

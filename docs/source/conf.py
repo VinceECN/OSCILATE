@@ -15,6 +15,7 @@ extensions = [
     'sphinx.ext.mathjax',
     'sphinx.ext.viewcode',
     'sphinx.ext.napoleon',
+    'sphinx.ext.autosummary',
     'myst_parser',
 ]
 
@@ -28,17 +29,12 @@ myst_enable_extensions = [
 ]
 
 # Options for HTML output
-html_theme = 'sphinx_rtd_theme'
+html_theme = "sphinx_book_theme"
 html_static_path = ['_static']
+html_theme_options = {
+    "show_nav_level": 2,  # Show navigation up to level 2
+    "collapse_navigation": False,  # Do not collapse the navigation by default
+}
 
-
-
-# MathJax configuration for bold symbols
-# mathjax3_config = {
-#     'loader': {
-#         'load': ['[tex]/bm']
-#     },
-#     'tex': {
-#         'packages': {'[+]': ['bm']},
-#     },
-# }
+# Generate autosummary stubs
+autosummary_generate = True
