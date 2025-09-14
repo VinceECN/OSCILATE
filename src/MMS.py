@@ -13,7 +13,7 @@ from sympy import (exp, I, conjugate, re, im, Rational,
                    cos, sin, tan, srepr, sympify, simplify, 
                    zeros, det, trace, eye, Mod, lambdify)
 from sympy.simplify.fu import TR5, TR8, TR10
-import sympy_functions as sfun
+from src import sympy_functions as sfun
 import numpy as np
 import itertools
 import warnings
@@ -28,12 +28,12 @@ class Dynamical_system:
 
     .. math::
         \begin{cases}
-        \ddot{x}_1 + \omega_1^2 x_1 & = f_1(\bm{x}, \dot{\bm{x}}, \ddot{\bm{x}}, t), \\
+        \ddot{x}_0 + \omega_0^2 x_0 & = f_0(\bm{x}, \dot{\bm{x}}, \ddot{\bm{x}}, t), \\
         & \vdots \\
-        \ddot{x}_N + \omega_N^2 x_N & = f_N(\bm{x}, \dot{\bm{x}}, \ddot{\bm{x}}, t).
+        \ddot{x}_{N-1} + \omega_{N-1}^2 x_{N-1} & = f_{N-1}(\bm{x}, \dot{\bm{x}}, \ddot{\bm{x}}, t).
         \end{cases}
     
-    The :math:`x_i(t)` (:math:`i=1,...,N`) are the oscillators' coordinates, 
+    The :math:`x_i(t)` (:math:`i=0,...,N-1`) are the oscillators' coordinates, 
     :math:`\omega_i` are their natural frequencies, 
     :math:`\bm{x}` is the vector containing all the oscillators' coordinates, 
     :math:`t` is the time, 
