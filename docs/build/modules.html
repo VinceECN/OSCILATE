@@ -46,64 +46,77 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Modules</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#MMS.Chain_rule_d2fdt2"><code class="docutils literal notranslate"><span class="pre">Chain_rule_d2fdt2()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#MMS.Chain_rule_dfdt"><code class="docutils literal notranslate"><span class="pre">Chain_rule_dfdt()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#MMS.Coord_MMS"><code class="docutils literal notranslate"><span class="pre">Coord_MMS</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#MMS.Coord_SS"><code class="docutils literal notranslate"><span class="pre">Coord_SS</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#MMS.Dynamical_system"><code class="docutils literal notranslate"><span class="pre">Dynamical_system</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#MMS.Forcing"><code class="docutils literal notranslate"><span class="pre">Forcing</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#MMS.Forcing_MMS"><code class="docutils literal notranslate"><span class="pre">Forcing_MMS</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#MMS.Forcing_SS"><code class="docutils literal notranslate"><span class="pre">Forcing_SS</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#MMS.Multiple_scales_system"><code class="docutils literal notranslate"><span class="pre">Multiple_scales_system</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#MMS.Multiple_scales_system.apply_MMS"><code class="docutils literal notranslate"><span class="pre">Multiple_scales_system.apply_MMS()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#MMS.Multiple_scales_system.autonomous_phases"><code class="docutils literal notranslate"><span class="pre">Multiple_scales_system.autonomous_phases()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#MMS.Multiple_scales_system.compute_EqMMS"><code class="docutils literal notranslate"><span class="pre">Multiple_scales_system.compute_EqMMS()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#MMS.Multiple_scales_system.evolution_equations"><code class="docutils literal notranslate"><span class="pre">Multiple_scales_system.evolution_equations()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#MMS.Multiple_scales_system.polar_coordinates"><code class="docutils literal notranslate"><span class="pre">Multiple_scales_system.polar_coordinates()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#MMS.Multiple_scales_system.secular_analysis"><code class="docutils literal notranslate"><span class="pre">Multiple_scales_system.secular_analysis()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#MMS.Multiple_scales_system.sol_higher_order"><code class="docutils literal notranslate"><span class="pre">Multiple_scales_system.sol_higher_order()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#MMS.Multiple_scales_system.sol_order_0"><code class="docutils literal notranslate"><span class="pre">Multiple_scales_system.sol_order_0()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#MMS.Multiple_scales_system.sol_xMMS_polar"><code class="docutils literal notranslate"><span class="pre">Multiple_scales_system.sol_xMMS_polar()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#MMS.Multiple_scales_system.system_t0"><code class="docutils literal notranslate"><span class="pre">Multiple_scales_system.system_t0()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-src.MMS">MMS Module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#src.MMS.Chain_rule_d2fdt2"><code class="docutils literal notranslate"><span class="pre">Chain_rule_d2fdt2()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.MMS.Chain_rule_dfdt"><code class="docutils literal notranslate"><span class="pre">Chain_rule_dfdt()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.MMS.Coord_MMS"><code class="docutils literal notranslate"><span class="pre">Coord_MMS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.MMS.Coord_SS"><code class="docutils literal notranslate"><span class="pre">Coord_SS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.MMS.Dynamical_system"><code class="docutils literal notranslate"><span class="pre">Dynamical_system</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.MMS.Forcing"><code class="docutils literal notranslate"><span class="pre">Forcing</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.MMS.Forcing_MMS"><code class="docutils literal notranslate"><span class="pre">Forcing_MMS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.MMS.Forcing_SS"><code class="docutils literal notranslate"><span class="pre">Forcing_SS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.MMS.Multiple_scales_system"><code class="docutils literal notranslate"><span class="pre">Multiple_scales_system</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#src.MMS.Multiple_scales_system.apply_MMS"><code class="docutils literal notranslate"><span class="pre">Multiple_scales_system.apply_MMS()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#src.MMS.Multiple_scales_system.autonomous_phases"><code class="docutils literal notranslate"><span class="pre">Multiple_scales_system.autonomous_phases()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#src.MMS.Multiple_scales_system.compute_EqMMS"><code class="docutils literal notranslate"><span class="pre">Multiple_scales_system.compute_EqMMS()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#src.MMS.Multiple_scales_system.evolution_equations"><code class="docutils literal notranslate"><span class="pre">Multiple_scales_system.evolution_equations()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#src.MMS.Multiple_scales_system.polar_coordinates"><code class="docutils literal notranslate"><span class="pre">Multiple_scales_system.polar_coordinates()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#src.MMS.Multiple_scales_system.secular_analysis"><code class="docutils literal notranslate"><span class="pre">Multiple_scales_system.secular_analysis()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#src.MMS.Multiple_scales_system.sol_higher_order"><code class="docutils literal notranslate"><span class="pre">Multiple_scales_system.sol_higher_order()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#src.MMS.Multiple_scales_system.sol_order_0"><code class="docutils literal notranslate"><span class="pre">Multiple_scales_system.sol_order_0()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#src.MMS.Multiple_scales_system.sol_xMMS_polar"><code class="docutils literal notranslate"><span class="pre">Multiple_scales_system.sol_xMMS_polar()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#src.MMS.Multiple_scales_system.system_t0"><code class="docutils literal notranslate"><span class="pre">Multiple_scales_system.system_t0()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#MMS.Sol_MMS"><code class="docutils literal notranslate"><span class="pre">Sol_MMS</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#MMS.Sol_SS"><code class="docutils literal notranslate"><span class="pre">Sol_SS</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#MMS.Stab_SS"><code class="docutils literal notranslate"><span class="pre">Stab_SS</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#MMS.Steady_state"><code class="docutils literal notranslate"><span class="pre">Steady_state</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#MMS.Steady_state.Jacobian_cartesian"><code class="docutils literal notranslate"><span class="pre">Steady_state.Jacobian_cartesian()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#MMS.Steady_state.Jacobian_polar"><code class="docutils literal notranslate"><span class="pre">Steady_state.Jacobian_polar()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#MMS.Steady_state.SS_coord"><code class="docutils literal notranslate"><span class="pre">Steady_state.SS_coord()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#MMS.Steady_state.SS_evolution_equations"><code class="docutils literal notranslate"><span class="pre">Steady_state.SS_evolution_equations()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#MMS.Steady_state.bifurcation_curves"><code class="docutils literal notranslate"><span class="pre">Steady_state.bifurcation_curves()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#MMS.Steady_state.cartesian_coordinates"><code class="docutils literal notranslate"><span class="pre">Steady_state.cartesian_coordinates()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#MMS.Steady_state.eigenvalues"><code class="docutils literal notranslate"><span class="pre">Steady_state.eigenvalues()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#MMS.Steady_state.eval_sol_stability"><code class="docutils literal notranslate"><span class="pre">Steady_state.eval_sol_stability()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#MMS.Steady_state.evolution_equations_cartesian"><code class="docutils literal notranslate"><span class="pre">Steady_state.evolution_equations_cartesian()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#MMS.Steady_state.plot_ARC"><code class="docutils literal notranslate"><span class="pre">Steady_state.plot_ARC()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#MMS.Steady_state.plot_FRC"><code class="docutils literal notranslate"><span class="pre">Steady_state.plot_FRC()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#MMS.Steady_state.solve_F"><code class="docutils literal notranslate"><span class="pre">Steady_state.solve_F()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#MMS.Steady_state.solve_a"><code class="docutils literal notranslate"><span class="pre">Steady_state.solve_a()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#MMS.Steady_state.solve_bbc"><code class="docutils literal notranslate"><span class="pre">Steady_state.solve_bbc()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#MMS.Steady_state.solve_forced"><code class="docutils literal notranslate"><span class="pre">Steady_state.solve_forced()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#MMS.Steady_state.solve_phase"><code class="docutils literal notranslate"><span class="pre">Steady_state.solve_phase()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#MMS.Steady_state.solve_sigma"><code class="docutils literal notranslate"><span class="pre">Steady_state.solve_sigma()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#MMS.Steady_state.substitution_solve_dof"><code class="docutils literal notranslate"><span class="pre">Steady_state.substitution_solve_dof()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.MMS.Sol_MMS"><code class="docutils literal notranslate"><span class="pre">Sol_MMS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.MMS.Sol_SS"><code class="docutils literal notranslate"><span class="pre">Sol_SS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.MMS.Stab_SS"><code class="docutils literal notranslate"><span class="pre">Stab_SS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.MMS.Steady_state"><code class="docutils literal notranslate"><span class="pre">Steady_state</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#src.MMS.Steady_state.Jacobian_cartesian"><code class="docutils literal notranslate"><span class="pre">Steady_state.Jacobian_cartesian()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#src.MMS.Steady_state.Jacobian_polar"><code class="docutils literal notranslate"><span class="pre">Steady_state.Jacobian_polar()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#src.MMS.Steady_state.SS_coord"><code class="docutils literal notranslate"><span class="pre">Steady_state.SS_coord()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#src.MMS.Steady_state.SS_evolution_equations"><code class="docutils literal notranslate"><span class="pre">Steady_state.SS_evolution_equations()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#src.MMS.Steady_state.bifurcation_curves"><code class="docutils literal notranslate"><span class="pre">Steady_state.bifurcation_curves()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#src.MMS.Steady_state.cartesian_coordinates"><code class="docutils literal notranslate"><span class="pre">Steady_state.cartesian_coordinates()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#src.MMS.Steady_state.eigenvalues"><code class="docutils literal notranslate"><span class="pre">Steady_state.eigenvalues()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#src.MMS.Steady_state.eval_sol_stability"><code class="docutils literal notranslate"><span class="pre">Steady_state.eval_sol_stability()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#src.MMS.Steady_state.evolution_equations_cartesian"><code class="docutils literal notranslate"><span class="pre">Steady_state.evolution_equations_cartesian()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#src.MMS.Steady_state.plot_ARC"><code class="docutils literal notranslate"><span class="pre">Steady_state.plot_ARC()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#src.MMS.Steady_state.plot_FRC"><code class="docutils literal notranslate"><span class="pre">Steady_state.plot_FRC()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#src.MMS.Steady_state.solve_F"><code class="docutils literal notranslate"><span class="pre">Steady_state.solve_F()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#src.MMS.Steady_state.solve_a"><code class="docutils literal notranslate"><span class="pre">Steady_state.solve_a()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#src.MMS.Steady_state.solve_bbc"><code class="docutils literal notranslate"><span class="pre">Steady_state.solve_bbc()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#src.MMS.Steady_state.solve_forced"><code class="docutils literal notranslate"><span class="pre">Steady_state.solve_forced()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#src.MMS.Steady_state.solve_phase"><code class="docutils literal notranslate"><span class="pre">Steady_state.solve_phase()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#src.MMS.Steady_state.solve_sigma"><code class="docutils literal notranslate"><span class="pre">Steady_state.solve_sigma()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#src.MMS.Steady_state.substitution_solve_dof"><code class="docutils literal notranslate"><span class="pre">Steady_state.substitution_solve_dof()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#MMS.Substitutions_MMS"><code class="docutils literal notranslate"><span class="pre">Substitutions_MMS</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#MMS.Substitutions_SS"><code class="docutils literal notranslate"><span class="pre">Substitutions_SS</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#MMS.cartesian_to_polar"><code class="docutils literal notranslate"><span class="pre">cartesian_to_polar()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#MMS.numpise_ARC"><code class="docutils literal notranslate"><span class="pre">numpise_ARC()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#MMS.numpise_FRC"><code class="docutils literal notranslate"><span class="pre">numpise_FRC()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#MMS.numpise_F_ARC"><code class="docutils literal notranslate"><span class="pre">numpise_F_ARC()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#MMS.numpise_omega_FRC"><code class="docutils literal notranslate"><span class="pre">numpise_omega_FRC()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#MMS.numpise_omega_bbc"><code class="docutils literal notranslate"><span class="pre">numpise_omega_bbc()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#MMS.numpise_omega_bif"><code class="docutils literal notranslate"><span class="pre">numpise_omega_bif()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#MMS.numpise_phase"><code class="docutils literal notranslate"><span class="pre">numpise_phase()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#MMS.rescale"><code class="docutils literal notranslate"><span class="pre">rescale()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#MMS.scale_parameters"><code class="docutils literal notranslate"><span class="pre">scale_parameters()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#MMS.sympy_to_numpy"><code class="docutils literal notranslate"><span class="pre">sympy_to_numpy()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.MMS.Substitutions_MMS"><code class="docutils literal notranslate"><span class="pre">Substitutions_MMS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.MMS.Substitutions_SS"><code class="docutils literal notranslate"><span class="pre">Substitutions_SS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.MMS.cartesian_to_polar"><code class="docutils literal notranslate"><span class="pre">cartesian_to_polar()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.MMS.numpise_ARC"><code class="docutils literal notranslate"><span class="pre">numpise_ARC()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.MMS.numpise_FRC"><code class="docutils literal notranslate"><span class="pre">numpise_FRC()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.MMS.numpise_F_ARC"><code class="docutils literal notranslate"><span class="pre">numpise_F_ARC()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.MMS.numpise_omega_FRC"><code class="docutils literal notranslate"><span class="pre">numpise_omega_FRC()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.MMS.numpise_omega_bbc"><code class="docutils literal notranslate"><span class="pre">numpise_omega_bbc()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.MMS.numpise_omega_bif"><code class="docutils literal notranslate"><span class="pre">numpise_omega_bif()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.MMS.numpise_phase"><code class="docutils literal notranslate"><span class="pre">numpise_phase()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.MMS.rescale"><code class="docutils literal notranslate"><span class="pre">rescale()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.MMS.scale_parameters"><code class="docutils literal notranslate"><span class="pre">scale_parameters()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.MMS.sympy_to_numpy"><code class="docutils literal notranslate"><span class="pre">sympy_to_numpy()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-src.sympy_functions">sympy_functions Module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#src.sympy_functions.check_solvability"><code class="docutils literal notranslate"><span class="pre">check_solvability()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.sympy_functions.get_block_diagonal_indices"><code class="docutils literal notranslate"><span class="pre">get_block_diagonal_indices()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.sympy_functions.get_exponent"><code class="docutils literal notranslate"><span class="pre">get_exponent()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.sympy_functions.is_block_diagonal"><code class="docutils literal notranslate"><span class="pre">is_block_diagonal()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.sympy_functions.poly_positive_pow"><code class="docutils literal notranslate"><span class="pre">poly_positive_pow()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.sympy_functions.solve_poly2"><code class="docutils literal notranslate"><span class="pre">solve_poly2()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.sympy_functions.sub_deep"><code class="docutils literal notranslate"><span class="pre">sub_deep()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="readme.html">README</a></li>
@@ -134,14 +147,18 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="module-MMS">
-<span id="modules"></span><h1>Modules<a class="headerlink" href="#module-MMS" title="Link to this heading"></a></h1>
+  <section id="modules">
+<h1>Modules<a class="headerlink" href="#modules" title="Link to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<section id="module-src.MMS">
+<span id="mms-module"></span><h2>MMS Module<a class="headerlink" href="#module-src.MMS" title="Link to this heading"></a></h2>
 <p>Started on Tue Feb 15 17:25:59 2022</p>
 <p>&#64;author: Vincent MAHE</p>
 <p>Solve systems of coupled nonlinear equations using the method of multiple scales (MMS)</p>
 <dl class="py function">
-<dt class="sig sig-object py" id="MMS.Chain_rule_d2fdt2">
-<span class="sig-prename descclassname"><span class="pre">MMS.</span></span><span class="sig-name descname"><span class="pre">Chain_rule_d2fdt2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS.html#Chain_rule_d2fdt2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.Chain_rule_d2fdt2" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.Chain_rule_d2fdt2">
+<span class="sig-prename descclassname"><span class="pre">src.MMS.</span></span><span class="sig-name descname"><span class="pre">Chain_rule_d2fdt2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/MMS.html#Chain_rule_d2fdt2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.Chain_rule_d2fdt2" title="Link to this definition"></a></dt>
 <dd><p>Consider a function <span class="math notranslate nohighlight">\(f_t(t)\)</span> and its expression in terms of the time scales <span class="math notranslate nohighlight">\(f(t_0, t_1, ...)\)</span>,
 where <span class="math notranslate nohighlight">\(t_0\)</span> is the fast time and <span class="math notranslate nohighlight">\(t_1, ...\)</span> are the slow times.
 This function uses the chain rule to give the expression of <span class="math notranslate nohighlight">\(\mathrm{d}^2f_t/ \mathrm{d}t^2\)</span> in terms of the time scales.</p>
@@ -163,8 +180,8 @@ This function uses the chain rule to give the expression of <span class="math no
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="MMS.Chain_rule_dfdt">
-<span class="sig-prename descclassname"><span class="pre">MMS.</span></span><span class="sig-name descname"><span class="pre">Chain_rule_dfdt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS.html#Chain_rule_dfdt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.Chain_rule_dfdt" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.Chain_rule_dfdt">
+<span class="sig-prename descclassname"><span class="pre">src.MMS.</span></span><span class="sig-name descname"><span class="pre">Chain_rule_dfdt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/MMS.html#Chain_rule_dfdt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.Chain_rule_dfdt" title="Link to this definition"></a></dt>
 <dd><p>Consider a function <span class="math notranslate nohighlight">\(f_t(t)\)</span> and its expression in terms of the time scales <span class="math notranslate nohighlight">\(f(t_0, t_1, ...)\)</span>,
 where <span class="math notranslate nohighlight">\(t_0\)</span> is the fast time and <span class="math notranslate nohighlight">\(t_1, ...\)</span> are the slow times.
 This function uses the chain rule to give the expression of <span class="math notranslate nohighlight">\(\mathrm{d}f_t/ \mathrm{d}t\)</span> in terms of the time scales.</p>
@@ -186,33 +203,33 @@ This function uses the chain rule to give the expression of <span class="math no
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="MMS.Coord_MMS">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MMS.</span></span><span class="sig-name descname"><span class="pre">Coord_MMS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mms</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS.html#Coord_MMS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.Coord_MMS" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.Coord_MMS">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.MMS.</span></span><span class="sig-name descname"><span class="pre">Coord_MMS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mms</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/MMS.html#Coord_MMS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.Coord_MMS" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>The coordinates used in the MMS.
 Only some are defined here, others are defined along the procedure.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="MMS.Coord_SS">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MMS.</span></span><span class="sig-name descname"><span class="pre">Coord_SS</span></span><a class="reference internal" href="_modules/MMS.html#Coord_SS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.Coord_SS" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.Coord_SS">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.MMS.</span></span><span class="sig-name descname"><span class="pre">Coord_SS</span></span><a class="reference internal" href="_modules/src/MMS.html#Coord_SS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.Coord_SS" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>The steady-state coordinates.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="MMS.Dynamical_system">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MMS.</span></span><span class="sig-name descname"><span class="pre">Dynamical_system</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Eq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">omegas</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS.html#Dynamical_system"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.Dynamical_system" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.Dynamical_system">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.MMS.</span></span><span class="sig-name descname"><span class="pre">Dynamical_system</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Eq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">omegas</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/MMS.html#Dynamical_system"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.Dynamical_system" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>The dynamical system studied.</p>
 <p>Systems considered are typically composed of <span class="math notranslate nohighlight">\(N\)</span> coupled nonlinear equations of the form</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{cases}
-\ddot{x}_1 + \omega_1^2 x_1 &amp; = f_1(\bm{x}, \dot{\bm{x}}, \ddot{\bm{x}}, t), \\
+\ddot{x}_0 + \omega_0^2 x_0 &amp; = f_0(\bm{x}, \dot{\bm{x}}, \ddot{\bm{x}}, t), \\
 &amp; \vdots \\
-\ddot{x}_N + \omega_N^2 x_N &amp; = f_N(\bm{x}, \dot{\bm{x}}, \ddot{\bm{x}}, t).
+\ddot{x}_{N-1} + \omega_{N-1}^2 x_{N-1} &amp; = f_{N-1}(\bm{x}, \dot{\bm{x}}, \ddot{\bm{x}}, t).
 \end{cases}\end{split}\]</div>
-<p>The <span class="math notranslate nohighlight">\(x_i(t)\)</span> (<span class="math notranslate nohighlight">\(i=1,...,N\)</span>) are the oscillators’ coordinates,
+<p>The <span class="math notranslate nohighlight">\(x_i(t)\)</span> (<span class="math notranslate nohighlight">\(i=0,...,N-1\)</span>) are the oscillators’ coordinates,
 <span class="math notranslate nohighlight">\(\omega_i\)</span> are their natural frequencies,
 <span class="math notranslate nohighlight">\(\bm{x}\)</span> is the vector containing all the oscillators’ coordinates,
 <span class="math notranslate nohighlight">\(t\)</span> is the time,
@@ -226,8 +243,8 @@ Only some are defined here, others are defined along the procedure.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="MMS.Forcing">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MMS.</span></span><span class="sig-name descname"><span class="pre">Forcing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">F</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f_coeff</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS.html#Forcing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.Forcing" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.Forcing">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.MMS.</span></span><span class="sig-name descname"><span class="pre">Forcing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">F</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f_coeff</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/MMS.html#Forcing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.Forcing" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Define the forcing on the system as
 - A forcing amplitude F,
@@ -237,8 +254,8 @@ the forcing term on that oscillator is <span class="math notranslate nohighlight
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="MMS.Forcing_MMS">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MMS.</span></span><span class="sig-name descname"><span class="pre">Forcing_MMS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">F</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f_order</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f_coeff</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forcing_term</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS.html#Forcing_MMS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.Forcing_MMS" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.Forcing_MMS">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.MMS.</span></span><span class="sig-name descname"><span class="pre">Forcing_MMS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">F</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f_order</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f_coeff</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forcing_term</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/MMS.html#Forcing_MMS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.Forcing_MMS" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Define the forcing on the system as
 - A forcing amplitude F
@@ -248,20 +265,20 @@ the forcing term on that oscillator is <span class="math notranslate nohighlight
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="MMS.Forcing_SS">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MMS.</span></span><span class="sig-name descname"><span class="pre">Forcing_SS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mms</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS.html#Forcing_SS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.Forcing_SS" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.Forcing_SS">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.MMS.</span></span><span class="sig-name descname"><span class="pre">Forcing_SS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mms</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/MMS.html#Forcing_SS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.Forcing_SS" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Define the forcing on the system.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="MMS.Multiple_scales_system">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MMS.</span></span><span class="sig-name descname"><span class="pre">Multiple_scales_system</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dynamical_system</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ne</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">omega_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_scaling</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ratio_omegaMMS</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps_pow_0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS.html#Multiple_scales_system"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.Multiple_scales_system" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.Multiple_scales_system">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.MMS.</span></span><span class="sig-name descname"><span class="pre">Multiple_scales_system</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dynamical_system</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ne</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">omega_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_scaling</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ratio_omegaMMS</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps_pow_0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/MMS.html#Multiple_scales_system"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.Multiple_scales_system" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Multiple scales system.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="MMS.Multiple_scales_system.apply_MMS">
-<span class="sig-name descname"><span class="pre">apply_MMS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rewrite_polar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS.html#Multiple_scales_system.apply_MMS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.Multiple_scales_system.apply_MMS" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.Multiple_scales_system.apply_MMS">
+<span class="sig-name descname"><span class="pre">apply_MMS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rewrite_polar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/MMS.html#Multiple_scales_system.apply_MMS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.Multiple_scales_system.apply_MMS" title="Link to this definition"></a></dt>
 <dd><p>Apply the MMS. This is operated as follows:
 1. An equivalent system is written in terms of the fast scale <span class="math notranslate nohighlight">\(t_0\)</span>. This introduces the temporary unknowns <span class="math notranslate nohighlight">\(\tilde{x}_{ij}(t_0)\)</span>, and allows the use of dsolve().
 2. Leading order solutions are introduced.
@@ -281,8 +298,8 @@ See sol_xMMS_polar().</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="MMS.Multiple_scales_system.autonomous_phases">
-<span class="sig-name descname"><span class="pre">autonomous_phases</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS.html#Multiple_scales_system.autonomous_phases"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.Multiple_scales_system.autonomous_phases" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.Multiple_scales_system.autonomous_phases">
+<span class="sig-name descname"><span class="pre">autonomous_phases</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/MMS.html#Multiple_scales_system.autonomous_phases"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.Multiple_scales_system.autonomous_phases" title="Link to this definition"></a></dt>
 <dd><p>Introduce new phase coordinates <span class="math notranslate nohighlight">\(beta_i\)</span> to transform nonautonomous equations into autonomous ones.
 The <span class="math notranslate nohighlight">\(beta_i\)</span> are defined as</p>
 <div class="math notranslate nohighlight">
@@ -293,22 +310,22 @@ The <span class="math notranslate nohighlight">\(beta_i\)</span> are defined as<
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="MMS.Multiple_scales_system.compute_EqMMS">
-<span class="sig-name descname"><span class="pre">compute_EqMMS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dynamical_system</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS.html#Multiple_scales_system.compute_EqMMS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.Multiple_scales_system.compute_EqMMS" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.Multiple_scales_system.compute_EqMMS">
+<span class="sig-name descname"><span class="pre">compute_EqMMS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dynamical_system</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/MMS.html#Multiple_scales_system.compute_EqMMS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.Multiple_scales_system.compute_EqMMS" title="Link to this definition"></a></dt>
 <dd><p>Compute the system of equations at each order of <span class="math notranslate nohighlight">\(\epsilon\)</span> for each dof.
 The output EqMMS is a list of lists.
 - The <span class="math notranslate nohighlight">\(1^{\mathrm{st}}\)</span> level lists are associated to the orders of <span class="math notranslate nohighlight">\(\epsilon\)</span> from the lowest to the highest order,
 - The <span class="math notranslate nohighlight">\(2^{\mathrm{nd}}\)</span> level lists are associated to the equations for each oscillator.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>dynamical_system</strong> (<a class="reference internal" href="#MMS.Dynamical_system" title="MMS.Dynamical_system"><em>Dynamical_system</em></a>) – The dynamical system.</p>
+<dd class="field-odd"><p><strong>dynamical_system</strong> (<a class="reference internal" href="#src.MMS.Dynamical_system" title="src.MMS.Dynamical_system"><em>Dynamical_system</em></a>) – The dynamical system.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="MMS.Multiple_scales_system.evolution_equations">
-<span class="sig-name descname"><span class="pre">evolution_equations</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS.html#Multiple_scales_system.evolution_equations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.Multiple_scales_system.evolution_equations" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.Multiple_scales_system.evolution_equations">
+<span class="sig-name descname"><span class="pre">evolution_equations</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/MMS.html#Multiple_scales_system.evolution_equations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.Multiple_scales_system.evolution_equations" title="Link to this definition"></a></dt>
 <dd><p>Derive the evolution equations from the secular conditions. For oscillator <span class="math notranslate nohighlight">\(i\)</span>, these are defined as</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{cases}
@@ -325,16 +342,16 @@ This is done by:
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="MMS.Multiple_scales_system.polar_coordinates">
-<span class="sig-name descname"><span class="pre">polar_coordinates</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS.html#Multiple_scales_system.polar_coordinates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.Multiple_scales_system.polar_coordinates" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.Multiple_scales_system.polar_coordinates">
+<span class="sig-name descname"><span class="pre">polar_coordinates</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/MMS.html#Multiple_scales_system.polar_coordinates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.Multiple_scales_system.polar_coordinates" title="Link to this definition"></a></dt>
 <dd><p>Introduce polar coordinates such that, for oscillator <span class="math notranslate nohighlight">\(i\)</span>,</p>
 <div class="math notranslate nohighlight">
 \[A_i = \frac{1}{2} a_i e^{(\textrm{j} \phi_i)}.\]</div>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="MMS.Multiple_scales_system.secular_analysis">
-<span class="sig-name descname"><span class="pre">secular_analysis</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS.html#Multiple_scales_system.secular_analysis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.Multiple_scales_system.secular_analysis" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.Multiple_scales_system.secular_analysis">
+<span class="sig-name descname"><span class="pre">secular_analysis</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/MMS.html#Multiple_scales_system.secular_analysis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.Multiple_scales_system.secular_analysis" title="Link to this definition"></a></dt>
 <dd><p>Identification of the secular terms in the equations.
 This allows to:
 1. Compute the slow-times evolution of the complex amplitudes <span class="math notranslate nohighlight">\(A_i\)</span> that cancel the secular terms.
@@ -344,8 +361,8 @@ These slow time evolutions are written <span class="math notranslate nohighlight
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="MMS.Multiple_scales_system.sol_higher_order">
-<span class="sig-name descname"><span class="pre">sol_higher_order</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">EqMMS_t0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xMMS_t0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">io</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ix</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS.html#Multiple_scales_system.sol_higher_order"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.Multiple_scales_system.sol_higher_order" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.Multiple_scales_system.sol_higher_order">
+<span class="sig-name descname"><span class="pre">sol_higher_order</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">EqMMS_t0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xMMS_t0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">io</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ix</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/MMS.html#Multiple_scales_system.sol_higher_order"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.Multiple_scales_system.sol_higher_order" title="Link to this definition"></a></dt>
 <dd><p>Compute higher order solutions <span class="math notranslate nohighlight">\(x_{i,j}, j&gt;0\)</span>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -360,8 +377,8 @@ These slow time evolutions are written <span class="math notranslate nohighlight
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="MMS.Multiple_scales_system.sol_order_0">
-<span class="sig-name descname"><span class="pre">sol_order_0</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS.html#Multiple_scales_system.sol_order_0"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.Multiple_scales_system.sol_order_0" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.Multiple_scales_system.sol_order_0">
+<span class="sig-name descname"><span class="pre">sol_order_0</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/MMS.html#Multiple_scales_system.sol_order_0"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.Multiple_scales_system.sol_order_0" title="Link to this definition"></a></dt>
 <dd><p>Compute the leading-order solutions for each oscillator.</p>
 <p>For oscillator <span class="math notranslate nohighlight">\(i\)</span>, the homogeneous solution takes the general form</p>
 <div class="math notranslate nohighlight">
@@ -374,8 +391,8 @@ These slow time evolutions are written <span class="math notranslate nohighlight
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="MMS.Multiple_scales_system.sol_xMMS_polar">
-<span class="sig-name descname"><span class="pre">sol_xMMS_polar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rewrite_polar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS.html#Multiple_scales_system.sol_xMMS_polar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.Multiple_scales_system.sol_xMMS_polar" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.Multiple_scales_system.sol_xMMS_polar">
+<span class="sig-name descname"><span class="pre">sol_xMMS_polar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rewrite_polar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/MMS.html#Multiple_scales_system.sol_xMMS_polar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.Multiple_scales_system.sol_xMMS_polar" title="Link to this definition"></a></dt>
 <dd><p>Write the solutions using the polar coordinates.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -389,8 +406,8 @@ Default is 0, so only the leading order solution will be rewritten.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="MMS.Multiple_scales_system.system_t0">
-<span class="sig-name descname"><span class="pre">system_t0</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS.html#Multiple_scales_system.system_t0"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.Multiple_scales_system.system_t0" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.Multiple_scales_system.system_t0">
+<span class="sig-name descname"><span class="pre">system_t0</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/MMS.html#Multiple_scales_system.system_t0"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.Multiple_scales_system.system_t0" title="Link to this definition"></a></dt>
 <dd><p>Rewrite the equations in terms of new coordinates <span class="math notranslate nohighlight">\(\tilde{x}_{ij}(t_0)\)</span>, with <span class="math notranslate nohighlight">\(i,j\)</span> denoting the oscillator number and order.
 This is a trick to use dsolve(), which only accepts functions of 1 variable.</p>
 </dd></dl>
@@ -398,35 +415,35 @@ This is a trick to use dsolve(), which only accepts functions of 1 variable.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="MMS.Sol_MMS">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MMS.</span></span><span class="sig-name descname"><span class="pre">Sol_MMS</span></span><a class="reference internal" href="_modules/MMS.html#Sol_MMS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.Sol_MMS" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.Sol_MMS">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.MMS.</span></span><span class="sig-name descname"><span class="pre">Sol_MMS</span></span><a class="reference internal" href="_modules/src/MMS.html#Sol_MMS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.Sol_MMS" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Solutions obtained when applying the MMS.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="MMS.Sol_SS">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MMS.</span></span><span class="sig-name descname"><span class="pre">Sol_SS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ss</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mms</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS.html#Sol_SS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.Sol_SS" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.Sol_SS">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.MMS.</span></span><span class="sig-name descname"><span class="pre">Sol_SS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ss</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mms</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/MMS.html#Sol_SS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.Sol_SS" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Solutions obtained when evaluating at steady state.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="MMS.Stab_SS">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MMS.</span></span><span class="sig-name descname"><span class="pre">Stab_SS</span></span><a class="reference internal" href="_modules/MMS.html#Stab_SS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.Stab_SS" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.Stab_SS">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.MMS.</span></span><span class="sig-name descname"><span class="pre">Stab_SS</span></span><a class="reference internal" href="_modules/src/MMS.html#Stab_SS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.Stab_SS" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Stability analysis.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="MMS.Steady_state">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MMS.</span></span><span class="sig-name descname"><span class="pre">Steady_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mms</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS.html#Steady_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.Steady_state" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.Steady_state">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.MMS.</span></span><span class="sig-name descname"><span class="pre">Steady_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mms</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/MMS.html#Steady_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.Steady_state" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Steady-state analysis of previous computations.
 Steady-state means that amplitudes and phases are time-independent.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="MMS.Steady_state.Jacobian_cartesian">
-<span class="sig-name descname"><span class="pre">Jacobian_cartesian</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS.html#Steady_state.Jacobian_cartesian"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.Steady_state.Jacobian_cartesian" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.Steady_state.Jacobian_cartesian">
+<span class="sig-name descname"><span class="pre">Jacobian_cartesian</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/MMS.html#Steady_state.Jacobian_cartesian"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.Steady_state.Jacobian_cartesian" title="Link to this definition"></a></dt>
 <dd><p>Compute the Jacobian of the evolution equations using cartesian coordinates.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -454,8 +471,8 @@ Steady-state means that amplitudes and phases are time-independent.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="MMS.Steady_state.Jacobian_polar">
-<span class="sig-name descname"><span class="pre">Jacobian_polar</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS.html#Steady_state.Jacobian_polar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.Steady_state.Jacobian_polar" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.Steady_state.Jacobian_polar">
+<span class="sig-name descname"><span class="pre">Jacobian_polar</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/MMS.html#Steady_state.Jacobian_polar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.Steady_state.Jacobian_polar" title="Link to this definition"></a></dt>
 <dd><p>Compute the Jacobian of the evolution equations systems using polar coordinates.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -486,20 +503,20 @@ Steady-state means that amplitudes and phases are time-independent.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="MMS.Steady_state.SS_coord">
-<span class="sig-name descname"><span class="pre">SS_coord</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mms</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS.html#Steady_state.SS_coord"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.Steady_state.SS_coord" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.Steady_state.SS_coord">
+<span class="sig-name descname"><span class="pre">SS_coord</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mms</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/MMS.html#Steady_state.SS_coord"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.Steady_state.SS_coord" title="Link to this definition"></a></dt>
 <dd><p>Create time-independent amplitudes and phases.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="MMS.Steady_state.SS_evolution_equations">
-<span class="sig-name descname"><span class="pre">SS_evolution_equations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mms</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS.html#Steady_state.SS_evolution_equations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.Steady_state.SS_evolution_equations" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.Steady_state.SS_evolution_equations">
+<span class="sig-name descname"><span class="pre">SS_evolution_equations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mms</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/MMS.html#Steady_state.SS_evolution_equations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.Steady_state.SS_evolution_equations" title="Link to this definition"></a></dt>
 <dd><p>Evaluate the evolution equations at steady state.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="MMS.Steady_state.bifurcation_curves">
-<span class="sig-name descname"><span class="pre">bifurcation_curves</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">detJ</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trJ</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_a=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_sig=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver=&lt;function</span> <span class="pre">solve_poly2&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS.html#Steady_state.bifurcation_curves"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.Steady_state.bifurcation_curves" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.Steady_state.bifurcation_curves">
+<span class="sig-name descname"><span class="pre">bifurcation_curves</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">detJ</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trJ</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_a=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_sig=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver=&lt;function</span> <span class="pre">solve_poly2&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/MMS.html#Steady_state.bifurcation_curves"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.Steady_state.bifurcation_curves" title="Link to this definition"></a></dt>
 <dd><p>Compute bifurcation curves.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -529,8 +546,8 @@ Default is sfun.solve_poly2.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="MMS.Steady_state.cartesian_coordinates">
-<span class="sig-name descname"><span class="pre">cartesian_coordinates</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS.html#Steady_state.cartesian_coordinates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.Steady_state.cartesian_coordinates" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.Steady_state.cartesian_coordinates">
+<span class="sig-name descname"><span class="pre">cartesian_coordinates</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/MMS.html#Steady_state.cartesian_coordinates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.Steady_state.cartesian_coordinates" title="Link to this definition"></a></dt>
 <dd><p>Define cartesian coordinates from the polar ones.</p>
 <p>The leading order solution for oscillator (i) expressed in polar coordinates takes the form:</p>
 <div class="math notranslate nohighlight">
@@ -551,8 +568,8 @@ q_i = a_i \sin\left(\frac{r_i}{r_{\textrm{MMS}}}\beta_i\right),
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="MMS.Steady_state.eigenvalues">
-<span class="sig-name descname"><span class="pre">eigenvalues</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">J</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS.html#Steady_state.eigenvalues"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.Steady_state.eigenvalues" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.Steady_state.eigenvalues">
+<span class="sig-name descname"><span class="pre">eigenvalues</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">J</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/MMS.html#Steady_state.eigenvalues"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.Steady_state.eigenvalues" title="Link to this definition"></a></dt>
 <dd><p>Computes the eigenvalues of the Jacobian.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -568,11 +585,11 @@ q_i = a_i \sin\left(\frac{r_i}{r_{\textrm{MMS}}}\beta_i\right),
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="MMS.Steady_state.eval_sol_stability">
-<span class="sig-name descname"><span class="pre">eval_sol_stability</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coord</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cartesian'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rewrite_polar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eigenvalues</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bifurcation_curves</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">analyse_blocks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs_bif</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS.html#Steady_state.eval_sol_stability"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.Steady_state.eval_sol_stability" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.Steady_state.eval_sol_stability">
+<span class="sig-name descname"><span class="pre">eval_sol_stability</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coord</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cartesian'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rewrite_polar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eigenvalues</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bifurcation_curves</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">analyse_blocks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs_bif</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/MMS.html#Steady_state.eval_sol_stability"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.Steady_state.eval_sol_stability" title="Link to this definition"></a></dt>
 <dd><p>Evaluate the stability of a solution.</p>
 <section id="keyword-parameter">
-<h2>Keyword parameter<a class="headerlink" href="#keyword-parameter" title="Link to this heading"></a></h2>
+<h3>Keyword parameter<a class="headerlink" href="#keyword-parameter" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>coord: str</dt><dd><p>Either “cartesian” or “polar”. Specifies the coordinates to use for the stability analysis.
 “cartesian” is recommended as it prevents divisions by 0, which occur when at least 1 of the dof
@@ -599,8 +616,8 @@ Default is dict().</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="MMS.Steady_state.evolution_equations_cartesian">
-<span class="sig-name descname"><span class="pre">evolution_equations_cartesian</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS.html#Steady_state.evolution_equations_cartesian"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.Steady_state.evolution_equations_cartesian" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.Steady_state.evolution_equations_cartesian">
+<span class="sig-name descname"><span class="pre">evolution_equations_cartesian</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/MMS.html#Steady_state.evolution_equations_cartesian"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.Steady_state.evolution_equations_cartesian" title="Link to this definition"></a></dt>
 <dd><p>Write the evolution equations using the cartesian coordinates.
 For oscillator <span class="math notranslate nohighlight">\(i\)</span>, this results in</p>
 <div class="math notranslate nohighlight">
@@ -612,8 +629,8 @@ For oscillator <span class="math notranslate nohighlight">\(i\)</span>, this res
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="MMS.Steady_state.plot_ARC">
-<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">plot_ARC</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ARC</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS.html#Steady_state.plot_ARC"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.Steady_state.plot_ARC" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.Steady_state.plot_ARC">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">plot_ARC</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ARC</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/MMS.html#Steady_state.plot_ARC"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.Steady_state.plot_ARC" title="Link to this definition"></a></dt>
 <dd><p>Plots the amplitude-response curves (ARC), both forcing amplitude-amplitude and forcing amplitude-phase.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -630,8 +647,8 @@ For oscillator <span class="math notranslate nohighlight">\(i\)</span>, this res
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="MMS.Steady_state.plot_FRC">
-<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">plot_FRC</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">FRC</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS.html#Steady_state.plot_FRC"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.Steady_state.plot_FRC" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.Steady_state.plot_FRC">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">plot_FRC</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">FRC</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/MMS.html#Steady_state.plot_FRC"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.Steady_state.plot_FRC" title="Link to this definition"></a></dt>
 <dd><p>Plots the frequency response curves (FRC), both frequency-amplitude and frequency-phase.
 Also includes the stability information if given.</p>
 <dl class="field-list simple">
@@ -649,25 +666,25 @@ Also includes the stability information if given.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="MMS.Steady_state.solve_F">
-<span class="sig-name descname"><span class="pre">solve_F</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS.html#Steady_state.solve_F"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.Steady_state.solve_F" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.Steady_state.solve_F">
+<span class="sig-name descname"><span class="pre">solve_F</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/MMS.html#Steady_state.solve_F"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.Steady_state.solve_F" title="Link to this definition"></a></dt>
 <dd><p>Solve the forced response in terms of the forcing amplitude <span class="math notranslate nohighlight">\(F\)</span>.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="MMS.Steady_state.solve_a">
-<span class="sig-name descname"><span class="pre">solve_a</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS.html#Steady_state.solve_a"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.Steady_state.solve_a" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.Steady_state.solve_a">
+<span class="sig-name descname"><span class="pre">solve_a</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/MMS.html#Steady_state.solve_a"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.Steady_state.solve_a" title="Link to this definition"></a></dt>
 <dd><p>Solve the forced response in terms of the oscillator’s amplitude.
 For readability, the output actually returned in <span class="math notranslate nohighlight">\(a^2\)</span>.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="MMS.Steady_state.solve_bbc">
-<span class="sig-name descname"><span class="pre">solve_bbc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">c</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solve_dof</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS.html#Steady_state.solve_bbc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.Steady_state.solve_bbc" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.Steady_state.solve_bbc">
+<span class="sig-name descname"><span class="pre">solve_bbc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">c</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solve_dof</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/MMS.html#Steady_state.solve_bbc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.Steady_state.solve_bbc" title="Link to this definition"></a></dt>
 <dd><p>Find the backbone curve of a given oscillator.
 The response of other oscillators is set to 0.</p>
 <section id="keyword-argument">
-<h2>Keyword argument<a class="headerlink" href="#keyword-argument" title="Link to this heading"></a></h2>
+<h3>Keyword argument<a class="headerlink" href="#keyword-argument" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>c: list</dt><dd><p>Damping terms. They will be set to zero to compute the backbone curve.
 Note that these are the scaled damping terms.
@@ -681,12 +698,12 @@ Default is None.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="MMS.Steady_state.solve_forced">
-<span class="sig-name descname"><span class="pre">solve_forced</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">solve_dof</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS.html#Steady_state.solve_forced"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.Steady_state.solve_forced" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.Steady_state.solve_forced">
+<span class="sig-name descname"><span class="pre">solve_forced</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">solve_dof</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/MMS.html#Steady_state.solve_forced"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.Steady_state.solve_forced" title="Link to this definition"></a></dt>
 <dd><p>Find the steady state solution for a given oscillator.
 The response of other oscillators is set to 0.</p>
 <section id="id1">
-<h2>Keyword argument<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<h3>Keyword argument<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
 <dl class="simple">
 <dt>solve_dof: None or int</dt><dd><p>The dof number to solve for. Start from 0. If None, no dof is solved for.
 Default is None.</p>
@@ -696,47 +713,47 @@ Default is None.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="MMS.Steady_state.solve_phase">
-<span class="sig-name descname"><span class="pre">solve_phase</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS.html#Steady_state.solve_phase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.Steady_state.solve_phase" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.Steady_state.solve_phase">
+<span class="sig-name descname"><span class="pre">solve_phase</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/MMS.html#Steady_state.solve_phase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.Steady_state.solve_phase" title="Link to this definition"></a></dt>
 <dd><p>Find implicit solutions for the oscillator’s phase <span class="math notranslate nohighlight">\(\beta_i\)</span>.
 The solutions returned are
 <span class="math notranslate nohighlight">\(\sin(k \beta_i)\)</span> and <span class="math notranslate nohighlight">\(\cos(k beta_i)\)</span> where <span class="math notranslate nohighlight">\(k\)</span> is an integer or rational.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="MMS.Steady_state.solve_sigma">
-<span class="sig-name descname"><span class="pre">solve_sigma</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS.html#Steady_state.solve_sigma"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.Steady_state.solve_sigma" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.Steady_state.solve_sigma">
+<span class="sig-name descname"><span class="pre">solve_sigma</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/MMS.html#Steady_state.solve_sigma"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.Steady_state.solve_sigma" title="Link to this definition"></a></dt>
 <dd><p>Solve the forced response in terms of the detuning <span class="math notranslate nohighlight">\(\sigma\)</span>.
 We recall that <span class="math notranslate nohighlight">\(\omega = \omega_{\textrm{MMS}} + \epsilon \sigma\)</span>.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="MMS.Steady_state.substitution_solve_dof">
-<span class="sig-name descname"><span class="pre">substitution_solve_dof</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">solve_dof</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS.html#Steady_state.substitution_solve_dof"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.Steady_state.substitution_solve_dof" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.Steady_state.substitution_solve_dof">
+<span class="sig-name descname"><span class="pre">substitution_solve_dof</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">solve_dof</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/MMS.html#Steady_state.substitution_solve_dof"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.Steady_state.substitution_solve_dof" title="Link to this definition"></a></dt>
 <dd><p>Set every dof amplitude to 0 except the one to solve for.</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="MMS.Substitutions_MMS">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MMS.</span></span><span class="sig-name descname"><span class="pre">Substitutions_MMS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sub_t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_xMMS_t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_scaling</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_omega</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_sigma</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS.html#Substitutions_MMS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.Substitutions_MMS" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.Substitutions_MMS">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.MMS.</span></span><span class="sig-name descname"><span class="pre">Substitutions_MMS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sub_t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_xMMS_t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_scaling</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_omega</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_sigma</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/MMS.html#Substitutions_MMS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.Substitutions_MMS" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Substitutions used in the MMS.
 Only the initial ones are defined here, others are defined along the procedure.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="MMS.Substitutions_SS">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MMS.</span></span><span class="sig-name descname"><span class="pre">Substitutions_SS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mms</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS.html#Substitutions_SS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.Substitutions_SS" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.Substitutions_SS">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.MMS.</span></span><span class="sig-name descname"><span class="pre">Substitutions_SS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mms</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/MMS.html#Substitutions_SS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.Substitutions_SS" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Substitutions used in the steady state evaluations.
 Only some are given here, others are defined along the procedure.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="MMS.cartesian_to_polar">
-<span class="sig-prename descclassname"><span class="pre">MMS.</span></span><span class="sig-name descname"><span class="pre">cartesian_to_polar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_polar</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_phase</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS.html#cartesian_to_polar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.cartesian_to_polar" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.cartesian_to_polar">
+<span class="sig-prename descclassname"><span class="pre">src.MMS.</span></span><span class="sig-name descname"><span class="pre">cartesian_to_polar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_polar</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_phase</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/MMS.html#cartesian_to_polar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.cartesian_to_polar" title="Link to this definition"></a></dt>
 <dd><p>Rewrites an expression or a Matrix y from cartesian to polar coordinates.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -756,16 +773,16 @@ Only some are given here, others are defined along the procedure.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="MMS.numpise_ARC">
-<span class="sig-prename descclassname"><span class="pre">MMS.</span></span><span class="sig-name descname"><span class="pre">numpise_ARC</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ss</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dyn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS.html#numpise_ARC"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.numpise_ARC" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.numpise_ARC">
+<span class="sig-prename descclassname"><span class="pre">src.MMS.</span></span><span class="sig-name descname"><span class="pre">numpise_ARC</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ss</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dyn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/MMS.html#numpise_ARC"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.numpise_ARC" title="Link to this definition"></a></dt>
 <dd><p>Evaluate the amplitude-response curves at given numerical values.
 This transforms the sympy expressions to numpy arrays.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>mms</strong> (<a class="reference internal" href="#MMS.Multiple_scales_system" title="MMS.Multiple_scales_system"><em>Multiple_scales_system</em></a>) – The MMS object.</p></li>
-<li><p><strong>ss</strong> (<a class="reference internal" href="#MMS.Steady_state" title="MMS.Steady_state"><em>Steady_state</em></a>) – The MMS results evaluated at steady state.</p></li>
-<li><p><strong>dyn</strong> (<a class="reference internal" href="#MMS.Dynamical_system" title="MMS.Dynamical_system"><em>Dynamical_system</em></a>) – The initial dynamical system.</p></li>
+<li><p><strong>mms</strong> (<a class="reference internal" href="#src.MMS.Multiple_scales_system" title="src.MMS.Multiple_scales_system"><em>Multiple_scales_system</em></a>) – The MMS object.</p></li>
+<li><p><strong>ss</strong> (<a class="reference internal" href="#src.MMS.Steady_state" title="src.MMS.Steady_state"><em>Steady_state</em></a>) – The MMS results evaluated at steady state.</p></li>
+<li><p><strong>dyn</strong> (<a class="reference internal" href="#src.MMS.Dynamical_system" title="src.MMS.Dynamical_system"><em>Dynamical_system</em></a>) – The initial dynamical system.</p></li>
 <li><p><strong>param</strong> (<em>dict</em>) – <p>A dictionnary whose values are tuples with 2 elements:</p>
 <ol class="arabic simple">
 <li><p>The sympy symbol of a parameter</p></li>
@@ -786,16 +803,16 @@ The key of the angular frequency must be “omega”.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="MMS.numpise_FRC">
-<span class="sig-prename descclassname"><span class="pre">MMS.</span></span><span class="sig-name descname"><span class="pre">numpise_FRC</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ss</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dyn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bbc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forced</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bif</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS.html#numpise_FRC"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.numpise_FRC" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.numpise_FRC">
+<span class="sig-prename descclassname"><span class="pre">src.MMS.</span></span><span class="sig-name descname"><span class="pre">numpise_FRC</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ss</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dyn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bbc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forced</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bif</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/MMS.html#numpise_FRC"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.numpise_FRC" title="Link to this definition"></a></dt>
 <dd><p>Evaluate the frequency-response and bifurcation curves at given numerical values.
 This transforms the sympy expressions to numpy arrays.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>mms</strong> (<a class="reference internal" href="#MMS.Multiple_scales_system" title="MMS.Multiple_scales_system"><em>Multiple_scales_system</em></a>) – The MMS object.</p></li>
-<li><p><strong>ss</strong> (<a class="reference internal" href="#MMS.Steady_state" title="MMS.Steady_state"><em>Steady_state</em></a>) – The MMS results evaluated at steady state.</p></li>
-<li><p><strong>dyn</strong> (<a class="reference internal" href="#MMS.Dynamical_system" title="MMS.Dynamical_system"><em>Dynamical_system</em></a>) – The initial dynamical system.</p></li>
+<li><p><strong>mms</strong> (<a class="reference internal" href="#src.MMS.Multiple_scales_system" title="src.MMS.Multiple_scales_system"><em>Multiple_scales_system</em></a>) – The MMS object.</p></li>
+<li><p><strong>ss</strong> (<a class="reference internal" href="#src.MMS.Steady_state" title="src.MMS.Steady_state"><em>Steady_state</em></a>) – The MMS results evaluated at steady state.</p></li>
+<li><p><strong>dyn</strong> (<a class="reference internal" href="#src.MMS.Dynamical_system" title="src.MMS.Dynamical_system"><em>Dynamical_system</em></a>) – The initial dynamical system.</p></li>
 <li><p><strong>param</strong> (<em>dict</em>) – <p>A dictionary whose values are tuples with 2 elements:</p>
 <ol class="arabic simple">
 <li><p>The sympy symbol of a parameter.</p></li>
@@ -819,38 +836,38 @@ The key of the forcing amplitude must be “F”.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="MMS.numpise_F_ARC">
-<span class="sig-prename descclassname"><span class="pre">MMS.</span></span><span class="sig-name descname"><span class="pre">numpise_F_ARC</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ss</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS.html#numpise_F_ARC"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.numpise_F_ARC" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.numpise_F_ARC">
+<span class="sig-prename descclassname"><span class="pre">src.MMS.</span></span><span class="sig-name descname"><span class="pre">numpise_F_ARC</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ss</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/MMS.html#numpise_F_ARC"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.numpise_F_ARC" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="MMS.numpise_omega_FRC">
-<span class="sig-prename descclassname"><span class="pre">MMS.</span></span><span class="sig-name descname"><span class="pre">numpise_omega_FRC</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ss</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS.html#numpise_omega_FRC"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.numpise_omega_FRC" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.numpise_omega_FRC">
+<span class="sig-prename descclassname"><span class="pre">src.MMS.</span></span><span class="sig-name descname"><span class="pre">numpise_omega_FRC</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ss</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/MMS.html#numpise_omega_FRC"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.numpise_omega_FRC" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="MMS.numpise_omega_bbc">
-<span class="sig-prename descclassname"><span class="pre">MMS.</span></span><span class="sig-name descname"><span class="pre">numpise_omega_bbc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ss</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS.html#numpise_omega_bbc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.numpise_omega_bbc" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.numpise_omega_bbc">
+<span class="sig-prename descclassname"><span class="pre">src.MMS.</span></span><span class="sig-name descname"><span class="pre">numpise_omega_bbc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ss</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/MMS.html#numpise_omega_bbc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.numpise_omega_bbc" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="MMS.numpise_omega_bif">
-<span class="sig-prename descclassname"><span class="pre">MMS.</span></span><span class="sig-name descname"><span class="pre">numpise_omega_bif</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ss</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS.html#numpise_omega_bif"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.numpise_omega_bif" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.numpise_omega_bif">
+<span class="sig-prename descclassname"><span class="pre">src.MMS.</span></span><span class="sig-name descname"><span class="pre">numpise_omega_bif</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ss</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/MMS.html#numpise_omega_bif"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.numpise_omega_bif" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="MMS.numpise_phase">
-<span class="sig-prename descclassname"><span class="pre">MMS.</span></span><span class="sig-name descname"><span class="pre">numpise_phase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ss</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dyn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">omega</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">F</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS.html#numpise_phase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.numpise_phase" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.numpise_phase">
+<span class="sig-prename descclassname"><span class="pre">src.MMS.</span></span><span class="sig-name descname"><span class="pre">numpise_phase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ss</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dyn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">omega</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">F</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/MMS.html#numpise_phase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.numpise_phase" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="MMS.rescale">
-<span class="sig-prename descclassname"><span class="pre">MMS.</span></span><span class="sig-name descname"><span class="pre">rescale</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mms</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS.html#rescale"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.rescale" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.rescale">
+<span class="sig-prename descclassname"><span class="pre">src.MMS.</span></span><span class="sig-name descname"><span class="pre">rescale</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mms</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/MMS.html#rescale"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.rescale" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="MMS.scale_parameters">
-<span class="sig-prename descclassname"><span class="pre">MMS.</span></span><span class="sig-name descname"><span class="pre">scale_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scaling</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS.html#scale_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.scale_parameters" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.scale_parameters">
+<span class="sig-prename descclassname"><span class="pre">src.MMS.</span></span><span class="sig-name descname"><span class="pre">scale_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scaling</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/MMS.html#scale_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.scale_parameters" title="Link to this definition"></a></dt>
 <dd><p>Scale parameters with the scaling parameter <span class="math notranslate nohighlight">\(\epsilon\)</span>.
 For a given parameter <span class="math notranslate nohighlight">\(p\)</span> and a scaling order <span class="math notranslate nohighlight">\(\lambda\)</span>, the associated scaled parameter is</p>
 <div class="math notranslate nohighlight">
@@ -875,8 +892,8 @@ For a given parameter <span class="math notranslate nohighlight">\(p\)</span> an
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="MMS.sympy_to_numpy">
-<span class="sig-prename descclassname"><span class="pre">MMS.</span></span><span class="sig-name descname"><span class="pre">sympy_to_numpy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expr_sy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS.html#sympy_to_numpy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.sympy_to_numpy" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="src.MMS.sympy_to_numpy">
+<span class="sig-prename descclassname"><span class="pre">src.MMS.</span></span><span class="sig-name descname"><span class="pre">sympy_to_numpy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expr_sy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/MMS.html#sympy_to_numpy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.MMS.sympy_to_numpy" title="Link to this definition"></a></dt>
 <dd><p>Transform a sympy expression into a numpy array.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -901,6 +918,148 @@ For a given parameter <span class="math notranslate nohighlight">\(p\)</span> an
 </dl>
 </dd></dl>
 
+</section>
+<section id="module-src.sympy_functions">
+<span id="sympy-functions-module"></span><h2>sympy_functions Module<a class="headerlink" href="#module-src.sympy_functions" title="Link to this heading"></a></h2>
+<p>Started on Wed Apr  9 13:39:41 2025</p>
+<p>&#64;author: Vincent MAHE</p>
+<p>Sympy functions useful to the use of MMS functions.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="src.sympy_functions.check_solvability">
+<span class="sig-prename descclassname"><span class="pre">src.sympy_functions.</span></span><span class="sig-name descname"><span class="pre">check_solvability</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">poly</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/sympy_functions.html#check_solvability"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.sympy_functions.check_solvability" title="Link to this definition"></a></dt>
+<dd><p>Check the solvability of a polynomial.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>poly</strong> (<em>Expr</em>) – The polynomial considered.</p></li>
+<li><p><strong>x</strong> (<em>Symbol</em>) – The variable to solve for.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>bool</strong></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True is solvable, False otherwise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.sympy_functions.get_block_diagonal_indices">
+<span class="sig-prename descclassname"><span class="pre">src.sympy_functions.</span></span><span class="sig-name descname"><span class="pre">get_block_diagonal_indices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">matrix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">block_sizes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/sympy_functions.html#get_block_diagonal_indices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.sympy_functions.get_block_diagonal_indices" title="Link to this definition"></a></dt>
+<dd><p>Generate a list of (i, j) indices for all elements in the diagonal blocks of a block-diagonal matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>matrix</strong> (<em>Matrix.</em>) – The matrix to check for block diagonality.</p></li>
+<li><p><strong>block_sizes</strong> (<em>int</em><em> or </em><em>list</em><em> of </em><em>int</em>) – Size(s) of the diagonal blocks.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>indices</strong> – A list of tuples (i, j) representing the indices of elements in the diagonal blocks.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.sympy_functions.get_exponent">
+<span class="sig-prename descclassname"><span class="pre">src.sympy_functions.</span></span><span class="sig-name descname"><span class="pre">get_exponent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/sympy_functions.html#get_exponent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.sympy_functions.get_exponent" title="Link to this definition"></a></dt>
+<dd><p>Get the exponent of x in an expression</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.sympy_functions.is_block_diagonal">
+<span class="sig-prename descclassname"><span class="pre">src.sympy_functions.</span></span><span class="sig-name descname"><span class="pre">is_block_diagonal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">matrix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">block_sizes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/sympy_functions.html#is_block_diagonal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.sympy_functions.is_block_diagonal" title="Link to this definition"></a></dt>
+<dd><p>Check if a SymPy matrix is block-diagonal given block sizes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>matrix</strong> (<em>Matrix.</em>) – The matrix to check for block diagonality.</p></li>
+<li><p><strong>block_sizes</strong> (<em>int</em><em> or </em><em>list</em><em> of </em><em>int</em>) – Size(s) of the diagonal blocks.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>bool</strong></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if the matrix is block-diagonal, False otherwise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.sympy_functions.poly_positive_pow">
+<span class="sig-prename descclassname"><span class="pre">src.sympy_functions.</span></span><span class="sig-name descname"><span class="pre">poly_positive_pow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">poly</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/sympy_functions.html#poly_positive_pow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.sympy_functions.poly_positive_pow" title="Link to this definition"></a></dt>
+<dd><p>Identify the terms of a polynomial. If the expression given for poly is of the form
+p(x) = q(x)*x**(-n), where the powers of x in q(x) are all superior or equal to 0,
+then an auxiliary polynomial P(x) = p(x)/x**-n is constructed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>poly</strong> (<em>Expr</em>) – The polynomial considered.</p></li>
+<li><p><strong>x</strong> (<em>Symbol</em>) – The variable to solve for.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>dic_x</strong> – The polynomial terms.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.sympy_functions.solve_poly2">
+<span class="sig-prename descclassname"><span class="pre">src.sympy_functions.</span></span><span class="sig-name descname"><span class="pre">solve_poly2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">poly</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/sympy_functions.html#solve_poly2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.sympy_functions.solve_poly2" title="Link to this definition"></a></dt>
+<dd><p>Finds the roots of a polynomial of degree 2 of the form
+p(x) = a*x**2 + b*x + c
+Note that b can be null but not a or c</p>
+<p>It is a workaround to using solve() or solveset().
+These two work but can be very long when coefficients a, b, c
+are expressions involving many parameters.
+Note that solve() is significantly slower than solveset() .</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>poly</strong> (<em>Expr</em>) – polynomial whose roots are to be computed</p></li>
+<li><p><strong>x</strong> (<em>Symbol</em>) – Variable of the polynomial</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>x_sol</strong> – list containing the two roots of the polynomial</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of Expr</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.sympy_functions.sub_deep">
+<span class="sig-prename descclassname"><span class="pre">src.sympy_functions.</span></span><span class="sig-name descname"><span class="pre">sub_deep</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/sympy_functions.html#sub_deep"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.sympy_functions.sub_deep" title="Link to this definition"></a></dt>
+<dd><p>Performs deep substitutions of an expression. This is needed when a substitution involves terms that can still be substituted.
+For instance, one wants to substitute a1 and a2 by expressions, but a1 is actually a function of a2, so at least 2 substitutions are required.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>expr</strong> (<em>expr</em>) – Expression on which substitutions are to be performed.</p></li>
+<li><p><strong>sub</strong> (<em>list</em><em> of </em><em>tuples</em>) – The substitutions to perform.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>expr_sub</strong> – The expression with substitutions performed.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>expr</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
 </section>
 
 

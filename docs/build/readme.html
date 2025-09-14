@@ -86,17 +86,18 @@
 <h1>README<a class="headerlink" href="#readme" title="Link to this heading"></a></h1>
 <section id="nonlinear-systems-considered">
 <h2>Nonlinear systems considered<a class="headerlink" href="#nonlinear-systems-considered" title="Link to this heading"></a></h2>
-<p>The proposed code allows the application of the Method of Multiple Scales (MMS) to nonlinear equations and systems of $N$ coupled nonlinear equations of the form</p>
-<p>.. math::
+<p>The proposed code allows the application of the Method of Multiple Scales (MMS) to nonlinear equations and systems of $N$ coupled nonlinear equations of the form
+$$
 \begin{cases}
 \ddot{x}_1 + \omega_1^2 x_1 &amp; = f_1(\bm{x}, \dot{\bm{x}}, \ddot{\bm{x}}, t), \
 &amp; \vdots \
 \ddot{x}_N + \omega_N^2 x_N &amp; = f_N(\bm{x}, \dot{\bm{x}}, \ddot{\bm{x}}, t).
-\end{cases}</p>
-<p>The :math:<code class="docutils literal notranslate"><span class="pre">x_i,</span> <span class="pre">i=1,...,N</span></code> are the oscillators’ coordinates, :math:<code class="docutils literal notranslate"><span class="pre">\omega_i</span></code> are their natural frequencies, :math:<code class="docutils literal notranslate"><span class="pre">\bm{x}</span></code> is the vector containing all the oscillators’ coordinates, :math:<code class="docutils literal notranslate"><span class="pre">t</span></code> is the time, :math:<code class="docutils literal notranslate"><span class="pre">\dot{(\bullet)}</span></code> denotes a time-derivative :math:<code class="docutils literal notranslate"><span class="pre">d(\bullet)/dt</span></code>, :math:<code class="docutils literal notranslate"><span class="pre">f_i</span></code> is a function which can contain</p>
+\end{cases}
+$$
+The $x_i$ ($i=1,…,N$) are the oscillators’ coordinates, $\omega_i$ are their natural frequencies, $\bm{x}$ is the vector containing all the oscillators’ coordinates, $t$ is the time, $\dot{(\bullet)}$ denotes a time-derivative $d(\bullet)/dt$, $f_i$ is a function which can contain</p>
 <ul class="simple">
-<li><p>Additional terms in :math:<code class="docutils literal notranslate"><span class="pre">x_i$,\;</span> <span class="pre">\dot{x}_i,\;</span> <span class="pre">\ddot{x}_i</span></code>, typically those that will be considered small in the MMS</p></li>
-<li><p>Weak coupling terms in :math:<code class="docutils literal notranslate"><span class="pre">x_j,\;</span> <span class="pre">\dot{x}_j,\;</span> <span class="pre">\ddot{x}_j,</span> <span class="pre">\;</span> <span class="pre">j\neq</span> <span class="pre">i</span></code></p></li>
+<li><p>Additional terms in $x_i$, $\dot{x}_i$ or $\ddot{x}_i$, typically those that will be considered small in the MMS</p></li>
+<li><p>Weak coupling terms in $x_j$, $\dot{x}_j$ or $\ddot{x}_j$, $j\neq i$</p></li>
 <li><p>Weak nonlinear terms. Only polynomial nonlinearities are supported. Taylor expansions are performed if nonlinearities are not polynomial.</p></li>
 <li><p>Forcing, which can be hard (at first order) or weak (small). Harmonic and parametric forcing are supported.</p></li>
 </ul>
