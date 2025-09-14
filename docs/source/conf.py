@@ -31,6 +31,8 @@ myst_enable_extensions = [
 html_theme = 'sphinx_rtd_theme'
 html_static_path = ['_static']
 
+
+
 # MathJax configuration for bold symbols
 # mathjax3_config = {
 #     'loader': {
