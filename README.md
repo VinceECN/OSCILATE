@@ -3,13 +3,13 @@ The proposed code allows the application of the Method of Multiple Scales (MMS) 
 
 $$
 \begin{cases}
-\ddot{x}_1 + \omega_1^2 x_1 & = f_1(\bm{x}, \dot{\bm{x}}, \ddot{\bm{x}}, t), \\
+\ddot{x}_1 + \omega_1^2 x_1 & = f_1(\boldsymbol{x}, \dot{\boldsymbol{x}}, \ddot{\boldsymbol{x}}, t), \\
 & \vdots \\
-\ddot{x}_N + \omega_N^2 x_N & = f_N(\bm{x}, \dot{\bm{x}}, \ddot{\bm{x}}, t).
+\ddot{x}_N + \omega_N^2 x_N & = f_N(\boldsymbol{x}, \dot{\boldsymbol{x}}, \ddot{\boldsymbol{x}}, t).
 \end{cases}
 $$
 
-The $x_i$ ($i=1,...,N$) are the oscillators' coordinates, $\omega_i$ are their natural frequencies, $\bm{x}$ is the vector containing all the oscillators' coordinates, $t$ is the time, $\dot{(\bullet)}$ denotes a time-derivative $d(\bullet)/dt$, $f_i$ is a function which can contain
+The $x_i$ ($i=1,...,N$) are the oscillators' coordinates, $\omega_i$ are their natural frequencies, $\boldsymbol{x}$ is the vector containing all the oscillators' coordinates, $t$ is the time, $\dot{(\bullet)}$ denotes a time-derivative $d(\bullet)/dt$, $f_i$ is a function which can contain
 - Additional terms in $x_i$, $\dot{x}_i$ or $\ddot{x}_i$, typically those that will be considered small in the MMS
 - Weak coupling terms in $x_j$, $\dot{x}_j$ or $\ddot{x}_j$, $j\neq i$
 - Weak nonlinear terms. Only polynomial nonlinearities are supported. Taylor expansions are performed if nonlinearities are not polynomial.
