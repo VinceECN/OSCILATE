@@ -16,6 +16,8 @@
       <script src="_static/documentation_options.js?v=8d563738"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -84,26 +86,27 @@
              
   <section id="readme">
 <h1>README<a class="headerlink" href="#readme" title="Link to this heading"></a></h1>
-<section id="nonlinear-systems-considered">
+<section class="tex2jax_ignore mathjax_ignore" id="nonlinear-systems-considered">
 <h2>Nonlinear systems considered<a class="headerlink" href="#nonlinear-systems-considered" title="Link to this heading"></a></h2>
-<p>The proposed code allows the application of the Method of Multiple Scales (MMS) to nonlinear equations and systems of $N$ coupled nonlinear equations of the form
-$$
+<p>The proposed code allows the application of the Method of Multiple Scales (MMS) to nonlinear equations and systems of <span class="math notranslate nohighlight">\(N\)</span> coupled nonlinear equations of the form</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
 \begin{cases}
-\ddot{x}_1 + \omega_1^2 x_1 &amp; = f_1(\bm{x}, \dot{\bm{x}}, \ddot{\bm{x}}, t), \
-&amp; \vdots \
+\ddot{x}_1 + \omega_1^2 x_1 &amp; = f_1(\bm{x}, \dot{\bm{x}}, \ddot{\bm{x}}, t), \\
+&amp; \vdots \\
 \ddot{x}_N + \omega_N^2 x_N &amp; = f_N(\bm{x}, \dot{\bm{x}}, \ddot{\bm{x}}, t).
 \end{cases}
-$$
-The $x_i$ ($i=1,…,N$) are the oscillators’ coordinates, $\omega_i$ are their natural frequencies, $\bm{x}$ is the vector containing all the oscillators’ coordinates, $t$ is the time, $\dot{(\bullet)}$ denotes a time-derivative $d(\bullet)/dt$, $f_i$ is a function which can contain</p>
+\end{split}\]</div>
+<p>The <span class="math notranslate nohighlight">\(x_i\)</span> (<span class="math notranslate nohighlight">\(i=1,...,N\)</span>) are the oscillators’ coordinates, <span class="math notranslate nohighlight">\(\omega_i\)</span> are their natural frequencies, <span class="math notranslate nohighlight">\(\bm{x}\)</span> is the vector containing all the oscillators’ coordinates, <span class="math notranslate nohighlight">\(t\)</span> is the time, <span class="math notranslate nohighlight">\(\dot{(\bullet)}\)</span> denotes a time-derivative <span class="math notranslate nohighlight">\(d(\bullet)/dt\)</span>, <span class="math notranslate nohighlight">\(f_i\)</span> is a function which can contain</p>
 <ul class="simple">
-<li><p>Additional terms in $x_i$, $\dot{x}_i$ or $\ddot{x}_i$, typically those that will be considered small in the MMS</p></li>
-<li><p>Weak coupling terms in $x_j$, $\dot{x}_j$ or $\ddot{x}_j$, $j\neq i$</p></li>
+<li><p>Additional terms in <span class="math notranslate nohighlight">\(x_i\)</span>, <span class="math notranslate nohighlight">\(\dot{x}_i\)</span> or <span class="math notranslate nohighlight">\(\ddot{x}_i\)</span>, typically those that will be considered small in the MMS</p></li>
+<li><p>Weak coupling terms in <span class="math notranslate nohighlight">\(x_j\)</span>, <span class="math notranslate nohighlight">\(\dot{x}_j\)</span> or <span class="math notranslate nohighlight">\(\ddot{x}_j\)</span>, <span class="math notranslate nohighlight">\(j\neq i\)</span></p></li>
 <li><p>Weak nonlinear terms. Only polynomial nonlinearities are supported. Taylor expansions are performed if nonlinearities are not polynomial.</p></li>
 <li><p>Forcing, which can be hard (at first order) or weak (small). Harmonic and parametric forcing are supported.</p></li>
 </ul>
-<p>The internal resonance relations can be specified in a second step by expressing the $\omega_i$ as a function of a reference frequency. Detuning can also be introduced during this step.</p>
+<p>The internal resonance relations can be specified in a second step by expressing the <span class="math notranslate nohighlight">\(\omega_i\)</span> as a function of a reference frequency. Detuning can also be introduced during this step.</p>
 </section>
-<section id="solver">
+<section class="tex2jax_ignore mathjax_ignore" id="solver">
 <h2>Solver<a class="headerlink" href="#solver" title="Link to this heading"></a></h2>
 <p>MMS.py is the MMS solver. It contains 3 main classes:</p>
 <ul class="simple">
@@ -112,7 +115,7 @@ The $x_i$ ($i=1,…,N$) are the oscillators’ coordinates, $\omega_i$ are their
 <li><p>Stead_state : the MMS results evaluated at steady state and (if computed) the system’s response and its stability. Plotting functions</p></li>
 </ul>
 </section>
-<section id="tests-and-examples">
+<section class="tex2jax_ignore mathjax_ignore" id="tests-and-examples">
 <h2>Tests and examples<a class="headerlink" href="#tests-and-examples" title="Link to this heading"></a></h2>
 <p>test_MMS.py is a script containing several application examples of the MMS solver. Among the examples are</p>
 <ul class="simple">
@@ -124,18 +127,18 @@ The $x_i$ ($i=1,…,N$) are the oscillators’ coordinates, $\omega_i$ are their
 <li><p>Subharmonic response of 2 coupled centrifugal pendulum modes</p></li>
 </ul>
 </section>
-<section id="additional-functions">
+<section class="tex2jax_ignore mathjax_ignore" id="additional-functions">
 <h2>Additional functions<a class="headerlink" href="#additional-functions" title="Link to this heading"></a></h2>
 <p>sympy_functions.py contains additional functions that are not directly related to the MMS but which are used MMS.py.</p>
 </section>
-<section id="outputs">
+<section class="tex2jax_ignore mathjax_ignore" id="outputs">
 <h2>Outputs<a class="headerlink" href="#outputs" title="Link to this heading"></a></h2>
 <p>Results are returned as sympy expressions.
 They can be printed using LaTeX if the code is run in an appropriate interactive Window.
 It is the case with VS Code’s interactive Window or Spyder’s IPython consol.</p>
 <p>Methods of Steady_state also allow to evaluate sympy results for given numerical values of system parameters and plot them.</p>
 </section>
-<section id="disclaimer">
+<section class="tex2jax_ignore mathjax_ignore" id="disclaimer">
 <h2>Disclaimer<a class="headerlink" href="#disclaimer" title="Link to this heading"></a></h2>
 <p>This code is provided as-is and has been tested on a limited number of nonlinear systems.
 Other test cases might trigger bugs or unexpected behavior that I am not yet aware of.
@@ -147,7 +150,7 @@ If you encounter any issues, find a bug, or have suggestions for improvements, p
 <p>Your feedback is highly appreciated!</p>
 <p>Vincent MAHE</p>
 </section>
-<section id="license">
+<section class="tex2jax_ignore mathjax_ignore" id="license">
 <h2>License<a class="headerlink" href="#license" title="Link to this heading"></a></h2>
 <p>This project is licensed under the <strong>Apache License 2.0</strong> – see the LICENSE file for details.</p>
 </section>
