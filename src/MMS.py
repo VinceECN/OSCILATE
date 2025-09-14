@@ -2212,8 +2212,8 @@ def numpise_ARC(mms, ss, dyn, param):
 
         2. The numerical value(s) taken by that parameter.
 
-        The key of the amplitude vector must be "a".
-        The key of the angular frequency must be "omega".
+        The key of the amplitude vector must be ``"a"``.
+        The key of the angular frequency must be ``"omega"``.
 
     Returns
     -------
