@@ -158,7 +158,7 @@ def check_solvability(poly, x):
     
 def get_exponent(expr, x):
     """
-    Get the exponent of x in an expression
+    Get the exponent of :math:`x` in an expression
     """
     # This assumes expr is a power of x
     if expr.is_Number:
@@ -173,7 +173,7 @@ def get_exponent(expr, x):
 
 def get_block_diagonal_indices(matrix, block_sizes):
     """
-    Generate a list of (i, j) indices for all elements in the diagonal blocks of a block-diagonal matrix.
+    Generate a list of :math:`(i, j)` indices for all elements in the diagonal blocks of a block-diagonal matrix.
 
     Parameters
     ----------

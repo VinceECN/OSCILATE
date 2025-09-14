@@ -2008,7 +2008,7 @@ def Chain_rule_dfdt(f, tS, eps):
 
 def Chain_rule_d2fdt2(f, tS, eps):
     r"""
-    Consider a function :math:`f_t(t)` and its expression in terms of the time scales :math:`f(t_0, t_1, ...)`, 
+    Consider a function $f_t(t)$ :math:`f_t(t)` and its expression in terms of the time scales :math:`f(t_0, t_1, ...)`, 
     where :math:`t_0` is the fast time and :math:`t_1, ...` are the slow times. 
     This function uses the chain rule to give the expression of :math:`\mathrm{d}^2f_t/ \mathrm{d}t^2` in terms of the time scales.
     
