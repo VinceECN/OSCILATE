@@ -1,12 +1,8 @@
 Modules
 =======
 
-.. toctree::
-   :maxdepth: 2
-
 MMS Module
 ----------
-
 .. automodule:: src.MMS
    :members:
    :undoc-members:
@@ -14,7 +10,6 @@ MMS Module
 
 sympy_functions Module
 ----------------------
-
 .. automodule:: src.sympy_functions
    :members:
    :undoc-members:
