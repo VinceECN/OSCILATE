@@ -337,6 +337,8 @@
 <span class="sd">    where :math:`t_0` is the fast time, i.e., the time used to describe the oscillations,</span>
 <span class="sd">    while :math:`t_1, \; t_2,\; t_{N_e}` are slow times, associated to amplitude and phase variations of the solutions in time.</span>
 
+<span class="sd">    These two operations are performed using :func:`_asymptotic_series` and :func:`_time_scales`.</span>
+
 <span class="sd">    --------------------------</span>
 <span class="sd">    The Multiple Scales System</span>
 <span class="sd">    --------------------------</span>
@@ -387,6 +389,8 @@
 
 <span class="sd">    Function :math:`f_{i,j}` tends to get increasingly complex as the order increases because the initial equations generate more high order terms than low order ones.</span>
 
+<span class="sd">    This operation is performed using :func:`compute_EqMMS`.</span>
+
 <span class="sd">    ---------------------</span>
 <span class="sd">    Frequency of Interest</span>
 <span class="sd">    ---------------------</span>
@@ -406,6 +410,38 @@
 <span class="sd">    ----------------------------------</span>
 <span class="sd">    </span>
 <span class="sd">    The multiple scales system can be solved iteratively by solving successively the systems of equations at each order.</span>
+<span class="sd">    </span>
+<span class="sd">    ^^^^^^^^^^^^^^^^^^^^^^</span>
+<span class="sd">    Leading order solution</span>
+<span class="sd">    ^^^^^^^^^^^^^^^^^^^^^^</span>
+<span class="sd">    The leading order solution for oscillator :math:`i` is sought as</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        x_{i,0}(\boldsymbol{t}) = x_{i,0}^\textrm{h}(\boldsymbol{t}) + x_{i,0}^\textrm{p}(\boldsymbol{t}),</span>
+
+<span class="sd">    where :math:`x_{i,0}^\textrm{h}(\boldsymbol{t})` and :math:`x_{i,0}^\textrm{p}(\boldsymbol{t})` are the leading order homogeneous and particular sollutions, respectively, </span>
+<span class="sd">    and</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        \boldsymbol{t}^\intercal = [t_0, t_1, \cdots, t_{N_e}]</span>
+
+<span class="sd">    is a vector containing al the time scales. It is also conveninent to introduce the times vector</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        \boldsymbol{t}_s^\intercal = [t_1, \cdots, t_{N_e}],</span>
+
+<span class="sd">    containing all the slow time scales. This way, one can express the leading order solutions as</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        \begin{cases}</span>
+<span class="sd">        x_{i,0}^\textrm{h}(\boldsymbol{t}) &amp; = A_i(\boldsymbol{t}_s) e^{\textrm{j} \omega_i t_0} + cc = |A_i| \cos(\omega_i t_0 + \arg{A_i}), </span>
+<span class="sd">        \\</span>
+<span class="sd">        x_{i,0}^\textrm{p}(\boldsymbol{t}) &amp; = B_i e^{\textrm{j} \omega t} + cc = B_i e^{\textrm{j} (\omega_{\textrm{MMS}} t_0 + \sigma t_1)} + cc = |B_i| \cos(\omega_{\textrm{MMS}} t_0 + \sigma t_1 + \arg{B_i}),</span>
+<span class="sd">        \end{cases}</span>
+
+<span class="sd">    where :math:`A_i` is a slow time-dependent complex amplitude to be determined while :math:`B_i` is a time-independent function of the forcing parameters. </span>
+<span class="sd">    Note that in most situations, forcing does not appear at leading order (i.e. forcing is weak), so :math:`B_i=0`.</span>
+<span class="sd">        </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dynamical_system</span><span class="p">,</span> <span class="n">eps</span><span class="p">,</span> <span class="n">Ne</span><span class="p">,</span> <span class="n">omega_ref</span><span class="p">,</span> <span class="n">sub_scaling</span><span class="p">,</span> 
