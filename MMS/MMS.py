@@ -46,23 +46,18 @@ class Dynamical_system:
     
     - Weak nonlinear terms. Only polynomial nonlinearities are supported. Taylor expansions are performed if nonlinearities are not polynomial,
     
-    - Forcing, which can be hard (at first order) or weak (small). Harmonic and parametric forcing are supported.
+    - Forcing, which can be hard (at first order) or weak (small). Harmonic forcing :math:`F \cos(\omega t)` and parametric forcing (for instance :math:`x_i F \cos(\omega t)`) are supported. Here, :math:`F` and :math:`\omega` denote the forcing amplitude and frequency, respectively.
 
     Internal resonance relations among oscillators can be specified in a second step by expressing the :math:`\omega_i` as a function of a reference frequency. Detuning can also be introduced during this step.
-    """
     
-    def __init__(self, t, x, Eq, omegas, **kwargs):
-        r"""
-        Initialisation of the dynamical system.
-
-        Parameters
+    Parameters
         ----------
         t : Symbol
             time :math:`t`.
         x : Function or list of Function
             Unknown(s) of the problem.
         Eq : Expr or list of Expr
-            System's equations without forcing, which can be defined separately (see `F` and `f_coeff`).
+            System's equations without forcing, which can be defined separately (see parameters `F` and `f_coeff`).
             Eq is the unforced system of equations describing the system's dynamics. 
         omegas : Symbol or list of Symbol
             The natural frequency of each oscillator.
@@ -71,8 +66,13 @@ class Dynamical_system:
             Default is 0.
         f_coeff : Expr of list of Expr, optional
             For each dof, specify the coefficient multiplying the forcing terms in the equation.
-            It can be used to define parametric forcing. Typically, if the forcing is :math:`x F \cos(\omega t)`, then f_coeff = x.
+            It can be used to define parametric forcing. Typically, if the forcing is :math:`x F \cos(\omega t)`, then ``f_coeff = x``.
             Default is a list of 1, so the forcing is direct. 
+    """
+    
+    def __init__(self, t, x, Eq, omegas, **kwargs):
+        r"""
+        Initialisation of the dynamical system.
         """
         
         # Information
@@ -169,131 +169,165 @@ class Multiple_scales_system:
     r"""
     The multiple scales system.
 
-    The starting point is to introduce asymptotic series and multiple time scales in the initial dynamical system. 
+    Parameters
+    ----------
+    dynamical_system : Dynamical_system
+        The dynamical system.
+
+    eps : Symbol
+        Small perturbation parameter :math:`\epsilon`.
+
+    Ne : int
+        Truncation order of the asymptotic and order of the slowest time scale.
+
+    omega_ref : Symbol
+        Reference frequency :math:`\omega_{\textrm{ref}}` of the MMS.
+        Not necessarily the frequency around which the MMS is going to be applied, see `ratio_omegaMMS`.
+
+    sub_scaling : list of tuples
+        Substitutions to do to scale the equations.
+        Links small parameters to their scaled counterpart through :math:`\epsilon`.
+
+    ratio_omegaMMS : int or Rational, optional
+        Specify the frequency `omegaMMS` around which the MMS is going to be applied in terms of :math:`\omega_{\textrm{ref}}`.
+        Denoting `ratio_omegaMMS` as :math:`r_{\textrm{MMS}}`, this means that
+
+        .. math::
+            \omega_{\textrm{MMS}} = r_{\textrm{MMS}} \omega_{\textrm{ref}}.
+
+        Use `Rational(p,q)` for
+
+        .. math::
+            q \omega_{\textrm{MMS}} = p \omega_{\textrm{ref}}
+
+        to get better-looking results than the float :math:`p/q`.
+        Default is 1.
+
+    eps_pow_0 : int, optional
+        Order of the leading-order term in the asymptotic series of each oscillators' response.
+        For the :math:`i^{\textrm{th}}` dof and denoting `eps_pow_0` as :math:`\lambda_0`, this means that
+
+        .. math::
+            x_i = \epsilon^{\lambda_0} x_{i,0} + \epsilon^{\lambda_0+1} x_{i,1} + \cdots.
+
+        Default is 0.
+
+    ratio_omega_osc : list of int or Rational or None, optional
+        Specify the natural frequencies of the oscillators :math:`\omega_i` in terms of the reference frequency :math:`\omega_{\textrm{ref}}`.
+        Denoting `ratio_omega_osc[i]` as :math:`r_i`, this means that
+
+        .. math::
+            \omega_i \approx r_i \omega_{\textrm{ref}}.
+
+        Default is `None` for each oscillator, so the :math:`\omega_i` are arbitrary and there are no internal resonances.
+        Detuning can be introduced through the `detunings` keyword argument.
+
+    detunings : list of Symbol or int, optional
+        The detuning of each oscillator. Denoting `detunings[i]` as :math:`\delta_i`, this means that
+
+        .. math::
+            \omega_i = r_i \omega_{\textrm{ref}} + \delta_i.
+
+        Default is 0 for each oscillator.
+
+    Notes
+    -----
+    Description of the method of multiple scales.
+
+    ---------------------------------
+    Asymptotic Series and Time Scales
+    ---------------------------------
+
+    The starting point is to introduce asymptotic series and multiple time scales in the initial dynamical system.
     The solution for oscillator :math:`i` is sought as a series expansion up to order :math:`N_e` (for a leading order term :math:`\epsilon^0 = 1`). This expansion takes the form
-        
+
     .. math::
         x_i(t) = x_{i,0}(t) + \epsilon x_{i,1}(t) + \epsilon^2 x_{i,2}(t) + \cdots + \epsilon^{N_e} x_{i,N_e}(t).
 
     Time scales are introduced as follows:
-    
+
     .. math::
         t_0 = t, \; t_1 = \epsilon t, \; t_2 = \epsilon^2 t, \cdots, t_{N_e} = \epsilon^{N_e} t,
-    
-    where :math:`t_0` is the fast time, i.e. the time used to describe the oscillations, 
+
+    where :math:`t_0` is the fast time, i.e., the time used to describe the oscillations,
     while :math:`t_1, \; t_2,\; t_{N_e}` are slow times, associated to amplitude and phase variations of the solutions in time.
-    
+
+    --------------------------
+    The Multiple Scales System
+    --------------------------
+
     Introducing the asymptotic series and time scales in the initial dynamical system (see :class:`~MMS.MMS.Dynamical_system`) results in :math:`N_e+1` dynamical systems, each one appearing at different orders of :math:`\epsilon`.
-    Denoting time scales derivatives as :math:`\textrm{D}_i(\bullet) = \partial (\bullet) / \partial t_i`, introducing the vectors of asymptotic coordinates 
-    
+    Denoting time scales derivatives as :math:`\textrm{D}_i(\bullet) = \partial (\bullet) / \partial t_i`, introducing the vectors of asymptotic coordinates
+
     .. math::
         \boldsymbol{x}_i^\intercal = [x_{0,i}, x_{1,i}, \cdots, x_{N-1, i}],
 
-    containing all the asymptotic terms of order :math:`i`, with :math:`\intercal` denoting the transpose, and defining the stackings
-
-    .. math::
-        \begin{split}
-        \boldsymbol{x}_{(p)}^\intercal                 = & [\boldsymbol{x}_0, \boldsymbol{x}_1, \cdots, \boldsymbol{x}_{p}], \\
-        \textrm{D}_j\boldsymbol{x}_{(p)}^\intercal     = & [\textrm{D}_j\boldsymbol{x}_0, \textrm{D}_j\boldsymbol{x}_1, \cdots, \textrm{D}_j\boldsymbol{x}_{p}], \\
-        \textrm{D}_{(q)}\boldsymbol{x}_i^\intercal     = & [\textrm{D}_0\boldsymbol{x}_i, \textrm{D}_1\boldsymbol{x}_i, \cdots, \textrm{D}_q\boldsymbol{x}_i], \\
-        \textrm{D}_{(q)}\boldsymbol{x}_{(p)}^\intercal = & [\textrm{D}_0\boldsymbol{x}_{(p)}, \textrm{D}_1\boldsymbol{x}_{(p)}, \cdots, \textrm{D}_q\boldsymbol{x}_{(p)}], 
-        \end{split}
-        
-    the MMS equations can be written as
+    containing all the asymptotic terms of order :math:`i`, with :math:`^\intercal` denoting the transpose, the MMS equations can be written as
 
     .. math::
         \begin{aligned}
+        & \epsilon^0 \rightarrow \quad
         \begin{cases}
-        \textrm{D}_0 x_{0,0}   + \omega_0^2 x_{0,0}   & = f_{0,0}(t_0, t_1), \\
+        \textrm{D}_0 x_{0,0} + \omega_0^2 x_{0,0} & = f_{0,0}(t_0, t_1), \\
         & \vdots \\
-        \textrm{D}_0 x_{N-1,0} + \omega_0^2 x_{N-1,0} & = f_{N-1,0}(t_0, t_1),
-        \end{cases} \\
+        \textrm{D}_0 x_{N-1,0} + \omega_{N-1}^2 x_{N-1,0} & = f_{N-1,0}(t_0, t_1),
+        \end{cases} \\[15pt]
+        & \epsilon^1 \rightarrow \quad
         \begin{cases}
-        \textrm{D}_0 x_{0,1}   + \omega_0^2 x_{0,1}   & = f_{0,1}(\boldsymbol{x}_0, \textrm{D}_{(1)} \boldsymbol{x}_0, \textrm{D}_0^2 \boldsymbol{x}_0, t_0, t_1), \\
+        \textrm{D}_0 x_{0,1} + \omega_0^2 x_{0,1} & = f_{0,1}  (\boldsymbol{x}_0, \textrm{D}_0 \boldsymbol{x}_0, \textrm{D}_0^2 \boldsymbol{x}_0, \textrm{D}_1 \boldsymbol{x}_0, \textrm{D}_0\textrm{D}_1 \boldsymbol{x}_0, t_0, t_1), \\
         & \vdots \\
-        \textrm{D}_0 x_{N-1,1} + \omega_0^2 x_{N-1,1} & = f_{N-1,1}(\boldsymbol{x}_0, \textrm{D}_{(1)} \boldsymbol{x}_0, \textrm{D}_0^2 \boldsymbol{x}_0, t_0, t_1),
-        \end{cases} \\
+        \textrm{D}_0 x_{N-1,1} + \omega_{N-1}^2 x_{N-1,1} & = f_{N-1,1}(\boldsymbol{x}_0, \textrm{D}_0 \boldsymbol{x}_0, \textrm{D}_0^2 \boldsymbol{x}_0, \textrm{D}_1 \boldsymbol{x}_0, \textrm{D}_0\textrm{D}_1 \boldsymbol{x}_0, t_0, t_1),
+        \end{cases} \\[15pt]
+        & \epsilon^2 \rightarrow \quad
         \begin{cases}
-        \textrm{D}_0 x_{0,2}   + \omega_0^2 x_{0,2}   & = f_{0,2}  (\boldsymbol{x}_{(1)}, \textrm{D}_{(1)} \boldsymbol{x}_{(1)}, \textrm{D}_0^2 \boldsymbol{x}_{(1)}, \textrm{D}_1 \boldsymbol{x}_0, t_0, t_1), \\
+        \textrm{D}_0 x_{0,2} + \omega_0^2 x_{0,2} & = f_{0,2}  (\boldsymbol{x}_0, \cdots, \textrm{D}_0 \textrm{D}_2 \boldsymbol{x}_0, \boldsymbol{x}_1, \cdots, \textrm{D}_0\textrm{D}_1 \boldsymbol{x}_1, t_0, t_1), \\
         & \vdots \\
-        \textrm{D}_0 x_{N-1,2} + \omega_0^2 x_{N-1,2} & = f_{N-1,2}(\boldsymbol{x}_{(1)}, \textrm{D}_{(1)} \boldsymbol{x}_{(1)}, \textrm{D}_0^2 \boldsymbol{x}_{(1)}, \textrm{D}_1 \boldsymbol{x}_0, t_0, t_1),
-        \end{cases} \\
-        \vdots \\
+        \textrm{D}_0 x_{N-1,2} + \omega_{N-1}^2 x_{N-1,2} & = f_{N-1,2}(\boldsymbol{x}_0, \cdots, \textrm{D}_0 \textrm{D}_2 \boldsymbol{x}_0, \boldsymbol{x}_1, \cdots, \textrm{D}_0\textrm{D}_1 \boldsymbol{x}_1, t_0, t_1),
+        \end{cases} \\[10pt]
+        & \hspace{3cm} \vdots \\[10pt]
+        & \epsilon^{N_e} \rightarrow \quad
         \begin{cases}
-        \textrm{D}_0 x_{0,N_e}   + \omega_0^2 x_{0,N_e}   & = f_{0,N_e}(t_0, t_1), \\
+        \textrm{D}_0 x_{0,N_e} + \omega_0^2 x_{0,N_e} & = f_{0,N_e}  (\boldsymbol{x}_0, \cdots, \textrm{D}_0 \textrm{D}_{N_e} \boldsymbol{x}_0, \cdots, \textrm{D}_0\textrm{D}_1 \boldsymbol{x}_{N_e-1}, t_0, t_1), \\
         & \vdots \\
-        \textrm{D}_0 x_{N-1,N_e} + \omega_0^2 x_{N-1,N_e} & = f_{N-1,N_e}(t_0, t_1),
+        \textrm{D}_0 x_{N-1,N_e} + \omega_{N-1}^2 x_{N-1,N_e} & = f_{N-1,N_e}(\boldsymbol{x}_0, \cdots, \textrm{D}_0 \textrm{D}_{N_e} \boldsymbol{x}_0, \cdots, \textrm{D}_0\textrm{D}_1 \boldsymbol{x}_{N_e-1}, t_0, t_1).
         \end{cases}
         \end{aligned}
 
+    Consider oscillator :math:`i` at order :math:`j`:
 
-    The solutions for the :math:`x_i` will be sought around at frequency :math:`\omega`, defined as 
-    
+    - The left-hand side term represents a harmonic oscillator of frequency :math:`\omega_i`.
+    - The right-hand side term :math:`f_{i,j}` is analogous to a forcing generated by all combinations of terms that appear on this oscillator's equation at order :math:`\epsilon^j`.
+      This can involve lower order terms :math:`x_{i,\ell}, \; \ell \leq j`, coupling terms :math:`x_{k, \ell}, \; k \neq j,\; \ell \leq j`, their derivatives and cross-derivatives wrt the time scales, and physical forcing terms.
+      The later is responsible for the dependency on :math:`t_0,\; t_1`. The reason why slower time scales are not involved will be explained in the following.
+
+    Function :math:`f_{i,j}` tends to get increasingly complex as the order increases because the initial equations generate more high order terms than low order ones.
+
+    ---------------------
+    Frequency of Interest
+    ---------------------
+
+    The response of :math:`x_i` will be analyzed at a frequency :math:`\omega`, defined as
+
     .. math::
         \omega = \omega_{\textrm{MMS}} + \epsilon \sigma,
+
+    where :math:`\omega_{\textrm{MMS}}` is the *central* MMS frequency and :math:`\sigma` is a detuning about that frequency.
+    In case the forced response is studied, :math:`\omega` corresponds to the forcing frequency.
+    In case the free response is studied, :math:`\omega` corresponds to the frequency of free oscillations, which generates the backbone curve of the forced response.
+    Note that :math:`\omega t = \omega_{\textrm{MMS}} t_0 + \sigma t_1`. This is the reason why the forcing only involves these two time scales in the right-hand side functions of the MMS system.
+
+    ----------------------------------
+    Iteratively Solving the MMS System
+    ----------------------------------
     
-    where
-    :math:`\omega_{\textrm{MMS}}` is the *central* MMS frequency and :math:`\sigma` is a detuning about that frequency. 
-
-
+    The multiple scales system can be solved iteratively by solving successively the systems of equations at each order.
+    XXX remplir
     """
     
     def __init__(self, dynamical_system, eps, Ne, omega_ref, sub_scaling, 
                  ratio_omegaMMS=1, eps_pow_0=0, **kwargs):
         r"""
         Transform the dynamical system introducing asymptotic series and multiple time scales. 
-
-        Parameters
-        ----------
-        dynamical_system : Dynamical_system
-            The dynamical system. 
-        eps : Symbol
-            Small perturbation parameter :math:`\epsilon`.
-        Ne : int
-            Truncation order of the asymptotic and order of the slowest time scale.
-        omega_ref : Symbol
-            Reference frequency :math:`\omega_{\textrm{ref}}` of the MMS. 
-            Not necessarily the frequency around which the MMS is going to be applied, see `ratio_omegaMMS`.
-        sub_scaling : list of tuples
-            Substitutions to do to scale the equations. 
-            Links small parameters to their scaled counterpart through :math:`\epsilon`.
-        ratio_omegaMMS : int or Rational, optional
-            Specify the frequency `omegaMMS` around which the MMS is going to be applied in terms of :math:`\omega_{\textrm{ref}}`.
-            Denoting `ratio_omegaMMS` as :math:`r_{\textrm{MMS}}`, this means that
-            
-            .. math::
-                \omega_{\textrm{MMS}} = r_{\textrm{MMS}} \omega_{\textrm{ref}}.
-            
-            Use `Rational(p,q)` for 
-            
-            .. math::
-                q \omega_{\textrm{MMS}} = p \omega_{\textrm{ref}}
-            
-            to get better-looking results than the float :math:`p/q`.
-            Default is 1.
-        eps_pow_0 : int, optional
-            Order of the leading-order term in the asymptotic series of each oscillators' response.
-            For the :math:`i^{\textrm{th}}` dof and denoting `eps_pow_0` as :math:`\lambda_0`, this means that
-            .. math::
-                x_i = \epsilon^{\lambda_0} x_{i,0} + \epsilon^{\lambda_0+1} x_{i,1} + \cdots.
-            
-            Default is 0.
-        ratio_omega_osc : list of int or Rational or None, optional
-            Specify the natural frequencies of the oscillators :math:`\omega_i` in terms of the reference frequency :math:`\omega_{\textrm{ref}}`. 
-            Denoting `ratio_omega_osc[i]` as :math:`r_i`, this means that 
-            
-            .. math::
-                \omega_i \approx r_i \omega_{\textrm{ref}}.
-            
-            Default is `None` for each oscillator, so the :math:`\omega_i` are arbitrary and there are no internal resonances.
-            Detuning can be introduced through the `detunings` keyword argument. 
-        detunings : list of Symbol or int, optional
-            The detuning of each oscillator. Denoting `detunings[i]` as :math:`\delta_i`, this means that 
-            
-            .. math::
-            \omega_i = r_i \omega_{\textrm{ref}} + \delta_i.
-            
-            Defaut is 0 for each oscillator. 
         """
         
         # Information
