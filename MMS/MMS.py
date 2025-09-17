@@ -252,6 +252,8 @@ class Multiple_scales_system:
     where :math:`t_0` is the fast time, i.e., the time used to describe the oscillations,
     while :math:`t_1, \; t_2,\; t_{N_e}` are slow times, associated to amplitude and phase variations of the solutions in time.
 
+    These two operations are performed using :func:`_asymptotic_series` and :func:`_time_scales`.
+
     --------------------------
     The Multiple Scales System
     --------------------------
@@ -302,6 +304,8 @@ class Multiple_scales_system:
 
     Function :math:`f_{i,j}` tends to get increasingly complex as the order increases because the initial equations generate more high order terms than low order ones.
 
+    This operation is performed using :func:`compute_EqMMS`.
+
     ---------------------
     Frequency of Interest
     ---------------------
@@ -321,7 +325,43 @@ class Multiple_scales_system:
     ----------------------------------
     
     The multiple scales system can be solved iteratively by solving successively the systems of equations at each order.
-    XXX remplir
+    
+    ^^^^^^^^^^^^^^^^^^^^^^
+    Leading order solution
+    ^^^^^^^^^^^^^^^^^^^^^^
+    The leading order solution for oscillator :math:`i` is sought as
+
+    .. math::
+        x_{i,0}(\boldsymbol{t}) = x_{i,0}^\textrm{h}(\boldsymbol{t}) + x_{i,0}^\textrm{p}(\boldsymbol{t}),
+
+    where :math:`x_{i,0}^\textrm{h}(\boldsymbol{t})` and :math:`x_{i,0}^\textrm{p}(\boldsymbol{t})` are the leading order homogeneous and particular sollutions, respectively, 
+    and
+
+    .. math::
+        \boldsymbol{t}^\intercal = [t_0, t_1, \cdots, t_{N_e}]
+
+    is a vector containing al the time scales. It is also conveninent to introduce the times vector
+
+    .. math::
+        \boldsymbol{t}_s^\intercal = [t_1, \cdots, t_{N_e}],
+
+    containing all the slow time scales. This way, one can express the leading order solutions as
+
+    .. math::
+        \begin{cases}
+        x_{i,0}^\textrm{h}(\boldsymbol{t}) & = A_i(\boldsymbol{t}_s) e^{\textrm{j} \omega_i t_0} + cc = |A_i(\boldsymbol{t}_s)| \cos(\omega_i t_0 + \arg{A_i(\boldsymbol{t}_s)}), 
+        \\
+        x_{i,0}^\textrm{p}(\boldsymbol{t}) & = B_i e^{\textrm{j} \omega t} + cc = B_i e^{\textrm{j} (\omega_{\textrm{MMS}} t_0 + \sigma t_1)} + cc = |B_i| \cos(\omega_{\textrm{MMS}} t_0 + \sigma t_1 + \arg{B_i}),
+        \end{cases}
+
+    where :math:`A_i` is a slow time-dependent complex amplitude to be determined while :math:`B_i` is a time-independent function of the forcing parameters. 
+    Note that in most situations, forcing does not appear at leading order (i.e. forcing is weak), so :math:`B_i=0`.
+
+    ^^^^^^^^^^^^^^^^^^^^^^
+    Higher order solutions
+    ^^^^^^^^^^^^^^^^^^^^^^
+    XXX
+        
     """
     
     def __init__(self, dynamical_system, eps, Ne, omega_ref, sub_scaling, 

@@ -360,6 +360,7 @@ The solution for oscillator <span class="math notranslate nohighlight">\(i\)</sp
 \[t_0 = t, \; t_1 = \epsilon t, \; t_2 = \epsilon^2 t, \cdots, t_{N_e} = \epsilon^{N_e} t,\]</div>
 <p>where <span class="math notranslate nohighlight">\(t_0\)</span> is the fast time, i.e., the time used to describe the oscillations,
 while <span class="math notranslate nohighlight">\(t_1, \; t_2,\; t_{N_e}\)</span> are slow times, associated to amplitude and phase variations of the solutions in time.</p>
+<p>These two operations are performed using <code class="xref py py-func docutils literal notranslate"><span class="pre">_asymptotic_series()</span></code> and <code class="xref py py-func docutils literal notranslate"><span class="pre">_time_scales()</span></code>.</p>
 </section>
 <section id="the-multiple-scales-system">
 <h3>The Multiple Scales System<a class="headerlink" href="#the-multiple-scales-system" title="Link to this heading"></a></h3>
@@ -404,6 +405,7 @@ This can involve lower order terms <span class="math notranslate nohighlight">\(
 The later is responsible for the dependency on <span class="math notranslate nohighlight">\(t_0,\; t_1\)</span>. The reason why slower time scales are not involved will be explained in the following.</p></li>
 </ul>
 <p>Function <span class="math notranslate nohighlight">\(f_{i,j}\)</span> tends to get increasingly complex as the order increases because the initial equations generate more high order terms than low order ones.</p>
+<p>This operation is performed using <a class="reference internal" href="#MMS.MMS.Multiple_scales_system.compute_EqMMS" title="MMS.MMS.Multiple_scales_system.compute_EqMMS"><code class="xref py py-func docutils literal notranslate"><span class="pre">compute_EqMMS()</span></code></a>.</p>
 </section>
 <section id="frequency-of-interest">
 <h3>Frequency of Interest<a class="headerlink" href="#frequency-of-interest" title="Link to this heading"></a></h3>
@@ -418,6 +420,27 @@ Note that <span class="math notranslate nohighlight">\(\omega t = \omega_{\textr
 <section id="iteratively-solving-the-mms-system">
 <h3>Iteratively Solving the MMS System<a class="headerlink" href="#iteratively-solving-the-mms-system" title="Link to this heading"></a></h3>
 <p>The multiple scales system can be solved iteratively by solving successively the systems of equations at each order.</p>
+<section id="leading-order-solution">
+<h4>Leading order solution<a class="headerlink" href="#leading-order-solution" title="Link to this heading"></a></h4>
+<p>The leading order solution for oscillator <span class="math notranslate nohighlight">\(i\)</span> is sought as</p>
+<div class="math notranslate nohighlight">
+\[x_{i,0}(\boldsymbol{t}) = x_{i,0}^\textrm{h}(\boldsymbol{t}) + x_{i,0}^\textrm{p}(\boldsymbol{t}),\]</div>
+<p>where <span class="math notranslate nohighlight">\(x_{i,0}^\textrm{h}(\boldsymbol{t})\)</span> and <span class="math notranslate nohighlight">\(x_{i,0}^\textrm{p}(\boldsymbol{t})\)</span> are the leading order homogeneous and particular sollutions, respectively,
+and</p>
+<div class="math notranslate nohighlight">
+\[\boldsymbol{t}^\intercal = [t_0, t_1, \cdots, t_{N_e}]\]</div>
+<p>is a vector containing al the time scales. It is also conveninent to introduce the times vector</p>
+<div class="math notranslate nohighlight">
+\[\boldsymbol{t}_s^\intercal = [t_1, \cdots, t_{N_e}],\]</div>
+<p>containing all the slow time scales. This way, one can express the leading order solutions as</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{cases}
+x_{i,0}^\textrm{h}(\boldsymbol{t}) &amp; = A_i(\boldsymbol{t}_s) e^{\textrm{j} \omega_i t_0} + cc = |A_i| \cos(\omega_i t_0 + \arg{A_i}),
+\\
+x_{i,0}^\textrm{p}(\boldsymbol{t}) &amp; = B_i e^{\textrm{j} \omega t} + cc = B_i e^{\textrm{j} (\omega_{\textrm{MMS}} t_0 + \sigma t_1)} + cc = |B_i| \cos(\omega_{\textrm{MMS}} t_0 + \sigma t_1 + \arg{B_i}),
+\end{cases}\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(A_i\)</span> is a slow time-dependent complex amplitude to be determined while <span class="math notranslate nohighlight">\(B_i\)</span> is a time-independent function of the forcing parameters.
+Note that in most situations, forcing does not appear at leading order (i.e. forcing is weak), so <span class="math notranslate nohighlight">\(B_i=0\)</span>.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="MMS.MMS.Multiple_scales_system.apply_MMS">
 <span class="sig-name descname"><span class="pre">apply_MMS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rewrite_polar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS/MMS.html#Multiple_scales_system.apply_MMS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.MMS.Multiple_scales_system.apply_MMS" title="Link to this definition"></a></dt>
@@ -562,6 +585,7 @@ Default is 0, so only the leading order solution will be rewritten.</p>
 This is a trick to use <code class="docutils literal notranslate"><span class="pre">dsolve()</span></code>, which only accepts functions of 1 variable.</p>
 </dd></dl>
 
+</section>
 </section>
 </dd></dl>
 
