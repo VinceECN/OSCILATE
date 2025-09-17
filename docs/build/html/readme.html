@@ -1,0 +1,191 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>README &mdash; MMS_solver 0.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=7026087e"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="License" href="license.html" />
+    <link rel="prev" title="Application Examples" href="examples.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            MMS_solver
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Application Examples</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">README</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#nonlinear-systems-considered">Nonlinear systems considered</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#solver">Solver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tests-and-examples">Tests and examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#additional-functions">Additional functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#outputs">Outputs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#disclaimer">Disclaimer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#license">License</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">MMS_solver</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">README</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/readme.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="readme">
+<h1>README<a class="headerlink" href="#readme" title="Link to this heading"></a></h1>
+<section class="tex2jax_ignore mathjax_ignore" id="nonlinear-systems-considered">
+<h2>Nonlinear systems considered<a class="headerlink" href="#nonlinear-systems-considered" title="Link to this heading"></a></h2>
+<p>This package allows the application of the <strong>Method of Multiple Scales</strong> (MMS) to nonlinear equations and systems of <span class="math notranslate nohighlight">\(N\)</span> coupled nonlinear equations of the form</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{cases}
+        \ddot{x}_0 + \omega_0^2 x_0 &amp; = f_0(\boldsymbol{x}, \dot{\boldsymbol{x}}, \ddot{\boldsymbol{x}}, t), \\
+        &amp; \vdots \\
+        \ddot{x}_{N-1} + \omega_{N-1}^2 x_{N-1} &amp; = f_{N-1}(\boldsymbol{x}, \dot{\boldsymbol{x}}, \ddot{\boldsymbol{x}}, t).
+        \end{cases}
+\end{split}\]</div>
+<p>The <span class="math notranslate nohighlight">\(x_i\)</span> (<span class="math notranslate nohighlight">\(i=0,...,N-1\)</span>) are the oscillators’ coordinates, <span class="math notranslate nohighlight">\(\omega_i\)</span> are their natural frequencies, <span class="math notranslate nohighlight">\(\boldsymbol{x}\)</span> is the vector containing all the oscillators’ coordinates, <span class="math notranslate nohighlight">\(t\)</span> is the time, <span class="math notranslate nohighlight">\(\dot{(\bullet)}\)</span> denotes a time-derivative <span class="math notranslate nohighlight">\(d(\bullet)/dt\)</span>, <span class="math notranslate nohighlight">\(f_i\)</span> is a function which can contain:</p>
+<ul class="simple">
+<li><p>Linear terms in <span class="math notranslate nohighlight">\(x_i\)</span>, <span class="math notranslate nohighlight">\(\dot{x}_i\)</span> or <span class="math notranslate nohighlight">\(\ddot{x}_i\)</span>, typically those that will be considered small in the MMS. This includes (viscous) damping.</p></li>
+<li><p>Weak coupling terms in <span class="math notranslate nohighlight">\(x_j\)</span>, <span class="math notranslate nohighlight">\(\dot{x}_j\)</span> or <span class="math notranslate nohighlight">\(\ddot{x}_j\)</span>, <span class="math notranslate nohighlight">\(j\neq i\)</span></p></li>
+<li><p>Weak nonlinear terms. Only polynomial nonlinearities are supported. Taylor expansions are performed if nonlinearities are not polynomial.</p></li>
+<li><p>Forcing, which can be hard (at first order) or weak (small). Harmonic and parametric forcing are supported.</p></li>
+</ul>
+<p>Internal resonance relations among oscillators can be specified in a second step by expressing the <span class="math notranslate nohighlight">\(\omega_i\)</span> as a function of a reference frequency. Detuning can also be introduced during this step.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="solver">
+<h2>Solver<a class="headerlink" href="#solver" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">MMS.py</span></code> is the MMS solver. It contains 3 main classes:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Dynamical_system</span></code> : the dynamical system considered</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Multiple_scales_system</span></code> : the system obtained after applying the MMS to the dynamical system</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Stead_state</span></code> : the MMS results evaluated at steady state and (if computed) the system’s response and its stability.</p></li>
+</ul>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="tests-and-examples">
+<h2>Tests and examples<a class="headerlink" href="#tests-and-examples" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">test_MMS.py</span></code> is a script containing several application examples of the MMS solver. Among the examples are</p>
+<ul class="simple">
+<li><p>The Duffing oscillator</p></li>
+<li><p>Coupled Duffing oscillators</p></li>
+<li><p>Coupled nonlinear oscillators with quadratic nonlinearities</p></li>
+<li><p>Parametrically excited oscillators</p></li>
+<li><p>Hard forcing of a Duffing oscillator</p></li>
+<li><p>Subharmonic response of 2 coupled centrifugal pendulum modes</p></li>
+</ul>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="additional-functions">
+<h2>Additional functions<a class="headerlink" href="#additional-functions" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">sympy_functions.py</span></code> contains additional functions that are not directly related to the MMS but which are used in <code class="docutils literal notranslate"><span class="pre">MMS.py</span></code>.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="outputs">
+<h2>Outputs<a class="headerlink" href="#outputs" title="Link to this heading"></a></h2>
+<p>Results are returned as sympy expressions.
+They can be printed using <span class="math notranslate nohighlight">\(\LaTeX\)</span> if the code is run in an appropriate interactive Window.
+It is the case with VS Code’s interactive Window or Spyder’s IPython consol.</p>
+<p>Methods of <code class="docutils literal notranslate"><span class="pre">Steady_state</span></code> also allow to evaluate sympy results for given numerical values of system parameters and plot them.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="disclaimer">
+<h2>Disclaimer<a class="headerlink" href="#disclaimer" title="Link to this heading"></a></h2>
+<p>This code is provided as-is and has been tested on a limited number of nonlinear systems.
+Other test cases might trigger bugs or unexpected behavior that I am not yet aware of.
+If you encounter any issues, find a bug, or have suggestions for improvements, please feel free to:</p>
+<ul class="simple">
+<li><p>Open an issue on the GitHub repository (if applicable).</p></li>
+<li><p>Contact me directly at [vincent.mahe&#64;ec-nantes.fr].</p></li>
+</ul>
+<p>Your feedback is highly appreciated!</p>
+<p>Vincent MAHE</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="license">
+<h2>License<a class="headerlink" href="#license" title="Link to this heading"></a></h2>
+<p>This project is licensed under the <strong>Apache License 2.0</strong> – see the LICENSE file for details.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="examples.html" class="btn btn-neutral float-left" title="Application Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="license.html" class="btn btn-neutral float-right" title="License" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Vincent MAHE.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
