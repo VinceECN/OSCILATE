@@ -10,7 +10,7 @@ $$
 $$
 
 The $x_i$ ($i=0,...,N-1$) are the oscillators' coordinates, $\omega_i$ are their natural frequencies, $\boldsymbol{x}$ is the vector containing all the oscillators' coordinates, $t$ is the time, $\dot{(\bullet)}$ denotes a time-derivative $d(\bullet)/dt$, $f_i$ is a function which can contain:
-- Linear terms in $x_i$, $\dot{x}_i$ or $\ddot{x}_i$, typically those that will be considered small in the MMS
+- Linear terms in $x_i$, $\dot{x}_i$ or $\ddot{x}_i$, typically those that will be considered small in the MMS. This includes (viscous) damping.
 - Weak coupling terms in $x_j$, $\dot{x}_j$ or $\ddot{x}_j$, $j\neq i$
 - Weak nonlinear terms. Only polynomial nonlinearities are supported. Taylor expansions are performed if nonlinearities are not polynomial.
 - Forcing, which can be hard (at first order) or weak (small). Harmonic and parametric forcing are supported.
