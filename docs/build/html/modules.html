@@ -320,7 +320,7 @@ Links small parameters to their scaled counterpart through <span class="math not
 Denoting <cite>ratio_omegaMMS</cite> as <span class="math notranslate nohighlight">\(r_{\textrm{MMS}}\)</span>, this means that</p>
 <div class="math notranslate nohighlight">
 \[\omega_{\textrm{MMS}} = r_{\textrm{MMS}} \omega_{\textrm{ref}}.\]</div>
-<p>Use <cite>Rational(p,q)</cite> for</p>
+<p>Use <code class="docutils literal notranslate"><span class="pre">ratio_omegaMMS=Rational(p,q)</span></code> for</p>
 <div class="math notranslate nohighlight">
 \[q \omega_{\textrm{MMS}} = p \omega_{\textrm{ref}}\]</div>
 <p>to get better-looking results than the float <span class="math notranslate nohighlight">\(p/q\)</span>.
@@ -333,13 +333,13 @@ For the <span class="math notranslate nohighlight">\(i^{\textrm{th}}\)</span> do
 <p>Default is 0.</p>
 </p></li>
 <li><p><strong>ratio_omega_osc</strong> (<em>list</em><em> of </em><em>int</em><em> or </em><em>Rational</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – <p>Specify the natural frequencies of the oscillators <span class="math notranslate nohighlight">\(\omega_i\)</span> in terms of the reference frequency <span class="math notranslate nohighlight">\(\omega_{\textrm{ref}}\)</span>.
-Denoting <cite>ratio_omega_osc[i]</cite> as <span class="math notranslate nohighlight">\(r_i\)</span>, this means that</p>
+Denoting <code class="docutils literal notranslate"><span class="pre">ratio_omega_osc[i]</span></code> as <span class="math notranslate nohighlight">\(r_i\)</span>, this means that</p>
 <div class="math notranslate nohighlight">
 \[\omega_i \approx r_i \omega_{\textrm{ref}}.\]</div>
 <p>Default is <cite>None</cite> for each oscillator, so the <span class="math notranslate nohighlight">\(\omega_i\)</span> are arbitrary and there are no internal resonances.
 Detuning can be introduced through the <cite>detunings</cite> keyword argument.</p>
 </p></li>
-<li><p><strong>detunings</strong> (<em>list</em><em> of </em><em>Symbol</em><em> or </em><em>int</em><em>, </em><em>optional</em>) – <p>The detuning of each oscillator. Denoting <cite>detunings[i]</cite> as <span class="math notranslate nohighlight">\(\delta_i\)</span>, this means that</p>
+<li><p><strong>detunings</strong> (<em>list</em><em> of </em><em>Symbol</em><em> or </em><em>int</em><em>, </em><em>optional</em>) – <p>The detuning of each oscillator. Denoting <code class="docutils literal notranslate"><span class="pre">detunings[i]</span></code> as <span class="math notranslate nohighlight">\(\delta_i\)</span>, this means that</p>
 <div class="math notranslate nohighlight">
 \[\omega_i = r_i \omega_{\textrm{ref}} + \delta_i.\]</div>
 <p>Default is 0 for each oscillator.</p>
@@ -406,13 +406,15 @@ The later is responsible for the dependency on <span class="math notranslate noh
 </ul>
 <p>Function <span class="math notranslate nohighlight">\(f_{i,j}\)</span> tends to get increasingly complex as the order increases because the initial equations generate more high order terms than low order ones.</p>
 <p>This operation is performed using <a class="reference internal" href="#MMS.MMS.Multiple_scales_system.compute_EqMMS" title="MMS.MMS.Multiple_scales_system.compute_EqMMS"><code class="xref py py-func docutils literal notranslate"><span class="pre">compute_EqMMS()</span></code></a>.</p>
+<p>Note that internal resonance relations can be given through the <cite>ratio_omega_osc</cite> optional parameter.</p>
 </section>
 <section id="frequency-of-interest">
 <h3>Frequency of Interest<a class="headerlink" href="#frequency-of-interest" title="Link to this heading"></a></h3>
 <p>The response of <span class="math notranslate nohighlight">\(x_i\)</span> will be analyzed at a frequency <span class="math notranslate nohighlight">\(\omega\)</span>, defined as</p>
 <div class="math notranslate nohighlight">
 \[\omega = \omega_{\textrm{MMS}} + \epsilon \sigma,\]</div>
-<p>where <span class="math notranslate nohighlight">\(\omega_{\textrm{MMS}}\)</span> is the <em>central</em> MMS frequency and <span class="math notranslate nohighlight">\(\sigma\)</span> is a detuning about that frequency.
+<p>where <span class="math notranslate nohighlight">\(\omega_{\textrm{MMS}}\)</span> is the <em>central</em> MMS frequency, controlled through the <cite>ratio_omegaMMS</cite> optional parameter and expressed in terms of <cite>omega_ref</cite>,
+and <span class="math notranslate nohighlight">\(\sigma\)</span> is a detuning about that frequency.
 In case the forced response is studied, <span class="math notranslate nohighlight">\(\omega\)</span> corresponds to the forcing frequency.
 In case the free response is studied, <span class="math notranslate nohighlight">\(\omega\)</span> corresponds to the frequency of free oscillations, which generates the backbone curve of the forced response.
 Note that <span class="math notranslate nohighlight">\(\omega t = \omega_{\textrm{MMS}} t_0 + \sigma t_1\)</span>. This is the reason why the forcing only involves these two time scales in the right-hand side functions of the MMS system.</p>
@@ -432,15 +434,22 @@ and</p>
 <p>is a vector containing al the time scales. It is also conveninent to introduce the times vector</p>
 <div class="math notranslate nohighlight">
 \[\boldsymbol{t}_s^\intercal = [t_1, \cdots, t_{N_e}],\]</div>
-<p>containing all the slow time scales. This way, one can express the leading order solutions as</p>
+<p>containing all the slow time scales, and the leading order natural frequencies</p>
+<div class="math notranslate nohighlight">
+\[\omega_{i,0} = r_i \omega_{\textrm{ref}}.\]</div>
+<p>This way, one can express the leading order solutions as</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{cases}
-x_{i,0}^\textrm{h}(\boldsymbol{t}) &amp; = A_i(\boldsymbol{t}_s) e^{\textrm{j} \omega_i t_0} + cc = |A_i| \cos(\omega_i t_0 + \arg{A_i}),
+x_{i,0}^\textrm{h}(\boldsymbol{t}) &amp; = A_i(\boldsymbol{t}_s) e^{\textrm{j} \omega_{i,0} t_0} + cc = |A_i(\boldsymbol{t}_s)| \cos(\omega_{i,0} t_0 + \arg{A_i(\boldsymbol{t}_s)}),
 \\
 x_{i,0}^\textrm{p}(\boldsymbol{t}) &amp; = B_i e^{\textrm{j} \omega t} + cc = B_i e^{\textrm{j} (\omega_{\textrm{MMS}} t_0 + \sigma t_1)} + cc = |B_i| \cos(\omega_{\textrm{MMS}} t_0 + \sigma t_1 + \arg{B_i}),
 \end{cases}\end{split}\]</div>
 <p>where <span class="math notranslate nohighlight">\(A_i\)</span> is a slow time-dependent complex amplitude to be determined while <span class="math notranslate nohighlight">\(B_i\)</span> is a time-independent function of the forcing parameters.
 Note that in most situations, forcing does not appear at leading order (i.e. forcing is weak), so <span class="math notranslate nohighlight">\(B_i=0\)</span>.</p>
+</section>
+<section id="higher-order-solutions">
+<h4>Higher order solutions<a class="headerlink" href="#higher-order-solutions" title="Link to this heading"></a></h4>
+<p>XXX</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="MMS.MMS.Multiple_scales_system.apply_MMS">
 <span class="sig-name descname"><span class="pre">apply_MMS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rewrite_polar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS/MMS.html#Multiple_scales_system.apply_MMS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.MMS.Multiple_scales_system.apply_MMS" title="Link to this definition"></a></dt>

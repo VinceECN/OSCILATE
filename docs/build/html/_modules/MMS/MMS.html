@@ -280,7 +280,7 @@
 <span class="sd">        .. math::</span>
 <span class="sd">            \omega_{\textrm{MMS}} = r_{\textrm{MMS}} \omega_{\textrm{ref}}.</span>
 
-<span class="sd">        Use `Rational(p,q)` for</span>
+<span class="sd">        Use ``ratio_omegaMMS=Rational(p,q)`` for</span>
 
 <span class="sd">        .. math::</span>
 <span class="sd">            q \omega_{\textrm{MMS}} = p \omega_{\textrm{ref}}</span>
@@ -299,7 +299,7 @@
 
 <span class="sd">    ratio_omega_osc : list of int or Rational or None, optional</span>
 <span class="sd">        Specify the natural frequencies of the oscillators :math:`\omega_i` in terms of the reference frequency :math:`\omega_{\textrm{ref}}`.</span>
-<span class="sd">        Denoting `ratio_omega_osc[i]` as :math:`r_i`, this means that</span>
+<span class="sd">        Denoting ``ratio_omega_osc[i]`` as :math:`r_i`, this means that</span>
 
 <span class="sd">        .. math::</span>
 <span class="sd">            \omega_i \approx r_i \omega_{\textrm{ref}}.</span>
@@ -308,7 +308,7 @@
 <span class="sd">        Detuning can be introduced through the `detunings` keyword argument.</span>
 
 <span class="sd">    detunings : list of Symbol or int, optional</span>
-<span class="sd">        The detuning of each oscillator. Denoting `detunings[i]` as :math:`\delta_i`, this means that</span>
+<span class="sd">        The detuning of each oscillator. Denoting ``detunings[i]`` as :math:`\delta_i`, this means that</span>
 
 <span class="sd">        .. math::</span>
 <span class="sd">            \omega_i = r_i \omega_{\textrm{ref}} + \delta_i.</span>
@@ -391,6 +391,8 @@
 
 <span class="sd">    This operation is performed using :func:`compute_EqMMS`.</span>
 
+<span class="sd">    Note that internal resonance relations can be given through the `ratio_omega_osc` optional parameter.</span>
+
 <span class="sd">    ---------------------</span>
 <span class="sd">    Frequency of Interest</span>
 <span class="sd">    ---------------------</span>
@@ -400,7 +402,8 @@
 <span class="sd">    .. math::</span>
 <span class="sd">        \omega = \omega_{\textrm{MMS}} + \epsilon \sigma,</span>
 
-<span class="sd">    where :math:`\omega_{\textrm{MMS}}` is the *central* MMS frequency and :math:`\sigma` is a detuning about that frequency.</span>
+<span class="sd">    where :math:`\omega_{\textrm{MMS}}` is the *central* MMS frequency, controlled through the `ratio_omegaMMS` optional parameter and expressed in terms of `omega_ref`, </span>
+<span class="sd">    and :math:`\sigma` is a detuning about that frequency.</span>
 <span class="sd">    In case the forced response is studied, :math:`\omega` corresponds to the forcing frequency.</span>
 <span class="sd">    In case the free response is studied, :math:`\omega` corresponds to the frequency of free oscillations, which generates the backbone curve of the forced response.</span>
 <span class="sd">    Note that :math:`\omega t = \omega_{\textrm{MMS}} t_0 + \sigma t_1`. This is the reason why the forcing only involves these two time scales in the right-hand side functions of the MMS system.</span>
@@ -430,17 +433,27 @@
 <span class="sd">    .. math::</span>
 <span class="sd">        \boldsymbol{t}_s^\intercal = [t_1, \cdots, t_{N_e}],</span>
 
-<span class="sd">    containing all the slow time scales. This way, one can express the leading order solutions as</span>
+<span class="sd">    containing all the slow time scales, and the leading order natural frequencies</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        \omega_{i,0} = r_i \omega_{\textrm{ref}}.</span>
+<span class="sd">    </span>
+<span class="sd">    This way, one can express the leading order solutions as</span>
 
 <span class="sd">    .. math::</span>
 <span class="sd">        \begin{cases}</span>
-<span class="sd">        x_{i,0}^\textrm{h}(\boldsymbol{t}) &amp; = A_i(\boldsymbol{t}_s) e^{\textrm{j} \omega_i t_0} + cc = |A_i| \cos(\omega_i t_0 + \arg{A_i}), </span>
+<span class="sd">        x_{i,0}^\textrm{h}(\boldsymbol{t}) &amp; = A_i(\boldsymbol{t}_s) e^{\textrm{j} \omega_{i,0} t_0} + cc = |A_i(\boldsymbol{t}_s)| \cos(\omega_{i,0} t_0 + \arg{A_i(\boldsymbol{t}_s)}), </span>
 <span class="sd">        \\</span>
 <span class="sd">        x_{i,0}^\textrm{p}(\boldsymbol{t}) &amp; = B_i e^{\textrm{j} \omega t} + cc = B_i e^{\textrm{j} (\omega_{\textrm{MMS}} t_0 + \sigma t_1)} + cc = |B_i| \cos(\omega_{\textrm{MMS}} t_0 + \sigma t_1 + \arg{B_i}),</span>
 <span class="sd">        \end{cases}</span>
 
 <span class="sd">    where :math:`A_i` is a slow time-dependent complex amplitude to be determined while :math:`B_i` is a time-independent function of the forcing parameters. </span>
 <span class="sd">    Note that in most situations, forcing does not appear at leading order (i.e. forcing is weak), so :math:`B_i=0`.</span>
+
+<span class="sd">    ^^^^^^^^^^^^^^^^^^^^^^</span>
+<span class="sd">    Higher order solutions</span>
+<span class="sd">    ^^^^^^^^^^^^^^^^^^^^^^</span>
+<span class="sd">    XXX</span>
 <span class="sd">        </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
