@@ -336,7 +336,11 @@ For the <span class="math notranslate nohighlight">\(i^{\textrm{th}}\)</span> do
 Denoting <code class="docutils literal notranslate"><span class="pre">ratio_omega_osc[i]</span></code> as <span class="math notranslate nohighlight">\(r_i\)</span>, this means that</p>
 <div class="math notranslate nohighlight">
 \[\omega_i \approx r_i \omega_{\textrm{ref}}.\]</div>
-<p>Default is <cite>None</cite> for each oscillator, so the <span class="math notranslate nohighlight">\(\omega_i\)</span> are arbitrary and there are no internal resonances.
+<p>Use <code class="docutils literal notranslate"><span class="pre">ratio_omega_osc[i]=Rational(p,q)</span></code> for</p>
+<div class="math notranslate nohighlight">
+\[q \omega_{i} \approx p \omega_{\textrm{ref}}\]</div>
+<p>to get better-looking results than the float <span class="math notranslate nohighlight">\(p/q\)</span>.
+Default is <cite>None</cite> for each oscillator, so the <span class="math notranslate nohighlight">\(\omega_i\)</span> are arbitrary and there are no internal resonances.
 Detuning can be introduced through the <cite>detunings</cite> keyword argument.</p>
 </p></li>
 <li><p><strong>detunings</strong> (<em>list</em><em> of </em><em>Symbol</em><em> or </em><em>int</em><em>, </em><em>optional</em>) – <p>The detuning of each oscillator. Denoting <code class="docutils literal notranslate"><span class="pre">detunings[i]</span></code> as <span class="math notranslate nohighlight">\(\delta_i\)</span>, this means that</p>
@@ -350,7 +354,7 @@ Detuning can be introduced through the <cite>detunings</cite> keyword argument.<
 <p class="rubric">Notes</p>
 <p>Description of the method of multiple scales.</p>
 <section id="asymptotic-series-and-time-scales">
-<h3>Asymptotic Series and Time Scales<a class="headerlink" href="#asymptotic-series-and-time-scales" title="Link to this heading"></a></h3>
+<h3>Asymptotic series and time scales<a class="headerlink" href="#asymptotic-series-and-time-scales" title="Link to this heading"></a></h3>
 <p>The starting point is to introduce asymptotic series and multiple time scales in the initial dynamical system.
 The solution for oscillator <span class="math notranslate nohighlight">\(i\)</span> is sought as a series expansion up to order <span class="math notranslate nohighlight">\(N_e\)</span> (for a leading order term <span class="math notranslate nohighlight">\(\epsilon^0 = 1\)</span>). This expansion takes the form</p>
 <div class="math notranslate nohighlight">
@@ -359,57 +363,74 @@ The solution for oscillator <span class="math notranslate nohighlight">\(i\)</sp
 <div class="math notranslate nohighlight">
 \[t_0 = t, \; t_1 = \epsilon t, \; t_2 = \epsilon^2 t, \cdots, t_{N_e} = \epsilon^{N_e} t,\]</div>
 <p>where <span class="math notranslate nohighlight">\(t_0\)</span> is the fast time, i.e., the time used to describe the oscillations,
-while <span class="math notranslate nohighlight">\(t_1, \; t_2,\; t_{N_e}\)</span> are slow times, associated to amplitude and phase variations of the solutions in time.</p>
-<p>These two operations are performed using <code class="xref py py-func docutils literal notranslate"><span class="pre">_asymptotic_series()</span></code> and <code class="xref py py-func docutils literal notranslate"><span class="pre">_time_scales()</span></code>.</p>
+while <span class="math notranslate nohighlight">\(t_1, \; t_2,\; \cdots,\; t_{N_e}\)</span> are slow times, associated to amplitude and phase variations of the solutions in time. In addition, the chain rule gives</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+\dfrac{\textrm{d}(\bullet)}{\textrm{d}t}     &amp; = \sum_{i=0}^{N_e} \epsilon^{i} \dfrac{\partial(\bullet)}{\partial t_i}, \\
+\dfrac{\textrm{d}^2(\bullet)}{\textrm{d}t^2} &amp; = \sum_{j=0}^{N_e}\sum_{i=0}^{N_e} \epsilon^{i+j} \dfrac{\partial}{\partial t_j}\dfrac{\partial(\bullet)}{\partial t_i}.
+\end{aligned}\end{split}\]</div>
+<p>The introduction of asymptotic series and time scales are performed using <code class="xref py py-func docutils literal notranslate"><span class="pre">_asymptotic_series()</span></code> and <code class="xref py py-func docutils literal notranslate"><span class="pre">_time_scales()</span></code>.</p>
+</section>
+<section id="scaling">
+<h3>Scaling<a class="headerlink" href="#scaling" title="Link to this heading"></a></h3>
+<p>The construction of the MMS system requires a scaling of the parameters. Most scalings are already passed to the MMS through the <cite>sub_scaling</cite> parameter.
+However, the natural frequencies also need to be scaled as they can contain both a leading order term and a detuning term.
+Natural frequencies <span class="math notranslate nohighlight">\(\omega_i\)</span> are defined as a function of the reference frequency :math:omega_{textrm{ref}}` through the <cite>ratio_omega_osc</cite> optional parameter, which is then used in ::func::<cite>_oscillators_frequencies</cite>.
+This allows to define internal resonance relations among the oscillators.
+If these internal resonances are not perfect, detunings can be introduced through the <cite>detunings</cite> optional parameter, which needs to be scaled and part of the parameter <cite>sub_scaling</cite>.
+To write the MMS system it is convenient to introduce the leading order natural frequencies</p>
+<div class="math notranslate nohighlight">
+\[\omega_{i,0} = r_i \omega_{\textrm{ref}},\]</div>
+<p>where <span class="math notranslate nohighlight">\(r_i\)</span> stands for <code class="docutils literal notranslate"><span class="pre">ratio_omega_osc[i]</span></code>.</p>
 </section>
 <section id="the-multiple-scales-system">
-<h3>The Multiple Scales System<a class="headerlink" href="#the-multiple-scales-system" title="Link to this heading"></a></h3>
-<p>Introducing the asymptotic series and time scales in the initial dynamical system (see <a class="reference internal" href="#MMS.MMS.Dynamical_system" title="MMS.MMS.Dynamical_system"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dynamical_system</span></code></a>) results in <span class="math notranslate nohighlight">\(N_e+1\)</span> dynamical systems, each one appearing at different orders of <span class="math notranslate nohighlight">\(\epsilon\)</span>.
+<h3>The multiple scales system<a class="headerlink" href="#the-multiple-scales-system" title="Link to this heading"></a></h3>
+<p>Introducing the asymptotic series, the time scales and the scaled parameters in the initial dynamical system (see <a class="reference internal" href="#MMS.MMS.Dynamical_system" title="MMS.MMS.Dynamical_system"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dynamical_system</span></code></a>) results in <span class="math notranslate nohighlight">\(N_e+1\)</span> dynamical systems, each one appearing at different orders of <span class="math notranslate nohighlight">\(\epsilon\)</span>.
 Denoting time scales derivatives as <span class="math notranslate nohighlight">\(\textrm{D}_i(\bullet) = \partial (\bullet) / \partial t_i\)</span>, introducing the vectors of asymptotic coordinates</p>
 <div class="math notranslate nohighlight">
 \[\boldsymbol{x}_i^\intercal = [x_{0,i}, x_{1,i}, \cdots, x_{N-1, i}],\]</div>
 <p>containing all the asymptotic terms of order <span class="math notranslate nohighlight">\(i\)</span>, with <span class="math notranslate nohighlight">\(^\intercal\)</span> denoting the transpose, the MMS equations can be written as</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{aligned}
-&amp; \epsilon^0 \rightarrow \quad
+&amp; \epsilon^0 \rightarrow \;
 \begin{cases}
-\textrm{D}_0 x_{0,0} + \omega_0^2 x_{0,0} &amp; = f_{0,0}(t_0, t_1), \\
+\textrm{D}_0 x_{0,0} + \omega_{0,0}^2 x_{0,0} &amp; = f_{0,0}(t_0, t_1), \\
 &amp; \vdots \\
-\textrm{D}_0 x_{N-1,0} + \omega_{N-1}^2 x_{N-1,0} &amp; = f_{N-1,0}(t_0, t_1),
+\textrm{D}_0 x_{N-1,0} + \omega_{N-1,0}^2 x_{N-1,0} &amp; = f_{N-1,0}(t_0, t_1),
 \end{cases} \\[15pt]
-&amp; \epsilon^1 \rightarrow \quad
+&amp; \epsilon^1 \rightarrow \;
 \begin{cases}
-\textrm{D}_0 x_{0,1} + \omega_0^2 x_{0,1} &amp; = f_{0,1}  (\boldsymbol{x}_0, \textrm{D}_0 \boldsymbol{x}_0, \textrm{D}_0^2 \boldsymbol{x}_0, \textrm{D}_1 \boldsymbol{x}_0, \textrm{D}_0\textrm{D}_1 \boldsymbol{x}_0, t_0, t_1), \\
+\textrm{D}_0 x_{0,1} + \omega_{0,0}^2 x_{0,1} &amp; = f_{0,1}  (\boldsymbol{x}_0, \textrm{D}_0 \boldsymbol{x}_0, \textrm{D}_0^2 \boldsymbol{x}_0, \textrm{D}_1 \boldsymbol{x}_0, \textrm{D}_0\textrm{D}_1 \boldsymbol{x}_0, t_0, t_1), \\
 &amp; \vdots \\
-\textrm{D}_0 x_{N-1,1} + \omega_{N-1}^2 x_{N-1,1} &amp; = f_{N-1,1}(\boldsymbol{x}_0, \textrm{D}_0 \boldsymbol{x}_0, \textrm{D}_0^2 \boldsymbol{x}_0, \textrm{D}_1 \boldsymbol{x}_0, \textrm{D}_0\textrm{D}_1 \boldsymbol{x}_0, t_0, t_1),
+\textrm{D}_0 x_{N-1,1} + \omega_{N-1,0}^2 x_{N-1,1} &amp; = f_{N-1,1}(\boldsymbol{x}_0, \textrm{D}_0 \boldsymbol{x}_0, \textrm{D}_0^2 \boldsymbol{x}_0, \textrm{D}_1 \boldsymbol{x}_0, \textrm{D}_0\textrm{D}_1 \boldsymbol{x}_0, t_0, t_1),
 \end{cases} \\[15pt]
-&amp; \epsilon^2 \rightarrow \quad
+&amp; \epsilon^2 \rightarrow \;
 \begin{cases}
-\textrm{D}_0 x_{0,2} + \omega_0^2 x_{0,2} &amp; = f_{0,2}  (\boldsymbol{x}_0, \cdots, \textrm{D}_0 \textrm{D}_2 \boldsymbol{x}_0, \boldsymbol{x}_1, \cdots, \textrm{D}_0\textrm{D}_1 \boldsymbol{x}_1, t_0, t_1), \\
+\textrm{D}_0 x_{0,2} + \omega_{0,0}^2 x_{0,2} &amp; = f_{0,2}  (\boldsymbol{x}_0, \cdots, \textrm{D}_0 \textrm{D}_2 \boldsymbol{x}_0, \boldsymbol{x}_1, \cdots, \textrm{D}_0\textrm{D}_1 \boldsymbol{x}_1, t_0, t_1), \\
 &amp; \vdots \\
-\textrm{D}_0 x_{N-1,2} + \omega_{N-1}^2 x_{N-1,2} &amp; = f_{N-1,2}(\boldsymbol{x}_0, \cdots, \textrm{D}_0 \textrm{D}_2 \boldsymbol{x}_0, \boldsymbol{x}_1, \cdots, \textrm{D}_0\textrm{D}_1 \boldsymbol{x}_1, t_0, t_1),
+\textrm{D}_0 x_{N-1,2} + \omega_{N-1,0}^2 x_{N-1,2} &amp; = f_{N-1,2}(\boldsymbol{x}_0, \cdots, \textrm{D}_0 \textrm{D}_2 \boldsymbol{x}_0, \boldsymbol{x}_1, \cdots, \textrm{D}_0\textrm{D}_1 \boldsymbol{x}_1, t_0, t_1),
 \end{cases} \\[10pt]
 &amp; \hspace{3cm} \vdots \\[10pt]
-&amp; \epsilon^{N_e} \rightarrow \quad
+&amp; \epsilon^{N_e} \rightarrow \;
 \begin{cases}
-\textrm{D}_0 x_{0,N_e} + \omega_0^2 x_{0,N_e} &amp; = f_{0,N_e}  (\boldsymbol{x}_0, \cdots, \textrm{D}_0 \textrm{D}_{N_e} \boldsymbol{x}_0, \cdots, \textrm{D}_0\textrm{D}_1 \boldsymbol{x}_{N_e-1}, t_0, t_1), \\
+\textrm{D}_0 x_{0,N_e} + \omega_{0,0}^2 x_{0,N_e} &amp; = f_{0,N_e}  (\boldsymbol{x}_0, \cdots, \textrm{D}_0 \textrm{D}_{N_e} \boldsymbol{x}_0, \cdots, \textrm{D}_0\textrm{D}_1 \boldsymbol{x}_{N_e-1}, t_0, t_1), \\
 &amp; \vdots \\
-\textrm{D}_0 x_{N-1,N_e} + \omega_{N-1}^2 x_{N-1,N_e} &amp; = f_{N-1,N_e}(\boldsymbol{x}_0, \cdots, \textrm{D}_0 \textrm{D}_{N_e} \boldsymbol{x}_0, \cdots, \textrm{D}_0\textrm{D}_1 \boldsymbol{x}_{N_e-1}, t_0, t_1).
+\textrm{D}_0 x_{N-1,N_e} + \omega_{N-1,0}^2 x_{N-1,N_e} &amp; = f_{N-1,N_e}(\boldsymbol{x}_0, \cdots, \textrm{D}_0 \textrm{D}_{N_e} \boldsymbol{x}_0, \cdots, \textrm{D}_0\textrm{D}_1 \boldsymbol{x}_{N_e-1}, t_0, t_1).
 \end{cases}
 \end{aligned}\end{split}\]</div>
 <p>Consider oscillator <span class="math notranslate nohighlight">\(i\)</span> at order <span class="math notranslate nohighlight">\(j\)</span>:</p>
 <ul class="simple">
-<li><p>The left-hand side term represents a harmonic oscillator of frequency <span class="math notranslate nohighlight">\(\omega_i\)</span>.</p></li>
+<li><p>The left-hand side term represents a harmonic oscillator of frequency <span class="math notranslate nohighlight">\(\omega_i\)</span> oscillating wrt the fast time <span class="math notranslate nohighlight">\(t_0\)</span>.</p></li>
 <li><p>The right-hand side term <span class="math notranslate nohighlight">\(f_{i,j}\)</span> is analogous to a forcing generated by all combinations of terms that appear on this oscillator’s equation at order <span class="math notranslate nohighlight">\(\epsilon^j\)</span>.
 This can involve lower order terms <span class="math notranslate nohighlight">\(x_{i,\ell}, \; \ell \leq j\)</span>, coupling terms <span class="math notranslate nohighlight">\(x_{k, \ell}, \; k \neq j,\; \ell \leq j\)</span>, their derivatives and cross-derivatives wrt the time scales, and physical forcing terms.
 The later is responsible for the dependency on <span class="math notranslate nohighlight">\(t_0,\; t_1\)</span>. The reason why slower time scales are not involved will be explained in the following.</p></li>
 </ul>
 <p>Function <span class="math notranslate nohighlight">\(f_{i,j}\)</span> tends to get increasingly complex as the order increases because the initial equations generate more high order terms than low order ones.</p>
 <p>This operation is performed using <a class="reference internal" href="#MMS.MMS.Multiple_scales_system.compute_EqMMS" title="MMS.MMS.Multiple_scales_system.compute_EqMMS"><code class="xref py py-func docutils literal notranslate"><span class="pre">compute_EqMMS()</span></code></a>.</p>
-<p>Note that internal resonance relations can be given through the <cite>ratio_omega_osc</cite> optional parameter.</p>
+<p>Note that internal resonance relations can be given through the <cite>ratio_omega_osc</cite> optional parameter, which is then used in ::func::<cite>_oscillators_frequencies</cite>.</p>
 </section>
 <section id="frequency-of-interest">
-<h3>Frequency of Interest<a class="headerlink" href="#frequency-of-interest" title="Link to this heading"></a></h3>
+<h3>Frequency of interest<a class="headerlink" href="#frequency-of-interest" title="Link to this heading"></a></h3>
 <p>The response of <span class="math notranslate nohighlight">\(x_i\)</span> will be analyzed at a frequency <span class="math notranslate nohighlight">\(\omega\)</span>, defined as</p>
 <div class="math notranslate nohighlight">
 \[\omega = \omega_{\textrm{MMS}} + \epsilon \sigma,\]</div>
@@ -420,7 +441,7 @@ In case the free response is studied, <span class="math notranslate nohighlight"
 Note that <span class="math notranslate nohighlight">\(\omega t = \omega_{\textrm{MMS}} t_0 + \sigma t_1\)</span>. This is the reason why the forcing only involves these two time scales in the right-hand side functions of the MMS system.</p>
 </section>
 <section id="iteratively-solving-the-mms-system">
-<h3>Iteratively Solving the MMS System<a class="headerlink" href="#iteratively-solving-the-mms-system" title="Link to this heading"></a></h3>
+<h3>Iteratively solving the MMS system<a class="headerlink" href="#iteratively-solving-the-mms-system" title="Link to this heading"></a></h3>
 <p>The multiple scales system can be solved iteratively by solving successively the systems of equations at each order.</p>
 <section id="leading-order-solution">
 <h4>Leading order solution<a class="headerlink" href="#leading-order-solution" title="Link to this heading"></a></h4>
@@ -445,17 +466,177 @@ x_{i,0}^\textrm{h}(\boldsymbol{t}) &amp; = A_i(\boldsymbol{t}_s) e^{\textrm{j} \
 x_{i,0}^\textrm{p}(\boldsymbol{t}) &amp; = B_i e^{\textrm{j} \omega t} + cc = B_i e^{\textrm{j} (\omega_{\textrm{MMS}} t_0 + \sigma t_1)} + cc = |B_i| \cos(\omega_{\textrm{MMS}} t_0 + \sigma t_1 + \arg{B_i}),
 \end{cases}\end{split}\]</div>
 <p>where <span class="math notranslate nohighlight">\(A_i\)</span> is a slow time-dependent complex amplitude to be determined while <span class="math notranslate nohighlight">\(B_i\)</span> is a time-independent function of the forcing parameters.
+<span class="math notranslate nohighlight">\(cc\)</span> denotes the complex conjugate.
 Note that in most situations, forcing does not appear at leading order (i.e. forcing is weak), so <span class="math notranslate nohighlight">\(B_i=0\)</span>.</p>
+<p>In the following it will be convenient to use the notations</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{split}
+\boldsymbol{A}(\boldsymbol{t}_s)^\intercal &amp; = [A_0(\boldsymbol{t}_s), A_1(\boldsymbol{t}_s), \cdots, A_{N-1}(\boldsymbol{t}_s)], \\
+\boldsymbol{B}^\intercal &amp; = [B_0, B_1, \cdots, B_{N-1}].
+\end{split}\end{split}\]</div>
+<p>The leading order solutions are defined in <a class="reference internal" href="#MMS.MMS.Multiple_scales_system.sol_order_0" title="MMS.MMS.Multiple_scales_system.sol_order_0"><code class="xref py py-func docutils literal notranslate"><span class="pre">sol_order_0()</span></code></a>.</p>
 </section>
 <section id="higher-order-solutions">
 <h4>Higher order solutions<a class="headerlink" href="#higher-order-solutions" title="Link to this heading"></a></h4>
-<p>XXX</p>
+<p>Once the leading order solutions are computed, they can be injected in the <span class="math notranslate nohighlight">\(1^\textrm{st}\)</span> higher order ones, where they (and their derivatives) appear as <em>forcing terms</em>, potentially together with physical forcing.
+The forcing terms that involve oscillations at <span class="math notranslate nohighlight">\(\omega_{i,0}\)</span> would force the oscillator on its natural frequency. Moreover, damping is always weak in the MMS, so damping terms of the form
+<span class="math notranslate nohighlight">\(c \textrm{D}_0 x_{i,1}\)</span> do not appear at this order. The aforementioned forcing terms would thus lead to unbounded solutions, which is unphysical. These terms, called <strong>secular terms</strong>, must
+therefore be eliminated. After cancelation of the secular terms, each oscillator’s equation can be solved as a forced harmonic oscillator with the independent variable <span class="math notranslate nohighlight">\(t_0\)</span>.
+The higher order solutions are expressed as a function of the leading order unknown amplitudes <span class="math notranslate nohighlight">\(\boldsymbol{A}\)</span>, their slow time derivatives, and forcing terms if any (including the hard forcing responses <span class="math notranslate nohighlight">\(\boldsymbol{B}\)</span>).</p>
+<p>This process is repeated successively at each order, i.e. the computed solutions are introduced in the next higher order system of equations, secular terms are cancelled and the next higher order solutions are computed.</p>
+<p>The secular terms are identified in <a class="reference internal" href="#MMS.MMS.Multiple_scales_system.secular_analysis" title="MMS.MMS.Multiple_scales_system.secular_analysis"><code class="xref py py-func docutils literal notranslate"><span class="pre">secular_analysis()</span></code></a> and the leading order solutions are computed in <a class="reference internal" href="#MMS.MMS.Multiple_scales_system.sol_higher_order" title="MMS.MMS.Multiple_scales_system.sol_higher_order"><code class="xref py py-func docutils literal notranslate"><span class="pre">sol_higher_order()</span></code></a>.</p>
+</section>
+<section id="secular-analysis">
+<h4>Secular analysis<a class="headerlink" href="#secular-analysis" title="Link to this heading"></a></h4>
+<p>At this stage, the solutions are all expressed in terms of the unknown amplitudes <span class="math notranslate nohighlight">\(\boldsymbol{A}\)</span> and their slow time derivatives <span class="math notranslate nohighlight">\(\textrm{D}_1 A_i(\boldsymbol{t}_s), \; \textrm{D}_{N_e} A_i(\boldsymbol{t}_s)\)</span>.
+These can be obtained from the elimination of the secular terms (called secular conditions), as described below.</p>
+<p>The <span class="math notranslate nohighlight">\(i^\textrm{th}\)</span> MMS equation at <span class="math notranslate nohighlight">\(1^\textrm{st}\)</span> higher order involves the slow time derivative <span class="math notranslate nohighlight">\(\textrm{D}_1 A_i(\boldsymbol{t}_s)\)</span>, which appears
+in the secular term. It is coming from the chain rule</p>
+<div class="math notranslate nohighlight">
+\[\dfrac{\textrm{d}^2 x_i}{\textrm{d}t^2} = \dfrac{\partial^2 x_{i,0}}{\partial t_0^2} + \epsilon \dfrac{\partial^2 x_{i,1}}{\partial t_0^2} + 2 \epsilon \dfrac{\partial^2 x_{i,0}}{\partial t_0 \partial t_1} + \mathcal{O}(\epsilon^2).\]</div>
+<p>In addition, the <span class="math notranslate nohighlight">\(\textrm{D}_1 A_j(\boldsymbol{t}_s),\; j\neq i\)</span> do not appear in the <span class="math notranslate nohighlight">\(i^\textrm{th}\)</span> MMS equation as couplings among oscillators are weak.
+It is thus possible to use the secular conditions in order to express the <span class="math notranslate nohighlight">\(\textrm{D}_1 A_i(\boldsymbol{t}_s)\)</span> as a function of <span class="math notranslate nohighlight">\(\boldsymbol{A}\)</span>.</p>
+<p>This process can be done successively at each order to obtain the system</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{cases}
+\textrm{D}_1 A_i(\boldsymbol{t}_s) &amp; = f_{A_i}^{(1)}(\boldsymbol{A}, t_1), \\
+&amp; \vdots \\
+\textrm{D}_{N_e} A_i(\boldsymbol{t}_s) &amp; = f_{A_i}^{(N_e)}(\boldsymbol{A}, t_1),
+\end{cases}\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(f_{A_i}^{(1)}(\boldsymbol{A}, t_1)\)</span> are functions governing the evolution of <span class="math notranslate nohighlight">\(A_i\)</span> wrt the slow time <span class="math notranslate nohighlight">\(t_j\)</span>.
+Note the dependency of <span class="math notranslate nohighlight">\(f_{A_i}^{(1)}\)</span> on <span class="math notranslate nohighlight">\(t_1\)</span> due to the possible presence of forcing. The above system of <span class="math notranslate nohighlight">\(1^\textrm{st}\)</span> order PDE can theoretically be solved to obtain
+the complex amplitudes <span class="math notranslate nohighlight">\(\boldsymbol{A}\)</span>.</p>
+<p>However, this approach is not the prefered one as</p>
+<ul class="simple">
+<li><p>The PDEs are complex,</p></li>
+<li><p>It is more convenient to deal with real variables than complex ones to get a physical meaning from the analysis,</p></li>
+<li><p>It is more convenient to deal with autonomous systems (without the explicit <span class="math notranslate nohighlight">\(t_1\)</span> dependency) than non-autonomous ones.</p></li>
+</ul>
+<p>The last two points can be achieved introducing new coordinates, as described thereafter.</p>
+<p>The complex evolution equations are derived in <a class="reference internal" href="#MMS.MMS.Multiple_scales_system.secular_analysis" title="MMS.MMS.Multiple_scales_system.secular_analysis"><code class="xref py py-func docutils literal notranslate"><span class="pre">secular_analysis()</span></code></a>.</p>
+</section>
+</section>
+<section id="evolution-equations">
+<h3>Evolution equations<a class="headerlink" href="#evolution-equations" title="Link to this heading"></a></h3>
+<section id="polar-coordinates">
+<h4>Polar coordinates<a class="headerlink" href="#polar-coordinates" title="Link to this heading"></a></h4>
+<p>As discussed previously, it is more convenient to deal with real variables than complex ones. This can be done introducing the polar coordinates <span class="math notranslate nohighlight">\(a_i\)</span> and <span class="math notranslate nohighlight">\(\phi_i\)</span> for oscillator :math`i` such that</p>
+<div class="math notranslate nohighlight">
+\[A_i(\boldsymbol{t}_s) = \dfrac{1}{2} a_i(\boldsymbol{t}_s) e^{\textrm{j} \phi_i(\boldsymbol{t}_s)}.\]</div>
+<p><span class="math notranslate nohighlight">\(a_i\)</span> and <span class="math notranslate nohighlight">\(\phi_i\)</span> therefore correspond to the amplitude and phase of the leading solution for oscillator <span class="math notranslate nohighlight">\(i\)</span>, respectively.
+With these new coordinates and introducing</p>
+<div class="math notranslate nohighlight">
+\[\begin{aligned}
+\boldsymbol{a}(\boldsymbol{t}_s)^\intercal = [a_0(\boldsymbol{t}_s), a_1(\boldsymbol{t}_s), \cdots, a_N(\boldsymbol{t}_s)],
+\boldsymbol{\phi}(\boldsymbol{t}_s)^\intercal = [\phi_0(\boldsymbol{t}_s), \phi_1(\boldsymbol{t}_s), \cdots, \phi_N(\boldsymbol{t}_s)],
+\end{aligned}\]</div>
+<p>the evolution equations on the <span class="math notranslate nohighlight">\(A_i\)</span> can be split into real and imaginary terms, leading to</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+&amp; \epsilon^1 \rightarrow \;
+\begin{cases}
+\textrm{D}_1 a_i(\boldsymbol{t}_s) &amp; = \hat{f}_{a_i}^{(1)}(\boldsymbol{a}, \boldsymbol{\phi}, t_1), \\
+a_i \textrm{D}_1 \phi_i(\boldsymbol{t}_s) &amp; = \hat{f}_{\phi_i}^{(1)}(\boldsymbol{a}, \boldsymbol{\phi}, t_1),
+\end{cases}
+\\[5pt]
+&amp; \hspace{3cm} \vdots \\[5pt]
+&amp; \epsilon^{N_e} \rightarrow \;
+\begin{cases}
+\textrm{D}_{N_e} a_i(\boldsymbol{t}_s) &amp; = \hat{f}_{a_i}^{(N_e)}(\boldsymbol{a}, \boldsymbol{\phi}, t_1), \\
+a_i \textrm{D}_{N_e} \phi_i(\boldsymbol{t}_s) &amp; = \hat{f}_{\phi_i}^{(N_e)}(\boldsymbol{a}, \boldsymbol{\phi}, t_1),
+\end{cases}
+\end{aligned}\end{split}\]</div>
+<p>The <span class="math notranslate nohighlight">\(\epsilon^j \rightarrow\)</span> indicates a system of 2 equations originating from the secular analysis at order <span class="math notranslate nohighlight">\(j\)</span>.
+As one has</p>
+<div class="math notranslate nohighlight">
+\[\textrm{D}_j A_i(\boldsymbol{t}_s) = \textrm{D}_j \dfrac{1}{2} a_i(\boldsymbol{t}_s) e^{\textrm{j} \phi_i(\boldsymbol{t}_s)} = \dfrac{1}{2} \textrm{D}_j \left( a_i(\boldsymbol{t}_s) \right) e^{\textrm{j} \phi_i(\boldsymbol{t}_s)} + \textrm{j} \dfrac{1}{2} a_i(\boldsymbol{t}_s) e^{\textrm{j} \phi_i(\boldsymbol{t}_s)} \textrm{D}_j \left( \phi_i(\boldsymbol{t}_s) \right),\]</div>
+<p>it is convenient to pre-multiply the evolution equations on the <span class="math notranslate nohighlight">\(A_i\)</span> by <span class="math notranslate nohighlight">\(e^{-\textrm{j} \phi_i(\boldsymbol{t}_s)}\)</span> or even <span class="math notranslate nohighlight">\(\gamma e^{-\textrm{j} \phi_i(\boldsymbol{t}_s)}\)</span> with, for instance, <span class="math notranslate nohighlight">\(\gamma = 2\)</span>.
+This avoids the presence of <span class="math notranslate nohighlight">\(cos(\phi_i)\)</span>, <span class="math notranslate nohighlight">\(sin(\phi_i)\)</span> and many <span class="math notranslate nohighlight">\(1/2\)</span> terms in the evolution equations.
+The evolution functions on polar coordinates are therefore defined as</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{cases}
+\hat{f}_{a_i}^{(j)}(\boldsymbol{a}, \boldsymbol{\phi}, t_1) &amp; = \Re\left[ 2 e^{-\textrm{j} \phi_i(\boldsymbol{t}_s)} f_{A_i}^{(j)}(\boldsymbol{A}, t_1) \right], \\
+\hat{f}_{\phi_i}^{(j)}(\boldsymbol{a}, \boldsymbol{\phi}, t_1) &amp; = \Im\left[ 2 e^{-\textrm{j} \phi_i(\boldsymbol{t}_s)} f_{A_i}^{(j)}(\boldsymbol{A}, t_1) \right].
+\end{cases}\end{split}\]</div>
+<p>The evolution equations system on the polar coordinates involves only real variables, but functions <span class="math notranslate nohighlight">\(\hat{f}_{a_i}^{(j)}\)</span> and <span class="math notranslate nohighlight">\(\hat{f}_{\phi_i}^{(j)}\)</span> are
+still non-autonomous due to the explicit dependency on <span class="math notranslate nohighlight">\(t_1\)</span>.</p>
+<p>The polar coordinates are introduced in <a class="reference internal" href="#MMS.MMS.Multiple_scales_system.polar_coordinates" title="MMS.MMS.Multiple_scales_system.polar_coordinates"><code class="xref py py-func docutils literal notranslate"><span class="pre">polar_coordinates()</span></code></a>. The real evolution equations are only computed for the autonomous system, as described below.</p>
+</section>
+<section id="autonomous-phase-coordinates">
+<h4>Autonomous phase coordinates<a class="headerlink" href="#autonomous-phase-coordinates" title="Link to this heading"></a></h4>
+<p>The presence of non-autonomous terms steems from forcing terms, which involve <span class="math notranslate nohighlight">\(\cos(\sigma t_1 - \phi_i), \; \sin(\sigma t_1 - \phi_i)\)</span> in the polar evolution functions.
+Moreover, a change of phase coordinate is necessary even in the absence of forcing for a proper representation of the leading order solution. Indeed, the current solution for <span class="math notranslate nohighlight">\(x^{(\textrm{h})}_{i,0}(\boldsymbol{t})\)</span> written in terms of polar coordinates is</p>
+<div class="math notranslate nohighlight">
+\[x^{(\textrm{h})}_{i,0}(\boldsymbol{t}) = a_i(\boldsymbol{t}_s) \cos(\omega_{i,0} t_0 + \phi_i(\boldsymbol{t}_s)).\]</div>
+<p>However, one would eventually like to express the oscillations of oscillator <span class="math notranslate nohighlight">\(i\)</span> in terms of the frequency <span class="math notranslate nohighlight">\(\omega\)</span>. To force its appearance, we recall that</p>
+<div class="math notranslate nohighlight">
+\[\omega_{i,0} = r_i \omega_{\textrm{ref}}, \quad \omega_{\textrm{ref}} = \frac{1}{r_{\textrm{MMS}}} \omega_{\textrm{MMS}}, \quad \textrm{and} \quad \omega_{\textrm{MMS}} = \omega - \epsilon \sigma.\]</div>
+<p>Introducing this in the leading order solution leads to</p>
+<div class="math notranslate nohighlight">
+\[x^{(\textrm{h})}_{i,0}(\boldsymbol{t}) = a_i(\boldsymbol{t}_s) \cos\left( \frac{r_i}{r_{\textrm{MMS}}} \omega t_0 - \frac{r_i}{r_{\textrm{MMS}}} \sigma t_1 + \phi_i(\boldsymbol{t}_s)\right).\]</div>
+<p>It therefore appears convenient to introduce the new phase coordinate <span class="math notranslate nohighlight">\(\beta_i\)</span> as</p>
+<div class="math notranslate nohighlight">
+\[\beta_i = \frac{r_i}{r_{\textrm{MMS}}} \sigma t_1 - \phi_i(\boldsymbol{t}_s),\]</div>
+<p>which allows to write the leading order solution as</p>
+<div class="math notranslate nohighlight">
+\[x^{(\textrm{h})}_{i,0}(\boldsymbol{t}) = a_i(\boldsymbol{t}_s) \cos\left( \frac{r_i}{r_{\textrm{MMS}}} \omega t_0 - \beta_i(\boldsymbol{t}_s)\right).\]</div>
+<p>In addition, the introduction of these new phase coordinates removes the explicit dependency of the evolution functions on <span class="math notranslate nohighlight">\(t_1\)</span>, which was due to terms <span class="math notranslate nohighlight">\(\cos(\sigma t_1 - \phi_i), \; \sin(\sigma t_1 - \phi_i)\)</span>.
+Introducing the notation</p>
+<div class="math notranslate nohighlight">
+\[\boldsymbol{\beta}(\boldsymbol{t}_s)^\intercal = [\beta_1(\boldsymbol{t}_s), \beta_2(\boldsymbol{t}_s), \dots, \beta_{N_e}(\boldsymbol{t}_s)],\]</div>
+<p>the evolution equations can therefore be rewritten as</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+&amp; \epsilon^1 \rightarrow \;
+\begin{cases}
+\textrm{D}_1 a_0(\boldsymbol{t}_s) &amp; = f_{a_0}^{(1)}(\boldsymbol{a}, \boldsymbol{\beta}), \\
+a_0 \textrm{D}_1 \beta_0(\boldsymbol{t}_s) &amp; = f_{\beta_0}^{(1)}(\boldsymbol{a}, \boldsymbol{\beta}), \\
+&amp; \vdots \\
+\textrm{D}_1 a_{N-1}(\boldsymbol{t}_s) &amp; = f_{a_{N-1}}^{(1)}(\boldsymbol{a}, \boldsymbol{\beta}), \\
+a_{N-1} \textrm{D}_1 \beta_{N-1}(\boldsymbol{t}_s) &amp; = f_{\beta_{N-1}}^{(1)}(\boldsymbol{a}, \boldsymbol{\beta}),
+\end{cases} \\[5pt]
+&amp; \hspace{3cm} \vdots \\[5pt]
+&amp; \epsilon^{N_e} \rightarrow \;
+\begin{cases}
+\textrm{D}_{N_e} a_0(\boldsymbol{t}_s) &amp; = f_{a_0}^{(N_e)}(\boldsymbol{a}, \boldsymbol{\beta}), \\
+a_0 \textrm{D}_{N_e} \beta_0(\boldsymbol{t}_s) &amp; = f_{\beta_0}^{(N_e)}(\boldsymbol{a}, \boldsymbol{\beta}), \\
+&amp; \vdots \\
+\textrm{D}_{N_e} a_{N-1}(\boldsymbol{t}_s) &amp; = f_{a_{N-1}}^{(N_e)}(\boldsymbol{a}, \boldsymbol{\beta}), \\
+a_{N-1} \textrm{D}_{N_e} \beta_{N-1}(\boldsymbol{t}_s) &amp; = f_{\beta_{N-1}}^{(N_e)}(\boldsymbol{a}, \boldsymbol{\beta}).
+\end{cases}
+\end{aligned}\end{split}\]</div>
+<p>The autonomous phase coordinates are introduced in <a class="reference internal" href="#MMS.MMS.Multiple_scales_system.autonomous_phases" title="MMS.MMS.Multiple_scales_system.autonomous_phases"><code class="xref py py-func docutils literal notranslate"><span class="pre">autonomous_phases()</span></code></a> and the evolution equations are computed in <a class="reference internal" href="#MMS.MMS.Multiple_scales_system.evolution_equations" title="MMS.MMS.Multiple_scales_system.evolution_equations"><code class="xref py py-func docutils literal notranslate"><span class="pre">evolution_equations()</span></code></a>.
+The above system is the key result of the application of the MMS as it governs the evolution of leading order amplitudes and phases, on which all higher order solutions depend.
+It can be rewritten in a more compact form as discussed thereafter.</p>
+</section>
+<section id="reintroduction-of-the-physical-time">
+<h4>Reintroduction of the physical time<a class="headerlink" href="#reintroduction-of-the-physical-time" title="Link to this heading"></a></h4>
+<p>Recalling the chain rule</p>
+<div class="math notranslate nohighlight">
+\[\dfrac{\textrm{d}(\bullet)}{\textrm{d}t} = \sum_{i=0}^{N_e} \epsilon^{i} \textrm{D}_i(\bullet),\]</div>
+<p>and reintroducing the physical time, the systems at each order can be summed up to write</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{cases}
+\dfrac{\textrm{d}}{dt} a_0(t) &amp; = f_{a_0}(\boldsymbol{a}, \boldsymbol{\beta}), \\
+a_0 \dfrac{\textrm{d}}{dt} \beta_0(t) &amp; = f_{\beta_0}(\boldsymbol{a}, \boldsymbol{\beta}), \\
+&amp; \vdots \\
+\dfrac{\textrm{d}}{dt} a_{N-1}(t) &amp; = f_{a_{N-1}}(\boldsymbol{a}, \boldsymbol{\beta}), \\
+a_{N-1} \dfrac{\textrm{d}}{dt} \beta_{N-1}(t) &amp; = f_{\beta_{N-1}}(\boldsymbol{a}, \boldsymbol{\beta}),
+\end{cases}\end{split}\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{cases}
+f_{a_i}(\boldsymbol{a}, \boldsymbol{\beta}) &amp; = \sum_{j=1}^{N_e} \epsilon^{j} f_{a_i}^{(j)}(\boldsymbol{a}, \boldsymbol{\beta}), \\
+f_{\beta_i}(\boldsymbol{a}, \boldsymbol{\beta}) &amp; = \sum_{j=1}^{N_e} \epsilon^{j} f_{\beta_i}^{(j)}(\boldsymbol{a}, \boldsymbol{\beta}).
+\end{cases}\end{split}\]</div>
+<p>The MMS system then obtained therefore represents a nonlinear autonomous system of coupled <span class="math notranslate nohighlight">\(1^{\textrm{st}}\)</span> order PDEs on nonlinear variables, with the physical time <span class="math notranslate nohighlight">\(t\)</span> as the independent variable.
+XXX qu’est ce qu’on en fait ?</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="MMS.MMS.Multiple_scales_system.apply_MMS">
 <span class="sig-name descname"><span class="pre">apply_MMS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rewrite_polar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS/MMS.html#Multiple_scales_system.apply_MMS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.MMS.Multiple_scales_system.apply_MMS" title="Link to this definition"></a></dt>
 <dd><p>Apply the MMS. This is operated as follows:</p>
 <ol class="arabic simple">
-<li><p>An equivalent system is written in terms of the fast scale <span class="math notranslate nohighlight">\(t_0\)</span>. This introduces the temporary unknowns <span class="math notranslate nohighlight">\(\tilde{x}_{i,j}(t_0)\)</span>, which allows the use of <code class="docutils literal notranslate"><span class="pre">dsolve()</span></code>.</p></li>
+<li><p>An equivalent system is written in terms of the fast scale <span class="math notranslate nohighlight">\(t_0\)</span>. This introduces the temporary unknowns <span class="math notranslate nohighlight">\(\tilde{x}_{i,j}(t_0)\)</span>, which allows the use of :func:<code class="docutils literal notranslate"><span class="pre">dsolve()</span></code>.</p></li>
 <li><p>Leading order solutions are introduced.</p></li>
 <li><p>The leading order solutions are introduced in the equations and the secular terms at each order are identified.
 Cancelling those secular terms is a condition for bounded solutions and leads to a system of equations governing the slow evolution of the leading order solutions.
@@ -591,7 +772,7 @@ Default is 0, so only the leading order solution will be rewritten.</p>
 <dt class="sig sig-object py" id="MMS.MMS.Multiple_scales_system.system_t0">
 <span class="sig-name descname"><span class="pre">system_t0</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS/MMS.html#Multiple_scales_system.system_t0"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.MMS.Multiple_scales_system.system_t0" title="Link to this definition"></a></dt>
 <dd><p>Rewrite the equations in terms of new coordinates <span class="math notranslate nohighlight">\(\tilde{x}_{i,j}(t_0)\)</span>, with <span class="math notranslate nohighlight">\(i,j\)</span> denoting the oscillator number and <span class="math notranslate nohighlight">\(\epsilon\)</span> order, respectively.
-This is a trick to use <code class="docutils literal notranslate"><span class="pre">dsolve()</span></code>, which only accepts functions of 1 variable.</p>
+This is a trick to use :func:<code class="docutils literal notranslate"><span class="pre">dsolve()</span></code>, which only accepts functions of 1 variable.</p>
 </dd></dl>
 
 </section>
