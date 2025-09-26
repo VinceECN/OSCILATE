@@ -17,6 +17,7 @@ extensions = [
     'sphinx.ext.napoleon',
     'sphinx.ext.autosummary',
     'sphinx.ext.githubpages',
+    'sphinx.ext.intersphinx',
     'sphinx_prompt',
     'myst_parser',
 ]
@@ -27,6 +28,13 @@ exclude_patterns = []
 # Generate autosummary
 autosummary_generate = True
 autosummary_imported_members = True
+
+# Intersphinx configuration
+intersphinx_mapping = {
+    'python': ('https://docs.python.org/3', None),
+    'sympy': ('https://docs.sympy.org/latest/', None),
+    # other mappings...
+}
 
 # Enable math support in MyST
 myst_enable_extensions = [
