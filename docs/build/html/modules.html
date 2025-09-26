@@ -58,15 +58,20 @@
 <li class="toctree-l3"><a class="reference internal" href="#MMS.MMS.Forcing_SS"><code class="docutils literal notranslate"><span class="pre">Forcing_SS</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#MMS.MMS.Multiple_scales_system"><code class="docutils literal notranslate"><span class="pre">Multiple_scales_system</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#MMS.MMS.Multiple_scales_system.apply_MMS"><code class="docutils literal notranslate"><span class="pre">Multiple_scales_system.apply_MMS()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#MMS.MMS.Multiple_scales_system.asymptotic_series"><code class="docutils literal notranslate"><span class="pre">Multiple_scales_system.asymptotic_series()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#MMS.MMS.Multiple_scales_system.autonomous_phases"><code class="docutils literal notranslate"><span class="pre">Multiple_scales_system.autonomous_phases()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#MMS.MMS.Multiple_scales_system.compute_EqMMS"><code class="docutils literal notranslate"><span class="pre">Multiple_scales_system.compute_EqMMS()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#MMS.MMS.Multiple_scales_system.evolution_equations"><code class="docutils literal notranslate"><span class="pre">Multiple_scales_system.evolution_equations()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#MMS.MMS.Multiple_scales_system.find_harmonics"><code class="docutils literal notranslate"><span class="pre">Multiple_scales_system.find_harmonics()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#MMS.MMS.Multiple_scales_system.forcing_MMS"><code class="docutils literal notranslate"><span class="pre">Multiple_scales_system.forcing_MMS()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#MMS.MMS.Multiple_scales_system.oscillators_frequencies"><code class="docutils literal notranslate"><span class="pre">Multiple_scales_system.oscillators_frequencies()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#MMS.MMS.Multiple_scales_system.polar_coordinates"><code class="docutils literal notranslate"><span class="pre">Multiple_scales_system.polar_coordinates()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#MMS.MMS.Multiple_scales_system.secular_analysis"><code class="docutils literal notranslate"><span class="pre">Multiple_scales_system.secular_analysis()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#MMS.MMS.Multiple_scales_system.sol_higher_order"><code class="docutils literal notranslate"><span class="pre">Multiple_scales_system.sol_higher_order()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#MMS.MMS.Multiple_scales_system.sol_order_0"><code class="docutils literal notranslate"><span class="pre">Multiple_scales_system.sol_order_0()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#MMS.MMS.Multiple_scales_system.sol_xMMS_polar"><code class="docutils literal notranslate"><span class="pre">Multiple_scales_system.sol_xMMS_polar()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#MMS.MMS.Multiple_scales_system.system_t0"><code class="docutils literal notranslate"><span class="pre">Multiple_scales_system.system_t0()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#MMS.MMS.Multiple_scales_system.time_scales"><code class="docutils literal notranslate"><span class="pre">Multiple_scales_system.time_scales()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#MMS.MMS.Sol_MMS"><code class="docutils literal notranslate"><span class="pre">Sol_MMS</span></code></a></li>
@@ -170,7 +175,7 @@ The Chain Rule is applied to give the expression of <span class="math notranslat
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>f</strong> (<em>Function</em>) – Function <span class="math notranslate nohighlight">\(f(t_0,t_1,...)\)</span>, i.e. <span class="math notranslate nohighlight">\(f_t(t)\)</span> expressed in terms of the time scales.</p></li>
-<li><p><strong>tS</strong> (<em>list</em>) – Time scales.</p></li>
+<li><p><strong>tS</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a>) – Time scales.</p></li>
 <li><p><strong>eps</strong> (<em>Symbol</em>) – Small parameter <span class="math notranslate nohighlight">\(\epsilon\)</span>.</p></li>
 </ul>
 </dd>
@@ -193,7 +198,7 @@ The Chain Rule is applied to give the expression of <span class="math notranslat
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>f</strong> (<em>Function</em>) – Function <span class="math notranslate nohighlight">\(f(t_0,t_1,...)\)</span>, i.e. <span class="math notranslate nohighlight">\(f_t(t)\)</span> expressed in terms of the time scales.</p></li>
-<li><p><strong>tS</strong> (<em>list</em>) – Time scales.</p></li>
+<li><p><strong>tS</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a>) – Time scales.</p></li>
 <li><p><strong>eps</strong> (<em>Symbol</em>) – Small parameter <span class="math notranslate nohighlight">\(\epsilon\)</span>.</p></li>
 </ul>
 </dd>
@@ -209,21 +214,21 @@ The Chain Rule is applied to give the expression of <span class="math notranslat
 <dl class="py class">
 <dt class="sig sig-object py" id="MMS.MMS.Coord_MMS">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MMS.MMS.</span></span><span class="sig-name descname"><span class="pre">Coord_MMS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mms</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS/MMS.html#Coord_MMS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.MMS.Coord_MMS" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>The coordinates used in the MMS.</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="MMS.MMS.Coord_SS">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MMS.MMS.</span></span><span class="sig-name descname"><span class="pre">Coord_SS</span></span><a class="reference internal" href="_modules/MMS/MMS.html#Coord_SS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.MMS.Coord_SS" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>The steady-state coordinates.</p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The steady state coordinates.</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="MMS.MMS.Dynamical_system">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MMS.MMS.</span></span><span class="sig-name descname"><span class="pre">Dynamical_system</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Eq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">omegas</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS/MMS.html#Dynamical_system"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.MMS.Dynamical_system" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>The dynamical system studied.</p>
 <p>Systems considered are typically composed of <span class="math notranslate nohighlight">\(N\)</span> coupled nonlinear equations of the form</p>
 <div class="math notranslate nohighlight">
@@ -271,7 +276,7 @@ Default is a list of 1, so the forcing is direct.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="MMS.MMS.Forcing">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MMS.MMS.</span></span><span class="sig-name descname"><span class="pre">Forcing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">F</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f_coeff</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS/MMS.html#Forcing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.MMS.Forcing" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Define the forcing on the system as</p>
 <ul class="simple">
 <li><p>A forcing amplitude <cite>F</cite>,</p></li>
@@ -284,7 +289,7 @@ the forcing term on that oscillator is <span class="math notranslate nohighlight
 <dl class="py class">
 <dt class="sig sig-object py" id="MMS.MMS.Forcing_MMS">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MMS.MMS.</span></span><span class="sig-name descname"><span class="pre">Forcing_MMS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">F</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f_order</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f_coeff</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forcing_term</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS/MMS.html#Forcing_MMS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.MMS.Forcing_MMS" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Define the forcing on the system as</p>
 <ul class="simple">
 <li><p>A forcing amplitude <cite>F</cite></p></li>
@@ -297,26 +302,26 @@ the forcing term on that oscillator is <span class="math notranslate nohighlight
 <dl class="py class">
 <dt class="sig sig-object py" id="MMS.MMS.Forcing_SS">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MMS.MMS.</span></span><span class="sig-name descname"><span class="pre">Forcing_SS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mms</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS/MMS.html#Forcing_SS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.MMS.Forcing_SS" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Define the forcing on the system.</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="MMS.MMS.Multiple_scales_system">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MMS.MMS.</span></span><span class="sig-name descname"><span class="pre">Multiple_scales_system</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dynamical_system</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ne</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">omega_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_scaling</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ratio_omegaMMS</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps_pow_0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS/MMS.html#Multiple_scales_system"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.MMS.Multiple_scales_system" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>The multiple scales system.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>dynamical_system</strong> (<a class="reference internal" href="#MMS.MMS.Dynamical_system" title="MMS.MMS.Dynamical_system"><em>Dynamical_system</em></a>) – The dynamical system.</p></li>
 <li><p><strong>eps</strong> (<em>Symbol</em>) – Small perturbation parameter <span class="math notranslate nohighlight">\(\epsilon\)</span>.</p></li>
-<li><p><strong>Ne</strong> (<em>int</em>) – Truncation order of the asymptotic series and order of the slowest time scale.</p></li>
+<li><p><strong>Ne</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) – Truncation order of the asymptotic series and order of the slowest time scale.</p></li>
 <li><p><strong>omega_ref</strong> (<em>Symbol</em>) – Reference frequency <span class="math notranslate nohighlight">\(\omega_{\textrm{ref}}\)</span> of the MMS.
 Not necessarily the frequency around which the MMS is going to be applied, see <cite>ratio_omegaMMS</cite>.</p></li>
-<li><p><strong>sub_scaling</strong> (<em>list</em><em> of </em><em>tuples</em>) – Substitutions to do to scale the equations.
+<li><p><strong>sub_scaling</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a><em> of </em><em>tuples</em>) – Substitutions to do to scale the equations.
 Links small parameters to their scaled counterpart through <span class="math notranslate nohighlight">\(\epsilon\)</span>.</p></li>
-<li><p><strong>ratio_omegaMMS</strong> (<em>int</em><em> or </em><em>Rational</em><em>, </em><em>optional</em>) – <p>Specify the frequency <cite>omegaMMS</cite> around which the MMS is going to be applied in terms of <span class="math notranslate nohighlight">\(\omega_{\textrm{ref}}\)</span>.
+<li><p><strong>ratio_omegaMMS</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em> or </em><em>Rational</em><em>, </em><em>optional</em>) – <p>Specify the frequency <cite>omegaMMS</cite> around which the MMS is going to be applied in terms of <span class="math notranslate nohighlight">\(\omega_{\textrm{ref}}\)</span>.
 Denoting <cite>ratio_omegaMMS</cite> as <span class="math notranslate nohighlight">\(r_{\textrm{MMS}}\)</span>, this means that</p>
 <div class="math notranslate nohighlight">
 \[\omega_{\textrm{MMS}} = r_{\textrm{MMS}} \omega_{\textrm{ref}}.\]</div>
@@ -326,13 +331,13 @@ Denoting <cite>ratio_omegaMMS</cite> as <span class="math notranslate nohighligh
 <p>to get better-looking results than the float <span class="math notranslate nohighlight">\(p/q\)</span>.
 Default is 1.</p>
 </p></li>
-<li><p><strong>eps_pow_0</strong> (<em>int</em><em>, </em><em>optional</em>) – <p>Order of the leading order term in the asymptotic series of each oscillators’ response.
+<li><p><strong>eps_pow_0</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em>, </em><em>optional</em>) – <p>Order of the leading order term in the asymptotic series of each oscillators’ response.
 For the <span class="math notranslate nohighlight">\(i^{\textrm{th}}\)</span> dof and denoting <cite>eps_pow_0</cite> as <span class="math notranslate nohighlight">\(\lambda_0\)</span>, this means that</p>
 <div class="math notranslate nohighlight">
 \[x_i = \epsilon^{\lambda_0} x_{i,0} + \epsilon^{\lambda_0+1} x_{i,1} + \cdots.\]</div>
 <p>Default is 0.</p>
 </p></li>
-<li><p><strong>ratio_omega_osc</strong> (<em>list</em><em> of </em><em>int</em><em> or </em><em>Rational</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – <p>Specify the natural frequencies of the oscillators <span class="math notranslate nohighlight">\(\omega_i\)</span> in terms of the reference frequency <span class="math notranslate nohighlight">\(\omega_{\textrm{ref}}\)</span>.
+<li><p><strong>ratio_omega_osc</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em> or </em><em>Rational</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – <p>Specify the natural frequencies of the oscillators <span class="math notranslate nohighlight">\(\omega_i\)</span> in terms of the reference frequency <span class="math notranslate nohighlight">\(\omega_{\textrm{ref}}\)</span>.
 Denoting <code class="docutils literal notranslate"><span class="pre">ratio_omega_osc[i]</span></code> as <span class="math notranslate nohighlight">\(r_i\)</span>, this means that</p>
 <div class="math notranslate nohighlight">
 \[\omega_i \approx r_i \omega_{\textrm{ref}}.\]</div>
@@ -343,7 +348,7 @@ Denoting <code class="docutils literal notranslate"><span class="pre">ratio_omeg
 Default is <cite>None</cite> for each oscillator, so the <span class="math notranslate nohighlight">\(\omega_i\)</span> are arbitrary and there are no internal resonances.
 Detuning can be introduced through the <cite>detunings</cite> keyword argument.</p>
 </p></li>
-<li><p><strong>detunings</strong> (<em>list</em><em> of </em><em>Symbol</em><em> or </em><em>int</em><em>, </em><em>optional</em>) – <p>The detuning of each oscillator. Denoting <code class="docutils literal notranslate"><span class="pre">detunings[i]</span></code> as <span class="math notranslate nohighlight">\(\delta_i\)</span>, this means that</p>
+<li><p><strong>detunings</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a><em> of </em><em>Symbol</em><em> or </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em>, </em><em>optional</em>) – <p>The detuning of each oscillator. Denoting <code class="docutils literal notranslate"><span class="pre">detunings[i]</span></code> as <span class="math notranslate nohighlight">\(\delta_i\)</span>, this means that</p>
 <div class="math notranslate nohighlight">
 \[\omega_i = r_i \omega_{\textrm{ref}} + \delta_i.\]</div>
 <p>Default is 0 for each oscillator.</p>
@@ -369,13 +374,13 @@ while <span class="math notranslate nohighlight">\(t_1, \; t_2,\; \cdots,\; t_{N
 \dfrac{\textrm{d}(\bullet)}{\textrm{d}t}     &amp; = \sum_{i=0}^{N_e} \epsilon^{i} \dfrac{\partial(\bullet)}{\partial t_i} + \mathcal{O}(\epsilon^{N_e+1}), \\
 \dfrac{\textrm{d}^2(\bullet)}{\textrm{d}t^2} &amp; = \sum_{j=0}^{N_e}\sum_{i=0}^{N_e} \epsilon^{i+j} \dfrac{\partial}{\partial t_j}\dfrac{\partial(\bullet)}{\partial t_i} + \mathcal{O}(\epsilon^{N_e+1}).
 \end{aligned}\end{split}\]</div>
-<p>The introduction of asymptotic series and time scales are performed using <code class="xref py py-func docutils literal notranslate"><span class="pre">_asymptotic_series()</span></code> and <code class="xref py py-func docutils literal notranslate"><span class="pre">_time_scales()</span></code>.</p>
+<p>The introduction of asymptotic series and time scales are performed using <a class="reference internal" href="#MMS.MMS.Multiple_scales_system.asymptotic_series" title="MMS.MMS.Multiple_scales_system.asymptotic_series"><code class="xref py py-func docutils literal notranslate"><span class="pre">asymptotic_series()</span></code></a> and <a class="reference internal" href="#MMS.MMS.Multiple_scales_system.time_scales" title="MMS.MMS.Multiple_scales_system.time_scales"><code class="xref py py-func docutils literal notranslate"><span class="pre">time_scales()</span></code></a>.</p>
 </section>
 <section id="scaling">
 <h3>Scaling<a class="headerlink" href="#scaling" title="Link to this heading"></a></h3>
 <p>The construction of the MMS system requires a scaling of the parameters. Most scalings are already passed to the MMS through the <cite>sub_scaling</cite> parameter.
 However, the natural frequencies also need to be scaled as they can contain both a leading order term and a detuning term.
-Natural frequencies <span class="math notranslate nohighlight">\(\omega_i\)</span> are defined as a function of the reference frequency <span class="math notranslate nohighlight">\(\omega_{\textrm{ref}}\)</span> through the <cite>ratio_omega_osc</cite> optional parameter, which is then used in <code class="xref py py-func docutils literal notranslate"><span class="pre">_oscillators_frequencies()</span></code>.
+Natural frequencies <span class="math notranslate nohighlight">\(\omega_i\)</span> are defined as a function of the reference frequency <span class="math notranslate nohighlight">\(\omega_{\textrm{ref}}\)</span> through the <cite>ratio_omega_osc</cite> optional parameter, which is then used in <a class="reference internal" href="#MMS.MMS.Multiple_scales_system.oscillators_frequencies" title="MMS.MMS.Multiple_scales_system.oscillators_frequencies"><code class="xref py py-func docutils literal notranslate"><span class="pre">oscillators_frequencies()</span></code></a>.
 This allows to define internal resonance relations among the oscillators.
 If these internal resonances are not perfect, detunings can be introduced through the <cite>detunings</cite> optional parameter, which needs to be scaled and part of the <cite>sub_scaling</cite> parameter.</p>
 <p>To write the MMS system it is convenient to introduce the leading order natural frequencies</p>
@@ -426,14 +431,14 @@ Denoting time scales derivatives as</p>
 \end{aligned}\end{split}\]</div>
 <p>Consider oscillator <span class="math notranslate nohighlight">\(i\)</span> at order <span class="math notranslate nohighlight">\(j\)</span>:</p>
 <ul class="simple">
-<li><p>The left-hand side term represents a harmonic oscillator of frequency <span class="math notranslate nohighlight">\(\omega_{i,0}\)</span> oscillating wrt the fast time <span class="math notranslate nohighlight">\(t_0\)</span>.</p></li>
+<li><p>The left-hand side term represents a harmonic oscillator of frequency <span class="math notranslate nohighlight">\(\omega_{i,0}\)</span> oscillating with respect to the fast time <span class="math notranslate nohighlight">\(t_0\)</span>.</p></li>
 <li><p>The right-hand side term <span class="math notranslate nohighlight">\(f_{i,j}\)</span> is analogous to a forcing generated by all combinations of terms that appear on oscillator <span class="math notranslate nohighlight">\(i\)</span>’s equation at order <span class="math notranslate nohighlight">\(\epsilon^j\)</span>.
-This can involve lower order terms <span class="math notranslate nohighlight">\(x_{i,\ell}, \; \ell \leq j\)</span>, coupling terms <span class="math notranslate nohighlight">\(x_{k, \ell}, \; k \neq j,\; \ell \leq j\)</span>, their derivatives and cross-derivatives wrt the time scales, and physical forcing terms.
+This can involve lower order terms <span class="math notranslate nohighlight">\(x_{i,\ell}, \; \ell \leq j\)</span>, coupling terms <span class="math notranslate nohighlight">\(x_{k, \ell}, \; k \neq j,\; \ell \leq j\)</span>, their derivatives and cross-derivatives with respect to the time scales, and physical forcing terms.
 The later is responsible for the dependency on <span class="math notranslate nohighlight">\(t_0,\; t_1\)</span>. The reason why slower time scales are not involved will be explained in the following.</p></li>
 </ul>
 <p>Function <span class="math notranslate nohighlight">\(f_{i,j}\)</span> tends to get increasingly complex as the order increases because the initial equations generate more high order terms than low order ones.</p>
 <p>This operation is performed using <a class="reference internal" href="#MMS.MMS.Multiple_scales_system.compute_EqMMS" title="MMS.MMS.Multiple_scales_system.compute_EqMMS"><code class="xref py py-func docutils literal notranslate"><span class="pre">compute_EqMMS()</span></code></a>.</p>
-<p>Note that internal resonance relations can be given through the <cite>ratio_omega_osc</cite> optional parameter, which is then used in <code class="xref py py-func docutils literal notranslate"><span class="pre">_oscillators_frequencies()</span></code>.</p>
+<p>Note that internal resonance relations can be given through the <cite>ratio_omega_osc</cite> optional parameter, which is then used in <a class="reference internal" href="#MMS.MMS.Multiple_scales_system.oscillators_frequencies" title="MMS.MMS.Multiple_scales_system.oscillators_frequencies"><code class="xref py py-func docutils literal notranslate"><span class="pre">oscillators_frequencies()</span></code></a>.</p>
 </section>
 <section id="frequency-of-interest">
 <h3>Frequency of interest<a class="headerlink" href="#frequency-of-interest" title="Link to this heading"></a></h3>
@@ -451,7 +456,10 @@ Note that <span class="math notranslate nohighlight">\(\omega t = \omega_{\textr
 <p>The multiple scales system can be solved iteratively by solving successively the systems of equations at each order.</p>
 <section id="leading-order-solution">
 <h4>Leading order solution<a class="headerlink" href="#leading-order-solution" title="Link to this heading"></a></h4>
-<p>The leading order solution for oscillator <span class="math notranslate nohighlight">\(i\)</span> is sought as</p>
+<p>The leading order solution for oscillator <span class="math notranslate nohighlight">\(i\)</span> must satisfy</p>
+<div class="math notranslate nohighlight">
+\[\textrm{D}_0 x_{i,0} + \omega_{i,0}^2 x_{i,0} = f_{i,0}(t_0, t_1).\]</div>
+<p>It is sought as</p>
 <div class="math notranslate nohighlight">
 \[x_{i,0}(\boldsymbol{t}) = x_{i,0}^\textrm{h}(\boldsymbol{t}) + x_{i,0}^\textrm{p}(t_0, t_1),\]</div>
 <p>where <span class="math notranslate nohighlight">\(x_{i,0}^\textrm{h}(\boldsymbol{t})\)</span> and <span class="math notranslate nohighlight">\(x_{i,0}^\textrm{p}(t_0, t_1)\)</span> are the leading order homogeneous and particular sollutions, respectively.</p>
@@ -478,17 +486,29 @@ Note that in most situations, forcing does not appear at leading order (i.e. for
 </section>
 <section id="higher-order-solutions">
 <h4>Higher order solutions<a class="headerlink" href="#higher-order-solutions" title="Link to this heading"></a></h4>
-<p>Once the leading order solutions are computed, they can be injected in the <span class="math notranslate nohighlight">\(1^\textrm{st}\)</span> higher order ones, where they (and their derivatives) appear as <em>forcing terms</em>, potentially together with physical forcing.</p>
+<p>Once the leading order solutions are computed, they can be injected in the <span class="math notranslate nohighlight">\(1^\textrm{st}\)</span> higher order equations, where they (and their derivatives) appear as <em>forcing terms</em>, potentially together with physical forcing.
+The <span class="math notranslate nohighlight">\(1^\textrm{st}\)</span> higher order equation for oscillator <span class="math notranslate nohighlight">\(i\)</span> is</p>
+<div class="math notranslate nohighlight">
+\[\textrm{D}_0 x_{i,1} + \omega_{i,0}^2 x_{i,1} = f_{i,1}(\boldsymbol{x}_0, \textrm{D}_0 \boldsymbol{x}_0, \textrm{D}_0^2 \boldsymbol{x}_0, \textrm{D}_1 \boldsymbol{x}_0, \textrm{D}_0\textrm{D}_1 \boldsymbol{x}_0, t_0, t_1).\]</div>
 <p>The forcing terms that involve oscillations at <span class="math notranslate nohighlight">\(\omega_{i,0}\)</span> would force the oscillator on its natural frequency. Moreover, damping is always weak in the MMS, so damping terms of the form
 <span class="math notranslate nohighlight">\(c \textrm{D}_0 x_{i,1}\)</span> do not appear at this order.
 The aforementioned forcing terms would thus lead to unbounded solutions, which is unphysical.
-These forcing terms, called <strong>secular terms</strong>, must
-therefore be eliminated. After cancelation of the secular terms, each oscillator’s equation can be solved as a forced harmonic oscillator with the independent variable <span class="math notranslate nohighlight">\(t_0\)</span>.</p>
-<p>The higher order solutions <span class="math notranslate nohighlight">\(x_{i,1}(\boldsymbol{t})\)</span> are expressed as a function of the leading order unknown amplitudes <span class="math notranslate nohighlight">\(\boldsymbol{A}(\boldsymbol{t}_s)\)</span>, their slow time derivatives <span class="math notranslate nohighlight">\(\textrm{D}_i\boldsymbol{A}(\boldsymbol{t}_s), \; i=1, ..., N_e\)</span>, and forcing terms if any (including the hard forcing amplitudes <span class="math notranslate nohighlight">\(\boldsymbol{B}\)</span>).</p>
-<p>This process is repeated successively at each order, i.e. the computed solutions are introduced in the next higher order system of equations, secular terms are cancelled and the next higher order solutions are computed.</p>
-<p>Note that only the particular solutions are considered when solving higher order terms. This is because initial conditions (if considered, i.e. if not only interested in the steady state response) are assumed to of leading order.</p>
+These forcing terms, called <strong>secular terms</strong>, must therefore be eliminated.
+For instance, the <span class="math notranslate nohighlight">\(1^\textrm{st}\)</span> higher order equation for oscillator <span class="math notranslate nohighlight">\(i\)</span> with the secular terms cancelled is</p>
+<div class="math notranslate nohighlight">
+\[\textrm{D}_0 x_{i,1} + \omega_{i,0}^2 x_{i,1} = \bar{f}_{i,1}(\boldsymbol{x}_0, \textrm{D}_0 \boldsymbol{x}_0, \textrm{D}_0^2 \boldsymbol{x}_0, \textrm{D}_1 \boldsymbol{x}_0, \textrm{D}_0\textrm{D}_1 \boldsymbol{x}_0, t_0, t_1).\]</div>
+<p>where <span class="math notranslate nohighlight">\(\bar{f}_{i,1}\)</span> is <span class="math notranslate nohighlight">\(f_{i,1}\)</span> with the secular terms cancelled, i.e. without terms oscillating as <span class="math notranslate nohighlight">\(\omega_{i,0}\)</span>.
+After cancelation of the secular terms, each oscillator’s equation can be solved as a forced harmonic oscillator with the independent variable <span class="math notranslate nohighlight">\(t_0\)</span>.</p>
+<p>Note that only the particular solutions are considered when solving higher order terms, i.e.</p>
+<div class="math notranslate nohighlight">
+\[x_{i,1}(\boldsymbol{t}) = \underbrace{x_{i,1}^\textrm{h}(\boldsymbol{t})}_{=0} + x_{i,1}^\textrm{p}(t_0, t_1).\]</div>
+<p>This choice can be justified if one assumes that initial conditions are of leading order. Though this is questionable, it is assumed here.</p>
+<p>The higher order solutions <span class="math notranslate nohighlight">\(x_{i,1}(\boldsymbol{t})\)</span> are expressed as a function of the leading order unknown amplitudes <span class="math notranslate nohighlight">\(\boldsymbol{A}(\boldsymbol{t}_s)\)</span>,
+their slow time derivatives <span class="math notranslate nohighlight">\(\textrm{D}_i\boldsymbol{A}(\boldsymbol{t}_s), \; i=1, ..., N_e\)</span>, and forcing terms if any (including the hard forcing amplitudes <span class="math notranslate nohighlight">\(\boldsymbol{B}\)</span>).</p>
+<p>This process is repeated successively at each order, i.e. the computed solutions are introduced in the next higher order system of equations,
+secular terms are cancelled and the next higher order solutions are computed.</p>
 <p>The secular terms are identified in <a class="reference internal" href="#MMS.MMS.Multiple_scales_system.secular_analysis" title="MMS.MMS.Multiple_scales_system.secular_analysis"><code class="xref py py-func docutils literal notranslate"><span class="pre">secular_analysis()</span></code></a> and the leading order solutions are computed in <a class="reference internal" href="#MMS.MMS.Multiple_scales_system.sol_higher_order" title="MMS.MMS.Multiple_scales_system.sol_higher_order"><code class="xref py py-func docutils literal notranslate"><span class="pre">sol_higher_order()</span></code></a>.
-Note that <a class="reference internal" href="#MMS.MMS.Multiple_scales_system.sol_higher_order" title="MMS.MMS.Multiple_scales_system.sol_higher_order"><code class="xref py py-func docutils literal notranslate"><span class="pre">sol_higher_order()</span></code></a> is applied on equations with only <span class="math notranslate nohighlight">\(t_0\)</span> as the independent variable so as to allow the use of <code class="xref py py-func docutils literal notranslate"><span class="pre">solve()</span></code>.
+Note that <a class="reference internal" href="#MMS.MMS.Multiple_scales_system.sol_higher_order" title="MMS.MMS.Multiple_scales_system.sol_higher_order"><code class="xref py py-func docutils literal notranslate"><span class="pre">sol_higher_order()</span></code></a> is applied on equations with only <span class="math notranslate nohighlight">\(t_0\)</span> as the independent variable so as to allow the use of <a class="reference external" href="https://docs.sympy.org/latest/modules/solvers/ode.html#sympy.solvers.ode.dsolve" title="(in SymPy v1.14.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">dsolve()</span></code></a>.
 This is enforced using <a class="reference internal" href="#MMS.MMS.Multiple_scales_system.system_t0" title="MMS.MMS.Multiple_scales_system.system_t0"><code class="xref py py-func docutils literal notranslate"><span class="pre">system_t0()</span></code></a>, which temporarily ignores the dependency of <span class="math notranslate nohighlight">\(\boldsymbol{A}(\boldsymbol{t}_s)\)</span> on the slow time scales.</p>
 </section>
 <section id="secular-analysis">
@@ -501,24 +521,23 @@ in the secular term. It is coming from the chain rule</p>
 \[\dfrac{\textrm{d}^2 x_i(t)}{\textrm{d}t^2} = \dfrac{\partial^2 x_{i,0}(\boldsymbol{t})}{\partial t_0^2} + \epsilon \dfrac{\partial^2 x_{i,1}(\boldsymbol{t})}{\partial t_0^2} + 2 \epsilon \dfrac{\partial^2 x_{i,0}(\boldsymbol{t})}{\partial t_0 \partial t_1} + \mathcal{O}(\epsilon^2).\]</div>
 <p>In addition, the <span class="math notranslate nohighlight">\(\textrm{D}_1 A_j(\boldsymbol{t}_s),\; j\neq i\)</span> do not appear in the <span class="math notranslate nohighlight">\(i^\textrm{th}\)</span> MMS equation as couplings among oscillators are weak.
 It is thus possible to use the secular conditions in order to express the <span class="math notranslate nohighlight">\(\textrm{D}_1 A_i(\boldsymbol{t}_s)\)</span> as a function of <span class="math notranslate nohighlight">\(\boldsymbol{A}(\boldsymbol{t}_s)\)</span>.</p>
-<p>This process can be done successively at each order to obtain the system</p>
+<p>This process can be done successively at each order to obtain the system of complex evolution equations</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{cases}
 \textrm{D}_1 A_i(\boldsymbol{t}_s) &amp; = f_{A_i}^{(1)}(\boldsymbol{A}, t_1), \\
 &amp; \vdots \\
-\textrm{D}_{N_e} A_i(\boldsymbol{t}_s) &amp; = f_{A_i}^{(N_e)}(\boldsymbol{A}, t_1),
+\textrm{D}_{N_e} A_i(\boldsymbol{t}_s) &amp; = f_{A_i}^{(N_e)}(\boldsymbol{A}, t_1).
 \end{cases}\end{split}\]</div>
-<p>where <span class="math notranslate nohighlight">\(f_{A_i}^{(j)}(\boldsymbol{A}, t_1)\)</span> are functions governing the evolution of <span class="math notranslate nohighlight">\(A_i\)</span> wrt the slow time <span class="math notranslate nohighlight">\(t_j\)</span>.
-Note the dependency of <span class="math notranslate nohighlight">\(f_{A_i}^{(j)}\)</span> on <span class="math notranslate nohighlight">\(t_1\)</span> due to the possible presence of forcing.</p>
+<p><span class="math notranslate nohighlight">\(f_{A_i}^{(j)}(\boldsymbol{A}, t_1)\)</span> are functions governing the evolution of <span class="math notranslate nohighlight">\(A_i\)</span> with respect to the slow time <span class="math notranslate nohighlight">\(t_j\)</span>.
+Note the dependency of <span class="math notranslate nohighlight">\(f_{A_i}^{(j)}\)</span> on <span class="math notranslate nohighlight">\(t_1\)</span> due to the possible presence of forcing. The complex evolution equations are derived in <a class="reference internal" href="#MMS.MMS.Multiple_scales_system.secular_analysis" title="MMS.MMS.Multiple_scales_system.secular_analysis"><code class="xref py py-func docutils literal notranslate"><span class="pre">secular_analysis()</span></code></a>.</p>
 <p>The above system of <span class="math notranslate nohighlight">\(1^\textrm{st}\)</span> order PDE can theoretically be solved to obtain the complex amplitudes <span class="math notranslate nohighlight">\(\boldsymbol{A}\)</span>.
 However, this approach is not the prefered one as</p>
 <ul class="simple">
 <li><p>It is more convenient to deal with real variables than complex ones to get a physical meaning from the analysis,</p></li>
-<li><p>It is more convenient to deal with autonomous systems (without the explicit <span class="math notranslate nohighlight">\(t_1\)</span>-dependency) than non-autonomous ones,</p></li>
+<li><p>It is more convenient to deal with autonomous systems (without the explicit <span class="math notranslate nohighlight">\(t_1\)</span>-dependency) than nonautonomous ones,</p></li>
 <li><p>The PDEs are complex.</p></li>
 </ul>
 <p>The first two points can be achieved introducing new coordinates, as described thereafter.</p>
-<p>The complex evolution equations are derived in <a class="reference internal" href="#MMS.MMS.Multiple_scales_system.secular_analysis" title="MMS.MMS.Multiple_scales_system.secular_analysis"><code class="xref py py-func docutils literal notranslate"><span class="pre">secular_analysis()</span></code></a>.</p>
 </section>
 </section>
 <section id="evolution-equations">
@@ -528,7 +547,7 @@ However, this approach is not the prefered one as</p>
 <p>As discussed previously, it is more convenient to deal with real variables than complex ones. This can be done introducing the polar coordinates <span class="math notranslate nohighlight">\(a_i\)</span> and <span class="math notranslate nohighlight">\(\phi_i\)</span> for oscillator <span class="math notranslate nohighlight">\(i\)</span> such that</p>
 <div class="math notranslate nohighlight">
 \[A_i(\boldsymbol{t}_s) = \dfrac{1}{2} a_i(\boldsymbol{t}_s) e^{\textrm{j} \phi_i(\boldsymbol{t}_s)}.\]</div>
-<p><span class="math notranslate nohighlight">\(a_i\)</span> and <span class="math notranslate nohighlight">\(\phi_i\)</span> therefore correspond to the amplitude and phase of the leading solution for oscillator <span class="math notranslate nohighlight">\(i\)</span>, respectively.
+<p><span class="math notranslate nohighlight">\(a_i\)</span> and <span class="math notranslate nohighlight">\(\phi_i\)</span> correspond to the amplitude and phase of the leading solution for oscillator <span class="math notranslate nohighlight">\(i\)</span>, respectively.
 With these new coordinates and introducing</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{aligned}
@@ -564,30 +583,31 @@ The evolution functions on polar coordinates are therefore defined as</p>
 \hat{f}_{\phi_i}^{(j)}(\boldsymbol{a}, \boldsymbol{\phi}, t_1) &amp; = \Im\left[ 2 e^{-\textrm{j} \phi_i(\boldsymbol{t}_s)} f_{A_i}^{(j)}(\boldsymbol{A}, t_1) \right].
 \end{cases}\end{split}\]</div>
 <p>The evolution equations system on the polar coordinates involves only real variables, but functions <span class="math notranslate nohighlight">\(\hat{f}_{a_i}^{(j)}\)</span> and <span class="math notranslate nohighlight">\(\hat{f}_{\phi_i}^{(j)}\)</span> are
-still non-autonomous due to the explicit dependency on <span class="math notranslate nohighlight">\(t_1\)</span>.</p>
+still nonautonomous due to the explicit dependency on <span class="math notranslate nohighlight">\(t_1\)</span>.</p>
 <p>The polar coordinates are introduced in <a class="reference internal" href="#MMS.MMS.Multiple_scales_system.polar_coordinates" title="MMS.MMS.Multiple_scales_system.polar_coordinates"><code class="xref py py-func docutils literal notranslate"><span class="pre">polar_coordinates()</span></code></a>. The real evolution equations are only computed for the autonomous system, as described below.</p>
 </section>
 <section id="autonomous-phase-coordinates">
 <h4>Autonomous phase coordinates<a class="headerlink" href="#autonomous-phase-coordinates" title="Link to this heading"></a></h4>
-<p>The presence of non-autonomous terms steems from forcing terms, which involve <span class="math notranslate nohighlight">\(\cos(\sigma t_1 - \phi_i), \; \sin(\sigma t_1 - \phi_i)\)</span> in the polar evolution functions of oscillator <span class="math notranslate nohighlight">\(i\)</span>.
+<p>The presence of nonautonomous terms stems from forcing terms, which involve <span class="math notranslate nohighlight">\(\cos(\sigma t_1 - \phi_i), \; \sin(\sigma t_1 - \phi_i)\)</span> in the polar evolution functions of oscillator <span class="math notranslate nohighlight">\(i\)</span>.
 A change of phase coordinates is required to make this autonomous.
-Moreover, the change of phase coordinate is necessary even in the absence of forcing for a proper representation of the leading order solution. Indeed, the current solution for <span class="math notranslate nohighlight">\(x^{(\textrm{h})}_{i,0}(\boldsymbol{t})\)</span> written in terms of polar coordinates is</p>
+Moreover, the change of phase coordinate is necessary even in the absence of forcing for a convenient representation of the leading order solution.
+Indeed, the solution for <span class="math notranslate nohighlight">\(x^{\textrm{h}}_{i,0}(\boldsymbol{t})\)</span> written in terms of the current polar coordinates is</p>
 <div class="math notranslate nohighlight">
-\[x^{(\textrm{h})}_{i,0}(\boldsymbol{t}) = a_i(\boldsymbol{t}_s) \cos(\omega_{i,0} t_0 + \phi_i(\boldsymbol{t}_s)).\]</div>
+\[x^{\textrm{h}}_{i,0}(\boldsymbol{t}) = a_i(\boldsymbol{t}_s) \cos(\omega_{i,0} t_0 + \phi_i(\boldsymbol{t}_s)).\]</div>
 <p>However, one would eventually like to express the oscillations of oscillator <span class="math notranslate nohighlight">\(i\)</span> in terms of the frequency <span class="math notranslate nohighlight">\(\omega\)</span>. To force its appearance, we recall that</p>
 <div class="math notranslate nohighlight">
 \[\omega_{i,0} = r_i \omega_{\textrm{ref}}, \quad \omega_{\textrm{ref}} = \frac{1}{r_{\textrm{MMS}}} \omega_{\textrm{MMS}}, \quad \textrm{and} \quad \omega_{\textrm{MMS}} = \omega - \epsilon \sigma.\]</div>
 <p>Introducing this in the leading order solution leads to</p>
 <div class="math notranslate nohighlight">
-\[x^{(\textrm{h})}_{i,0}(\boldsymbol{t}) = a_i(\boldsymbol{t}_s) \cos\left( \frac{r_i}{r_{\textrm{MMS}}} \omega t_0 - \frac{r_i}{r_{\textrm{MMS}}} \sigma t_1 + \phi_i(\boldsymbol{t}_s)\right).\]</div>
+\[x^{\textrm{h}}_{i,0}(\boldsymbol{t}) = a_i(\boldsymbol{t}_s) \cos\left( \frac{r_i}{r_{\textrm{MMS}}} \omega t_0 - \frac{r_i}{r_{\textrm{MMS}}} \sigma t_1 + \phi_i(\boldsymbol{t}_s)\right).\]</div>
 <p>It therefore appears convenient to introduce the new phase coordinate <span class="math notranslate nohighlight">\(\beta_i(\boldsymbol{t}_s)\)</span> as</p>
 <div class="math notranslate nohighlight">
 \[\beta_i(\boldsymbol{t}_s) = \frac{r_i}{r_{\textrm{MMS}}} \sigma t_1 - \phi_i(\boldsymbol{t}_s),\]</div>
 <p>which allows to write the leading order solution as</p>
 <div class="math notranslate nohighlight">
-\[x^{(\textrm{h})}_{i,0}(\boldsymbol{t}) = a_i(\boldsymbol{t}_s) \cos\left( \frac{r_i}{r_{\textrm{MMS}}} \omega t_0 - \beta_i(\boldsymbol{t}_s)\right).\]</div>
+\[x^{\textrm{h}}_{i,0}(\boldsymbol{t}) = a_i(\boldsymbol{t}_s) \cos\left( \frac{r_i}{r_{\textrm{MMS}}} \omega t_0 - \beta_i(\boldsymbol{t}_s)\right).\]</div>
 <p>In addition, and as discussed previously, the introduction of these new phase coordinates removes the explicit dependency of the evolution functions on <span class="math notranslate nohighlight">\(t_1\)</span>, which was due to terms <span class="math notranslate nohighlight">\(\cos(\sigma t_1 - \phi_i), \; \sin(\sigma t_1 - \phi_i)\)</span>.
-The forcing phase being null, the <span class="math notranslate nohighlight">\(\beta_i\boldsymbol{t}_s\)</span> can be seen as the phases relative to the forcing.</p>
+The forcing phase being zero (i.e. reference phase), the <span class="math notranslate nohighlight">\(\beta_i(\boldsymbol{t}_s)\)</span> can be seen as the phases relative to the forcing.</p>
 <p>Introducing the notation</p>
 <div class="math notranslate nohighlight">
 \[\boldsymbol{\beta}(\boldsymbol{t}_s)^\intercal = [\beta_1(\boldsymbol{t}_s), \beta_2(\boldsymbol{t}_s), \dots, \beta_{N_e}(\boldsymbol{t}_s)],\]</div>
@@ -638,30 +658,67 @@ a_{N-1} \dfrac{\textrm{d}}{dt} \beta_{N-1}(t) &amp; = f_{\beta_{N-1}}(\boldsymbo
 f_{a_i}(\boldsymbol{a}, \boldsymbol{\beta}) &amp; = \sum_{j=1}^{N_e} \epsilon^{j} f_{a_i}^{(j)}(\boldsymbol{a}, \boldsymbol{\beta}), \\
 f_{\beta_i}(\boldsymbol{a}, \boldsymbol{\beta}) &amp; = \sum_{j=1}^{N_e} \epsilon^{j} f_{\beta_i}^{(j)}(\boldsymbol{a}, \boldsymbol{\beta}).
 \end{cases}\end{split}\]</div>
-<p>The MMS system then obtained therefore represents a nonlinear autonomous system of <span class="math notranslate nohighlight">\(2N\)</span> coupled <span class="math notranslate nohighlight">\(1^{\textrm{st}}\)</span> order PDEs on nonlinear variables, with the physical time <span class="math notranslate nohighlight">\(t\)</span> as the independent variable.
+<p>The MMS system then obtained represents a nonlinear autonomous system of <span class="math notranslate nohighlight">\(2N\)</span> coupled <span class="math notranslate nohighlight">\(1^{\textrm{st}}\)</span> order PDEs, with the physical time <span class="math notranslate nohighlight">\(t\)</span> as the independent variable.
 Like the time scales-dependent evolution equations, they can be solved numerically or analytically, if analytical solutions exist.</p>
 <p>These physical time-dependent evolution equations are also computed in <a class="reference internal" href="#MMS.MMS.Multiple_scales_system.evolution_equations" title="MMS.MMS.Multiple_scales_system.evolution_equations"><code class="xref py py-func docutils literal notranslate"><span class="pre">evolution_equations()</span></code></a>.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="MMS.MMS.Multiple_scales_system.apply_MMS">
 <span class="sig-name descname"><span class="pre">apply_MMS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rewrite_polar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS/MMS.html#Multiple_scales_system.apply_MMS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.MMS.Multiple_scales_system.apply_MMS" title="Link to this definition"></a></dt>
-<dd><p>Apply the MMS. This is operated as follows:</p>
-<ol class="arabic simple">
-<li><p>An equivalent system is written in terms of the fast scale <span class="math notranslate nohighlight">\(t_0\)</span>. This introduces the temporary unknowns <span class="math notranslate nohighlight">\(\tilde{x}_{i,j}(t_0)\)</span>, which allows the use of <code class="xref py py-func docutils literal notranslate"><span class="pre">dsolve()</span></code>.</p></li>
-<li><p>Leading order solutions are introduced.</p></li>
-<li><p>The leading order solutions are introduced in the equations and the secular terms at each order are identified.
-Cancelling those secular terms is a condition for bounded solutions and leads to a system of equations governing the slow evolution of the leading order solutions.
-After cancelling the secular terms the equations are solved to express the higher order solutions in terms of the leading order ones.</p></li>
-<li><p>The phase coordinates are changed to cancel the slow time in the secular terms. This will be used afterwards to obtain an autonomous system.</p></li>
-<li><p>The secular conditions are split into real and imaginary parts, polar coordinates are used and the autonomous phases are introduced,
-resulting in a system of evolution equations. This is the key result of the MMS.</p></li>
-<li><p>The leading and higher order solutions are rewritten in terms of polar coordinates.</p></li>
+<dd><p>Apply the MMS. This is operated by successively calling the following methods.</p>
+<ol class="arabic">
+<li><p><a class="reference internal" href="#MMS.MMS.Multiple_scales_system.system_t0" title="MMS.MMS.Multiple_scales_system.system_t0"><code class="xref py py-func docutils literal notranslate"><span class="pre">system_t0()</span></code></a>: An equivalent system is written in terms of the fast time scale <span class="math notranslate nohighlight">\(t_0\)</span>.
+This introduces the temporary unknowns <span class="math notranslate nohighlight">\(\tilde{x}_{i,j}(t_0)\)</span> and allows the use of <a class="reference external" href="https://docs.sympy.org/latest/modules/solvers/ode.html#sympy.solvers.ode.dsolve" title="(in SymPy v1.14.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">dsolve()</span></code></a>.</p></li>
+<li><p><a class="reference internal" href="#MMS.MMS.Multiple_scales_system.sol_order_0" title="MMS.MMS.Multiple_scales_system.sol_order_0"><code class="xref py py-func docutils literal notranslate"><span class="pre">sol_order_0()</span></code></a>: Leading order solutions <span class="math notranslate nohighlight">\(x_{i,0}(\boldsymbol{t})\)</span> are defined.</p></li>
+<li><p><a class="reference internal" href="#MMS.MMS.Multiple_scales_system.secular_analysis" title="MMS.MMS.Multiple_scales_system.secular_analysis"><code class="xref py py-func docutils literal notranslate"><span class="pre">secular_analysis()</span></code></a>: The leading order solutions are introduced in the equations and the secular terms at each order are identified.
+Cancelling those secular terms is a condition for bounded solutions.
+It leads to a system of equations governing the slow evolution of the complex amplitude of the homogeneous leading order solutions.
+Each equation takes the form</p>
+<div class="math notranslate nohighlight">
+\[\textrm{D}_{j} A_i(\boldsymbol{t}_s) = f_{A_i}^{(j)}(\boldsymbol{A}, t_1).\]</div>
+<p>After cancelling the secular terms the higher order equations are solved successively to express the higher order solutions <span class="math notranslate nohighlight">\(x_{i,j}(\boldsymbol{t}),\; j&gt;0\)</span> in terms of the leading order ones.</p>
+</li>
+<li><p><a class="reference internal" href="#MMS.MMS.Multiple_scales_system.autonomous_phases" title="MMS.MMS.Multiple_scales_system.autonomous_phases"><code class="xref py py-func docutils literal notranslate"><span class="pre">autonomous_phases()</span></code></a>: The phase coordinates are changed from <span class="math notranslate nohighlight">\(\phi_i(\boldsymbol{t}_s)\)</span> to <span class="math notranslate nohighlight">\(\beta_i(\boldsymbol{t}_s)\)</span> to cancel the slow time <span class="math notranslate nohighlight">\(t_1\)</span> in the secular terms. This will be used afterwards to obtain an autonomous system.</p></li>
+<li><p><a class="reference internal" href="#MMS.MMS.Multiple_scales_system.evolution_equations" title="MMS.MMS.Multiple_scales_system.evolution_equations"><code class="xref py py-func docutils literal notranslate"><span class="pre">evolution_equations()</span></code></a>: The secular conditions are split into real and imaginary parts, polar coordinates are used and the autonomous phases are introduced,
+resulting in an autonomous system of evolution equations on polar coordinates.
+Equations come by two, one representing the amplitude evolution while the other represents the phase’s, such that</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{cases}
+\textrm{D}_{j} a_i(\boldsymbol{t}_s) &amp; = f_{a_i}^{(j)}(\boldsymbol{a}, \boldsymbol{\beta}), \\
+a_i \textrm{D}_{j} \beta_i(\boldsymbol{t}_s) &amp; = f_{\beta_i}^{(j)}(\boldsymbol{a}, \boldsymbol{\beta}).
+\end{cases}\end{split}\]</div>
+<p>This is the key result of the MMS. The evolution on each time scale are combined to reintroduce the physical time, resulting in a system of the form</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{cases}
+\dfrac{\textrm{d}}{dt} a_i(t) &amp; = f_{a_i}(\boldsymbol{a}, \boldsymbol{\beta}), \\
+a_i \dfrac{\textrm{d}}{dt} \beta_i(t) &amp; = f_{\beta_i}(\boldsymbol{a}, \boldsymbol{\beta}).
+\end{cases}\end{split}\]</div>
+</li>
+<li><p><a class="reference internal" href="#MMS.MMS.Multiple_scales_system.sol_xMMS_polar" title="MMS.MMS.Multiple_scales_system.sol_xMMS_polar"><code class="xref py py-func docutils literal notranslate"><span class="pre">sol_xMMS_polar()</span></code></a>: The leading and higher order solutions are rewritten in terms of polar coordinates using <span class="math notranslate nohighlight">\(\cos\)</span> and <span class="math notranslate nohighlight">\(\sin\)</span> functions.</p></li>
 </ol>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>rewrite_polar</strong> (<em>str</em><em>, </em><em>int</em><em> or </em><em>list</em><em> of </em><em>int</em><em>, </em><em>optional</em>) – The orders at which the solutions will be rewritten in polar form.
+<dd class="field-odd"><p><strong>rewrite_polar</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em>, </em><em>optional</em>) – The orders at which the solutions will be rewritten in polar form.
 See <a class="reference internal" href="#MMS.MMS.Multiple_scales_system.sol_xMMS_polar" title="MMS.MMS.Multiple_scales_system.sol_xMMS_polar"><code class="xref py py-func docutils literal notranslate"><span class="pre">sol_xMMS_polar()</span></code></a>.</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MMS.MMS.Multiple_scales_system.asymptotic_series">
+<span class="sig-name descname"><span class="pre">asymptotic_series</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dynamical_system</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps_pow_0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS/MMS.html#Multiple_scales_system.asymptotic_series"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.MMS.Multiple_scales_system.asymptotic_series" title="Link to this definition"></a></dt>
+<dd><p>XXX : to rewrite</p>
+<p>Define series expansions for each dof and prepare substitutions from</p>
+<ol class="arabic simple">
+<li><p>dof <cite>x</cite> to temporary t-dependent asymptotic terms <cite>xMMS_t</cite></p></li>
+<li><p>Temporary <cite>xMMS_t</cite> to the time scales-dependent <cite>xMMS</cite></p></li>
+</ol>
+<p>For the <span class="math notranslate nohighlight">\(i^\textrm{th}\)</span> oscillator and with <cite>eps_pow_0=0</cite>, stage 1 introduces temporary <span class="math notranslate nohighlight">\(t\)</span>-dependent terms such that</p>
+<div class="math notranslate nohighlight">
+\[x_i(t) = x_{i,0}(t) + \epsilon x_{i,1}(t) + \epsilon^2 x_{i,2}(t) + \cdots + \epsilon^{N_e} x_{i,N_e}(t),\]</div>
+<p>while stage 2 introduces the <span class="math notranslate nohighlight">\(t_i\)</span>-dependent terms <span class="math notranslate nohighlight">\(x_{i0}(\boldsymbol{t}),\; x_{i,1}(\boldsymbol{t}),\; x_{i,2}(\boldsymbol{t}),\; \cdots\)</span>, where
+<span class="math notranslate nohighlight">\(\boldsymbol{t}^\intercal = [t_0, t_1, t_2, ...]\)</span> is the vector containing the time scales, such that</p>
+<div class="math notranslate nohighlight">
+\[x_i(\boldsymbol{t}) = x_{i,0}(\boldsymbol{t}) + \epsilon x_{i,1}(\boldsymbol{t}) + \epsilon^2 x_{i,2}(\boldsymbol{t}) + \cdots + \epsilon^{N_e} x_{i,N_e}(\boldsymbol{t}).\]</div>
 </dd></dl>
 
 <dl class="py method">
@@ -679,11 +736,11 @@ The <span class="math notranslate nohighlight">\(\beta_i\)</span> are defined as
 <dl class="py method">
 <dt class="sig sig-object py" id="MMS.MMS.Multiple_scales_system.compute_EqMMS">
 <span class="sig-name descname"><span class="pre">compute_EqMMS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dynamical_system</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS/MMS.html#Multiple_scales_system.compute_EqMMS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.MMS.Multiple_scales_system.compute_EqMMS" title="Link to this definition"></a></dt>
-<dd><p>Compute the system of equations at each order of <span class="math notranslate nohighlight">\(\epsilon\)</span> for each dof.
-The output <cite>EqMMS</cite> is a list of lists:</p>
+<dd><p>Compute the system of equations for each dof at each order of <span class="math notranslate nohighlight">\(\epsilon\)</span>. This system is described in <a class="reference internal" href="#MMS.MMS.Multiple_scales_system" title="MMS.MMS.Multiple_scales_system"><code class="xref py py-class docutils literal notranslate"><span class="pre">Multiple_scales_system</span></code></a>.</p>
+<p>The output <cite>EqMMS</cite> is a list of lists:</p>
 <ul class="simple">
-<li><p>The <span class="math notranslate nohighlight">\(1^{\text{st}}\)</span> level lists are associated to the orders of <span class="math notranslate nohighlight">\(\epsilon\)</span> from the lowest to the highest order,</p></li>
-<li><p>The <span class="math notranslate nohighlight">\(2^{\text{nd}}\)</span> level lists are associated to the equations for each oscillator.</p></li>
+<li><p>The <span class="math notranslate nohighlight">\(1^{\text{st}}\)</span> level lists are associated to the equations for each oscillator,</p></li>
+<li><p>The <span class="math notranslate nohighlight">\(2^{\text{nd}}\)</span> level lists are associated to the orders of <span class="math notranslate nohighlight">\(\epsilon\)</span> from the lowest to the highest order.</p></li>
 </ul>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -695,55 +752,103 @@ The output <cite>EqMMS</cite> is a list of lists:</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="MMS.MMS.Multiple_scales_system.evolution_equations">
 <span class="sig-name descname"><span class="pre">evolution_equations</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS/MMS.html#Multiple_scales_system.evolution_equations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.MMS.Multiple_scales_system.evolution_equations" title="Link to this definition"></a></dt>
-<dd><p>Derive the evolution equations from the secular conditions. For oscillator <span class="math notranslate nohighlight">\(i\)</span>, these are defined as</p>
+<dd><p>Derive the evolution equations of the polar coordinates (defined in <a class="reference internal" href="#MMS.MMS.Multiple_scales_system.polar_coordinates" title="MMS.MMS.Multiple_scales_system.polar_coordinates"><code class="xref py py-func docutils literal notranslate"><span class="pre">polar_coordinates()</span></code></a> and <a class="reference internal" href="#MMS.MMS.Multiple_scales_system.autonomous_phases" title="MMS.MMS.Multiple_scales_system.autonomous_phases"><code class="xref py py-func docutils literal notranslate"><span class="pre">autonomous_phases()</span></code></a>) from the secular conditions. For oscillator <span class="math notranslate nohighlight">\(i\)</span>, these are defined as</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{cases}
-\frac{\textrm{d} a_i}{\textrm{d} t}         &amp; = f_{a_i}(\boldsymbol{a}, \boldsymbol{\beta}), \\
-a_i \frac{\textrm{d} \beta_i}{\textrm{d} t} &amp; = f_{\beta_i}(\boldsymbol{a}, \boldsymbol{\beta}),
+\dfrac{\textrm{d} a_i}{\textrm{d} t}         &amp; = f_{a_i}(\boldsymbol{a}, \boldsymbol{\beta}), \\
+a_i \dfrac{\textrm{d} \beta_i}{\textrm{d} t} &amp; = f_{\beta_i}(\boldsymbol{a}, \boldsymbol{\beta}),
 \end{cases}\end{split}\]</div>
 <p>where <span class="math notranslate nohighlight">\(\boldsymbol{a}\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{\beta}\)</span> are vectors containing the polar amplitudes and phases.</p>
 <p>The aim here is to compute all the <span class="math notranslate nohighlight">\(f_{a_i}\)</span> and <span class="math notranslate nohighlight">\(f_{\beta_i}\)</span>.
 This is done by:</p>
-<ul class="simple">
+<ol class="arabic simple">
 <li><p>Introducing polar coordinates in the secular terms</p></li>
-<li><p>Splitting the real and imaginary parts</p></li>
+<li><p>Splitting the real and imaginary parts of the (complex) secular terms</p></li>
 <li><p>Using the autonomous phase coordinates</p></li>
 <li><p>Collecting the terms governing the slow amplitude and phase dynamics.</p></li>
-</ul>
+</ol>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MMS.MMS.Multiple_scales_system.find_harmonics">
+<span class="sig-name descname"><span class="pre">find_harmonics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS/MMS.html#Multiple_scales_system.find_harmonics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.MMS.Multiple_scales_system.find_harmonics" title="Link to this definition"></a></dt>
+<dd><p>Determine the harmonics contained in the MMS solutions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>harmonics</strong> – list of the harmonics appearing in the MMS solutions.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MMS.MMS.Multiple_scales_system.forcing_MMS">
+<span class="sig-name descname"><span class="pre">forcing_MMS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dynamical_system</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS/MMS.html#Multiple_scales_system.forcing_MMS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.MMS.Multiple_scales_system.forcing_MMS" title="Link to this definition"></a></dt>
+<dd><p>XXX : rewrite. C’est bizarre les Gamma, utiliser fcoeff ou qq chose de similaire</p>
+<p>Rewrite the forcing terms <span class="math notranslate nohighlight">\(\Gamma_i(\boldsymbol{x}(t), \dot{\boldsymbol{x}}(t), \ddot{\boldsymbol{x}}(t)) F \cos(\omega t)\)</span>, <span class="math notranslate nohighlight">\(i=1,...,N\)</span> where <span class="math notranslate nohighlight">\(N\)</span> is the number of oscillators.
+This involves</p>
+<ol class="arabic simple">
+<li><p>Replacing the <span class="math notranslate nohighlight">\(x_i(t)\)</span> by their series expansions written in terms of time scales,</p></li>
+<li><p>Scaling the forcing and the parameters in <span class="math notranslate nohighlight">\(\Gamma_i\)</span> if any,</p></li>
+<li><p>Truncating terms whose order is larger than the largest order retained in the MMS,</p></li>
+<li><p>Rewrite the <span class="math notranslate nohighlight">\(\cos(\omega t)\)</span> as</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[\cos(\omega t) = \frac{1}{2} e^{\mathrm{i}(\omega_{\textrm{MMS}} + \epsilon \sigma)t} + cc = \frac{1}{2} e^{\mathrm{i}(\omega_{\textrm{MMS}}t_0 + \sigma t_1)} + cc.\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dynamical_system</strong> (<a class="reference internal" href="#MMS.MMS.Dynamical_system" title="MMS.MMS.Dynamical_system"><em>Dynamical_system</em></a>) – The dynamical system.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MMS.MMS.Multiple_scales_system.oscillators_frequencies">
+<span class="sig-name descname"><span class="pre">oscillators_frequencies</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS/MMS.html#Multiple_scales_system.oscillators_frequencies"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.MMS.Multiple_scales_system.oscillators_frequencies" title="Link to this definition"></a></dt>
+<dd><p>XXX : delta_i à l’ordre epsilon doffice?</p>
+<p>Gives the expression of every oscillator frequency in terms of the reference frequency, possibly with a detuning.
+For the <span class="math notranslate nohighlight">\(i^\textrm{th}\)</span> oscillator, this leads to</p>
+<div class="math notranslate nohighlight">
+\[\omega_i = r_i \omega_{\textrm{ref}} + \delta_i .\]</div>
+<p>An associated first-order natural frequency <span class="math notranslate nohighlight">\(\omega_{i,0}\)</span> is defined by neglecting the detuning <span class="math notranslate nohighlight">\(\delta_i\)</span>, which is at least of order <span class="math notranslate nohighlight">\(\epsilon\)</span>, resulting in</p>
+<div class="math notranslate nohighlight">
+\[\omega_{i,0} = r_i \omega_{\textrm{ref}}.\]</div>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="MMS.MMS.Multiple_scales_system.polar_coordinates">
 <span class="sig-name descname"><span class="pre">polar_coordinates</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS/MMS.html#Multiple_scales_system.polar_coordinates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.MMS.Multiple_scales_system.polar_coordinates" title="Link to this definition"></a></dt>
-<dd><p>Introduce polar coordinates such that, for oscillator <span class="math notranslate nohighlight">\(i\)</span>,</p>
+<dd><p>Introduce polar coordinates such that, for oscillator <span class="math notranslate nohighlight">\(i\)</span>, the complex amplitude of the homogeneous leading order solution is defined as</p>
 <div class="math notranslate nohighlight">
-\[A_i = \frac{1}{2} a_i e^{\textrm{j} \phi_i}.\]</div>
+\[A_i(\boldsymbol{t}_s) = \frac{1}{2} a_i(\boldsymbol{t}_s) e^{\textrm{j} \phi_i(\boldsymbol{t}_s)},\]</div>
+<p>where <span class="math notranslate nohighlight">\(a_i(\boldsymbol{t}_s)\)</span> and <span class="math notranslate nohighlight">\(\phi_i(\boldsymbol{t}_s)\)</span> are the solution’s amplitude and phase, respectively.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="MMS.MMS.Multiple_scales_system.secular_analysis">
 <span class="sig-name descname"><span class="pre">secular_analysis</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS/MMS.html#Multiple_scales_system.secular_analysis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.MMS.Multiple_scales_system.secular_analysis" title="Link to this definition"></a></dt>
-<dd><p>Identification of the secular terms in the equations.
+<dd><p>Identify the secular terms in the MMS equations.
 This allows to:</p>
 <ol class="arabic simple">
-<li><p>Compute the slow-times evolution of the complex amplitudes <span class="math notranslate nohighlight">\(A_i\)</span> that cancel the secular terms.
-These slow time evolutions are written <span class="math notranslate nohighlight">\(D_j A_i\)</span>, with the notation <span class="math notranslate nohighlight">\(D_j(\bullet) = \partial (\bullet)/\partial t_j\)</span>.</p></li>
-<li><p>Write the equations with the secular terms cancelled (nonsecular equations).</p></li>
-<li><p>Compute the higher order solutions <span class="math notranslate nohighlight">\(x_{i,j},\; j&gt;0\)</span>, in terms of the <span class="math notranslate nohighlight">\(A_k\)</span> from the nonsecular equations.</p></li>
+<li><p>Compute the evolution equations of the complex amplitudes <span class="math notranslate nohighlight">\(A_i(\boldsymbol{t}_s)\)</span>, coming from the elimination of the secular terms,</p></li>
+<li><p>Derive nonsecular MMS equations, i.e. MMS equations with the secular terms cancelled,</p></li>
+<li><p>Use the nonsecular equations to express the higher order solutions <span class="math notranslate nohighlight">\(x_{i,j}(\boldsymbol{t}),\; j&gt;0\)</span> in terms of the <span class="math notranslate nohighlight">\(\boldsymbol{A}(\boldsymbol{t}_s)\)</span>.</p></li>
 </ol>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="MMS.MMS.Multiple_scales_system.sol_higher_order">
 <span class="sig-name descname"><span class="pre">sol_higher_order</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">EqMMS_t0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xMMS_t0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">io</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ix</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS/MMS.html#Multiple_scales_system.sol_higher_order"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.MMS.Multiple_scales_system.sol_higher_order" title="Link to this definition"></a></dt>
-<dd><p>Compute higher order solutions <span class="math notranslate nohighlight">\(x_{i,j}, j&gt;0\)</span>.</p>
+<dd><p>Compute the higher order solutions <span class="math notranslate nohighlight">\(x_{i,j}(\boldsymbol{t}_s),\; j&gt;0\)</span>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>EqMMS_t0</strong> (<em>list</em><em> of </em><em>list</em><em> of </em><em>expr</em>) – The MMS equations at each order and for each oscillator written with <span class="math notranslate nohighlight">\(t_0\)</span> as the only independent variable.</p></li>
-<li><p><strong>xMMS_t0</strong> (<em>list</em><em> of </em><em>list</em><em> of </em><em>Function</em>) – Oscillators’ solutions at each order, <span class="math notranslate nohighlight">\(\tilde{x}_{i,j}(t_0)\)</span>.</p></li>
-<li><p><strong>io</strong> (<em>int</em>) – The current order of <span class="math notranslate nohighlight">\(\epsilon\)</span>.</p></li>
-<li><p><strong>ix</strong> (<em>int</em>) – The current oscillator number.</p></li>
+<li><p><strong>EqMMS_t0</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a><em> of </em><em>expr</em>) – The MMS equations at each order and for each oscillator written with <span class="math notranslate nohighlight">\(t_0\)</span> as the only independent variable.</p></li>
+<li><p><strong>xMMS_t0</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a><em> of </em><em>Function</em>) – Oscillators’ response at each order written in terms of <span class="math notranslate nohighlight">\(t_0\)</span> only, <span class="math notranslate nohighlight">\(\tilde{x}_{i,j}(t_0)\)</span>.</p></li>
+<li><p><strong>io</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) – The order of <span class="math notranslate nohighlight">\(\epsilon\)</span>.</p></li>
+<li><p><strong>ix</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) – The dof number.</p></li>
 </ul>
 </dd>
 </dl>
@@ -755,21 +860,21 @@ These slow time evolutions are written <span class="math notranslate nohighlight
 <dd><p>Compute the leading-order solutions for each oscillator.</p>
 <p>For oscillator <span class="math notranslate nohighlight">\(i\)</span>, the homogeneous solution takes the general form</p>
 <div class="math notranslate nohighlight">
-\[x_{i,0}^{(\textrm{h})}(\boldsymbol{t}) = A_i(t_1, t_2, ...) e^{\textrm{j} \omega_{i,0} t_0} + cc,\]</div>
-<p>where <span class="math notranslate nohighlight">\(A_i\)</span> is a complex amplitudes to be determined.</p>
+\[x_{i,0}^{\textrm{h}}(\boldsymbol{t}) = A_i(\boldsymbol{t}_s) e^{\textrm{j} \omega_{i,0} t_0} + cc,\]</div>
+<p>where <span class="math notranslate nohighlight">\(A_i(\boldsymbol{t}_s)\)</span> is an unknown complex amplitude.</p>
 <p>If the oscillator is subject to hard forcing (i.e. forcing appears at leading order), then the particular solution</p>
 <div class="math notranslate nohighlight">
-\[x_{i,0}^{(\textrm{p})}(t_0, t_1) = B_i e^{\textrm{j} \omega t} + cc = B_i e^{\textrm{j} (\omega_{\textrm{MMS}} t_0 + \sigma t_1)} + cc,\]</div>
+\[x_{i,0}^{\textrm{p}}(t_0, t_1) = B_i e^{\textrm{j} \omega t} + cc = B_i e^{\textrm{j} (\omega_{\textrm{MMS}} t_0 + \sigma t_1)} + cc,\]</div>
 <p>is also taken into account. <span class="math notranslate nohighlight">\(B_i\)</span> is a time-independent function of the forcing parameters.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="MMS.MMS.Multiple_scales_system.sol_xMMS_polar">
 <span class="sig-name descname"><span class="pre">sol_xMMS_polar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rewrite_polar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS/MMS.html#Multiple_scales_system.sol_xMMS_polar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.MMS.Multiple_scales_system.sol_xMMS_polar" title="Link to this definition"></a></dt>
-<dd><p>Write the solutions using the polar coordinates.</p>
+<dd><p>Write the solutions using the polar coordinates and <span class="math notranslate nohighlight">\(\cos\)</span> and <span class="math notranslate nohighlight">\(\sin\)</span> functions.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>rewrite_polar</strong> (<em>str</em><em> or </em><em>int</em><em> or </em><em>list</em><em> of </em><em>int</em><em> or </em><em>optional</em>) – The orders at which the solutions will be rewritten in polar form.
+<dd class="field-odd"><p><strong>rewrite_polar</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em> or </em><em>optional</em>) – The orders at which the solutions will be rewritten in polar form.
 If <code class="docutils literal notranslate"><span class="pre">&quot;all&quot;</span></code>, then all solution orders will be rewritten.
 If <cite>int</cite>, then only a single order will be rewritten.
 If <cite>list</cite> of <cite>int</cite>, then the listed orders will be rewritten.
@@ -781,8 +886,21 @@ Default is 0, so only the leading order solution will be rewritten.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="MMS.MMS.Multiple_scales_system.system_t0">
 <span class="sig-name descname"><span class="pre">system_t0</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS/MMS.html#Multiple_scales_system.system_t0"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.MMS.Multiple_scales_system.system_t0" title="Link to this definition"></a></dt>
-<dd><p>Rewrite the equations in terms of new coordinates <span class="math notranslate nohighlight">\(\tilde{x}_{i,j}(t_0)\)</span>, with <span class="math notranslate nohighlight">\(i,j\)</span> denoting the oscillator number and <span class="math notranslate nohighlight">\(\epsilon\)</span> order, respectively.
-This is a trick to use <code class="xref py py-func docutils literal notranslate"><span class="pre">dsolve()</span></code>, which only accepts functions of 1 variable.</p>
+<dd><p>Rewrite the equations in terms of temporary coordinates <span class="math notranslate nohighlight">\(\tilde{x}_{i,j}(t_0)\)</span>, with <span class="math notranslate nohighlight">\(i,j\)</span> denoting the oscillator number and <span class="math notranslate nohighlight">\(\epsilon\)</span> order, respectively,
+in place of <span class="math notranslate nohighlight">\(x_{i,j}(\boldsymbol{t})\)</span>.
+This is equivalent to temporary considering that <span class="math notranslate nohighlight">\(\boldsymbol{A}\)</span> does not depend on the slow times, which is of no consequence as there are no slow time derivatives appearing in the higher order equations at this stage.
+Indeed, they were either substituted using the complex evolution equations, or they disappeared when eliminating the secular terms.
+This is a trick to use <a class="reference external" href="https://docs.sympy.org/latest/modules/solvers/ode.html#sympy.solvers.ode.dsolve" title="(in SymPy v1.14.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">dsolve()</span></code></a>, which only accepts functions of 1 variable.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MMS.MMS.Multiple_scales_system.time_scales">
+<span class="sig-name descname"><span class="pre">time_scales</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS/MMS.html#Multiple_scales_system.time_scales"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.MMS.Multiple_scales_system.time_scales" title="Link to this definition"></a></dt>
+<dd><p>XXX : réécrire
+Introduce the time scales</p>
+<div class="math notranslate nohighlight">
+\[t_i = \epsilon^i t, \quad i=0, 1, ...\]</div>
+<p>and prepare substitutions from the physical time <span class="math notranslate nohighlight">\(t\)</span> to these time scales <span class="math notranslate nohighlight">\(t_i\)</span>.</p>
 </dd></dl>
 
 </section>
@@ -792,34 +910,87 @@ This is a trick to use <code class="xref py py-func docutils literal notranslate
 <dl class="py class">
 <dt class="sig sig-object py" id="MMS.MMS.Sol_MMS">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MMS.MMS.</span></span><span class="sig-name descname"><span class="pre">Sol_MMS</span></span><a class="reference internal" href="_modules/MMS/MMS.html#Sol_MMS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.MMS.Sol_MMS" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Solutions obtained when applying the MMS.</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="MMS.MMS.Sol_SS">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MMS.MMS.</span></span><span class="sig-name descname"><span class="pre">Sol_SS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ss</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mms</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS/MMS.html#Sol_SS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.MMS.Sol_SS" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Solutions obtained when evaluating at steady state.</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="MMS.MMS.Stab_SS">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MMS.MMS.</span></span><span class="sig-name descname"><span class="pre">Stab_SS</span></span><a class="reference internal" href="_modules/MMS/MMS.html#Stab_SS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.MMS.Stab_SS" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Stability analysis.</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="MMS.MMS.Steady_state">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MMS.MMS.</span></span><span class="sig-name descname"><span class="pre">Steady_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mms</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS/MMS.html#Steady_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.MMS.Steady_state" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Steady-state analysis of previous computations.
-Steady-state means that amplitudes and phases are time-independent.</p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Steady state analysis of the multiple scales system.</p>
+<p class="rubric">Notes</p>
+<p>Description of the steady state analysis.</p>
+<section id="steady-state-solutions">
+<h3>Steady state solutions<a class="headerlink" href="#steady-state-solutions" title="Link to this heading"></a></h3>
+<section id="steady-state-conditions">
+<h4>Steady state conditions<a class="headerlink" href="#steady-state-conditions" title="Link to this heading"></a></h4>
+<p>At steady state, the solutions’ amplitudes and phases are time-independent. One therefore has, for each oscillator <span class="math notranslate nohighlight">\(i=1,...,N\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{cases}
+\dfrac{\textrm{d}}{dt} a_i &amp; = 0, \\
+\dfrac{\textrm{d}}{dt} \beta_i &amp; = 0, \\
+\end{cases}\end{split}\]</div>
+<p>and the homogeneous steady state solutions take the form</p>
+<div class="math notranslate nohighlight">
+\[x^{\textrm{h}}_{i,0}(t) = a_i \cos\left( \frac{r_i}{r_{\textrm{MMS}}} \omega t - \frac{r_i}{r_{\textrm{MMS}}} \beta_i \right).\]</div>
+</section>
+<section id="mms-evolution-equations-at-steady-state">
+<h4>MMS evolution equations at steady state<a class="headerlink" href="#mms-evolution-equations-at-steady-state" title="Link to this heading"></a></h4>
+<p>The steady state amplitudes <span class="math notranslate nohighlight">\(\boldsymbol{a}\)</span> and phases <span class="math notranslate nohighlight">\(\boldsymbol{\beta}\)</span> are governed by the evolution equations evaluated at steady state, which take the form</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{cases}
+f_{a_0}(\boldsymbol{a}, \boldsymbol{\beta})     &amp; = 0, \\
+f_{\beta_0}(\boldsymbol{a}, \boldsymbol{\beta}) &amp; = 0, \\
+&amp; \vdots \\
+f_{a_{N-1}}(\boldsymbol{a}, \boldsymbol{\beta})     &amp; = 0, \\
+f_{\beta_{N-1}}(\boldsymbol{a}, \boldsymbol{\beta}) &amp; = 0.
+\end{cases}\end{split}\]</div>
+<p>This is now an algebraic system of equations.</p>
+</section>
+<section id="mms-solutions-at-steady-state">
+<h4>MMS solutions at steady state<a class="headerlink" href="#mms-solutions-at-steady-state" title="Link to this heading"></a></h4>
+<p>Solving the evolution equations at steady state yields the steady state solutions <span class="math notranslate nohighlight">\(\boldsymbol{a}, \boldsymbol{\beta}\)</span>.
+The system can be solved directly for <span class="math notranslate nohighlight">\(\boldsymbol{a}\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{\beta}\)</span>, yielding explicit analytical solutions, but this is often complex as the system is nonlinear.</p>
+<p>A possibility that is sometimes available to obtain <strong>analytical solutions</strong> is to rearrange the equations to isolate the phase terms <span class="math notranslate nohighlight">\(\cos(f(\boldsymbol{\beta})),\; \sin(f(\boldsymbol{\beta}))\)</span> where <span class="math notranslate nohighlight">\(f(\boldsymbol{\beta})\)</span> is a linear function of the <span class="math notranslate nohighlight">\(\beta_i\)</span>.
+Then the equations can be squared and summed up to obtain an equation on <span class="math notranslate nohighlight">\(a_i\)</span> only and/or <span class="math notranslate nohighlight">\(a_j\)</span> as a function of <span class="math notranslate nohighlight">\(a_i\)</span>. The <span class="math notranslate nohighlight">\(a_j\)</span> can be expressed as a function of <span class="math notranslate nohighlight">\(a_i\)</span>, leading to a polynomial equation on <span class="math notranslate nohighlight">\(a_i\)</span>.
+The resulting polynomial equation can rarely be solved directly as the polynomial involved are often of high order.
+However, the polynomial is often quadratic in the detuning <span class="math notranslate nohighlight">\(\sigma\)</span> and forcing amplitude <span class="math notranslate nohighlight">\(F\)</span>.
+It can therefore be solved for <span class="math notranslate nohighlight">\(\sigma\)</span> and <span class="math notranslate nohighlight">\(F\)</span> with <span class="math notranslate nohighlight">\(a_i\)</span> seen as a parameter.
+This yields an implicit solution for <span class="math notranslate nohighlight">\(a_i(\sigma) \Rightarrow a_i(\omega)\)</span> and <span class="math notranslate nohighlight">\(a_i(F)\)</span>, from which one can deduce the other amplitudes <span class="math notranslate nohighlight">\(a_j\)</span> and phases <span class="math notranslate nohighlight">\(\boldsymbol{\beta}\)</span>, thus reconstructing the oscillators’ solutions.</p>
+<p>The processus described above is not always feasible. The blocking points are typically to</p>
+<ol class="lowerroman simple">
+<li><p>get rid of phase terms <span class="math notranslate nohighlight">\(\cos(f(\boldsymbol{\beta})),\; \sin(f(\boldsymbol{\beta}))\)</span> in the equations,</p></li>
+<li><p>express every amplitude <span class="math notranslate nohighlight">\(a_j\)</span> in terms of a single one, <span class="math notranslate nohighlight">\(a_i\)</span>,</p></li>
+<li><p>end up with a polynomial of order 2 in <span class="math notranslate nohighlight">\(\sigma\)</span> and <span class="math notranslate nohighlight">\(F\)</span></p></li>
+</ol>
+<p>These difficulties become more pronounced when the system involves several dof, in which case the amplitudes and phases may only be <strong>computed numerically</strong>.</p>
+<p>To facilitate the derivation of an analytical solution, it is possible to consider the <strong>backbone curve</strong> (bbc) of the forced solution rather than the forced solution itself.
+This bbc is computed in the absence of damping and forcing, therefore simplifying the system. Typically, this reduces the number of phase terms appearing.
+The solving procedure is then the same as that described previously.</p>
+</section>
+</section>
+<section id="stability-analysis">
+<h3>Stability analysis<a class="headerlink" href="#stability-analysis" title="Link to this heading"></a></h3>
+<p>XXX parler du système qui devient algébrique, de l’obtention d’une réponse libre, d’une réponse forcée, puis du calcul de stabilité.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="MMS.MMS.Steady_state.Jacobian_cartesian">
 <span class="sig-name descname"><span class="pre">Jacobian_cartesian</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS/MMS.html#Steady_state.Jacobian_cartesian"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.MMS.Steady_state.Jacobian_cartesian" title="Link to this definition"></a></dt>
-<dd><p>Compute the Jacobian of the evolution equations expressed in cartesian coordinates (see <a class="reference internal" href="#MMS.MMS.Steady_state.cartesian_coordinates" title="MMS.MMS.Steady_state.cartesian_coordinates"><code class="xref py py-func docutils literal notranslate"><span class="pre">cartesian_coordinates()</span></code></a> and <a class="reference internal" href="#MMS.MMS.Steady_state.evolution_equations_cartesian" title="MMS.MMS.Steady_state.evolution_equations_cartesian"><code class="xref py py-func docutils literal notranslate"><span class="pre">evolution_equations_cartesian()</span></code></a>).</p>
+<dd><p>Compute the Jacobian of the evolution equations expressed in cartesian coordinates (defined in <a class="reference internal" href="#MMS.MMS.Steady_state.evolution_equations_cartesian" title="MMS.MMS.Steady_state.evolution_equations_cartesian"><code class="xref py py-func docutils literal notranslate"><span class="pre">evolution_equations_cartesian()</span></code></a>).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><p><strong>J</strong> – Jacobian of the cartesian system, defined as</p>
@@ -830,7 +1001,7 @@ Steady-state means that amplitudes and phases are time-independent.</p>
 \vdots \\
 \textrm{J}_{N-1}
 \end{bmatrix}\end{split}\]</div>
-<p>where <span class="math notranslate nohighlight">\(\textrm{J}_i\)</span> is the <span class="math notranslate nohighlight">\(2 \times N\)</span> block matrix associated to the evolution of dof <span class="math notranslate nohighlight">\(i\)</span> and defined as</p>
+<p>where <span class="math notranslate nohighlight">\(\textrm{J}_i\)</span> is the <span class="math notranslate nohighlight">\(2 \times 2N\)</span> block matrix associated to the evolution of dof <span class="math notranslate nohighlight">\(i\)</span>, given by</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\textrm{J}_i =
 \begin{bmatrix}
@@ -848,7 +1019,7 @@ Steady-state means that amplitudes and phases are time-independent.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="MMS.MMS.Steady_state.Jacobian_polar">
 <span class="sig-name descname"><span class="pre">Jacobian_polar</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS/MMS.html#Steady_state.Jacobian_polar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.MMS.Steady_state.Jacobian_polar" title="Link to this definition"></a></dt>
-<dd><p>Compute the Jacobian of the evolution equations systems using polar coordinates (see <code class="xref py py-func docutils literal notranslate"><span class="pre">polar_coordinates()</span></code> and <code class="xref py py-func docutils literal notranslate"><span class="pre">evolution_equations()</span></code>).</p>
+<dd><p>Compute the Jacobian of the evolution equations systems expressed in polar coordinates (defined in <code class="xref py py-func docutils literal notranslate"><span class="pre">evolution_equations()</span></code>).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><p><strong>J</strong> – Jacobian of the polar system, defined as</p>
@@ -859,7 +1030,7 @@ Steady-state means that amplitudes and phases are time-independent.</p>
 \vdots \\
 \textrm{J}_{N-1}
 \end{bmatrix}\end{split}\]</div>
-<p>where <span class="math notranslate nohighlight">\(\textrm{J}_i\)</span> is the <span class="math notranslate nohighlight">\(2 \times N\)</span> block matrix associated to the evolution of dof <span class="math notranslate nohighlight">\(i\)</span> and defined as</p>
+<p>where <span class="math notranslate nohighlight">\(\textrm{J}_i\)</span> is the <span class="math notranslate nohighlight">\(2 \times 2N\)</span> block matrix associated to the evolution of dof <span class="math notranslate nohighlight">\(i\)</span>, given by</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\textrm{J}_i =
 \begin{bmatrix}
@@ -868,7 +1039,8 @@ Steady-state means that amplitudes and phases are time-independent.</p>
 \end{bmatrix}.\end{split}\]</div>
 <p>Functions <span class="math notranslate nohighlight">\(f_{\beta_i}^*\)</span> are defined as</p>
 <div class="math notranslate nohighlight">
-\[f_{\beta_i}^* = \frac{f_{\beta_i}}{a_i}.\]</div>
+\[f_{\beta_i}^*(\boldsymbol{a}, \boldsymbol{\beta}) = \frac{f_{\beta_i}(\boldsymbol{a}, \boldsymbol{\beta})}{a_i}.\]</div>
+<p>Note that they can only be introduced if <span class="math notranslate nohighlight">\(a_i \neq 0\)</span>, which is not verified if oscillator <span class="math notranslate nohighlight">\(i\)</span> does not respond.</p>
 </p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -880,7 +1052,7 @@ Steady-state means that amplitudes and phases are time-independent.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="MMS.MMS.Steady_state.SS_coord">
 <span class="sig-name descname"><span class="pre">SS_coord</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mms</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS/MMS.html#Steady_state.SS_coord"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.MMS.Steady_state.SS_coord" title="Link to this definition"></a></dt>
-<dd><p>Create time-independent amplitudes and phases.</p>
+<dd><p>Introduce time-independent amplitudes and phases.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -898,10 +1070,10 @@ Steady-state means that amplitudes and phases are time-independent.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>detJ</strong> (<em>Expr</em>) – The determinant of the matrix.</p></li>
 <li><p><strong>trJ</strong> (<em>Expr</em>) – The trace of the matrix.</p></li>
-<li><p><strong>var_a</strong> (<em>bool</em><em>, </em><em>optional</em>) – Consider the oscillator’s amplitude <span class="math notranslate nohighlight">\(a\)</span> as the variable and find the bifurcation curve as an expression for <span class="math notranslate nohighlight">\(a\)</span>.
+<li><p><strong>var_a</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em>, </em><em>optional</em>) – Consider the oscillator’s amplitude <span class="math notranslate nohighlight">\(a\)</span> as the variable and find the bifurcation curve as an expression for <span class="math notranslate nohighlight">\(a\)</span>.
 <cite>detJ</cite> is rarely a quadratic polynomial in <span class="math notranslate nohighlight">\(a\)</span>, so this can rarely be computed easily.
 Default is <cite>False</cite>.</p></li>
-<li><p><strong>var_sig</strong> (<em>bool</em><em>, </em><em>optional</em>) – Consider the detuning <span class="math notranslate nohighlight">\(\sigma\)</span> as the variable and find the bifurcation curve as an expression for <span class="math notranslate nohighlight">\(\sigma\)</span>.
+<li><p><strong>var_sig</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em>, </em><em>optional</em>) – Consider the detuning <span class="math notranslate nohighlight">\(\sigma\)</span> as the variable and find the bifurcation curve as an expression for <span class="math notranslate nohighlight">\(\sigma\)</span>.
 <cite>detJ</cite> is often a quadratic polynomial in <span class="math notranslate nohighlight">\(\sigma\)</span>, so this can often be computed.
 Default is <cite>True</cite>.</p></li>
 <li><p><strong>solver</strong> (<em>function</em><em>, </em><em>optional</em>) – The solver to use to compute the bifurcation curves.
@@ -954,7 +1126,7 @@ q_i = a_i \sin\left(\frac{r_i}{r_{\textrm{MMS}}}\beta_i\right),
 <dd class="field-even"><p><strong>eigvals</strong> – The eigenvalues of <span class="math notranslate nohighlight">\(\textrm{J}\)</span>.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>list</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)">list</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -966,19 +1138,19 @@ q_i = a_i \sin\left(\frac{r_i}{r_{\textrm{MMS}}}\beta_i\right),
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>coord</strong> (<em>str</em><em>, </em><em>optional</em>) – Either <code class="docutils literal notranslate"><span class="pre">&quot;cartesian&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;polar&quot;</span></code>.
+<li><p><strong>coord</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>optional</em>) – Either <code class="docutils literal notranslate"><span class="pre">&quot;cartesian&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;polar&quot;</span></code>.
 Specifies the coordinates to use for the stability analysis.
 <code class="docutils literal notranslate"><span class="pre">&quot;cartesian&quot;</span></code> is recommended as it prevents divisions by 0, which occur when at least one of the dof has a null ampliutude.
 Default is <code class="docutils literal notranslate"><span class="pre">&quot;cartesian&quot;</span></code>.</p></li>
-<li><p><strong>rewrite_polar</strong> (<em>bool</em><em>, </em><em>optional</em>) – Rewrite the Jacobian’s determinant and trace in polar coordinates (if computed using cartesian ones).
+<li><p><strong>rewrite_polar</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em>, </em><em>optional</em>) – Rewrite the Jacobian’s determinant and trace in polar coordinates (if computed using cartesian ones).
 This is time consuming and the current back substitutions from cartesian to polar coordinates are not always sufficient.
 Default is <cite>False</cite>.</p></li>
-<li><p><strong>eigenvalues</strong> (<em>bool</em><em>, </em><em>optional</em>) – Compute the eigenvalues of the Jacobian.
+<li><p><strong>eigenvalues</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em>, </em><em>optional</em>) – Compute the eigenvalues of the Jacobian.
 Default is <cite>False</cite>.</p></li>
-<li><p><strong>bifurcation_curves</strong> (<em>bool</em><em>, </em><em>optional</em>) – Compute the bifurcation curves.
+<li><p><strong>bifurcation_curves</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em>, </em><em>optional</em>) – Compute the bifurcation curves.
 Default is <cite>False</cite>.</p></li>
-<li><p><strong>analyse_blocks</strong> (<em>bool</em><em>, </em><em>optional</em>) – Analyse the diagonal blocks of the Jacobian rather than the Jacobian itself. This is relevant if the Jacobian is block-diagonal.</p></li>
-<li><p><strong>kwargs_bif</strong> (<em>dict</em><em>, </em><em>optional</em>) – Passed to <a class="reference internal" href="#MMS.MMS.Steady_state.bifurcation_curves" title="MMS.MMS.Steady_state.bifurcation_curves"><code class="xref py py-func docutils literal notranslate"><span class="pre">bifurcation_curves()</span></code></a>
+<li><p><strong>analyse_blocks</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em>, </em><em>optional</em>) – Analyse the diagonal blocks of the Jacobian rather than the Jacobian itself. This is relevant if the Jacobian is block-diagonal.</p></li>
+<li><p><strong>kwargs_bif</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><em>dict</em></a><em>, </em><em>optional</em>) – Passed to <a class="reference internal" href="#MMS.MMS.Steady_state.bifurcation_curves" title="MMS.MMS.Steady_state.bifurcation_curves"><code class="xref py py-func docutils literal notranslate"><span class="pre">bifurcation_curves()</span></code></a>
 Default is <cite>dict()</cite>.</p></li>
 </ul>
 </dd>
@@ -988,7 +1160,7 @@ Default is <cite>dict()</cite>.</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="MMS.MMS.Steady_state.evolution_equations_cartesian">
 <span class="sig-name descname"><span class="pre">evolution_equations_cartesian</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS/MMS.html#Steady_state.evolution_equations_cartesian"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.MMS.Steady_state.evolution_equations_cartesian" title="Link to this definition"></a></dt>
-<dd><p>Write the evolution equations using the cartesian coordinates.
+<dd><p>Write the evolution equations using the cartesian coordinates (defined in <a class="reference internal" href="#MMS.MMS.Steady_state.cartesian_coordinates" title="MMS.MMS.Steady_state.cartesian_coordinates"><code class="xref py py-func docutils literal notranslate"><span class="pre">cartesian_coordinates()</span></code></a>).
 For oscillator <span class="math notranslate nohighlight">\(i\)</span>, this results in</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{cases}
@@ -1004,7 +1176,7 @@ For oscillator <span class="math notranslate nohighlight">\(i\)</span>, this res
 <dd><p>Plots the amplitude-response curves (ARC), both forcing amplitude-amplitude and forcing amplitude-phase.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ARC</strong> (<em>dict</em>) – Dictionary containing the amplitude response curves.</p>
+<dd class="field-odd"><p><strong>ARC</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><em>dict</em></a>) – Dictionary containing the amplitude response curves.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><ul class="simple">
@@ -1023,7 +1195,7 @@ For oscillator <span class="math notranslate nohighlight">\(i\)</span>, this res
 Also includes the stability information if given.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>FRC</strong> (<em>dict</em>) – Dictionary containing the frequency response curves and the bifurcation curves.</p>
+<dd class="field-odd"><p><strong>FRC</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><em>dict</em></a>) – Dictionary containing the frequency response curves and the bifurcation curves.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><ul class="simple">
@@ -1056,10 +1228,10 @@ The response of other oscillators is set to 0.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>c</strong> (<em>list</em><em>, </em><em>oprtional</em>) – Damping terms. They will be set to 0 to compute the backbone curve.
+<li><p><strong>c</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a><em>, </em><em>oprtional</em>) – Damping terms. They will be set to 0 to compute the backbone curve.
 Note that these are the scaled damping terms.
 Default is <cite>[]</cite>.</p></li>
-<li><p><strong>solve_dof</strong> (<em>None</em><em> or </em><em>int</em><em>, </em><em>oprtional</em>) – The dof number to solve for. Start from 0. If <cite>None</cite>, no dof is solved for.
+<li><p><strong>solve_dof</strong> (<em>None</em><em> or </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em>, </em><em>oprtional</em>) – The dof number to solve for. Start from 0. If <cite>None</cite>, no dof is solved for.
 Default is <cite>None</cite>.</p></li>
 </ul>
 </dd>
@@ -1073,7 +1245,7 @@ Default is <cite>None</cite>.</p></li>
 The response of other oscillators is set to 0.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>solve_dof</strong> (<em>None</em><em> or </em><em>int</em><em>, </em><em>oprtional</em>) – The dof number to solve for. Start from 0.
+<dd class="field-odd"><p><strong>solve_dof</strong> (<em>None</em><em> or </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em>, </em><em>oprtional</em>) – The dof number to solve for. Start from 0.
 If <cite>None</cite>, no dof is solved for.
 Default is <cite>None</cite>.</p>
 </dd>
@@ -1101,19 +1273,20 @@ We recall that <span class="math notranslate nohighlight">\(\omega = \omega_{\te
 <dd><p>Set every dof amplitude to 0 except the one to solve for.</p>
 </dd></dl>
 
+</section>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="MMS.MMS.Substitutions_MMS">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MMS.MMS.</span></span><span class="sig-name descname"><span class="pre">Substitutions_MMS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sub_t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_xMMS_t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_scaling</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_omega</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_sigma</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS/MMS.html#Substitutions_MMS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.MMS.Substitutions_MMS" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Substitutions used in the MMS.</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="MMS.MMS.Substitutions_SS">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MMS.MMS.</span></span><span class="sig-name descname"><span class="pre">Substitutions_SS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mms</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/MMS/MMS.html#Substitutions_SS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#MMS.MMS.Substitutions_SS" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Substitutions used in the steady state evaluations.</p>
 </dd></dl>
 
@@ -1125,8 +1298,8 @@ We recall that <span class="math notranslate nohighlight">\(\omega = \omega_{\te
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>y</strong> (<em>Expr</em><em> or </em><em>Matrix</em>) – A sympy expression or matrix written in cartesian coordinates.</p></li>
-<li><p><strong>sub_polar</strong> (<em>list</em>) – A list of substitutions to perform to go from cartesian to polar coordinates.</p></li>
-<li><p><strong>sub_phase</strong> (<em>list</em><em>, </em><em>optional</em>) – Additional substitutions to try and get rid of phases, so that only the amplitude remains in the expression.
+<li><p><strong>sub_polar</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a>) – A list of substitutions to perform to go from cartesian to polar coordinates.</p></li>
+<li><p><strong>sub_phase</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a><em>, </em><em>optional</em>) – Additional substitutions to try and get rid of phases, so that only the amplitude remains in the expression.
 Default is <cite>None</cite>.</p></li>
 </ul>
 </dd>
@@ -1150,7 +1323,7 @@ This transforms the sympy expressions to numpy arrays.</p>
 <li><p><strong>mms</strong> (<a class="reference internal" href="#MMS.MMS.Multiple_scales_system" title="MMS.MMS.Multiple_scales_system"><em>Multiple_scales_system</em></a>) – The MMS object.</p></li>
 <li><p><strong>ss</strong> (<a class="reference internal" href="#MMS.MMS.Steady_state" title="MMS.MMS.Steady_state"><em>Steady_state</em></a>) – The MMS results evaluated at steady state.</p></li>
 <li><p><strong>dyn</strong> (<a class="reference internal" href="#MMS.MMS.Dynamical_system" title="MMS.MMS.Dynamical_system"><em>Dynamical_system</em></a>) – The initial dynamical system.</p></li>
-<li><p><strong>param</strong> (<em>dict</em>) – <p>A dictionnary whose values are tuples with 2 elements:</p>
+<li><p><strong>param</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><em>dict</em></a>) – <p>A dictionnary whose values are tuples with 2 elements:</p>
 <ol class="arabic simple">
 <li><p>The sympy symbol of a parameter,</p></li>
 <li><p>The numerical value(s) taken by that parameter.</p></li>
@@ -1164,7 +1337,7 @@ The key of the angular frequency must be <code class="docutils literal notransla
 <dd class="field-even"><p><strong>ARC</strong> – The amplitude-response curves data.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dict</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)">dict</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1180,7 +1353,7 @@ This transforms the sympy expressions to numpy arrays.</p>
 <li><p><strong>mms</strong> (<a class="reference internal" href="#MMS.MMS.Multiple_scales_system" title="MMS.MMS.Multiple_scales_system"><em>Multiple_scales_system</em></a>) – The MMS object.</p></li>
 <li><p><strong>ss</strong> (<a class="reference internal" href="#MMS.MMS.Steady_state" title="MMS.MMS.Steady_state"><em>Steady_state</em></a>) – The MMS results evaluated at steady state.</p></li>
 <li><p><strong>dyn</strong> (<a class="reference internal" href="#MMS.MMS.Dynamical_system" title="MMS.MMS.Dynamical_system"><em>Dynamical_system</em></a>) – The initial dynamical system.</p></li>
-<li><p><strong>param</strong> (<em>dict</em>) – <p>A dictionary whose values are tuples with 2 elements:</p>
+<li><p><strong>param</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><em>dict</em></a>) – <p>A dictionary whose values are tuples with 2 elements:</p>
 <ol class="arabic simple">
 <li><p>The sympy symbol of a parameter,</p></li>
 <li><p>The numerical value(s) taken by that parameter.</p></li>
@@ -1188,11 +1361,11 @@ This transforms the sympy expressions to numpy arrays.</p>
 <p>The key of the amplitude vector must be <code class="docutils literal notranslate"><span class="pre">&quot;a&quot;</span></code>.
 The key of the forcing amplitude must be <code class="docutils literal notranslate"><span class="pre">&quot;F&quot;</span></code>.</p>
 </p></li>
-<li><p><strong>bbc</strong> (<em>bool</em><em>, </em><em>optional</em>) – Evaluate the backbone curve.
+<li><p><strong>bbc</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em>, </em><em>optional</em>) – Evaluate the backbone curve.
 Default is <cite>True</cite>.</p></li>
-<li><p><strong>forced</strong> (<em>bool</em><em>, </em><em>optional</em>) – Evaluate the forced response.
+<li><p><strong>forced</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em>, </em><em>optional</em>) – Evaluate the forced response.
 Default is <cite>True</cite>.</p></li>
-<li><p><strong>bif</strong> (<em>bool</em><em>, </em><em>optional</em>) – Evaluate the bifurcation curves.
+<li><p><strong>bif</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em>, </em><em>optional</em>) – Evaluate the bifurcation curves.
 Default is <cite>True</cite>.</p></li>
 </ul>
 </dd>
@@ -1200,7 +1373,7 @@ Default is <cite>True</cite>.</p></li>
 <dd class="field-even"><p><strong>FRC</strong> – The frequency-response curves data.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dict</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)">dict</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1245,8 +1418,8 @@ For a given parameter <span class="math notranslate nohighlight">\(p\)</span> an
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>param</strong> (<em>list</em><em> of </em><em>Symbol and/or Function</em>) – Unscaled parameters.</p></li>
-<li><p><strong>scaling</strong> (<em>list</em><em> of </em><em>int</em><em> or </em><em>float</em>) – The scaling for each parameter.</p></li>
+<li><p><strong>param</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a><em> of </em><em>Symbol and/or Function</em>) – Unscaled parameters.</p></li>
+<li><p><strong>scaling</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – The scaling for each parameter.</p></li>
 <li><p><strong>eps</strong> (<em>Symbol</em>) – Small parameter <span class="math notranslate nohighlight">\(\epsilon\)</span>.</p></li>
 </ul>
 </dd>
@@ -1273,7 +1446,7 @@ For a given parameter <span class="math notranslate nohighlight">\(p\)</span> an
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>expr_sy</strong> (<em>Expr</em>) – A sympy expression.</p></li>
-<li><p><strong>param</strong> (<em>dict</em>) – <p>A dictionnary whose values are tuples with 2 elements:</p>
+<li><p><strong>param</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><em>dict</em></a>) – <p>A dictionnary whose values are tuples with 2 elements:</p>
 <ol class="arabic simple">
 <li><p>The sympy symbol of a parameter</p></li>
 <li><p>The numerical value(s) taken by that parameter</p></li>
@@ -1315,7 +1488,7 @@ For a given parameter <span class="math notranslate nohighlight">\(p\)</span> an
 <dd class="field-even"><p><strong>bool</strong> – True is solvable, False otherwise.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>bool,</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)">bool</a>,</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1328,14 +1501,14 @@ For a given parameter <span class="math notranslate nohighlight">\(p\)</span> an
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>matrix</strong> (<em>Matrix</em>) – The matrix to check for block diagonality.</p></li>
-<li><p><strong>block_sizes</strong> (<em>int</em><em> or </em><em>list</em><em> of </em><em>int</em>) – Size(s) of the diagonal blocks.</p></li>
+<li><p><strong>block_sizes</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) – Size(s) of the diagonal blocks.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>indices</strong> – A list of tuples <cite>(i, j)</cite> representing the indices of elements in the diagonal blocks.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>list</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)">list</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1354,7 +1527,7 @@ For a given parameter <span class="math notranslate nohighlight">\(p\)</span> an
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>matrix</strong> (<em>Matrix</em>) – The matrix to check for block diagonality.</p></li>
-<li><p><strong>block_sizes</strong> (<em>int</em><em> or </em><em>list</em><em> of </em><em>int</em>) – Size(s) of the diagonal blocks.</p></li>
+<li><p><strong>block_sizes</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) – Size(s) of the diagonal blocks.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1388,7 +1561,7 @@ then an auxiliary polynomial</p>
 <dd class="field-even"><p><strong>dic_x</strong> – The polynomial terms.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dict</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)">dict</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1414,7 +1587,7 @@ Note that <code class="xref py py-func docutils literal notranslate"><span class
 <dd class="field-even"><p><strong>x_sol</strong> – list containing the two roots of the polynomial</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>list of Expr</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)">list</a> of Expr</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1428,7 +1601,7 @@ For instance, one wants to substitute a1 and a2 by expressions, but a1 is actual
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>expr</strong> (<em>expr</em>) – Expression on which substitutions are to be performed.</p></li>
-<li><p><strong>sub</strong> (<em>list</em><em> of </em><em>tuples</em>) – The substitutions to perform.</p></li>
+<li><p><strong>sub</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a><em> of </em><em>tuples</em>) – The substitutions to perform.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
