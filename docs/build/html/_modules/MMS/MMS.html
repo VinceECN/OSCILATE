@@ -100,6 +100,27 @@
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The dynamical system studied.</span>
 
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    t : Symbol</span>
+<span class="sd">        time :math:`t`.</span>
+<span class="sd">    x : Function or list of Function</span>
+<span class="sd">        Unknown(s) of the problem.</span>
+<span class="sd">    Eq : :class:`~sympy.core.expr.Expr` or list of :class:`~sympy.core.expr.Expr`</span>
+<span class="sd">        System&#39;s equations without forcing, which can be defined separately (see parameters `F` and `f_coeff`).</span>
+<span class="sd">        Eq is the unforced system of equations describing the system&#39;s dynamics. </span>
+<span class="sd">    omegas : Symbol or list of Symbol</span>
+<span class="sd">        The natural frequency of each oscillator.</span>
+<span class="sd">    F : Symbol or 0, optional</span>
+<span class="sd">        Forcing amplitude :math:`F`. </span>
+<span class="sd">        Default is 0.</span>
+<span class="sd">    f_coeff : :class:`~sympy.core.expr.Expr` of list of :class:`~sympy.core.expr.Expr`, optional</span>
+<span class="sd">        For each dof, specify the coefficient multiplying the forcing terms in the equation.</span>
+<span class="sd">        It can be used to define parametric forcing. Typically, if the forcing is :math:`x F \cos(\omega t)`, then ``f_coeff = x``.</span>
+<span class="sd">        Default is a list of 1, so the forcing is direct. </span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
 <span class="sd">    Systems considered are typically composed of :math:`N` coupled nonlinear equations of the form</span>
 
 <span class="sd">    .. math::</span>
@@ -125,25 +146,6 @@
 <span class="sd">    - Forcing, which can be hard (at first order) or weak (small). Harmonic forcing :math:`F \cos(\omega t)` and parametric forcing (for instance :math:`x_i F \cos(\omega t)`) are supported. Here, :math:`F` and :math:`\omega` denote the forcing amplitude and frequency, respectively.</span>
 
 <span class="sd">    Internal resonance relations among oscillators can be specified in a second step by expressing the :math:`\omega_i` as a function of a reference frequency. Detuning can also be introduced during this step.</span>
-<span class="sd">    </span>
-<span class="sd">    Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        t : Symbol</span>
-<span class="sd">            time :math:`t`.</span>
-<span class="sd">        x : Function or list of Function</span>
-<span class="sd">            Unknown(s) of the problem.</span>
-<span class="sd">        Eq : Expr or list of Expr</span>
-<span class="sd">            System&#39;s equations without forcing, which can be defined separately (see parameters `F` and `f_coeff`).</span>
-<span class="sd">            Eq is the unforced system of equations describing the system&#39;s dynamics. </span>
-<span class="sd">        omegas : Symbol or list of Symbol</span>
-<span class="sd">            The natural frequency of each oscillator.</span>
-<span class="sd">        F : Symbol or 0, optional</span>
-<span class="sd">            Forcing amplitude :math:`F`. </span>
-<span class="sd">            Default is 0.</span>
-<span class="sd">        f_coeff : Expr of list of Expr, optional</span>
-<span class="sd">            For each dof, specify the coefficient multiplying the forcing terms in the equation.</span>
-<span class="sd">            It can be used to define parametric forcing. Typically, if the forcing is :math:`x F \cos(\omega t)`, then ``f_coeff = x``.</span>
-<span class="sd">            Default is a list of 1, so the forcing is direct. </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">Eq</span><span class="p">,</span> <span class="n">omegas</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -190,8 +192,8 @@
 <span class="sd">    </span>
 <span class="sd">    - Forcing coefficients `f_coeff`, used to introduce parametric forcing.</span>
 <span class="sd">    </span>
-<span class="sd">    For the :math:`i^\textrm{th}` oscillator, denoting `f_coeff[i]` as :math:`\Gamma_i(\boldsymbol{x}(t), \dot{\boldsymbol{x}}(t), \ddot{\boldsymbol{x}}(t))`, </span>
-<span class="sd">    the forcing term on that oscillator is :math:`\Gamma_i F \cos(\omega t)`.</span>
+<span class="sd">    For the :math:`i^\textrm{th}` oscillator, denoting `f_coeff[i]` as :math:`\f_i^{\textrm{coeff}}(\boldsymbol{x}(t), \dot{\boldsymbol{x}}(t), \ddot{\boldsymbol{x}}(t))`, </span>
+<span class="sd">    the forcing term on that oscillator is :math:`f_i^{\textrm{coeff}} F \cos(\omega t)`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">f_coeff</span><span class="p">):</span>
@@ -205,11 +207,6 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">scale_parameters</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">scaling</span><span class="p">,</span> <span class="n">eps</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Scale parameters with the scaling parameter :math:`\epsilon`.</span>
-<span class="sd">    For a given parameter :math:`p` and a scaling order :math:`\lambda`, the associated scaled parameter :math:`\tilde{p}` is </span>
-
-<span class="sd">    .. math::</span>
-<span class="sd">        p = \epsilon^{\lambda} \tilde{p} .</span>
-<span class="sd">    </span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -230,6 +227,13 @@
 <span class="sd">        - :math:`1^{\text{st}}` list: The substitutions to do to introduce the scaled parameters in an expression.</span>
 <span class="sd">        </span>
 <span class="sd">        - :math:`2^{\text{nd}}` list: The substitutions to do to reintroduce the unscaled parameters in a scaled expression.</span>
+<span class="sd">    </span>
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    For a given parameter :math:`p` and a scaling order :math:`\lambda`, the associated scaled parameter :math:`\tilde{p}` is </span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        p = \epsilon^{\lambda} \tilde{p} .</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
     <span class="n">param_scaled</span>     <span class="o">=</span> <span class="p">[]</span>
@@ -594,8 +598,8 @@
 <span class="sd">    </span>
 <span class="sd">    .. math::</span>
 <span class="sd">        \begin{aligned}</span>
-<span class="sd">        \boldsymbol{a}(\boldsymbol{t}_s)^\intercal &amp; = [a_0(\boldsymbol{t}_s), a_1(\boldsymbol{t}_s), \cdots, a_N(\boldsymbol{t}_s)], \\</span>
-<span class="sd">        \boldsymbol{\phi}(\boldsymbol{t}_s)^\intercal &amp; = [\phi_0(\boldsymbol{t}_s), \phi_1(\boldsymbol{t}_s), \cdots, \phi_N(\boldsymbol{t}_s)],</span>
+<span class="sd">        \boldsymbol{a}(\boldsymbol{t}_s)^\intercal &amp; = [a_0(\boldsymbol{t}_s), a_1(\boldsymbol{t}_s), \cdots, a_{N-1}(\boldsymbol{t}_s)], \\</span>
+<span class="sd">        \boldsymbol{\phi}(\boldsymbol{t}_s)^\intercal &amp; = [\phi_0(\boldsymbol{t}_s), \phi_1(\boldsymbol{t}_s), \cdots, \phi_{N-1}(\boldsymbol{t}_s)],</span>
 <span class="sd">        \end{aligned}</span>
 
 <span class="sd">    the evolution equations on the :math:`A_i(\boldsymbol{t}_s)` can be split into real and imaginary terms, leading to</span>
@@ -803,13 +807,18 @@
 <a class="viewcode-back" href="../../modules.html#MMS.MMS.Multiple_scales_system.time_scales">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">time_scales</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        XXX : réécrire</span>
-<span class="sd">        Introduce the time scales </span>
+<span class="sd">        Define the time scales.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        The time scales are defined as (see :class:``~MMS.MMS.Multiple_scales_system``)</span>
 <span class="sd">        </span>
 <span class="sd">        .. math::</span>
-<span class="sd">            t_i = \epsilon^i t, \quad i=0, 1, ...</span>
+<span class="sd">            t_0 = t, \quad t_1 = \epsilon t, \quad \cdots, \quad t_{N_e} = \epsilon^{N_e} t,</span>
 <span class="sd">        </span>
-<span class="sd">        and prepare substitutions from the physical time :math:`t` to these time scales :math:`t_i`.</span>
+<span class="sd">        and prepare substitutions from the physical time :math:`t` to these time scales :math:`t_i, \; i=0, ..., N_e`.</span>
+<span class="sd">        Note that :math:`t_0` is refered-to as the fast time as it captures the oscillations. </span>
+<span class="sd">        Other time scales are refered-to as slow time as they capture the modulations.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         
         <span class="n">tS</span>  <span class="o">=</span> <span class="p">[]</span>
@@ -827,25 +836,26 @@
 <a class="viewcode-back" href="../../modules.html#MMS.MMS.Multiple_scales_system.asymptotic_series">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">asymptotic_series</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dynamical_system</span><span class="p">,</span> <span class="n">eps_pow_0</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        XXX : to rewrite</span>
+<span class="sd">        Define the asymptotic series.</span>
 
-<span class="sd">        Define series expansions for each dof and prepare substitutions from </span>
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        The series expansion for oscillator :math:`i` (and for a leading order term :math:`\epsilon^0 = 1`) takes the form (see :class:``~MMS.MMS.Multiple_scales_system``)</span>
 
-<span class="sd">        1. dof `x` to temporary t-dependent asymptotic terms `xMMS_t`</span>
-
-<span class="sd">        2. Temporary `xMMS_t` to the time scales-dependent `xMMS` </span>
-
-<span class="sd">        For the :math:`i^\textrm{th}` oscillator and with `eps_pow_0=0`, stage 1 introduces temporary :math:`t`-dependent terms such that </span>
-<span class="sd">        </span>
 <span class="sd">        .. math::</span>
+<span class="sd">            x_i(t) = x_{i,0}(t) + \epsilon x_{i,1}(t) + \epsilon^2 x_{i,2}(t) + \cdots + \epsilon^{N_e} x_{i,N_e}(t) + \mathcal{O}(\epsilon^{N_e+1}).</span>
+
+<span class="sd">        On top of introducing the terms of the asymptotic series, this function prepares substitutions from</span>
+
+<span class="sd">        1. dof :math:`x_i(t)` to temporary :math:`t`-dependent asymptotic terms :math:`x_{i,j}(t)`, such that</span>
+
+<span class="sd">           .. math::</span>
 <span class="sd">            x_i(t) = x_{i,0}(t) + \epsilon x_{i,1}(t) + \epsilon^2 x_{i,2}(t) + \cdots + \epsilon^{N_e} x_{i,N_e}(t), </span>
-<span class="sd">        </span>
-<span class="sd">        while stage 2 introduces the :math:`t_i`-dependent terms :math:`x_{i0}(\boldsymbol{t}),\; x_{i,1}(\boldsymbol{t}),\; x_{i,2}(\boldsymbol{t}),\; \cdots`, where </span>
-<span class="sd">        :math:`\boldsymbol{t}^\intercal = [t_0, t_1, t_2, ...]` is the vector containing the time scales, such that</span>
-<span class="sd">        </span>
-<span class="sd">        .. math::</span>
+
+<span class="sd">        2. Temporary :math:`x_{i,j}(t)` to the time scales-dependent terms :math:`x_{i,j}(\boldsymbol{t})`, such that</span>
+<span class="sd">         </span>
+<span class="sd">           .. math::</span>
 <span class="sd">            x_i(\boldsymbol{t}) = x_{i,0}(\boldsymbol{t}) + \epsilon x_{i,1}(\boldsymbol{t}) + \epsilon^2 x_{i,2}(\boldsymbol{t}) + \cdots + \epsilon^{N_e} x_{i,N_e}(\boldsymbol{t}). </span>
-<span class="sd">        </span>
 <span class="sd">        &quot;&quot;&quot;</span>
         
         <span class="c1"># Initialisation</span>
@@ -885,14 +895,25 @@
 <a class="viewcode-back" href="../../modules.html#MMS.MMS.Multiple_scales_system.forcing_MMS">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">forcing_MMS</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dynamical_system</span><span class="p">):</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        XXX : rewrite. C&#39;est bizarre les Gamma, utiliser fcoeff ou qq chose de similaire</span>
+<span class="sd">        Rewrite the forcing terms.</span>
 
-<span class="sd">        Rewrite the forcing terms :math:`\Gamma_i(\boldsymbol{x}(t), \dot{\boldsymbol{x}}(t), \ddot{\boldsymbol{x}}(t)) F \cos(\omega t)`, :math:`i=1,...,N` where :math:`N` is the number of oscillators.</span>
-<span class="sd">        This involves</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dynamical_system : Dynamical_system</span>
+<span class="sd">            The dynamical system.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        The forcing terms are </span>
+<span class="sd">        </span>
+<span class="sd">        .. math::</span>
+<span class="sd">            f_i^{\textrm{coeff}}(\boldsymbol{x}(t), \dot{\boldsymbol{x}}(t), \ddot{\boldsymbol{x}}(t)) F \cos(\omega t), \quad i=1,...,N.</span>
+<span class="sd">        </span>
+<span class="sd">        Rewritting them involves</span>
 
 <span class="sd">        1. Replacing the :math:`x_i(t)` by their series expansions written in terms of time scales,</span>
 <span class="sd">        </span>
-<span class="sd">        2. Scaling the forcing and the parameters in :math:`\Gamma_i` if any,</span>
+<span class="sd">        2. Scaling the forcing and the parameters in :math:`f_i^{\textrm{coeff}}` if any,</span>
 <span class="sd">        </span>
 <span class="sd">        3. Truncating terms whose order is larger than the largest order retained in the MMS,</span>
 <span class="sd">        </span>
@@ -901,11 +922,6 @@
 <span class="sd">        .. math::</span>
 <span class="sd">            \cos(\omega t) = \frac{1}{2} e^{\mathrm{i}(\omega_{\textrm{MMS}} + \epsilon \sigma)t} + cc = \frac{1}{2} e^{\mathrm{i}(\omega_{\textrm{MMS}}t_0 + \sigma t_1)} + cc.</span>
 <span class="sd">        </span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        dynamical_system : Dynamical_system</span>
-<span class="sd">            The dynamical system.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         
         <span class="c1"># Get the expression of the forcing frequency</span>
@@ -935,7 +951,7 @@
         <span class="c1"># Get the forcing term for each dof</span>
         <span class="n">forcing_term</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">f_coeff</span>      <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">sub_t</span><span class="p">,</span> <span class="n">sub_x</span><span class="p">,</span> <span class="n">sub_xMMS_t</span><span class="p">,</span> <span class="n">sub_scaling</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">,[</span><span class="s2">&quot;sub_t&quot;</span><span class="p">,</span> <span class="s2">&quot;sub_x&quot;</span><span class="p">,</span> <span class="s2">&quot;sub_xMMS_t&quot;</span><span class="p">,</span> <span class="s2">&quot;sub_scaling&quot;</span><span class="p">]))</span>
+        <span class="n">sub_t</span><span class="p">,</span> <span class="n">sub_x</span><span class="p">,</span> <span class="n">sub_xMMS_t</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">,[</span><span class="s2">&quot;sub_t&quot;</span><span class="p">,</span> <span class="s2">&quot;sub_x&quot;</span><span class="p">,</span> <span class="s2">&quot;sub_xMMS_t&quot;</span><span class="p">]))</span>
 
         <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">):</span>
             <span class="n">f_coeff</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="p">(</span><span class="n">dynamical_system</span><span class="o">.</span><span class="n">forcing</span><span class="o">.</span><span class="n">f_coeff</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_scaling</span><span class="p">)</span>
@@ -957,9 +973,10 @@
 <a class="viewcode-back" href="../../modules.html#MMS.MMS.Multiple_scales_system.oscillators_frequencies">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">oscillators_frequencies</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        XXX : delta_i à l&#39;ordre epsilon doffice?</span>
-
 <span class="sd">        Gives the expression of every oscillator frequency in terms of the reference frequency, possibly with a detuning.</span>
+<span class="sd">        </span>
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
 <span class="sd">        For the :math:`i^\textrm{th}` oscillator, this leads to </span>
 <span class="sd">        </span>
 <span class="sd">        .. math::</span>
@@ -969,7 +986,8 @@
 <span class="sd">        </span>
 <span class="sd">        .. math::</span>
 <span class="sd">            \omega_{i,0} = r_i \omega_{\textrm{ref}}.</span>
-<span class="sd">        </span>
+
+<span class="sd">        XXX : delta_i à l&#39;ordre epsilon doffice?</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_omegas</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># Substitutions from the omegas to their expression in terms of omega_ref</span>
@@ -1049,7 +1067,17 @@
 <a class="viewcode-back" href="../../modules.html#MMS.MMS.Multiple_scales_system.apply_MMS">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">apply_MMS</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rewrite_polar</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Apply the MMS. This is operated by successively calling the following methods.</span>
+<span class="sd">        Apply the MMS. </span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        rewrite_polar : str, int or list of int, optional</span>
+<span class="sd">            The orders at which the solutions will be rewritten in polar form.</span>
+<span class="sd">            See :func:`sol_xMMS_polar`.</span>
+<span class="sd">        </span>
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        The application of the MMS is operated by successively calling the following methods.</span>
 
 <span class="sd">        #. :func:`system_t0`: An equivalent system is written in terms of the fast time scale :math:`t_0`. </span>
 <span class="sd">           This introduces the temporary unknowns :math:`\tilde{x}_{i,j}(t_0)` and allows the use of :func:`~sympy.solvers.ode.dsolve`.</span>
@@ -1087,12 +1115,6 @@
 <span class="sd">            \end{cases}</span>
 
 <span class="sd">        #. :func:`sol_xMMS_polar`: The leading and higher order solutions are rewritten in terms of polar coordinates using :math:`\cos` and :math:`\sin` functions.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        rewrite_polar : str, int or list of int, optional</span>
-<span class="sd">            The orders at which the solutions will be rewritten in polar form.</span>
-<span class="sd">            See :func:`sol_xMMS_polar`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         
         <span class="c1"># Write a temporary equivalent system depending only on t0</span>
@@ -1119,6 +1141,10 @@
 <a class="viewcode-back" href="../../modules.html#MMS.MMS.Multiple_scales_system.system_t0">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">system_t0</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Rewrite the system with the fast time scale as the only independent variable.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
 <span class="sd">        Rewrite the equations in terms of temporary coordinates :math:`\tilde{x}_{i,j}(t_0)`, with :math:`i,j` denoting the oscillator number and :math:`\epsilon` order, respectively, </span>
 <span class="sd">        in place of :math:`x_{i,j}(\boldsymbol{t})`. </span>
 <span class="sd">        This is equivalent to temporary considering that :math:`\boldsymbol{A}` does not depend on the slow times, which is of no consequence as there are no slow time derivatives appearing in the higher order equations at this stage. </span>
@@ -1130,7 +1156,7 @@
         <span class="n">EqMMS_t0</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># Equations at each order with only t0 as an explicit variable. Leads to a harmonic oscillator at each order with a t0-periodic forcing coming from lower order solutions.</span>
         
         <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">):</span>
-            <span class="n">xMMS_t0</span> <span class="o">.</span><span class="n">append</span><span class="p">([</span> <span class="n">Function</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\tilde{x_&#39;</span><span class="o">+</span><span class="s1">&#39;{{</span><span class="si">{}</span><span class="s1">,</span><span class="si">{}</span><span class="s1">}}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">io</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;}&#39;</span><span class="p">,</span> <span class="n">real</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">tS</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">io</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">Ne</span><span class="p">)</span> <span class="p">])</span> <span class="c1"># XXX : should it be real or complex?</span>
+            <span class="n">xMMS_t0</span> <span class="o">.</span><span class="n">append</span><span class="p">([</span> <span class="n">Function</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\tilde{x_&#39;</span><span class="o">+</span><span class="s1">&#39;{{</span><span class="si">{}</span><span class="s1">,</span><span class="si">{}</span><span class="s1">}}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">io</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;}&#39;</span><span class="p">,</span> <span class="n">real</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">tS</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">io</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">Ne</span><span class="p">)</span> <span class="p">])</span> 
             <span class="n">EqMMS_t0</span><span class="o">.</span><span class="n">append</span><span class="p">([</span> <span class="bp">self</span><span class="o">.</span><span class="n">EqMMS</span><span class="p">[</span><span class="n">ix</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xMMS</span><span class="p">[</span><span class="n">ix</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">xMMS_t0</span><span class="p">[</span><span class="n">ix</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">doit</span><span class="p">()</span> <span class="p">])</span>
             
         <span class="bp">self</span><span class="o">.</span><span class="n">EqMMS_t0</span> <span class="o">=</span> <span class="n">EqMMS_t0</span>
@@ -1144,6 +1170,8 @@
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Compute the leading-order solutions for each oscillator. </span>
 
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
 <span class="sd">        For oscillator :math:`i`, the homogeneous solution takes the general form</span>
 <span class="sd">        </span>
 <span class="sd">        .. math::</span>
@@ -1297,7 +1325,7 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        EqMMS_t0 : list of list of expr</span>
+<span class="sd">        EqMMS_t0 : list of list of :class:`~sympy.core.expr.Expr`</span>
 <span class="sd">            The MMS equations at each order and for each oscillator written with :math:`t_0` as the only independent variable. </span>
 <span class="sd">        xMMS_t0 : list of list of Function</span>
 <span class="sd">            Oscillators&#39; response at each order written in terms of :math:`t_0` only, :math:`\tilde{x}_{i,j}(t_0)`.</span>
@@ -1332,13 +1360,16 @@
 <a class="viewcode-back" href="../../modules.html#MMS.MMS.Multiple_scales_system.polar_coordinates">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">polar_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Introduce polar coordinates such that, for oscillator :math:`i`, the complex amplitude of the homogeneous leading order solution is defined as</span>
+<span class="sd">        Define the polar coordinates.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Define polar coordinates such that, for oscillator :math:`i`, the complex amplitude of the homogeneous leading order solution is defined as</span>
 <span class="sd">        </span>
 <span class="sd">        .. math::</span>
 <span class="sd">            A_i(\boldsymbol{t}_s) = \frac{1}{2} a_i(\boldsymbol{t}_s) e^{\textrm{j} \phi_i(\boldsymbol{t}_s)},</span>
 
 <span class="sd">        where :math:`a_i(\boldsymbol{t}_s)` and :math:`\phi_i(\boldsymbol{t}_s)` are the solution&#39;s amplitude and phase, respectively. </span>
-<span class="sd">        </span>
 <span class="sd">        &quot;&quot;&quot;</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">a</span>   <span class="o">=</span> <span class="p">[</span> <span class="n">Function</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;a_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ix</span><span class="p">)</span>   <span class="p">,</span> <span class="n">real</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">positive</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">tS</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span> <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">)</span> <span class="p">]</span>
@@ -1351,7 +1382,11 @@
 <a class="viewcode-back" href="../../modules.html#MMS.MMS.Multiple_scales_system.autonomous_phases">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">autonomous_phases</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Introduce new phase coordinates :math:`\beta_i` to transform nonautonomous equations into autonomous ones. </span>
+<span class="sd">        Define phase coordinates that render an autonomous system.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Define new phase coordinates :math:`\beta_i` to transform nonautonomous equations into autonomous ones. </span>
 <span class="sd">        The :math:`\beta_i` are defined as</span>
 <span class="sd">        </span>
 <span class="sd">        .. math::</span>
@@ -1373,7 +1408,11 @@
 <a class="viewcode-back" href="../../modules.html#MMS.MMS.Multiple_scales_system.evolution_equations">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">evolution_equations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Derive the evolution equations of the polar coordinates (defined in :func:`polar_coordinates` and :func:`autonomous_phases`) from the secular conditions. For oscillator :math:`i`, these are defined as</span>
+<span class="sd">        Derive the evolution equations of the polar coordinates system.</span>
+<span class="sd">        </span>
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Derive the evolution equations of the polar coordinates system (defined in :func:`polar_coordinates` and :func:`autonomous_phases`) from the secular conditions. For oscillator :math:`i`, these are defined as</span>
 <span class="sd">        </span>
 <span class="sd">        .. math::</span>
 <span class="sd">            \begin{cases}</span>
@@ -1616,6 +1655,11 @@
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Steady state analysis of the multiple scales system.</span>
 
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mms: Multiple_scales_sytem</span>
+<span class="sd">        The multiple scales system.</span>
+
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
 <span class="sd">    Description of the steady state analysis.</span>
@@ -1786,16 +1830,32 @@
 <div class="viewcode-block" id="Steady_state.solve_forced">
 <a class="viewcode-back" href="../../modules.html#MMS.MMS.Steady_state.solve_forced">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">solve_forced</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">solve_dof</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Find the steady state solution for a given oscillator.</span>
-<span class="sd">        The response of other oscillators is set to 0.</span>
-<span class="sd">                </span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Solve the forced response of an oscillator.</span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        solve_dof: None or int, oprtional</span>
+<span class="sd">        solve_dof: None or int, optional</span>
 <span class="sd">            The dof number to solve for. Start from 0. </span>
 <span class="sd">            If `None`, no dof is solved for.</span>
 <span class="sd">            Default is `None`.</span>
+<span class="sd">        </span>
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Find the steady state solution for a given oscillator with the other oscillators&#39; amplitude set to 0.</span>
+
+<span class="sd">        To do so, one must choose an oscillator to chose for, say oscillator :math:`i`. Then, the following methods are called: </span>
+<span class="sd">        </span>
+<span class="sd">        #. :func:`substitution_solve_dof`: Set the other oscillators&#39; amplitude to 0, i.e. :math:`a_j = 0 \; \forall j \neq i`.</span>
+
+<span class="sd">        #. :func:`solve_phase`: express the oscillator&#39;s phase :math:`\beta_i `as a function of its amplitude :math:`a_i`. </span>
+
+<span class="sd">        #. :func:`solve_sigma`: find the expression of :math:`\sigma(a_i)`.</span>
+
+<span class="sd">        #. :func:`solve_a`: find the expression of :math:`a_i (\sigma, F)`.</span>
+<span class="sd">                </span>
+<span class="sd">        #. :func:`solve_F`: find the expression of :math:`F(a_i)`.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         
         <span class="c1"># Conditions for not solving the forced response</span>
@@ -1829,6 +1889,8 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">substitution_solve_dof</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">solve_dof</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set every dof amplitude to 0 except the one to solve for.</span>
+
+<span class="sd">        XXX : détailer</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">sub_solve</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">):</span>
@@ -1842,9 +1904,8 @@
 <a class="viewcode-back" href="../../modules.html#MMS.MMS.Steady_state.solve_phase">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">solve_phase</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Find implicit solutions for the oscillator&#39;s phase :math:`\beta_i`. </span>
-<span class="sd">        The solutions returned are</span>
-<span class="sd">        :math:`\sin(k \beta_i)` and :math:`\cos(k \beta_i)` where :math:`k` is an integer or rational.</span>
+<span class="sd">        Find solutions for the oscillator&#39;s phase :math:`\beta_i`. </span>
+<span class="sd">        The solutions actually returned are :math:`\sin(k \beta_i)` and :math:`\cos(k \beta_i)`, where :math:`k` is an integer or rational.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         
         <span class="c1"># Evaluate the evolution equations for a single oscillator responding</span>
@@ -1916,7 +1977,8 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">solve_sigma</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Solve the forced response in terms of the detuning :math:`\sigma`. </span>
-<span class="sd">        We recall that :math:`\omega = \omega_{\textrm{MMS}} + \epsilon \sigma`. </span>
+<span class="sd">        Returns :math:`\sigma(a_i)`.</span>
+<span class="sd">        It is recalled that :math:`\omega = \omega_{\textrm{MMS}} + \epsilon \sigma`. </span>
 <span class="sd">        &quot;&quot;&quot;</span>
         
         <span class="n">sin_phase</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">sin_phase</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
@@ -1936,7 +1998,7 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">solve_a</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Solve the forced response in terms of the oscillator&#39;s amplitude.</span>
-<span class="sd">        For readability, the output actually returned in :math:`a^2`. </span>
+<span class="sd">        For readability, the output actually returned is :math:`a^2(\sigma, F)`. </span>
 <span class="sd">        &quot;&quot;&quot;</span>
         
         <span class="n">sin_phase</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">sin_phase</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
@@ -1964,7 +2026,7 @@
 <a class="viewcode-back" href="../../modules.html#MMS.MMS.Steady_state.solve_F">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">solve_F</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Solve the forced response in terms of the forcing amplitude :math:`F`.</span>
+<span class="sd">        Solve the forced response in terms of the forcing amplitude :math:`F`. Returns :math:`F(a_i)`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         
         <span class="n">sin_phase</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">sin_phase</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
@@ -1992,9 +2054,8 @@
 <div class="viewcode-block" id="Steady_state.solve_bbc">
 <a class="viewcode-back" href="../../modules.html#MMS.MMS.Steady_state.solve_bbc">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">solve_bbc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="p">[],</span> <span class="n">solve_dof</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Find the backbone curve of a given oscillator.</span>
-<span class="sd">        The response of other oscillators is set to 0.</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Find the backbone curve (bbc) of a given oscillator with the other oscillators&#39; amplitude set to 0.</span>
 <span class="sd">        </span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -2005,6 +2066,19 @@
 <span class="sd">        solve_dof: None or int, oprtional</span>
 <span class="sd">            The dof number to solve for. Start from 0. If `None`, no dof is solved for.</span>
 <span class="sd">            Default is `None`.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        The backbone curve describes the frequency of free oscillations as a function of the oscillator&#39;s amplitude.</span>
+<span class="sd">        In the presence of small damping (as in the case in the MMS) the frequency of free oscillations is close from the resonance frequency. </span>
+<span class="sd">        The backbone curve can therefore be interpreted as the *backbone* of the forced response. </span>
+
+<span class="sd">        The backbone curve of oscillator :math:`i` typically takes the form</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">            \omega_{\textrm{bbc}}^{(i)} = k\omega_{i} + f_{\textrm{bbc}}^{(i)} (a_i),</span>
+
+<span class="sd">        where :math:`k=1,\; k&lt;1,\; k&gt;1` are associated to direct, superharmonic and subharmonic resonances, respectively. </span>
 <span class="sd">        &quot;&quot;&quot;</span>
         
         <span class="k">if</span> <span class="n">solve_dof</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
@@ -2087,13 +2161,16 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">cartesian_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Define cartesian coordinates from the polar ones.</span>
-<span class="sd">        The leading order solution for oscillator :math:`i` expressed in polar coordinates takes the form</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        The homogeneous leading order solution for oscillator :math:`i` expressed in polar coordinates takes the form</span>
 
 <span class="sd">        .. math::</span>
 <span class="sd">            \begin{split}</span>
-<span class="sd">            x_{i,0}(t) &amp; = a_i \cos\left(\frac{r_i}{r_{\textrm{MMS}}}(\omega t - \beta_i)\right), \\</span>
-<span class="sd">                    &amp; = a_i \cos\left(\frac{r_i}{r_{\textrm{MMS}}}\beta_i\right)\cos\left(\frac{r_i}{r_{\textrm{MMS}}}\omega t\right) </span>
-<span class="sd">                    + a_i \sin\left(\frac{r_i}{r_{\textrm{MMS}}}\beta_i\right)\sin\left(\frac{r_i}{r_{\textrm{MMS}}}\omega t\right)</span>
+<span class="sd">            x_{i,0}^{\textrm{h}}(t) &amp; = a_i \cos\left(\frac{r_i}{r_{\textrm{MMS}}}\omega t - \beta_i \right), \\</span>
+<span class="sd">                                    &amp; = a_i \cos(\beta_i) \cos\left(\frac{r_i}{r_{\textrm{MMS}}}\omega t\right) </span>
+<span class="sd">                                      + a_i \sin(\beta_i) \sin\left(\frac{r_i}{r_{\textrm{MMS}}}\omega t\right)</span>
 <span class="sd">            \end{split}</span>
 
 <span class="sd">        The polar coordinates are defined as</span>
@@ -2104,10 +2181,12 @@
 <span class="sd">            q_i = a_i \sin\left(\frac{r_i}{r_{\textrm{MMS}}}\beta_i\right),</span>
 <span class="sd">            \end{cases}</span>
 
-<span class="sd">        Such that the leading order solution can be written as</span>
+<span class="sd">        such that the leading order solution can be written as</span>
 
 <span class="sd">        .. math::</span>
-<span class="sd">            x_{i,0}(t) = p_i \cos\left(\frac{r_i}{r_{\textrm{MMS}}}\omega t\right) + q_i \sin\left(\frac{r_i}{r_{\textrm{MMS}}}\omega t\right).</span>
+<span class="sd">            x_{i,0}^{\textrm{h}}(t) = p_i \cos\left(\frac{r_i}{r_{\textrm{MMS}}}\omega t\right) + q_i \sin\left(\frac{r_i}{r_{\textrm{MMS}}}\omega t\right).</span>
+<span class="sd">        </span>
+<span class="sd">        XXX : vérifier comment je définis beta ici, et les coord cartésiennes</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         
@@ -2143,6 +2222,10 @@
 <a class="viewcode-back" href="../../modules.html#MMS.MMS.Steady_state.evolution_equations_cartesian">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">evolution_equations_cartesian</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the evolution equations of the cartesian coordinates system.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
 <span class="sd">        Write the evolution equations using the cartesian coordinates (defined in :func:`cartesian_coordinates`). </span>
 <span class="sd">        For oscillator :math:`i`, this results in</span>
 <span class="sd">        </span>
@@ -2152,7 +2235,7 @@
 <span class="sd">            \frac{\textrm{d} q_i}{\textrm{d} t} &amp; = f_{q_i}(\boldsymbol{p}, \boldsymbol{q}),</span>
 <span class="sd">            \end{cases}</span>
 <span class="sd">        </span>
-<span class="sd">        where :math:`\boldsymbol{p}` and :math:`\boldsymbol{q}` are vectors containing the cartesian coordinates.</span>
+<span class="sd">        where :math:`\boldsymbol{p}(t)` and :math:`\boldsymbol{q}(t)` are vectors containing the cartesian coordinates.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         
         <span class="c1"># Compute the functions fp(p,q) and fq(p,q)</span>
@@ -2176,14 +2259,14 @@
                             <span class="p">)</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_cart</span><span class="p">)</span> <span class="p">)</span>
         
         <span class="c1"># Check if the a and beta have all been substituted</span>
-        <span class="n">substitution_OK</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_cartesian_substitutions</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">fp</span><span class="p">,</span> <span class="n">fq</span><span class="p">)</span>
+        <span class="n">substitution_OK</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_cartesian_substitutions</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">fp</span><span class="p">,</span> <span class="n">fq</span><span class="p">)</span>
         
         <span class="c1"># Try additional substitutions if the change of coordinates is incomplete</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">substitution_OK</span><span class="p">:</span>
-            <span class="n">fp</span><span class="p">,</span> <span class="n">fq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_additional_cartesian_substitutions</span><span class="p">(</span><span class="n">fp</span><span class="p">,</span> <span class="n">fq</span><span class="p">)</span>
+            <span class="n">fp</span><span class="p">,</span> <span class="n">fq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">additional_cartesian_substitutions</span><span class="p">(</span><span class="n">fp</span><span class="p">,</span> <span class="n">fq</span><span class="p">)</span>
             
             <span class="c1"># Check if the a and beta have all been substituted</span>
-            <span class="n">substitution_OK</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_cartesian_substitutions</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">fp</span><span class="p">,</span> <span class="n">fq</span><span class="p">)</span>
+            <span class="n">substitution_OK</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_cartesian_substitutions</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">fp</span><span class="p">,</span> <span class="n">fq</span><span class="p">)</span>
             
         
         <span class="k">if</span> <span class="ow">not</span> <span class="n">substitution_OK</span><span class="p">:</span>
@@ -2194,7 +2277,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">fq</span> <span class="o">=</span> <span class="n">fq</span></div>
 
         
-    <span class="k">def</span><span class="w"> </span><span class="nf">_check_cartesian_substitutions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">fp</span><span class="p">,</span> <span class="n">fq</span><span class="p">):</span>
+<div class="viewcode-block" id="Steady_state.check_cartesian_substitutions">
+<a class="viewcode-back" href="../../modules.html#MMS.MMS.Steady_state.check_cartesian_substitutions">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">check_cartesian_substitutions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">fp</span><span class="p">,</span> <span class="n">fq</span><span class="p">):</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Check if substitutions from polar to cartesian coordinates are complete.</span>
 <span class="sd">        </span>
@@ -2228,9 +2313,12 @@
                         
                 <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
         
-        <span class="k">return</span> <span class="n">substitution_OK</span>
+        <span class="k">return</span> <span class="n">substitution_OK</span></div>
+
         
-    <span class="k">def</span><span class="w"> </span><span class="nf">_additional_cartesian_substitutions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fp</span><span class="p">,</span> <span class="n">fq</span><span class="p">):</span>
+<div class="viewcode-block" id="Steady_state.additional_cartesian_substitutions">
+<a class="viewcode-back" href="../../modules.html#MMS.MMS.Steady_state.additional_cartesian_substitutions">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">additional_cartesian_substitutions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fp</span><span class="p">,</span> <span class="n">fq</span><span class="p">):</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Reformulate the already-existing substitutions from polar to cartesian to try and substitute leftover polar terms.</span>
 <span class="sd">        </span>
@@ -2278,7 +2366,8 @@
             <span class="n">fp</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span> <span class="o">=</span> <span class="n">fp</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">sub_cart_add</span><span class="p">)</span>
             <span class="n">fq</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span> <span class="o">=</span> <span class="n">fq</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">sub_cart_add</span><span class="p">)</span>
             
-        <span class="k">return</span> <span class="n">fp</span><span class="p">,</span> <span class="n">fq</span>
+        <span class="k">return</span> <span class="n">fp</span><span class="p">,</span> <span class="n">fq</span></div>
+
     
     
 <div class="viewcode-block" id="Steady_state.Jacobian_cartesian">
@@ -2308,7 +2397,8 @@
 <span class="sd">                \frac{\partial f_{p_i}}{p_0} &amp; \frac{\partial f_{p_i}}{q_0} &amp; \cdots &amp; \frac{\partial f_{p_i}}{p_{N-1}} &amp; \frac{\partial f_{p_i}}{q_{N-1}} \\</span>
 <span class="sd">                \frac{\partial f_{q_i}}{p_0} &amp; \frac{\partial f_{q_i}}{q_0} &amp; \cdots &amp; \frac{\partial f_{q_i}}{p_{N-1}} &amp; \frac{\partial f_{q_i}}{q_{N-1}} </span>
 <span class="sd">                \end{bmatrix}.</span>
-<span class="sd">            </span>
+<span class="sd">        </span>
+<span class="sd">        XXX : réécrire</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         
         <span class="n">J</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">)</span>
@@ -2327,8 +2417,8 @@
 <a class="viewcode-back" href="../../modules.html#MMS.MMS.Steady_state.eval_sol_stability">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">eval_sol_stability</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coord</span><span class="o">=</span><span class="s2">&quot;cartesian&quot;</span><span class="p">,</span> <span class="n">rewrite_polar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">eigenvalues</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">bifurcation_curves</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">analyse_blocks</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">kwargs_bif</span><span class="o">=</span><span class="nb">dict</span><span class="p">()):</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Evaluate the stability of a solution. </span>
-<span class="sd">        </span>
+<span class="sd">        Evaluate the stability of a steady state solution. </span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        coord: str, optional</span>
@@ -2351,6 +2441,228 @@
 <span class="sd">        kwargs_bif: dict, optional</span>
 <span class="sd">            Passed to :func:`bifurcation_curves`</span>
 <span class="sd">            Default is `dict()`.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+
+<span class="sd">        ^^^^^^^^^^^^^^^^^^^^^</span>
+<span class="sd">        Stability information</span>
+<span class="sd">        ^^^^^^^^^^^^^^^^^^^^^</span>
+
+<span class="sd">        Consider a steady state solution :math:`(\hat{\boldsymbol{a}} , \hat{\boldsymbol{\beta}})` such that, for :math:`i=1,...,N`,</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">            \begin{cases}</span>
+<span class="sd">            f_{a_i}(\hat{\boldsymbol{a}}, \hat{\boldsymbol{\beta}})     &amp; = 0, \\</span>
+<span class="sd">            f_{\beta_i}(\hat{\boldsymbol{a}}, \hat{\boldsymbol{\beta}}) &amp; = 0.</span>
+<span class="sd">            \end{cases}</span>
+
+<span class="sd">        The aim is to determine the stability state of that steady solution, which corresponds to a fixed point in the phase space. </span>
+
+<span class="sd">        ---------------</span>
+<span class="sd">        Jacobian matrix</span>
+<span class="sd">        ---------------</span>
+<span class="sd">        Let&#39;s first introduce the vector of polar coordinates and polar evolution functions</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">            \boldsymbol{x}^{(\textrm{p})\intercal} &amp; = [a_0, \beta_0, \cdots, a_{N-1}, \beta_{N-1}], \\</span>
+<span class="sd">            \boldsymbol{f}^{(\textrm{p})\intercal} &amp; = [f_{a_0}, f_{\beta_0}^*, \cdots, f_{a_{N-1}}, f_{\beta_{N-1}}^*].</span>
+
+<span class="sd">        Note that the appearance of :math:`f_{\beta_i}^*` in :math:`\boldsymbol{f}^{(\textrm{p})}` requires :math:`a_i \neq 0`, which strongly constraints the type of steady state solutions that can be considered in the approach described below. </span>
+<span class="sd">        To relax this constraint, one can use a change of coordinates from polar to cartesian ones. </span>
+<span class="sd">        This will be discussed in following sections, after the description of this polar approach. </span>
+<span class="sd">        </span>
+<span class="sd">        Using the vectors of polar coordinates and evolution functions, one can write the evolution equations system as</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">            \dfrac{\textrm{d} \boldsymbol{x}^{(\textrm{p})}}{\textrm{d}t} = \textrm{J}^{(\textrm{p})} \boldsymbol{x}^{(\textrm{p})},</span>
+
+<span class="sd">        where we introduced the Jacobian matrix </span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">            \textrm{J}^{(\textrm{p})} </span>
+<span class="sd">            = \dfrac{\partial \boldsymbol{f}^{(\textrm{p})} }{ \partial \boldsymbol{x}^{(\textrm{p})} }</span>
+<span class="sd">            = \begin{bmatrix}</span>
+<span class="sd">            \frac{\partial f_{a_0}}{\partial a_0} &amp; \frac{\partial f_{a_0}}{\partial \beta_0} &amp; \cdots &amp; \frac{\partial f_{a_0}}{\partial \beta_{N-1}} \\</span>
+<span class="sd">            \frac{\partial f_{\beta_0}^*}{\partial a_0} &amp; \frac{\partial f_{\beta_0}^*}{\partial \beta_0} &amp; \cdots &amp; \frac{\partial f_{\beta_0}^*}{\partial \beta_{N-1}} \\</span>
+<span class="sd">            \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\</span>
+<span class="sd">            \frac{\partial f_{\beta_{N-1}}^*}{\partial a_0} &amp; \frac{\partial f_{\beta_{N-1}}^*}{\partial \beta_0} &amp; \cdots &amp; \frac{\partial f_{\beta_{N-1}}^*}{\partial \beta_{N-1}}</span>
+<span class="sd">            \end{bmatrix}.</span>
+
+<span class="sd">        -----------------------------------------</span>
+<span class="sd">        Perturbation of the steady state solution</span>
+<span class="sd">        -----------------------------------------</span>
+<span class="sd">        Let us now consider a small perturbation :math:`\tilde{\boldsymbol{x}}^{(\textrm{p})}` of the steady state solution such that</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">            \boldsymbol{x}^{(\textrm{p})} = \hat{\boldsymbol{x}}^{(\textrm{p})} + \tilde{\boldsymbol{x}}^{(\textrm{p})} \quad \Leftrightarrow \quad \tilde{\boldsymbol{x}}^{(\textrm{p})} = \boldsymbol{x}^{(\textrm{p})} - \hat{\boldsymbol{x}}^{(\textrm{p})}.</span>
+
+<span class="sd">        Using a first order Taylor expansion for :math:`\textrm{d} \tilde{\boldsymbol{x}}^{(\textrm{p})} / \textrm{d} t`, one can write</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">            \dfrac{\textrm{d} \tilde{\boldsymbol{x}}^{(\textrm{p})}}{\textrm{d}t} = \left.\textrm{J}^{(\textrm{p})}\right|_{\hat{\boldsymbol{x}}^{(\textrm{p})}} \tilde{\boldsymbol{x}}^{(\textrm{p})} + \mathcal{O}(||\tilde{\boldsymbol{x}}^{(\textrm{p})}||^2),</span>
+
+<span class="sd">        where :math:`\left.\textrm{J}^{(\textrm{p})}\right|_{\hat{\boldsymbol{x}}^{(\textrm{p})}}` denotes the Jacobian matrix evaluated on the steady state solution. </span>
+<span class="sd">        The perturbation solution takes the form</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">            \tilde{\boldsymbol{x}}^{(\textrm{p})} = \sum_{i=1}^{2N} C_i \boldsymbol{\psi}_i e^{\lambda_i t},</span>
+
+<span class="sd">        where :math:`(\lambda_i, \boldsymbol{\psi}_i),\; i=1, ..., 2N` are the eigensolutions of the Jacobian (evaluated on :math:`\hat{\boldsymbol{x}}^{(\textrm{p})}`).</span>
+<span class="sd">        </span>
+<span class="sd">        -------------------</span>
+<span class="sd">        Stability condition</span>
+<span class="sd">        -------------------</span>
+<span class="sd">        The steady state solution :math:`\hat{\boldsymbol{x}}^{(\textrm{p})}` is considered stable if a small perturbation :math:`\tilde{\boldsymbol{x}}^{(\textrm{p})}` vanishes in time, </span>
+<span class="sd">        such that solutions close from :math:`\hat{\boldsymbol{x}}^{(\textrm{p})}` are converging towards it. This condition is fulfilled if</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">            \Re[\lambda_i] &lt; 0, \quad \forall i,</span>
+
+<span class="sd">        meaning that all eigenvalues of the Jacobian evaluated on the steady state solution must have negative real parts.</span>
+<span class="sd">        If this condition is not met, the system is either quasi stable or unstable.</span>
+
+<span class="sd">        ------------</span>
+<span class="sd">        Bifurcations</span>
+<span class="sd">        ------------</span>
+<span class="sd">        A bifurcation occurs when the stability state of the system changes. </span>
+<span class="sd">        </span>
+<span class="sd">        #. Simple bifurcations occur when at least one eigenvalue crosses the imaginary axis through 0.</span>
+<span class="sd">           Such bifurcations include saddle node and pitchfork bifurcations, which cause jumps of the response and the appearance of lower symmetry solutions, respectively.</span>
+
+<span class="sd">        #. Neimark-Sacker bifurcations occur when a pair of complex conjugate eigenvalues with nonzero real parts cross the imaginary axis.</span>
+<span class="sd">           These bifurcations lead to non periodic solutions. </span>
+
+<span class="sd">        Simple bifurcations can be detected by evaluating the sign of the Jacobian, as</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">            \det \left.\textrm{J}^{(\textrm{p})}\right|_{\hat{\boldsymbol{x}}^{(\textrm{p})}} = \prod_{i=1}^{2N} \lambda_i,</span>
+
+<span class="sd">        thereby making :math:`\det \left.\textrm{J}^{(\textrm{p})}\right|_{\hat{\boldsymbol{x}}^{(\textrm{p})}}` an important stability indicator.</span>
+<span class="sd">        Neimark-Sacker bifurcations are more difficult to detect. Information from the trace of :math:`\left.\textrm{J}^{(\textrm{p})}\right|_{\hat{\boldsymbol{x}}^{(\textrm{p})}}` can be considered, or the Routh-Hurwitz criterion can be used. This is not detailed here.</span>
+
+<span class="sd">        ------------------</span>
+<span class="sd">        Bifurcation curves</span>
+<span class="sd">        ------------------</span>
+<span class="sd">        Bifurcation curves are curves constructed by evaluating the coordinates of bifurcation points when varying one or more parameters.</span>
+<span class="sd">        The stability state of a solution changes when the response curve crosses a bifurcation curve.</span>
+
+<span class="sd">        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
+<span class="sd">        Stability analysis in cartesian coordinates</span>
+<span class="sd">        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
+
+<span class="sd">        --------------------------------</span>
+<span class="sd">        Limitations of polar coordinates</span>
+<span class="sd">        --------------------------------</span>
+<span class="sd">        As mentioned previously, the approach described above fails when one of the oscillator&#39;s leading order amplitude is 0.</span>
+<span class="sd">        Indeed, the Jacobian is constructed using the evolution functions</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">                f_{\beta_i}^*(\boldsymbol{a}, \boldsymbol{\beta}) = \frac{f_{\beta_i}(\boldsymbol{a}, \boldsymbol{\beta})}{a_i},</span>
+
+<span class="sd">        which are defined only if :math:`a_i=0`. </span>
+<span class="sd">        This prevents evaluating the stability of</span>
+
+<span class="sd">        - Trivial solutions, for which no oscillator responds,</span>
+
+<span class="sd">        - 1 mode solutions, whose stability can be affected under perturbation from another mode.</span>
+
+<span class="sd">        These limitations can be overcome using a change of coordinates.</span>
+
+<span class="sd">        ---------------------</span>
+<span class="sd">        Cartesian coordinates</span>
+<span class="sd">        ---------------------</span>
+<span class="sd">        The leading order homogeneous solution for oscillator :math:`i` can be written as</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">            \begin{split}</span>
+<span class="sd">            x_{i,0}^{\textrm{h}}(t) &amp; = a_i \cos\left(\frac{r_i}{r_{\textrm{MMS}}}\omega t - \beta_i \right), \\</span>
+<span class="sd">                                    &amp; = a_i \cos(\beta_i) \cos\left(\frac{r_i}{r_{\textrm{MMS}}}\omega t\right) </span>
+<span class="sd">                                      + a_i \sin(\beta_i) \sin\left(\frac{r_i}{r_{\textrm{MMS}}}\omega t\right).</span>
+<span class="sd">            \end{split}</span>
+
+<span class="sd">        It then appears natural to introduce the cartesian coordinates</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">            \begin{cases}</span>
+<span class="sd">            p_i = a_i \cos(\beta_i), \\</span>
+<span class="sd">            q_i = a_i \sin(\beta_i),</span>
+<span class="sd">            \end{cases}</span>
+
+<span class="sd">        in order to rewrite the solution as</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">            x_{i,0}^{\textrm{h}}(t) = p_i \cos\left(\frac{r_i}{r_{\textrm{MMS}}}\omega t\right) + q_i \sin\left(\frac{r_i}{r_{\textrm{MMS}}}\omega t\right).</span>
+
+<span class="sd">        In the following it will be convenient to use the cartesian coordinates vectors</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">            \begin{aligned}</span>
+<span class="sd">            \boldsymbol{p}(t)^\intercal &amp; = [p_0(t), p_1(t), \cdots, p_{N-1}(t)], \\</span>
+<span class="sd">            \boldsymbol{q}(t)^\intercal &amp; = [q_0(t), q_1(t), \cdots, q_{N-1}(t)].</span>
+<span class="sd">            \end{aligned}</span>
+
+<span class="sd">        -----------------------------</span>
+<span class="sd">        Cartesian evolution equations</span>
+<span class="sd">        -----------------------------</span>
+<span class="sd">        The cartesian evolution equations can be obtained from the polar ones. To do so, one can write</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">            \begin{cases}</span>
+<span class="sd">            \dfrac{\textrm{d} p_i}{\textrm{d}t} &amp; = \dfrac{\textrm{d} a_i}{\textrm{d}t} \cos(\beta_i) - a_i \sin(\beta_i) \dfrac{\textrm{d} \beta_i}{\textrm{d}t}, \\</span>
+<span class="sd">            \dfrac{\textrm{d} q_i}{\textrm{d}t} &amp; = \dfrac{\textrm{d} a_i}{\textrm{d}t} \sin(\beta_i) + a_i \cos(\beta_i) \dfrac{\textrm{d} \beta_i}{\textrm{d}t}.</span>
+<span class="sd">            \end{cases}</span>
+
+<span class="sd">        Then, by identification, one necessarily has</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">            \begin{cases}</span>
+<span class="sd">            f_{p_i}(\boldsymbol{p}, \boldsymbol{q}) &amp; = f_{a_i}(\boldsymbol{a}, \boldsymbol{\beta}) \cos(\beta_i) - f_{\beta_i}(\boldsymbol{a}, \boldsymbol{\beta}) \sin(\beta_i), \\</span>
+<span class="sd">            f_{q_i}(\boldsymbol{p}, \boldsymbol{q}) &amp; = f_{a_i}(\boldsymbol{a}, \boldsymbol{\beta}) \sin(\beta_i) + f_{\beta_i}(\boldsymbol{a}, \boldsymbol{\beta}) \cos(\beta_i),</span>
+<span class="sd">            \end{cases}</span>
+
+<span class="sd">        in order to write the evolution equations in cartesian coordinates</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">            \begin{cases}</span>
+<span class="sd">            \dfrac{\textrm{d}}{dt} p_0(t) &amp; = f_{p_0}(\boldsymbol{p}, \boldsymbol{q}), \\</span>
+<span class="sd">            \dfrac{\textrm{d}}{dt} q_0(t) &amp; = f_{q_0}(\boldsymbol{p}, \boldsymbol{q}), \\</span>
+<span class="sd">            &amp; \vdots \\</span>
+<span class="sd">            \dfrac{\textrm{d}}{dt} p_{N-1}(t) &amp; = f_{p_{N-1}}(\boldsymbol{p}, \boldsymbol{q}), \\</span>
+<span class="sd">            \dfrac{\textrm{d}}{dt} q_{N-1}(t) &amp; = f_{q_{N-1}}(\boldsymbol{p}, \boldsymbol{q}).</span>
+<span class="sd">            \end{cases}</span>
+
+<span class="sd">        ---------------</span>
+<span class="sd">        Jacobian matrix</span>
+<span class="sd">        ---------------</span>
+
+<span class="sd">        As done previously for polar coordinates, let&#39;s introduce the vectors of cartesian coordinates and evolution equations as</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">            \boldsymbol{x}^{(\textrm{c})\intercal} &amp; = [p_0, q_0, \cdots, p_{N-1}, q_{N-1}], \\</span>
+<span class="sd">            \boldsymbol{f}^{(\textrm{c})\intercal} &amp; = [f_{p_0}, f_{q_0}, \cdots, f_{p_{N-1}}, f_{q_{N-1}}].</span>
+
+<span class="sd">        Then one can write</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">            \dfrac{\textrm{d} \boldsymbol{x}^{(\textrm{c})}}{\textrm{d}t} = \textrm{J}^{(\textrm{c})} \boldsymbol{x}^{(\textrm{c})},</span>
+
+<span class="sd">        where we introduced the Jacobian matrix </span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">            \textrm{J}^{(\textrm{c})}</span>
+<span class="sd">            = \dfrac{\partial \boldsymbol{f}^{(\textrm{c})} }{ \partial \boldsymbol{x}^{(\textrm{c})} }</span>
+<span class="sd">            = \begin{bmatrix}</span>
+<span class="sd">            \frac{\partial f_{p_0}}{\partial p_0} &amp; \frac{\partial f_{p_0}}{\partial q_0} &amp; \cdots &amp; \frac{\partial f_{p_0}}{\partial q_{N-1}} \\</span>
+<span class="sd">            \frac{\partial f_{q_0}}{\partial p_0} &amp; \frac{\partial f_{q_0}}{\partial q_0} &amp; \cdots &amp; \frac{\partial f_{q_0}}{\partial q_{N-1}} \\</span>
+<span class="sd">            \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\</span>
+<span class="sd">            \frac{\partial f_{q_{N-1}}}{\partial p_0} &amp; \frac{\partial f_{q_{N-1}}}{\partial q_0} &amp; \cdots &amp; \frac{\partial f_{q_{N-1}}}{\partial q_{N-1}}</span>
+<span class="sd">            \end{bmatrix}.</span>
+
+<span class="sd">        Note that there are no constraints related to an oscillator&#39;s amplitude being 0 here. </span>
+<span class="sd">        This cartesian coordinates approach therefore allows to investigate how the stability of a steady state solution is affected by a perturbation from an oscillator who&#39;s amplitude is 0 in that steady state solution.</span>
+
+<span class="sd">        The stability analysis with :math:`\textrm{J}^{(\textrm{c})}` is carried as described previously with :math:`\textrm{J}^{(\textrm{p})}`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         
         <span class="c1"># Check if a solution has been computed</span>
@@ -2501,13 +2813,13 @@
 <a class="viewcode-back" href="../../modules.html#MMS.MMS.Steady_state.bifurcation_curves">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">bifurcation_curves</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">detJ</span><span class="p">,</span> <span class="n">trJ</span><span class="p">,</span> <span class="n">var_a</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">var_sig</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="n">sfun</span><span class="o">.</span><span class="n">solve_poly2</span><span class="p">):</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Compute bifurcation curves, i.e. the curves defining the bifurcation points. </span>
+<span class="sd">        Compute bifurcation curves.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        detJ: Expr</span>
+<span class="sd">        detJ: :class:`~sympy.core.expr.Expr`</span>
 <span class="sd">            The determinant of the matrix.</span>
-<span class="sd">        trJ: Expr</span>
+<span class="sd">        trJ: :class:`~sympy.core.expr.Expr`</span>
 <span class="sd">            The trace of the matrix.</span>
 <span class="sd">        var_a: bool, optional</span>
 <span class="sd">            Consider the oscillator&#39;s amplitude :math:`a` as the variable and find the bifurcation curve as an expression for :math:`a`.</span>
@@ -2520,7 +2832,7 @@
 <span class="sd">        solver: function, optional</span>
 <span class="sd">            The solver to use to compute the bifurcation curves.</span>
 <span class="sd">            Available are solver called as `solve(expr, x)`, which solve `expr=0` for `x`.</span>
-<span class="sd">            `sy.solve()` can be used but is sometimes slow.</span>
+<span class="sd">            :func:`~sympy.solvers.solvers.solve` can be used but is sometimes slow.</span>
 <span class="sd">            Default is :func:`sfun.solve_poly2`.</span>
 
 <span class="sd">        Returns</span>
@@ -2529,6 +2841,10 @@
 <span class="sd">            The bifurcation curves expressed in terms of :math:`a^2`.</span>
 <span class="sd">        bif_sig : list</span>
 <span class="sd">            The bifurcation curves expressed in terms of :math:`\sigma`. </span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        The bifurcation curves computed here are the curves defined by the bifurcation points obtained for any forcing frequency and amplitude. </span>
 <span class="sd">        &quot;&quot;&quot;</span>
         
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;   Computing bifurcation curves&quot;</span><span class="p">)</span>
@@ -2649,9 +2965,9 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        fig1 : Figure</span>
-<span class="sd">            The amplitude plot :math:`a(\omega)`.</span>
+<span class="sd">            The amplitude plot :math:`a(F)`.</span>
 <span class="sd">        fig2 : Figure</span>
-<span class="sd">            The phase plot :math:`\beta(\omega)`.</span>
+<span class="sd">            The phase plot :math:`\beta(F)`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
     
         <span class="c1"># Extract the FRC data and keyword arguments</span>
@@ -2760,9 +3076,7 @@
 <a class="viewcode-back" href="../../modules.html#MMS.MMS.Chain_rule_dfdt">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">Chain_rule_dfdt</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">tS</span><span class="p">,</span> <span class="n">eps</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Consider a function :math:`f_t(t)` and its expression in terms of the time scales :math:`f(t_0, t_1, ...)`, </span>
-<span class="sd">    where :math:`t_0` is the fast time and :math:`t_1, ...` are the slow times. </span>
-<span class="sd">    The Chain Rule is applied to give the expression of :math:`\mathrm{d}f_t/ \mathrm{d}t` in terms of the time scales.</span>
+<span class="sd">    Apply the chain rule to first order derivatives.</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -2777,6 +3091,12 @@
 <span class="sd">    -------</span>
 <span class="sd">    dfdt: Function</span>
 <span class="sd">        :math:`\mathrm{d}f_t/ \mathrm{d}t` expressed in terms of the time scales.</span>
+<span class="sd">    </span>
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Consider a function :math:`f_t(t)` and its expression in terms of the time scales :math:`f(t_0, t_1, ...)`, </span>
+<span class="sd">    where :math:`t_0` is the fast time and :math:`t_1, ...` are the slow times. </span>
+<span class="sd">    The Chain Rule is applied to give the expression of :math:`\mathrm{d}f_t/ \mathrm{d}t` in terms of the time scales.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
     <span class="n">Nt</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tS</span><span class="p">)</span>
@@ -2791,10 +3111,8 @@
 <a class="viewcode-back" href="../../modules.html#MMS.MMS.Chain_rule_d2fdt2">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">Chain_rule_d2fdt2</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">tS</span><span class="p">,</span> <span class="n">eps</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Consider a function :math:`f_t(t)` and its expression in terms of the time scales :math:`f(t_0, t_1, ...)`, </span>
-<span class="sd">    where :math:`t_0` is the fast time and :math:`t_1, ...` are the slow times. </span>
-<span class="sd">    The Chain Rule is applied to give the expression of :math:`\mathrm{d}^2f_t/ \mathrm{d}t^2` in terms of the time scales.</span>
-<span class="sd">    </span>
+<span class="sd">    Apply the chain rule to second order derivatives.</span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    f: Function  </span>
@@ -2808,6 +3126,13 @@
 <span class="sd">    -------</span>
 <span class="sd">    d2fdt2: Function</span>
 <span class="sd">        :math:`\mathrm{d}^2f_t/ \mathrm{d}t^2` expressed in terms of the time scales.</span>
+<span class="sd">    </span>
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Consider a function :math:`f_t(t)` and its expression in terms of the time scales :math:`f(t_0, t_1, ...)`, </span>
+<span class="sd">    where :math:`t_0` is the fast time and :math:`t_1, ...` are the slow times. </span>
+<span class="sd">    The Chain Rule is applied to give the expression of :math:`\mathrm{d}^2f_t/ \mathrm{d}t^2` in terms of the time scales.</span>
+<span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
     <span class="n">Nt</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tS</span><span class="p">)</span>
@@ -2827,7 +3152,7 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    y : Expr or Matrix</span>
+<span class="sd">    y : :class:`~sympy.core.expr.Expr` or Matrix</span>
 <span class="sd">        A sympy expression or matrix written in cartesian coordinates.</span>
 <span class="sd">    sub_polar: list</span>
 <span class="sd">        A list of substitutions to perform to go from cartesian to polar coordinates. </span>
@@ -2837,7 +3162,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    yp: Expr or Matrix</span>
+<span class="sd">    yp: :class:`~sympy.core.expr.Expr` or Matrix</span>
 <span class="sd">        The initial expression or matrix written in polar coordinates.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -2862,7 +3187,7 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    expr_sy : Expr</span>
+<span class="sd">    expr_sy : :class:`~sympy.core.expr.Expr`</span>
 <span class="sd">        A sympy expression.</span>
 <span class="sd">    param : dict</span>
 <span class="sd">        A dictionnary whose values are tuples with 2 elements:</span>
@@ -2888,6 +3213,21 @@
 <div class="viewcode-block" id="rescale">
 <a class="viewcode-back" href="../../modules.html#MMS.MMS.rescale">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">rescale</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="n">mms</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Rescales a scaled expression.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    expr: :class:`~sympy.core.expr.Expr`</span>
+<span class="sd">        An unscaled expression, i.e. an expression appearing at some order of :math:`\epsilon`.</span>
+<span class="sd">    mms: Multiple_scales_system</span>
+<span class="sd">        The mms system, containing substitutions to scale an expression.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    expr_scaled: :class:`~sympy.core.expr.Expr`</span>
+<span class="sd">        The scaled expression.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">expr_rescaled</span> <span class="o">=</span> <span class="n">expr</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="o">*</span><span class="n">mms</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_sigma</span><span class="p">)</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">mms</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_scaling_back</span><span class="p">)</span><span class="o">.</span><span class="n">simplify</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">expr_rescaled</span></div>
 
@@ -3003,6 +3343,21 @@
 <div class="viewcode-block" id="numpise_omega_bbc">
 <a class="viewcode-back" href="../../modules.html#MMS.MMS.numpise_omega_bbc">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">numpise_omega_bbc</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">param</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Numpise the backbone curve&#39;s frequency :math:`\omega_{\textrm{bbc}}`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mms: Multiple_scales_system</span>
+<span class="sd">    ss: Steady_state</span>
+<span class="sd">    param: dict</span>
+<span class="sd">        See :func:`sympy_to_numpy`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    omega_bbc: ndarray</span>
+<span class="sd">        Numpised backbone curve&#39;s frequency.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">omega_bbc</span>  <span class="o">=</span> <span class="n">sympy_to_numpy</span><span class="p">(</span><span class="n">rescale</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">omega_bbc</span><span class="p">,</span> <span class="n">mms</span><span class="p">),</span> <span class="n">param</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">omega_bbc</span></div>
 
@@ -3010,6 +3365,21 @@
 <div class="viewcode-block" id="numpise_omega_FRC">
 <a class="viewcode-back" href="../../modules.html#MMS.MMS.numpise_omega_FRC">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">numpise_omega_FRC</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">param</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Numpise the forced response&#39;s frequency :math:`\omega`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mms: Multiple_scales_system</span>
+<span class="sd">    ss: Steady_state</span>
+<span class="sd">    param: dict</span>
+<span class="sd">        See :func:`sympy_to_numpy`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    omega: ndarray</span>
+<span class="sd">        Numpised forced response&#39;s frequency.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">omega</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">sympy_to_numpy</span><span class="p">(</span><span class="n">mms</span><span class="o">.</span><span class="n">omegaMMS</span> <span class="o">+</span> <span class="n">rescale</span><span class="p">(</span><span class="n">mms</span><span class="o">.</span><span class="n">eps</span><span class="o">*</span><span class="n">sigmai</span><span class="p">,</span> <span class="n">mms</span><span class="p">),</span> <span class="n">param</span><span class="p">))</span> <span class="k">for</span> <span class="n">sigmai</span> <span class="ow">in</span> <span class="n">ss</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">sigma</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">omega</span></div>
 
@@ -3017,6 +3387,21 @@
 <div class="viewcode-block" id="numpise_omega_bif">
 <a class="viewcode-back" href="../../modules.html#MMS.MMS.numpise_omega_bif">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">numpise_omega_bif</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">param</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Numpise the bifurcation curves&#39; frequency :math:`\omega_{\textrm{bif}}`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mms: Multiple_scales_system</span>
+<span class="sd">    ss: Steady_state</span>
+<span class="sd">    param: dict</span>
+<span class="sd">        See :func:`sympy_to_numpy`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    omega_bif: list of ndarray</span>
+<span class="sd">        Numpised bifurcation curves&#39; frequency.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">omega_bif</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">sympy_to_numpy</span><span class="p">(</span><span class="n">mms</span><span class="o">.</span><span class="n">omegaMMS</span> <span class="o">+</span> <span class="n">rescale</span><span class="p">(</span><span class="n">mms</span><span class="o">.</span><span class="n">eps</span><span class="o">*</span><span class="n">sigmai</span><span class="p">,</span> <span class="n">mms</span><span class="p">),</span> <span class="n">param</span><span class="p">))</span> <span class="k">for</span> <span class="n">sigmai</span> <span class="ow">in</span> <span class="n">ss</span><span class="o">.</span><span class="n">stab</span><span class="o">.</span><span class="n">bif_sigma</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">omega_bif</span></div>
 
@@ -3024,6 +3409,26 @@
 <div class="viewcode-block" id="numpise_phase">
 <a class="viewcode-back" href="../../modules.html#MMS.MMS.numpise_phase">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">numpise_phase</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">dyn</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="n">omega</span><span class="p">,</span> <span class="n">F</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Numpise the phase :math:`\beta_i`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mms: Multiple_scales_system</span>
+<span class="sd">    ss: Steady_state</span>
+<span class="sd">    dyn: Dynamical_system</span>
+<span class="sd">    param: dict</span>
+<span class="sd">        See :func:`sympy_to_numpy`.</span>
+<span class="sd">    omega: ndarray or list of ndarray</span>
+<span class="sd">        The frequency array.</span>
+<span class="sd">    F: ndarray</span>
+<span class="sd">        The forcing amplitude array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    phase: list of ndarray</span>
+<span class="sd">        Numpised phase.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">omega</span><span class="p">,</span><span class="nb">list</span><span class="p">):</span>
         <span class="n">omega</span> <span class="o">=</span> <span class="p">[</span><span class="n">omega</span><span class="p">]</span>
@@ -3042,6 +3447,21 @@
 <div class="viewcode-block" id="numpise_F_ARC">
 <a class="viewcode-back" href="../../modules.html#MMS.MMS.numpise_F_ARC">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">numpise_F_ARC</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">param</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Numpise the forced response&#39;s forcing amplitude :math:`F`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mms: Multiple_scales_system</span>
+<span class="sd">    ss: Steady_state</span>
+<span class="sd">    param: dict</span>
+<span class="sd">        See :func:`sympy_to_numpy`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    F: ndarray</span>
+<span class="sd">        Numpised forced response&#39;s forcing amplitude.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">F</span> <span class="o">=</span> <span class="n">sympy_to_numpy</span><span class="p">(</span><span class="n">rescale</span><span class="p">(</span><span class="n">mms</span><span class="o">.</span><span class="n">eps</span><span class="o">**</span><span class="n">mms</span><span class="o">.</span><span class="n">forcing</span><span class="o">.</span><span class="n">f_order</span> <span class="o">*</span> <span class="n">ss</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">F</span><span class="p">,</span> <span class="n">mms</span><span class="p">),</span> <span class="n">param</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">F</span></div>
 

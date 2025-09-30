@@ -6,8 +6,6 @@ from sympy.physics.vector.printing import init_vprinting
 init_vprinting(use_latex=True, forecolor='White') # Initialise latex printing 
 from MMS import MMS
 
-#%% CPVA with 2 pendulum modes in 1:1 internal resonance (Mahe, 2022, Subharmonic CPVAs)
-
 # Parameters and variables
 nP, nt, mu, eta, Lm, b, T1  = symbols(r"n_p, n_t, \mu, \eta, \Lambda_m, b, T_1", real=True, positive=True)
 Lc, alpha1, alpha3, x4 = symbols(r"\Lambda_c, \alpha_1, \alpha_3, x_4", real=True)
@@ -101,3 +99,5 @@ ss.solve_bbc(solve_dof=solve_dof, c=param_scaled[-2])
 # Stability analysis 
 kwargs_stab = dict(coord="cartesian", eigenvalues=True, bifurcation_curves=True, analyse_blocks=True, kwargs_bif=dict(var_a=True, var_sig=True, solver=solve))
 ss.eval_sol_stability(**kwargs_stab)
+
+# %%
