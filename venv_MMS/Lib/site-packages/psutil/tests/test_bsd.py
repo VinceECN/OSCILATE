@@ -26,9 +26,8 @@ from psutil.tests import PsutilTestCase
 from psutil.tests import pytest
 from psutil.tests import retry_on_failure
 from psutil.tests import sh
-from psutil.tests import spawn_testproc
+from psutil.tests import spawn_subproc
 from psutil.tests import terminate
-
 
 if BSD:
     from psutil._psutil_posix import getpagesize
@@ -78,7 +77,7 @@ class BSDTestCase(PsutilTestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.pid = spawn_testproc().pid
+        cls.pid = spawn_subproc().pid
 
     @classmethod
     def tearDownClass(cls):
@@ -117,9 +116,9 @@ class BSDTestCase(PsutilTestCase):
             assert usage.total == total
             # 10 MB tolerance
             if abs(usage.free - free) > 10 * 1024 * 1024:
-                raise self.fail(f"psutil={usage.free}, df={free}")
+                raise pytest.fail(f"psutil={usage.free}, df={free}")
             if abs(usage.used - used) > 10 * 1024 * 1024:
-                raise self.fail(f"psutil={usage.used}, df={used}")
+                raise pytest.fail(f"psutil={usage.used}, df={used}")
 
     @pytest.mark.skipif(
         not shutil.which("sysctl"), reason="sysctl cmd not available"
@@ -162,7 +161,7 @@ class BSDTestCase(PsutilTestCase):
 class FreeBSDPsutilTestCase(PsutilTestCase):
     @classmethod
     def setUpClass(cls):
-        cls.pid = spawn_testproc().pid
+        cls.pid = spawn_subproc().pid
 
     @classmethod
     def tearDownClass(cls):
@@ -388,10 +387,6 @@ class FreeBSDSystemTestCase(PsutilTestCase):
             abs(psutil.cpu_stats().syscalls - sysctl('vm.stats.sys.v_syscall'))
             < 200000
         )
-
-    # def test_cpu_stats_traps(self):
-    #    self.assertAlmostEqual(psutil.cpu_stats().traps,
-    #                           sysctl('vm.stats.sys.v_trap'), delta=1000)
 
     # --- swap memory
 

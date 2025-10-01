@@ -6,6 +6,7 @@
 
 """Windows specific tests."""
 
+import ctypes
 import datetime
 import glob
 import os
@@ -31,9 +32,8 @@ from psutil.tests import PsutilTestCase
 from psutil.tests import pytest
 from psutil.tests import retry_on_failure
 from psutil.tests import sh
-from psutil.tests import spawn_testproc
+from psutil.tests import spawn_subproc
 from psutil.tests import terminate
-
 
 if WINDOWS and not PYPY:
     with warnings.catch_warnings():
@@ -141,7 +141,7 @@ class TestSystemAPIs(WindowsTestCase):
             if "pseudo-interface" in nic.replace(' ', '-').lower():
                 continue
             if nic not in out:
-                raise self.fail(
+                raise pytest.fail(
                     f"{nic!r} nic wasn't found in 'ipconfig /all' output"
                 )
 
@@ -222,10 +222,12 @@ class TestSystemAPIs(WindowsTestCase):
                     assert usage.free == wmi_free
                     # 10 MB tolerance
                     if abs(usage.free - wmi_free) > 10 * 1024 * 1024:
-                        raise self.fail(f"psutil={usage.free}, wmi={wmi_free}")
+                        raise pytest.fail(
+                            f"psutil={usage.free}, wmi={wmi_free}"
+                        )
                     break
             else:
-                raise self.fail(f"can't find partition {ps_part!r}")
+                raise pytest.fail(f"can't find partition {ps_part!r}")
 
     @retry_on_failure()
     def test_disk_usage(self):
@@ -253,6 +255,38 @@ class TestSystemAPIs(WindowsTestCase):
         ]
         assert sys_value == psutil_value
 
+    def test_convert_dos_path_drive(self):
+        winpath = 'C:\\Windows\\Temp'
+        driveletter = 'C:'
+        # Mocked NT device path for C:
+        devicepath = '\\Device\\HarddiskVolume1'
+
+        # Path returned by RtlDosPathNameToNtPathName
+        ntpath1 = '\\??\\C:\\Windows\\Temp'
+        # Mocked normalized NT path
+        ntpath2 = '\\Device\\HarddiskVolume1\\Windows\\Temp'
+
+        devices = {devicepath: driveletter}
+
+        with mock.patch(
+            'psutil._pswindows.cext.QueryDosDevice', side_effect=devices.get
+        ) as m:
+            assert psutil._pswindows.convert_dos_path(ntpath1) == winpath
+            assert psutil._pswindows.convert_dos_path(ntpath2) == winpath
+            assert m.called
+
+    def test_convert_dos_path_unc(self):
+        # UNC path
+        winpath = '\\\\localhost\\C$\\Windows\\Temp'
+        # Path returned by RtlDosPathNameToNtPathName
+        ntpath1 = '\\??\\UNC\\localhost\\C$\\Windows\\Temp'
+        # Normalized NT path
+        ntpath2 = '\\Device\\Mup\\localhost\\C$\\Windows\\Temp'
+
+        assert psutil._pswindows.convert_dos_path(winpath) == winpath
+        assert psutil._pswindows.convert_dos_path(ntpath1) == winpath
+        assert psutil._pswindows.convert_dos_path(ntpath2) == winpath
+
     def test_net_if_stats(self):
         ps_names = set(cext.net_if_stats())
         wmi_adapters = wmi.WMI().Win32_NetworkAdapter()
@@ -272,18 +306,14 @@ class TestSystemAPIs(WindowsTestCase):
         )
         psutil_dt = datetime.datetime.fromtimestamp(psutil.boot_time())
         diff = abs((wmi_btime_dt - psutil_dt).total_seconds())
-        assert diff <= 5
+        assert diff <= 5, (psutil_dt, wmi_btime_dt)
 
-    def test_boot_time_fluctuation(self):
-        # https://github.com/giampaolo/psutil/issues/1007
-        with mock.patch('psutil._pswindows.cext.boot_time', return_value=5):
-            assert psutil.boot_time() == 5
-        with mock.patch('psutil._pswindows.cext.boot_time', return_value=4):
-            assert psutil.boot_time() == 5
-        with mock.patch('psutil._pswindows.cext.boot_time', return_value=6):
-            assert psutil.boot_time() == 5
-        with mock.patch('psutil._pswindows.cext.boot_time', return_value=333):
-            assert psutil.boot_time() == 333
+    def test_uptime(self):
+        # ...against GetTickCount64() (Windows < 7, does not include
+        # time spent during suspend / hybernate).
+        ms = ctypes.windll.kernel32.GetTickCount64()
+        secs = ms / 1000.0
+        assert abs(cext.uptime() - secs) < 0.5
 
 
 # ===================================================================
@@ -364,7 +394,7 @@ class TestSensorsBattery(WindowsTestCase):
 class TestProcess(WindowsTestCase):
     @classmethod
     def setUpClass(cls):
-        cls.pid = spawn_testproc().pid
+        cls.pid = spawn_subproc().pid
 
     @classmethod
     def tearDownClass(cls):
@@ -409,7 +439,7 @@ class TestProcess(WindowsTestCase):
         assert p.num_handles() == before
 
     def test_ctrl_signals(self):
-        p = psutil.Process(self.spawn_testproc().pid)
+        p = psutil.Process(self.spawn_subproc().pid)
         p.send_signal(signal.CTRL_C_EVENT)
         p.send_signal(signal.CTRL_BREAK_EVENT)
         p.kill()
@@ -442,17 +472,14 @@ class TestProcess(WindowsTestCase):
     # XXX - occasional failures
 
     # def test_cpu_times(self):
-    #     handle = win32api.OpenProcess(win32con.PROCESS_QUERY_INFORMATION,
-    #                                   win32con.FALSE, os.getpid())
+    #     handle = win32api.OpenProcess(
+    #         win32con.PROCESS_QUERY_INFORMATION, win32con.FALSE, os.getpid()
+    #     )
     #     self.addCleanup(win32api.CloseHandle, handle)
-    #     sys_value = win32process.GetProcessTimes(handle)
-    #     psutil_value = psutil.Process().cpu_times()
-    #     self.assertAlmostEqual(
-    #         psutil_value.user, sys_value['UserTime'] / 10000000.0,
-    #         delta=0.2)
-    #     self.assertAlmostEqual(
-    #         psutil_value.user, sys_value['KernelTime'] / 10000000.0,
-    #         delta=0.2)
+    #     a = psutil.Process().cpu_times()
+    #     b = win32process.GetProcessTimes(handle)
+    #     assert abs(a.user - b['UserTime'] / 10000000.0) < 0.2
+    #     assert abs(a.user - b['KernelTime'] / 10000000.0) < 0.2
 
     def test_nice(self):
         handle = win32api.OpenProcess(
@@ -572,7 +599,7 @@ class TestProcessWMI(WindowsTestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.pid = spawn_testproc().pid
+        cls.pid = spawn_subproc().pid
 
     @classmethod
     def tearDownClass(cls):
@@ -624,7 +651,7 @@ class TestProcessWMI(WindowsTestCase):
         # returned instead.
         wmi_usage = int(w.PageFileUsage)
         if vms not in {wmi_usage, wmi_usage * 1024}:
-            raise self.fail(f"wmi={wmi_usage}, psutil={vms}")
+            raise pytest.fail(f"wmi={wmi_usage}, psutil={vms}")
 
     def test_create_time(self):
         w = wmi.WMI().Win32_Process(ProcessId=self.pid)[0]
@@ -652,7 +679,7 @@ class TestDualProcessImplementation(PsutilTestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.pid = spawn_testproc().pid
+        cls.pid = spawn_subproc().pid
 
     @classmethod
     def tearDownClass(cls):
@@ -772,10 +799,10 @@ class RemoteProcessTestCase(PsutilTestCase):
 
         env = os.environ.copy()
         env["THINK_OF_A_NUMBER"] = str(os.getpid())
-        self.proc32 = self.spawn_testproc(
+        self.proc32 = self.spawn_subproc(
             [self.python32] + self.test_args, env=env, stdin=subprocess.PIPE
         )
-        self.proc64 = self.spawn_testproc(
+        self.proc64 = self.spawn_subproc(
             [self.python64] + self.test_args, env=env, stdin=subprocess.PIPE
         )
 
@@ -844,6 +871,11 @@ class TestServices(PsutilTestCase):
             "stopped",
         }
         for serv in psutil.win_service_iter():
+            if serv.name() == "WaaSMedicSvc":
+                # known issue in Windows 11 reading the description
+                # https://learn.microsoft.com/en-us/answers/questions/1320388/in-windows-11-version-22h2-there-it-shows-(failed
+                # https://github.com/giampaolo/psutil/issues/2383
+                continue
             data = serv.as_dict()
             assert isinstance(data['name'], str)
             assert data['name'].strip()

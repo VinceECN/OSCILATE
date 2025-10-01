@@ -10,7 +10,6 @@ import datetime
 import enum
 import errno
 import os
-import platform
 import pprint
 import shutil
 import signal
@@ -43,7 +42,6 @@ from psutil.tests import HAS_NET_IO_COUNTERS
 from psutil.tests import HAS_SENSORS_BATTERY
 from psutil.tests import HAS_SENSORS_FANS
 from psutil.tests import HAS_SENSORS_TEMPERATURES
-from psutil.tests import IS_64BIT
 from psutil.tests import MACOS_12PLUS
 from psutil.tests import PYPY
 from psutil.tests import UNICODE_SUFFIX
@@ -51,7 +49,6 @@ from psutil.tests import PsutilTestCase
 from psutil.tests import check_net_address
 from psutil.tests import pytest
 from psutil.tests import retry_on_failure
-
 
 # ===================================================================
 # --- System-related API tests
@@ -61,7 +58,7 @@ from psutil.tests import retry_on_failure
 class TestProcessIter(PsutilTestCase):
     def test_pid_presence(self):
         assert os.getpid() in [x.pid for x in psutil.process_iter()]
-        sproc = self.spawn_testproc()
+        sproc = self.spawn_subproc()
         assert sproc.pid in [x.pid for x in psutil.process_iter()]
         p = psutil.Process(sproc.pid)
         p.kill()
@@ -133,16 +130,16 @@ class TestProcessIter(PsutilTestCase):
 class TestProcessAPIs(PsutilTestCase):
     @pytest.mark.skipif(
         PYPY and WINDOWS,
-        reason="spawn_testproc() unreliable on PYPY + WINDOWS",
+        reason="spawn_subproc() unreliable on PYPY + WINDOWS",
     )
     def test_wait_procs(self):
         def callback(p):
             pids.append(p.pid)
 
         pids = []
-        sproc1 = self.spawn_testproc()
-        sproc2 = self.spawn_testproc()
-        sproc3 = self.spawn_testproc()
+        sproc1 = self.spawn_subproc()
+        sproc2 = self.spawn_subproc()
+        sproc3 = self.spawn_subproc()
         procs = [psutil.Process(x.pid) for x in (sproc1, sproc2, sproc3)]
         with pytest.raises(ValueError):
             psutil.wait_procs(procs, timeout=-1)
@@ -196,19 +193,19 @@ class TestProcessAPIs(PsutilTestCase):
 
     @pytest.mark.skipif(
         PYPY and WINDOWS,
-        reason="spawn_testproc() unreliable on PYPY + WINDOWS",
+        reason="spawn_subproc() unreliable on PYPY + WINDOWS",
     )
     def test_wait_procs_no_timeout(self):
-        sproc1 = self.spawn_testproc()
-        sproc2 = self.spawn_testproc()
-        sproc3 = self.spawn_testproc()
+        sproc1 = self.spawn_subproc()
+        sproc2 = self.spawn_subproc()
+        sproc3 = self.spawn_subproc()
         procs = [psutil.Process(x.pid) for x in (sproc1, sproc2, sproc3)]
         for p in procs:
             p.terminate()
         psutil.wait_procs(procs)
 
     def test_pid_exists(self):
-        sproc = self.spawn_testproc()
+        sproc = self.spawn_subproc()
         assert psutil.pid_exists(sproc.pid)
         p = psutil.Process(sproc.pid)
         p.kill()
@@ -325,9 +322,9 @@ class TestMemoryAPIs(PsutilTestCase):
                 assert isinstance(value, int)
             if name != 'total':
                 if not value >= 0:
-                    raise self.fail(f"{name!r} < 0 ({value})")
+                    raise pytest.fail(f"{name!r} < 0 ({value})")
                 if value > mem.total:
-                    raise self.fail(
+                    raise pytest.fail(
                         f"{name!r} > total (total={mem.total}, {name}={value})"
                     )
 
@@ -417,9 +414,7 @@ class TestCpuAPIs(PsutilTestCase):
         #         for field in new._fields:
         #             new_t = getattr(new, field)
         #             last_t = getattr(last, field)
-        #             self.assertGreaterEqual(
-        #                 new_t, last_t,
-        #                 msg="{} {}".format(new_t, last_t))
+        #             assert new_t >= last_t
         #         last = new
 
     def test_cpu_times_time_increases(self):
@@ -430,7 +425,7 @@ class TestCpuAPIs(PsutilTestCase):
             t2 = sum(psutil.cpu_times())
             if t2 > t1:
                 return
-        raise self.fail("time remained the same")
+        raise pytest.fail("time remained the same")
 
     def test_per_cpu_times(self):
         # Check type, value >= 0, str().
@@ -462,8 +457,7 @@ class TestCpuAPIs(PsutilTestCase):
         #         for field in newcpu._fields:
         #             new_t = getattr(newcpu, field)
         #             last_t = getattr(lastcpu, field)
-        #             self.assertGreaterEqual(
-        #                 new_t, last_t, msg="{} {}".format(lastcpu, newcpu))
+        #             assert new_t >= last_t
         #     last = new
 
     def test_per_cpu_times_2(self):
@@ -473,7 +467,7 @@ class TestCpuAPIs(PsutilTestCase):
         giveup_at = time.time() + GLOBAL_TIMEOUT
         while True:
             if time.time() >= giveup_at:
-                return self.fail("timeout")
+                return pytest.fail("timeout")
             tot2 = psutil.cpu_times(percpu=True)
             for t1, t2 in zip(tot1, tot2):
                 t1, t2 = psutil._cpu_busy_time(t1), psutil._cpu_busy_time(t2)
@@ -482,7 +476,7 @@ class TestCpuAPIs(PsutilTestCase):
                     return None
 
     @pytest.mark.skipif(
-        CI_TESTING and OPENBSD, reason="unreliable on OPENBSD + CI"
+        (CI_TESTING and OPENBSD) or MACOS, reason="unreliable on OPENBSD + CI"
     )
     @retry_on_failure(30)
     def test_cpu_times_comparison(self):
@@ -582,9 +576,7 @@ class TestCpuAPIs(PsutilTestCase):
                 assert value > 0
 
     # TODO: remove this once 1892 is fixed
-    @pytest.mark.skipif(
-        MACOS and platform.machine() == 'arm64', reason="skipped due to #1892"
-    )
+    @pytest.mark.skipif(MACOS and AARCH64, reason="skipped due to #1892")
     @pytest.mark.skipif(not HAS_CPU_FREQ, reason="not supported")
     def test_cpu_freq(self):
         def check_ls(ls):
@@ -619,9 +611,6 @@ class TestCpuAPIs(PsutilTestCase):
 
 
 class TestDiskAPIs(PsutilTestCase):
-    @pytest.mark.skipif(
-        PYPY and not IS_64BIT, reason="unreliable on PYPY32 + 32BIT"
-    )
     def test_disk_usage(self):
         usage = psutil.disk_usage(os.getcwd())
         assert usage._fields == ('total', 'used', 'free', 'percent')
@@ -810,8 +799,9 @@ class TestNetAPIs(PsutilTestCase):
 
         # Not reliable on all platforms (net_if_addrs() reports more
         # interfaces).
-        # self.assertEqual(sorted(nics.keys()),
-        #                  sorted(psutil.net_io_counters(pernic=True).keys()))
+        # assert sorted(nics.keys()) == sorted(
+        #     psutil.net_io_counters(pernic=True).keys()
+        # )
 
         families = {socket.AF_INET, socket.AF_INET6, psutil.AF_LINK}
         for nic, addrs in nics.items():

@@ -64,7 +64,6 @@ from psutil.tests import skip_on_access_denied
 from psutil.tests import skip_on_not_implemented
 from psutil.tests import wait_for_pid
 
-
 # ===================================================================
 # --- psutil.Process class tests
 # ===================================================================
@@ -72,16 +71,6 @@ from psutil.tests import wait_for_pid
 
 class TestProcess(PsutilTestCase):
     """Tests for psutil.Process class."""
-
-    def spawn_psproc(self, *args, **kwargs):
-        sproc = self.spawn_testproc(*args, **kwargs)
-        try:
-            return psutil.Process(sproc.pid)
-        except psutil.NoSuchProcess:
-            self.assertPidGone(sproc.pid)
-            raise
-
-    # ---
 
     def test_pid(self):
         p = psutil.Process()
@@ -97,7 +86,7 @@ class TestProcess(PsutilTestCase):
             assert code == signal.SIGTERM
         else:
             assert code == -signal.SIGKILL
-        self.assertProcessGone(p)
+        self.assert_proc_gone(p)
 
     def test_terminate(self):
         p = self.spawn_psproc()
@@ -107,7 +96,7 @@ class TestProcess(PsutilTestCase):
             assert code == signal.SIGTERM
         else:
             assert code == -signal.SIGTERM
-        self.assertProcessGone(p)
+        self.assert_proc_gone(p)
 
     def test_send_signal(self):
         sig = signal.SIGKILL if POSIX else signal.SIGTERM
@@ -118,7 +107,7 @@ class TestProcess(PsutilTestCase):
             assert code == sig
         else:
             assert code == -sig
-        self.assertProcessGone(p)
+        self.assert_proc_gone(p)
 
     @pytest.mark.skipif(not POSIX, reason="not POSIX")
     def test_send_signal_mocked(self):
@@ -140,25 +129,25 @@ class TestProcess(PsutilTestCase):
         p = self.spawn_psproc(cmd)
         code = p.wait()
         assert code == 0
-        self.assertProcessGone(p)
+        self.assert_proc_gone(p)
         # exit(1), implicit in case of error
         cmd = [PYTHON_EXE, "-c", "1 / 0"]
         p = self.spawn_psproc(cmd, stderr=subprocess.PIPE)
         code = p.wait()
         assert code == 1
-        self.assertProcessGone(p)
+        self.assert_proc_gone(p)
         # via sys.exit()
         cmd = [PYTHON_EXE, "-c", "import sys; sys.exit(5);"]
         p = self.spawn_psproc(cmd)
         code = p.wait()
         assert code == 5
-        self.assertProcessGone(p)
+        self.assert_proc_gone(p)
         # via os._exit()
         cmd = [PYTHON_EXE, "-c", "import os; os._exit(5);"]
         p = self.spawn_psproc(cmd)
         code = p.wait()
         assert code == 5
-        self.assertProcessGone(p)
+        self.assert_proc_gone(p)
 
     @pytest.mark.skipif(NETBSD, reason="fails on NETBSD")
     def test_wait_stopped(self):
@@ -232,12 +221,12 @@ class TestProcess(PsutilTestCase):
             except psutil.TimeoutExpired:
                 pass
         else:
-            raise self.fail('timeout')
+            raise pytest.fail('timeout')
         if POSIX:
             assert code == -signal.SIGKILL
         else:
             assert code == signal.SIGTERM
-        self.assertProcessGone(p)
+        self.assert_proc_gone(p)
 
     def test_cpu_percent(self):
         p = psutil.Process()
@@ -278,8 +267,8 @@ class TestProcess(PsutilTestCase):
         waste_cpu()
         a = psutil.Process().cpu_times()
         b = os.times()
-        self.assertAlmostEqual(a.user, b.user, delta=0.1)
-        self.assertAlmostEqual(a.system, b.system, delta=0.1)
+        assert abs(a.user - b.user) < 0.1
+        assert abs(a.system - b.system) < 0.1
 
     @pytest.mark.skipif(not HAS_PROC_CPU_NUM, reason="not supported")
     def test_cpu_num(self):
@@ -293,18 +282,8 @@ class TestProcess(PsutilTestCase):
     def test_create_time(self):
         p = self.spawn_psproc()
         now = time.time()
-        create_time = p.create_time()
-
-        # Use time.time() as base value to compare our result using a
-        # tolerance of +/- 1 second.
-        # It will fail if the difference between the values is > 2s.
-        difference = abs(create_time - now)
-        if difference > 2:
-            raise self.fail(
-                f"expected: {now}, found: {create_time}, difference:"
-                f" {difference}"
-            )
-
+        # Fail if the difference with current time is > 2s.
+        assert abs(p.create_time() - now) < 2
         # make sure returned value can be pretty printed with strftime
         time.strftime("%Y %m %d %H:%M:%S", time.localtime(p.create_time()))
 
@@ -518,6 +497,7 @@ class TestProcess(PsutilTestCase):
         assert hard == psutil.RLIM_INFINITY
         p.rlimit(psutil.RLIMIT_FSIZE, (soft, hard))
 
+    @pytest.mark.xdist_group(name="serial")
     def test_num_threads(self):
         # on certain platforms such as Linux we might test for exact
         # thread number, since we always have with 1 thread per process,
@@ -759,7 +739,6 @@ class TestProcess(PsutilTestCase):
                     return
             assert ' '.join(p.cmdline()) == ' '.join(cmdline)
 
-    @pytest.mark.skipif(PYPY, reason="broken on PYPY")
     def test_long_cmdline(self):
         cmdline = [PYTHON_EXE]
         cmdline.extend(["-v"] * 50)
@@ -767,15 +746,20 @@ class TestProcess(PsutilTestCase):
             ["-c", "import time; [time.sleep(0.1) for x in range(100)]"]
         )
         p = self.spawn_psproc(cmdline)
+
+        # XXX - flaky test: exclude the python exe which, for some
+        # reason, and only sometimes, on OSX appears different.
+        cmdline = cmdline[1:]
+
         if OPENBSD:
             # XXX: for some reason the test process may turn into a
             # zombie (don't know why).
             try:
-                assert p.cmdline() == cmdline
+                assert p.cmdline()[1:] == cmdline
             except psutil.ZombieProcess:
                 raise pytest.skip("OPENBSD: process turned into zombie")
         else:
-            ret = p.cmdline()
+            ret = p.cmdline()[1:]
             if NETBSD and ret == []:
                 # https://github.com/giampaolo/psutil/issues/2250
                 raise pytest.skip("OPENBSD: returned EBUSY")
@@ -787,7 +771,7 @@ class TestProcess(PsutilTestCase):
         pyexe = os.path.basename(os.path.realpath(sys.executable)).lower()
         assert pyexe.startswith(name), (pyexe, name)
 
-    @pytest.mark.skipif(PYPY, reason="unreliable on PYPY")
+    @retry_on_failure()
     def test_long_name(self):
         pyexe = create_py_exe(self.get_testfn(suffix=string.digits * 2))
         cmdline = [
@@ -813,25 +797,6 @@ class TestProcess(PsutilTestCase):
                     raise
         else:
             assert p.name() == os.path.basename(pyexe)
-
-    # XXX: fails too often
-    # @pytest.mark.skipif(SUNOS, reason="broken on SUNOS")
-    # @pytest.mark.skipif(AIX, reason="broken on AIX")
-    # @pytest.mark.skipif(PYPY, reason="broken on PYPY")
-    # def test_prog_w_funky_name(self):
-    #     # Test that name(), exe() and cmdline() correctly handle programs
-    #     # with funky chars such as spaces and ")", see:
-    #     # https://github.com/giampaolo/psutil/issues/628
-    #     pyexe = create_py_exe(self.get_testfn(suffix='foo bar )'))
-    #     cmdline = [
-    #         pyexe,
-    #         "-c",
-    #         "import time; [time.sleep(0.1) for x in range(100)]",
-    #     ]
-    #     p = self.spawn_psproc(cmdline)
-    #     assert p.cmdline() == cmdline
-    #     assert p.name() == os.path.basename(pyexe)
-    #     assert os.path.normcase(p.exe()) == os.path.normcase(pyexe)
 
     @pytest.mark.skipif(not POSIX, reason="POSIX only")
     def test_uids(self):
@@ -1090,7 +1055,7 @@ class TestProcess(PsutilTestCase):
                 ):
                     break
             else:
-                raise self.fail(f"no file found; files={p.open_files()!r}")
+                raise pytest.fail(f"no file found; files={p.open_files()!r}")
             assert normcase(file.path) == normcase(fileobj.name)
             if WINDOWS:
                 assert file.fd == -1
@@ -1104,18 +1069,15 @@ class TestProcess(PsutilTestCase):
             assert fileobj.name not in p.open_files()
 
     @pytest.mark.skipif(not POSIX, reason="POSIX only")
+    @pytest.mark.xdist_group(name="serial")
     def test_num_fds(self):
         p = psutil.Process()
         testfn = self.get_testfn()
         start = p.num_fds()
-        file = open(testfn, 'w')  # noqa: SIM115
-        self.addCleanup(file.close)
-        assert p.num_fds() == start + 1
-        sock = socket.socket()
-        self.addCleanup(sock.close)
-        assert p.num_fds() == start + 2
-        file.close()
-        sock.close()
+        with open(testfn, 'w'):
+            assert p.num_fds() == start + 1
+            with socket.socket():
+                assert p.num_fds() == start + 2
         assert p.num_fds() == start
 
     @skip_on_not_implemented(only_if=LINUX)
@@ -1130,7 +1092,7 @@ class TestProcess(PsutilTestCase):
             after = sum(p.num_ctx_switches())
             if after > before:
                 return
-        raise self.fail("num ctx switches still the same after 2 iterations")
+        raise pytest.fail("num ctx switches still the same after 2 iterations")
 
     def test_ppid(self):
         p = psutil.Process()
@@ -1145,6 +1107,18 @@ class TestProcess(PsutilTestCase):
 
         lowest_pid = psutil.pids()[0]
         assert psutil.Process(lowest_pid).parent() is None
+
+    def test_parent_mocked_ctime(self):
+        # Make sure we get a fresh copy of the ctime before processing
+        # parent().We make the assumption that the parent pid MUST have
+        # a creation time < than the child. If system clock is updated
+        # this assumption was broken.
+        # https://github.com/giampaolo/psutil/issues/2542
+        p = self.spawn_psproc()
+        p.create_time()  # trigger cache
+        assert p._create_time
+        p._create_time = 1
+        assert p.parent().pid == os.getpid()
 
     def test_parent_multi(self):
         parent = psutil.Process()
@@ -1163,6 +1137,30 @@ class TestProcess(PsutilTestCase):
 
     def test_children(self):
         parent = psutil.Process()
+        assert not parent.children()
+        assert not parent.children(recursive=True)
+        # On Windows we set the flag to 0 in order to cancel out the
+        # CREATE_NO_WINDOW flag (enabled by default) which creates
+        # an extra "conhost.exe" child.
+        child = self.spawn_psproc(creationflags=0)
+        children1 = parent.children()
+        children2 = parent.children(recursive=True)
+        for children in (children1, children2):
+            assert len(children) == 1
+            assert children[0].pid == child.pid
+            assert children[0].ppid() == parent.pid
+
+    def test_children_mocked_ctime(self):
+        # Make sure we get a fresh copy of the ctime before processing
+        # children(). We make the assumption that process children MUST
+        # have a creation time > than the parent. If system clock is
+        # updated this assumption was broken.
+        # https://github.com/giampaolo/psutil/issues/2542
+        parent = psutil.Process()
+        parent.create_time()  # trigger cache
+        assert parent._create_time
+        parent._create_time += 100000
+
         assert not parent.children()
         assert not parent.children(recursive=True)
         # On Windows we set the flag to 0 in order to cancel out the
@@ -1361,7 +1359,7 @@ class TestProcess(PsutilTestCase):
                 # NtQuerySystemInformation succeeds even if process is gone.
                 if WINDOWS and fun_name in {'exe', 'name'}:
                     return
-                raise self.fail(
+                raise pytest.fail(
                     f"{fun!r} didn't raise NSP and returned {ret!r} instead"
                 )
 
@@ -1370,7 +1368,7 @@ class TestProcess(PsutilTestCase):
         p.wait()
         if WINDOWS:  # XXX
             call_until(lambda: p.pid not in psutil.pids())
-        self.assertProcessGone(p)
+        self.assert_proc_gone(p)
 
         ns = process_namespace(p)
         for fun, name in ns.iter(ns.all):
@@ -1379,7 +1377,7 @@ class TestProcess(PsutilTestCase):
     @pytest.mark.skipif(not POSIX, reason="POSIX only")
     def test_zombie_process(self):
         _parent, zombie = self.spawn_zombie()
-        self.assertProcessZombie(zombie)
+        self.assert_proc_zombie(zombie)
 
     @pytest.mark.skipif(not POSIX, reason="POSIX only")
     def test_zombie_process_is_running_w_exc(self):
@@ -1406,7 +1404,7 @@ class TestProcess(PsutilTestCase):
 
     def test_reused_pid(self):
         # Emulate a case where PID has been reused by another process.
-        subp = self.spawn_testproc()
+        subp = self.spawn_subproc()
         p = psutil.Process(subp.pid)
         p._ident = (p.pid, p.create_time() + 100)
 
@@ -1505,9 +1503,9 @@ class TestProcess(PsutilTestCase):
             for name in exclude:
                 d.pop(name, None)
             return {
-                k.replace("\r", "").replace("\n", ""): v.replace(
-                    "\r", ""
-                ).replace("\n", "")
+                k.replace("\r", "").replace("\n", ""): (
+                    v.replace("\r", "").replace("\n", "")
+                )
                 for k, v in d.items()
             }
 
@@ -1545,7 +1543,7 @@ class TestProcess(PsutilTestCase):
             }
             """)
         cexe = create_c_exe(self.get_testfn(), c_code=code)
-        sproc = self.spawn_testproc(
+        sproc = self.spawn_subproc(
             [cexe], stdin=subprocess.PIPE, stderr=subprocess.PIPE
         )
         p = psutil.Process(sproc.pid)
@@ -1579,6 +1577,7 @@ class TestPopen(PsutilTestCase):
     def tearDownClass(cls):
         reap_children()
 
+    @pytest.mark.skipif(MACOS and GITHUB_ACTIONS, reason="hangs on OSX + CI")
     def test_misc(self):
         # XXX this test causes a ResourceWarning because
         # psutil.__subproc instance doesn't get properly freed.

@@ -30,7 +30,6 @@ from ._common import sockfam_to_enum
 from ._common import socktype_to_enum
 from ._common import usage_percent
 
-
 __extra__all__ = ["CONN_IDLE", "CONN_BOUND", "PROCFS_PATH"]
 
 
@@ -311,7 +310,7 @@ def boot_time():
 def users():
     """Return currently connected users as a list of namedtuples."""
     retlist = []
-    rawlist = cext.users()
+    rawlist = cext_posix.users()
     localhost = (':0.0', ':0')
     for item in rawlist:
         user, tty, hostname, tstamp, user_process, pid = item

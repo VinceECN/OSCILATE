@@ -31,7 +31,6 @@ from psutil.tests import import_module_by_path
 from psutil.tests import psutil
 from psutil.tests import sh
 
-
 INTERNAL_SCRIPTS_DIR = os.path.join(SCRIPTS_DIR, "internal")
 SETUP_PY = os.path.join(ROOT_DIR, 'setup.py')
 
@@ -77,7 +76,7 @@ class TestExampleScripts(PsutilTestCase):
             if name.endswith('.py'):
                 if 'test_' + os.path.splitext(name)[0] not in meths:
                     # self.assert_stdout(name)
-                    raise self.fail(
+                    raise pytest.fail(
                         "no test defined for"
                         f" {os.path.join(SCRIPTS_DIR, name)!r} script"
                     )
@@ -89,7 +88,7 @@ class TestExampleScripts(PsutilTestCase):
                 if file.endswith('.py'):
                     path = os.path.join(root, file)
                     if not stat.S_IXUSR & os.stat(path)[stat.ST_MODE]:
-                        raise self.fail(f"{path!r} is not executable")
+                        raise pytest.fail(f"{path!r} is not executable")
 
     def test_disk_usage(self):
         self.assert_stdout('disk_usage.py')

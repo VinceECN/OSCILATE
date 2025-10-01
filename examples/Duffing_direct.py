@@ -74,3 +74,4 @@ kwargs  = dict(phase_name=vlatex(ss.sol.cos_phase[0].args[0]), # Plot parameters
 ss.plot_ARC(ARC, **kwargs)
 
 
+# %%

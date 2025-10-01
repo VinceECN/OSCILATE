@@ -35,7 +35,6 @@ from psutil.tests import pytest
 from psutil.tests import reload_module
 from psutil.tests import system_namespace
 
-
 # ===================================================================
 # --- Test classes' repr(), str(), ...
 # ===================================================================
@@ -49,7 +48,7 @@ class TestSpecialMethods(PsutilTestCase):
             psutil.Process(2**128)
 
     def test_process__repr__(self, func=repr):
-        p = psutil.Process(self.spawn_testproc().pid)
+        p = psutil.Process(self.spawn_subproc().pid)
         r = func(p)
         assert "psutil.Process" in r
         assert f"pid={p.pid}" in r
@@ -218,7 +217,9 @@ class TestMisc(PsutilTestCase):
                             fun.__doc__ is not None
                             and 'deprecated' not in fun.__doc__.lower()
                         ):
-                            raise self.fail(f"{name!r} not in psutil.__all__")
+                            raise pytest.fail(
+                                f"{name!r} not in psutil.__all__"
+                            )
 
         # Import 'star' will break if __all__ is inconsistent, see:
         # https://github.com/giampaolo/psutil/issues/656
@@ -254,7 +255,7 @@ class TestMisc(PsutilTestCase):
 
         ns = process_namespace(proc)
         for fun, name in ns.iter(ns.getters, clear_cache=True):
-            with self.subTest(proc=proc, name=name):
+            with self.subTest(proc=str(proc), name=name):
                 try:
                     ret = fun()
                 except psutil.Error:
@@ -342,7 +343,7 @@ class TestMisc(PsutilTestCase):
         with mock.patch.object(
             psutil.Process, '_get_ident', side_effect=psutil.NoSuchProcess(1)
         ) as meth:
-            with self.assertRaises(psutil.NoSuchProcess):
+            with pytest.raises(psutil.NoSuchProcess):
                 psutil.Process()
             assert meth.called
 
@@ -545,35 +546,28 @@ class TestCommonModule(PsutilTestCase):
         assert parse_environ_block("a=1\0b=2") == {k("a"): "1"}
 
     def test_supports_ipv6(self):
-        self.addCleanup(supports_ipv6.cache_clear)
         if supports_ipv6():
             with mock.patch('psutil._common.socket') as s:
                 s.has_ipv6 = False
-                supports_ipv6.cache_clear()
                 assert not supports_ipv6()
 
-            supports_ipv6.cache_clear()
             with mock.patch(
                 'psutil._common.socket.socket', side_effect=OSError
             ) as s:
                 assert not supports_ipv6()
                 assert s.called
 
-            supports_ipv6.cache_clear()
             with mock.patch(
                 'psutil._common.socket.socket', side_effect=socket.gaierror
             ) as s:
                 assert not supports_ipv6()
-                supports_ipv6.cache_clear()
                 assert s.called
 
-            supports_ipv6.cache_clear()
             with mock.patch(
                 'psutil._common.socket.socket.bind',
                 side_effect=socket.gaierror,
             ) as s:
                 assert not supports_ipv6()
-                supports_ipv6.cache_clear()
                 assert s.called
         else:
             with pytest.raises(OSError):

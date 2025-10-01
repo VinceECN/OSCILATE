@@ -56,7 +56,6 @@ from psutil.tests import unix_socketpair
 from psutil.tests import wait_for_file
 from psutil.tests import wait_for_pid
 
-
 # ===================================================================
 # --- Unit tests for test utilities.
 # ===================================================================
@@ -218,7 +217,7 @@ class TestFSTestUtils(PsutilTestCase):
 
 class TestProcessUtils(PsutilTestCase):
     def test_reap_children(self):
-        subp = self.spawn_testproc()
+        subp = self.spawn_subproc()
         p = psutil.Process(subp.pid)
         assert p.is_running()
         reap_children()
@@ -254,14 +253,14 @@ class TestProcessUtils(PsutilTestCase):
 
     def test_terminate(self):
         # by subprocess.Popen
-        p = self.spawn_testproc()
+        p = self.spawn_subproc()
         terminate(p)
-        self.assertPidGone(p.pid)
+        self.assert_pid_gone(p.pid)
         terminate(p)
         # by psutil.Process
-        p = psutil.Process(self.spawn_testproc().pid)
+        p = psutil.Process(self.spawn_subproc().pid)
         terminate(p)
-        self.assertPidGone(p.pid)
+        self.assert_pid_gone(p.pid)
         terminate(p)
         # by psutil.Popen
         cmd = [
@@ -276,20 +275,20 @@ class TestProcessUtils(PsutilTestCase):
             env=PYTHON_EXE_ENV,
         )
         terminate(p)
-        self.assertPidGone(p.pid)
+        self.assert_pid_gone(p.pid)
         terminate(p)
         # by PID
-        pid = self.spawn_testproc().pid
+        pid = self.spawn_subproc().pid
         terminate(pid)
-        self.assertPidGone(p.pid)
+        self.assert_pid_gone(p.pid)
         terminate(pid)
         # zombie
         if POSIX:
             parent, zombie = self.spawn_zombie()
             terminate(parent)
             terminate(zombie)
-            self.assertPidGone(parent.pid)
-            self.assertPidGone(zombie.pid)
+            self.assert_pid_gone(parent.pid)
+            self.assert_pid_gone(zombie.pid)
 
 
 class TestNetUtils(PsutilTestCase):
@@ -398,7 +397,7 @@ class TestMemLeakClass(TestMemoryLeak):
 
         try:
             # will consume around 60M in total
-            with pytest.raises(AssertionError, match="extra-mem"):
+            with pytest.raises(pytest.fail.Exception, match="extra-mem"):
                 self.execute(fun, times=100)
         finally:
             del ls
@@ -411,7 +410,7 @@ class TestMemLeakClass(TestMemoryLeak):
 
         box = []
         kind = "fd" if POSIX else "handle"
-        with pytest.raises(AssertionError, match="unclosed " + kind):
+        with pytest.raises(pytest.fail.Exception, match="unclosed " + kind):
             self.execute(fun)
 
     def test_tolerance(self):
@@ -436,7 +435,7 @@ class TestMemLeakClass(TestMemoryLeak):
         def fun_2():
             pass
 
-        with pytest.raises(AssertionError):
+        with pytest.raises(pytest.fail.Exception):
             self.execute_w_exc(ZeroDivisionError, fun_2)
 
 
@@ -460,9 +459,9 @@ class TestFakePytest(PsutilTestCase):
             with fake_pytest.raises(ValueError, match="foo") as cm:
                 raise ValueError("bar")
         except AssertionError as err:
-            assert str(err) == '"foo" does not match "bar"'
+            assert str(err) == '"foo" does not match "bar"'  # noqa: PT017
         else:
-            raise self.fail("exception not raised")
+            raise pytest.fail("exception not raised")
 
     def test_mark(self):
         @fake_pytest.mark.xdist_group(name="serial")
@@ -523,11 +522,8 @@ class TestFakePytest(PsutilTestCase):
                         pass
                 """).lstrip())
         with mock.patch.object(psutil.tests, "HERE", tmpdir):
-            with self.assertWarnsRegex(
-                UserWarning, "Fake pytest module was used"
-            ):
-                suite = fake_pytest.main()
-                assert suite.countTestCases() == 1
+            suite = fake_pytest.main()
+            assert suite.countTestCases() == 1
 
     def test_warns(self):
         # success
@@ -541,7 +537,7 @@ class TestFakePytest(PsutilTestCase):
         except AssertionError:
             pass
         else:
-            raise self.fail("exception not raised")
+            raise pytest.fail("exception not raised")
 
         # match success
         with fake_pytest.warns(UserWarning, match="foo"):
@@ -554,7 +550,11 @@ class TestFakePytest(PsutilTestCase):
         except AssertionError:
             pass
         else:
-            raise self.fail("exception not raised")
+            raise pytest.fail("exception not raised")
+
+    def test_fail(self):
+        with fake_pytest.raises(fake_pytest.fail.Exception):
+            raise fake_pytest.fail("reason")
 
 
 class TestTestingUtils(PsutilTestCase):
