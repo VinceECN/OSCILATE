@@ -14,10 +14,8 @@ PyPy appears to be completely unstable for this framework, probably
 because of how its JIT handles memory, so tests are skipped.
 """
 
-
 import functools
 import os
-import platform
 
 import psutil
 import psutil._common
@@ -27,6 +25,7 @@ from psutil import OPENBSD
 from psutil import POSIX
 from psutil import SUNOS
 from psutil import WINDOWS
+from psutil.tests import AARCH64
 from psutil.tests import HAS_CPU_AFFINITY
 from psutil.tests import HAS_CPU_FREQ
 from psutil.tests import HAS_ENVIRON
@@ -45,10 +44,9 @@ from psutil.tests import get_testfn
 from psutil.tests import process_namespace
 from psutil.tests import pytest
 from psutil.tests import skip_on_access_denied
-from psutil.tests import spawn_testproc
+from psutil.tests import spawn_subproc
 from psutil.tests import system_namespace
 from psutil.tests import terminate
-
 
 cext = psutil._psplatform.cext
 thisproc = psutil.Process()
@@ -274,7 +272,7 @@ class TestTerminatedProcessLeaks(TestProcessObjectLeaks):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.subp = spawn_testproc()
+        cls.subp = spawn_subproc()
         cls.proc = psutil.Process(cls.subp.pid)
         cls.proc.kill()
         cls.proc.wait()
@@ -363,9 +361,7 @@ class TestModuleFunctionsLeaks(TestMemoryLeak):
 
     @fewtimes_if_linux()
     # TODO: remove this once 1892 is fixed
-    @pytest.mark.skipif(
-        MACOS and platform.machine() == 'arm64', reason="skipped due to #1892"
-    )
+    @pytest.mark.skipif(MACOS and AARCH64, reason="skipped due to #1892")
     @pytest.mark.skipif(not HAS_CPU_FREQ, reason="not supported")
     def test_cpu_freq(self):
         self.execute(psutil.cpu_freq)

@@ -73,6 +73,9 @@ from contextlib import closing
 
 import psutil
 from psutil import BSD
+from psutil import MACOS
+from psutil import NETBSD
+from psutil import OPENBSD
 from psutil import POSIX
 from psutil import WINDOWS
 from psutil.tests import ASCII_FS
@@ -94,7 +97,7 @@ from psutil.tests import pytest
 from psutil.tests import safe_mkdir
 from psutil.tests import safe_rmpath
 from psutil.tests import skip_on_access_denied
-from psutil.tests import spawn_testproc
+from psutil.tests import spawn_subproc
 from psutil.tests import terminate
 
 
@@ -107,7 +110,7 @@ def try_unicode(suffix):
     try:
         safe_rmpath(testfn)
         create_py_exe(testfn)
-        sproc = spawn_testproc(cmd=[testfn])
+        sproc = spawn_subproc(cmd=[testfn])
         shutil.copyfile(testfn, testfn + '-2')
         safe_rmpath(testfn + '-2')
     except (UnicodeEncodeError, OSError):
@@ -166,7 +169,7 @@ class TestFSAPIs(BaseUnicodeTest):
             "-c",
             "import time; [time.sleep(0.1) for x in range(100)]",
         ]
-        subp = self.spawn_testproc(cmd)
+        subp = self.spawn_subproc(cmd)
         p = psutil.Process(subp.pid)
         exe = p.exe()
         assert isinstance(exe, str)
@@ -179,7 +182,7 @@ class TestFSAPIs(BaseUnicodeTest):
             "-c",
             "import time; [time.sleep(0.1) for x in range(100)]",
         ]
-        subp = self.spawn_testproc(cmd)
+        subp = self.spawn_subproc(cmd)
         name = psutil.Process(subp.pid).name()
         assert isinstance(name, str)
         if self.expect_exact_path_match():
@@ -191,7 +194,7 @@ class TestFSAPIs(BaseUnicodeTest):
             "-c",
             "import time; [time.sleep(0.1) for x in range(100)]",
         ]
-        subp = self.spawn_testproc(cmd)
+        subp = self.spawn_subproc(cmd)
         p = psutil.Process(subp.pid)
         cmdline = p.cmdline()
         for part in cmdline:
@@ -211,6 +214,9 @@ class TestFSAPIs(BaseUnicodeTest):
             assert cwd == dname
 
     @pytest.mark.skipif(PYPY and WINDOWS, reason="fails on PYPY + WINDOWS")
+    @pytest.mark.skipif(
+        NETBSD or OPENBSD, reason="broken on NETBSD or OPENBSD"
+    )
     def test_proc_open_files(self):
         p = psutil.Process()
         start = set(p.open_files())
@@ -231,6 +237,8 @@ class TestFSAPIs(BaseUnicodeTest):
         with closing(sock):
             conn = psutil.Process().net_connections('unix')[0]
             assert isinstance(conn.laddr, str)
+            if not conn.laddr and MACOS and CI_TESTING:
+                raise pytest.skip("unreliable on OSX")
             assert conn.laddr == name
 
     @pytest.mark.skipif(not POSIX, reason="POSIX only")
@@ -260,7 +268,6 @@ class TestFSAPIs(BaseUnicodeTest):
         psutil.disk_usage(dname)
 
     @pytest.mark.skipif(not HAS_MEMORY_MAPS, reason="not supported")
-    @pytest.mark.skipif(PYPY, reason="unstable on PYPY")
     def test_memory_maps(self):
         with copyload_shared_lib(suffix=self.funky_suffix) as funky_path:
 
@@ -284,7 +291,7 @@ class TestFSAPIsWithInvalidPath(TestFSAPIs):
     funky_suffix = INVALID_UNICODE_SUFFIX
 
     def expect_exact_path_match(self):
-        return True
+        return not MACOS
 
 
 # ===================================================================
@@ -304,7 +311,7 @@ class TestNonFSAPIS(BaseUnicodeTest):
         # with fs paths.
         env = os.environ.copy()
         env['FUNNY_ARG'] = self.funky_suffix
-        sproc = self.spawn_testproc(env=env)
+        sproc = self.spawn_subproc(env=env)
         p = psutil.Process(sproc.pid)
         env = p.environ()
         for k, v in env.items():

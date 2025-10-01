@@ -31,8 +31,7 @@ from psutil.tests import HAS_BATTERY
 from psutil.tests import HAS_CPU_FREQ
 from psutil.tests import HAS_GETLOADAVG
 from psutil.tests import HAS_RLIMIT
-from psutil.tests import PYPY
-from psutil.tests import PYTEST_PARALLEL
+from psutil.tests import RISCV64
 from psutil.tests import TOLERANCE_DISK_USAGE
 from psutil.tests import TOLERANCE_SYS_MEM
 from psutil.tests import PsutilTestCase
@@ -44,7 +43,6 @@ from psutil.tests import retry_on_failure
 from psutil.tests import safe_rmpath
 from psutil.tests import sh
 from psutil.tests import skip_on_not_implemented
-
 
 if LINUX:
     from psutil._pslinux import CLOCK_TICKS
@@ -243,10 +241,8 @@ class TestSystemVirtualMemoryAgainstFree(PsutilTestCase):
         # memory.
         # https://gitlab.com/procps-ng/procps/commit/
         #     2184e90d2e7cdb582f9a5b706b47015e56707e4d
-        if get_free_version_info() < (3, 3, 12):
+        if get_free_version_info() < (4, 0, 0):
             raise pytest.skip("free version too old")
-        if get_free_version_info() >= (4, 0, 0):
-            raise pytest.skip("free version too recent")
         cli_value = free_physmem().used
         psutil_value = psutil.virtual_memory().used
         assert abs(cli_value - psutil_value) < TOLERANCE_SYS_MEM
@@ -298,10 +294,8 @@ class TestSystemVirtualMemoryAgainstVmstat(PsutilTestCase):
         # memory.
         # https://gitlab.com/procps-ng/procps/commit/
         #     2184e90d2e7cdb582f9a5b706b47015e56707e4d
-        if get_free_version_info() < (3, 3, 12):
+        if get_free_version_info() < (4, 0, 0):
             raise pytest.skip("free version too old")
-        if get_free_version_info() >= (4, 0, 0):
-            raise pytest.skip("free version too recent")
         vmstat_value = vmstat('used memory') * 1024
         psutil_value = psutil.virtual_memory().used
         assert abs(vmstat_value - psutil_value) < TOLERANCE_SYS_MEM
@@ -776,7 +770,8 @@ class TestSystemCPUFrequency(PsutilTestCase):
 
     @pytest.mark.skipif(not HAS_CPU_FREQ, reason="not supported")
     @pytest.mark.skipif(
-        AARCH64, reason="aarch64 does not report mhz in /proc/cpuinfo"
+        AARCH64 or RISCV64,
+        reason=f"{platform.machine()} does not report mhz in /proc/cpuinfo",
     )
     def test_emulate_use_cpuinfo(self):
         # Emulate a case where /sys/devices/system/cpu/cpufreq* does not
@@ -915,7 +910,7 @@ class TestSystemCPUStats(PsutilTestCase):
     # def test_ctx_switches(self):
     #     vmstat_value = vmstat("context switches")
     #     psutil_value = psutil.cpu_stats().ctx_switches
-    #     self.assertAlmostEqual(vmstat_value, psutil_value, delta=500)
+    #     assert abs(vmstat_value - psutil_value) < 500
 
     def test_interrupts(self):
         vmstat_value = vmstat("interrupts")
@@ -977,9 +972,8 @@ class TestSystemNetIfAddrs(PsutilTestCase):
     #         if re.search(r"^\d+:", line):
     #             found += 1
     #             name = line.split(':')[1].strip()
-    #             self.assertIn(name, nics)
-    #     self.assertEqual(len(nics), found, msg="{}\n---\n{}".format(
-    #         pprint.pformat(nics), out))
+    #             assert name in nics
+    #     assert len(nics) == found
 
 
 @pytest.mark.skipif(not LINUX, reason="LINUX only")
@@ -1034,7 +1028,7 @@ class TestSystemNetIfStats(PsutilTestCase):
                         assert ifconfig_flags == psutil_flags
 
         if not matches_found:
-            raise self.fail("no matches were found")
+            raise pytest.fail("no matches were found")
 
 
 @pytest.mark.skipif(not LINUX, reason="LINUX only")
@@ -1095,13 +1089,12 @@ class TestSystemNetConnections(PsutilTestCase):
     @mock.patch('psutil._pslinux.supports_ipv6', return_value=False)
     def test_emulate_ipv6_unsupported(self, supports_ipv6, inet_ntop):
         # see: https://github.com/giampaolo/psutil/issues/623
-        try:
-            s = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
-            self.addCleanup(s.close)
-            s.bind(("::1", 0))
-        except OSError:
-            pass
-        psutil.net_connections(kind='inet6')
+        with socket.socket(socket.AF_INET6, socket.SOCK_STREAM) as s:
+            try:
+                s.bind(("::1", 0))
+            except OSError:
+                pass
+            psutil.net_connections(kind='inet6')
 
     def test_emulate_unix(self):
         content = textwrap.dedent("""\
@@ -1525,14 +1518,12 @@ class TestMisc(PsutilTestCase):
                 psutil.cpu_times(percpu=True)
             with pytest.raises(OSError):
                 psutil.boot_time()
-            # self.assertRaises(OSError, psutil.pids)
             with pytest.raises(OSError):
                 psutil.net_connections()
             with pytest.raises(OSError):
                 psutil.net_io_counters()
             with pytest.raises(OSError):
                 psutil.net_if_stats()
-            # self.assertRaises(OSError, psutil.disk_io_counters)
             with pytest.raises(OSError):
                 psutil.disk_partitions()
             with pytest.raises(psutil.NoSuchProcess):
@@ -1541,17 +1532,19 @@ class TestMisc(PsutilTestCase):
             psutil.PROCFS_PATH = "/proc"
 
     @retry_on_failure()
-    @pytest.mark.skipif(PYTEST_PARALLEL, reason="skip if pytest-parallel")
+    @pytest.mark.xdist_group(name="serial")
     def test_issue_687(self):
         # In case of thread ID:
         # - pid_exists() is supposed to return False
         # - Process(tid) is supposed to work
         # - pids() should not return the TID
         # See: https://github.com/giampaolo/psutil/issues/687
+
+        p = psutil.Process()
+        nthreads = len(p.threads())
         with ThreadTask():
-            p = psutil.Process()
             threads = p.threads()
-            assert len(threads) == 2
+            assert len(threads) == nthreads + 1
             tid = sorted(threads, key=lambda x: x.id)[1].id
             assert p.pid != tid
             pt = psutil.Process(tid)
@@ -1824,7 +1817,7 @@ class TestSensorsFans(PsutilTestCase):
 class TestProcess(PsutilTestCase):
     @retry_on_failure()
     def test_parse_smaps_vs_memory_maps(self):
-        sproc = self.spawn_testproc()
+        sproc = self.spawn_subproc()
         uss, pss, swap = psutil._pslinux.Process(sproc.pid)._parse_smaps()
         maps = psutil.Process(sproc.pid).memory_maps(grouped=False)
         assert (
@@ -1867,8 +1860,6 @@ class TestProcess(PsutilTestCase):
             assert pss == 3 * 1024
             assert swap == 15 * 1024
 
-    # On PYPY file descriptors are not closed fast enough.
-    @pytest.mark.skipif(PYPY, reason="unreliable on PYPY")
     def test_open_files_mode(self):
         def get_test_file(fname):
             p = psutil.Process()
@@ -1966,14 +1957,6 @@ class TestProcess(PsutilTestCase):
             assert psutil._pslinux.Process(os.getpid()).terminal() is None
             assert m.called
 
-    # TODO: re-enable this test.
-    # def test_num_ctx_switches_mocked(self):
-    #     with mock.patch('psutil._common.open', create=True) as m:
-    #         self.assertRaises(
-    #             NotImplementedError,
-    #             psutil._pslinux.Process(os.getpid()).num_ctx_switches)
-    #         assert m.called
-
     def test_cmdline_mocked(self):
         # see: https://github.com/giampaolo/psutil/issues/639
         p = psutil.Process()
@@ -2062,6 +2045,15 @@ class TestProcess(PsutilTestCase):
                 ret = psutil.Process().exe()
                 assert m.called
                 assert ret == ""
+
+    def test_cwd_mocked(self):
+        # https://github.com/giampaolo/psutil/issues/2514
+        with mock.patch(
+            'psutil._pslinux.readlink', side_effect=FileNotFoundError
+        ) as m:
+            ret = psutil.Process().cwd()
+            assert m.called
+            assert ret == ""
 
     def test_issue_1014(self):
         # Emulates a case where smaps file does not exist. In this case
@@ -2199,6 +2191,11 @@ class TestProcess(PsutilTestCase):
             with mock.patch("psutil._pslinux.debug"):
                 assert p.net_connections() == []
                 assert m.called
+
+    def test_create_time_monotonic(self):
+        p = psutil.Process()
+        assert p._proc.create_time() != p._proc.create_time(monotonic=True)
+        assert p._get_ident()[1] == p._proc.create_time(monotonic=True)
 
 
 @pytest.mark.skipif(not LINUX, reason="LINUX only")

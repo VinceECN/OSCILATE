@@ -6,13 +6,13 @@
 
 """macOS specific tests."""
 
-import platform
 import re
 import time
 
 import psutil
 from psutil import MACOS
 from psutil import POSIX
+from psutil.tests import AARCH64
 from psutil.tests import CI_TESTING
 from psutil.tests import HAS_BATTERY
 from psutil.tests import TOLERANCE_DISK_USAGE
@@ -21,9 +21,8 @@ from psutil.tests import PsutilTestCase
 from psutil.tests import pytest
 from psutil.tests import retry_on_failure
 from psutil.tests import sh
-from psutil.tests import spawn_testproc
+from psutil.tests import spawn_subproc
 from psutil.tests import terminate
-
 
 if POSIX:
     from psutil._psutil_posix import getpagesize
@@ -56,7 +55,7 @@ def vm_stat(field):
 class TestProcess(PsutilTestCase):
     @classmethod
     def setUpClass(cls):
-        cls.pid = spawn_testproc().pid
+        cls.pid = spawn_subproc().pid
 
     @classmethod
     def tearDownClass(cls):
@@ -115,9 +114,7 @@ class TestSystemAPIs(PsutilTestCase):
         assert num == psutil.cpu_count(logical=False)
 
     # TODO: remove this once 1892 is fixed
-    @pytest.mark.skipif(
-        MACOS and platform.machine() == 'arm64', reason="skipped due to #1892"
-    )
+    @pytest.mark.skipif(MACOS and AARCH64, reason="skipped due to #1892")
     def test_cpu_freq(self):
         freq = psutil.cpu_freq()
         assert freq.current * 1000 * 1000 == sysctl("sysctl hw.cpufrequency")
@@ -131,7 +128,7 @@ class TestSystemAPIs(PsutilTestCase):
         assert sysctl_hwphymem == psutil.virtual_memory().total
 
     @pytest.mark.skipif(
-        CI_TESTING and MACOS and platform.machine() == 'arm64',
+        CI_TESTING and MACOS and AARCH64,
         reason="skipped on MACOS + ARM64 + CI_TESTING",
     )
     @retry_on_failure()
@@ -140,6 +137,10 @@ class TestSystemAPIs(PsutilTestCase):
         psutil_val = psutil.virtual_memory().free
         assert abs(psutil_val - vmstat_val) < TOLERANCE_SYS_MEM
 
+    @pytest.mark.skipif(
+        CI_TESTING and MACOS and AARCH64,
+        reason="skipped on MACOS + ARM64 + CI_TESTING",
+    )
     @retry_on_failure()
     def test_vmem_active(self):
         vmstat_val = vm_stat("active")
@@ -195,3 +196,11 @@ class TestSystemAPIs(PsutilTestCase):
         psutil_result = psutil.sensors_battery()
         assert psutil_result.power_plugged == power_plugged
         assert psutil_result.percent == int(percent)
+
+    # --- others
+
+    def test_boot_time(self):
+        out = sh('sysctl kern.boottime')
+        a = float(re.search(r"sec\s*=\s*(\d+)", out).groups(0)[0])
+        b = psutil.boot_time()
+        assert a == b

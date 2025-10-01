@@ -38,7 +38,6 @@ from psutil.tests import is_win_secure_system_proc
 from psutil.tests import process_namespace
 from psutil.tests import pytest
 
-
 # Cuts the time in half, but (e.g.) on macOS the process pool stays
 # alive after join() (multiprocessing bug?), messing up other tests.
 USE_PROC_POOL = LINUX and not CI_TESTING and not PYTEST_PARALLEL
@@ -48,16 +47,16 @@ def proc_info(pid):
     tcase = PsutilTestCase()
 
     def check_exception(exc, proc, name, ppid):
-        tcase.assertEqual(exc.pid, pid)
+        assert exc.pid == pid
         if exc.name is not None:
-            tcase.assertEqual(exc.name, name)
+            assert exc.name == name
         if isinstance(exc, psutil.ZombieProcess):
-            tcase.assertProcessZombie(proc)
+            tcase.assert_proc_zombie(proc)
             if exc.ppid is not None:
-                tcase.assertGreaterEqual(exc.ppid, 0)
-                tcase.assertEqual(exc.ppid, ppid)
+                assert exc.ppid >= 0
+                assert exc.ppid == ppid
         elif isinstance(exc, psutil.NoSuchProcess):
-            tcase.assertProcessGone(proc)
+            tcase.assert_proc_gone(proc)
         str(exc)
         repr(exc)
 
@@ -71,12 +70,12 @@ def proc_info(pid):
     try:
         proc = psutil.Process(pid)
     except psutil.NoSuchProcess:
-        tcase.assertPidGone(pid)
+        tcase.assert_pid_gone(pid)
         return {}
     try:
         d = proc.as_dict(['ppid', 'name'])
     except psutil.NoSuchProcess:
-        tcase.assertProcessGone(proc)
+        tcase.assert_proc_gone(proc)
     else:
         name, ppid = d['name'], d['ppid']
         info = {'pid': proc.pid}
@@ -148,7 +147,7 @@ class TestFetchAllProcesses(PsutilTestCase):
                     if value not in (0, 0.0, [], None, '', {}):
                         assert value, value
         if failures:
-            raise self.fail(''.join(failures))
+            raise pytest.fail(''.join(failures))
 
     def cmdline(self, ret, info):
         assert isinstance(ret, list)
@@ -203,7 +202,7 @@ class TestFetchAllProcesses(PsutilTestCase):
             else:
                 raise
         # this can't be taken for granted on all platforms
-        # self.assertGreaterEqual(ret, psutil.boot_time())
+        # assert ret >= psutil.boot_time())
         # make sure returned value can be pretty printed
         # with strftime
         time.strftime("%Y %m %d %H:%M:%S", time.localtime(ret))
@@ -531,5 +530,4 @@ class TestPidsRange(PsutilTestCase):
                 # Process class and is querable like a PID (process
                 # ID). Skip it.
                 continue
-            with self.subTest(pid=pid):
-                check(pid)
+            check(pid)
