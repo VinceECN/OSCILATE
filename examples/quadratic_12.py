@@ -18,8 +18,8 @@ x1 = Function(r'x_1', real=True)(t)
 # Dynamical system
 Eq0 = x0.diff(t,2) + omega0**2*x0 + 2*mu0*x0.diff(t) + alpha0*x0*x1
 Eq1 = x1.diff(t,2) + omega1**2*x1 + 2*ma0*x1.diff(t) + alpha1*x0**2
-fcoeff = [eta0, eta1]
-dyn = MMS.Dynamical_system(t, [x0, x1], [Eq0, Eq1], [omega0, omega1], f_coeff=fcoeff, F=F)
+fF = [eta0, eta1]
+dyn = MMS.Dynamical_system(t, [x0, x1], [Eq0, Eq1], [omega0, omega1], fF=fF, F=F)
 
 # Initialisation of the MMS sytem
 eps            = symbols(r"\epsilon", real=True, positive=True) # Small parameter epsilon

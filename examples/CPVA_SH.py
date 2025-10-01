@@ -41,13 +41,13 @@ f2 = -Lm**-1 * \
          + b*dz2
        )
 
-f_coeff1 = -Lm**-1 * (Lm*dz1 - nt**2*(1+nt**2)*z1*z2)
-f_coeff2 = -Lm**-1 * (Lc + Lm*dz2 - Rational(1,2)*nt**2*(1+nt**2)*(z1**2 + z2**2))
+fF1 = -Lm**-1 * (Lm*dz1 - nt**2*(1+nt**2)*z1*z2)
+fF2 = -Lm**-1 * (Lc + Lm*dz2 - Rational(1,2)*nt**2*(1+nt**2)*(z1**2 + z2**2))
 
 Eq1 = ddz1 + nP**2*z1 - f1
 Eq2 = ddz2 + nP**2*z2 - f2
 
-kwargs_dyn = dict(F=T1, f_coeff=[f_coeff1, f_coeff2])
+kwargs_dyn = dict(F=T1, fF=[fF1, fF2])
 dyn = MMS.Dynamical_system(t, [z1, z2], [Eq1, Eq2], [nP, nP], **kwargs_dyn)
 
 # Initialisation of the MMS sytem
@@ -98,6 +98,4 @@ ss.solve_bbc(solve_dof=solve_dof, c=param_scaled[-2])
 
 # Stability analysis 
 kwargs_stab = dict(coord="cartesian", eigenvalues=True, bifurcation_curves=True, analyse_blocks=True, kwargs_bif=dict(var_a=True, var_sig=True, solver=solve))
-ss.eval_sol_stability(**kwargs_stab)
-
-# %%
+ss.stability_analysis(**kwargs_stab)

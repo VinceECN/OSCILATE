@@ -11,12 +11,11 @@ Analyse systems of coupled nonlinear equations using the Method of Multiple Scal
 from sympy import (exp, I, conjugate, re, im, Rational, 
                    symbols, Symbol, Function, solve, dsolve,
                    cos, sin, tan, srepr, sympify, simplify, 
-                   zeros, det, trace, eye, Mod, lambdify)
+                   zeros, det, trace, eye, Mod)
 from sympy.simplify.fu import TR5, TR8, TR10
 from . import sympy_functions as sfun
 import numpy as np
 import itertools
-import warnings
 import matplotlib.pyplot as plt
 
 #%% Classes and functions
@@ -31,16 +30,16 @@ class Dynamical_system:
     x : sympy.Function or list of sympy.Function
         Unknown(s) of the problem.
     Eq : sympy.Expr or list of sympy.Expr
-        System's equations without forcing, which can be defined separately (see parameters `F` and `f_coeff`).
+        System's equations without forcing, which can be defined separately (see parameters `F` and `fF`).
         Eq is the unforced system of equations describing the system's dynamics. 
     omegas : sympy.Symbol or list of sympy.Symbol
         The natural frequency of each oscillator.
     F : sympy.Symbol or 0, optional
         Forcing amplitude :math:`F`. 
         Default is 0.
-    f_coeff : sympy.Expr or list of sympy.Expr, optional
-        For each dof, specify the coefficient multiplying the forcing terms in the equation.
-        It can be used to define parametric forcing. Typically, if the forcing is :math:`x F \cos(\omega t)`, then ``f_coeff = x``.
+    fF : sympy.Expr or list of sympy.Expr, optional
+        For each oscillator, specify the coefficient multiplying the forcing terms in the equation.
+        It can be used to define parametric forcing. Typically, if the forcing is :math:`x F \cos(\omega t)`, then ``fF = x``.
         Default is a list of 1, so the forcing is direct. 
 
     Notes
@@ -54,22 +53,34 @@ class Dynamical_system:
         \ddot{x}_{N-1} + \omega_{N-1}^2 x_{N-1} & = f_{N-1}(\boldsymbol{x}, \dot{\boldsymbol{x}}, \ddot{\boldsymbol{x}}, t).
         \end{cases}
     
-    The :math:`x_i(t)` (:math:`i=0,...,N-1`) are the oscillators' coordinates, 
+    The :math:`x_i(t)` (:math:`i=0,...,N-1`) are the oscillators' coordinates (dof for degrees of freedom), 
     :math:`\omega_i` are their natural frequencies, 
-    :math:`\boldsymbol{x}` is the vector containing all the oscillators' coordinates, 
+
+    .. math::
+
+        \boldsymbol{x}(t)^\intercal = [x_0(t), x_1(t), \cdots, x_{N-1}(t)]
+         
+    is the vector containing all the oscillators' coordinates (:math:`^\intercal` denotes the transpose), 
     :math:`t` is the time, 
-    :math:`\dot{(\bullet)}` denotes a time-derivative :math:`d(\bullet)/dt`, 
-    :math:`f_i` is a function which can contain:
+    :math:`\dot{(\bullet)} = \textrm{d}(\bullet)/\textrm{d}t` denotes a time-derivative. 
+    :math:`f_i` are functions which can contain:
 
-    - Linear terms in :math:`x_i`, :math:`\dot{x}_i` or :math:`\ddot{x}_i`, typically those that will be considered small in the MMS,
+    - **Weak linear terms** in :math:`x_i`, :math:`\dot{x}_i`, or :math:`\ddot{x}_i`.
     
-    - Weak coupling terms in :math:`x_j`, :math:`\dot{x}_j` or :math:`\ddot{x}_j`, :math:`j\neq i`,
+    - **Weak linear coupling terms** involving :math:`x_j`, :math:`\dot{x}_j`, or :math:`\ddot{x}_j` with :math:`j \neq i`.
     
-    - Weak nonlinear terms. Only polynomial nonlinearities are supported. Taylor expansions are performed if nonlinearities are not polynomial,
+    - **Weak nonlinear terms**. Taylor expansions are performed to approximate nonlinear terms as polynomial nonlinearities.
     
-    - Forcing, which can be hard (at first order) or weak (small). Harmonic forcing :math:`F \cos(\omega t)` and parametric forcing (for instance :math:`x_i F \cos(\omega t)`) are supported. Here, :math:`F` and :math:`\omega` denote the forcing amplitude and frequency, respectively.
+    - **Forcing terms**, which can be:
+    
+        - *Hard* (appearing at leading order) or *weak* (small).
+        
+        - Primarily harmonic, e.g., :math:`F \cos(\omega t)`, where :math:`F` and :math:`\omega` are the forcing amplitude and frequency, respectively.
+        
+        - Modulated by any function (constant, linear, or nonlinear) to model parametric forcing (e.g., :math:`x_i(t) F \cos(\omega t)`).
 
-    Internal resonance relations among oscillators can be specified in a second step by expressing the :math:`\omega_i` as a function of a reference frequency. Detuning can also be introduced during this step.
+    Internal resonance relations among oscillators can be specified in a second step by expressing the :math:`\omega_i` as a function of a reference frequency. 
+    Detuning can also be introduced during this step.
     """
     
     def __init__(self, t, x, Eq, omegas, **kwargs):
@@ -96,14 +107,14 @@ class Dynamical_system:
             self.omegas = [omegas]
             
         # Forcing
-        F       = kwargs.get("F", sympify(0))
-        f_coeff = kwargs.get("f_coeff", [1]*self.ndof)
-        if not isinstance(f_coeff, list): 
-            f_coeff = [f_coeff]
-        for ix, coeff in enumerate(f_coeff):
+        F  = kwargs.get("F", sympify(0))
+        fF = kwargs.get("fF", [1]*self.ndof)
+        if not isinstance(fF, list): 
+            fF = [fF]
+        for ix, coeff in enumerate(fF):
             if isinstance(coeff, int):
-                f_coeff[ix] = sympify(coeff)
-        self.forcing = Forcing(F, f_coeff)
+                fF[ix] = sympify(coeff)
+        self.forcing = Forcing(F, fF)
         
 class Forcing:
     r"""
@@ -111,15 +122,15 @@ class Forcing:
 
     - A forcing amplitude `F`,
     
-    - Forcing coefficients `f_coeff`, used to introduce parametric forcing.
+    - Forcing coefficients `fF`, used to introduce parametric forcing or simply weight the harmonic forcing.
     
-    For the :math:`i^\textrm{th}` oscillator, denoting `f_coeff[i]` as :math:`\f_i^{\textrm{coeff}}(\boldsymbol{x}(t), \dot{\boldsymbol{x}}(t), \ddot{\boldsymbol{x}}(t))`, 
-    the forcing term on that oscillator is :math:`f_i^{\textrm{coeff}} F \cos(\omega t)`.
+    For the :math:`i^\textrm{th}` oscillator, denoting `fF[i]` as :math:`f_{F,i}(\boldsymbol{x}(t), \dot{\boldsymbol{x}}(t), \ddot{\boldsymbol{x}}(t))`, 
+    the forcing term on that oscillator is :math:`f_{F,i} F \cos(\omega t)`.
     """
     
-    def __init__(self, F, f_coeff):
+    def __init__(self, F, fF):
         self.F       = F
-        self.f_coeff = f_coeff
+        self.fF = fF
 
         
 def scale_parameters(param, scaling, eps):
@@ -209,7 +220,7 @@ class Multiple_scales_system:
 
     eps_pow_0 : int, optional
         Order of the leading order term in the asymptotic series of each oscillators' response.
-        For the :math:`i^{\textrm{th}}` dof and denoting `eps_pow_0` as :math:`\lambda_0`, this means that
+        For the :math:`i^{\textrm{th}}` oscillator and denoting `eps_pow_0` as :math:`\lambda_0`, this means that
 
         .. math::
             x_i = \epsilon^{\lambda_0} x_{i,0} + \epsilon^{\lambda_0+1} x_{i,1} + \cdots.
@@ -724,12 +735,12 @@ class Multiple_scales_system:
 
         Notes
         -----
-        The time scales are defined as (see :class:``~MMS.MMS.Multiple_scales_system``)
+        The time scales are defined as (see :class:`~MMS.MMS.Multiple_scales_system`)
         
         .. math::
-            t_0 = t, \quad t_1 = \epsilon t, \quad \cdots, \quad t_{N_e} = \epsilon^{N_e} t,
+            t_0 = t, \quad t_1 = \epsilon t, \quad \cdots, \quad t_{N_e} = \epsilon^{N_e} t.
         
-        and prepare substitutions from the physical time :math:`t` to these time scales :math:`t_i, \; i=0, ..., N_e`.
+        Substitutions from the physical time :math:`t` to the time scales :math:`t_i, \; i=0, ..., N_e` are also prepared.
         Note that :math:`t_0` is refered-to as the fast time as it captures the oscillations. 
         Other time scales are refered-to as slow time as they capture the modulations.
         """
@@ -750,7 +761,7 @@ class Multiple_scales_system:
 
         Notes
         -----
-        The series expansion for oscillator :math:`i` (and for a leading order term :math:`\epsilon^0 = 1`) takes the form (see :class:``~MMS.MMS.Multiple_scales_system``)
+        The series expansion for oscillator :math:`i` (and for a leading order term :math:`\epsilon^0 = 1`) takes the form (see :class:`~MMS.MMS.Multiple_scales_system`)
 
         .. math::
             x_i(t) = x_{i,0}(t) + \epsilon x_{i,1}(t) + \epsilon^2 x_{i,2}(t) + \cdots + \epsilon^{N_e} x_{i,N_e}(t) + \mathcal{O}(\epsilon^{N_e+1}).
@@ -811,23 +822,23 @@ class Multiple_scales_system:
 
         Notes
         -----
-        The forcing terms are 
+        The initial forcing terms are 
         
         .. math::
-            f_i^{\textrm{coeff}}(\boldsymbol{x}(t), \dot{\boldsymbol{x}}(t), \ddot{\boldsymbol{x}}(t)) F \cos(\omega t), \quad i=1,...,N.
+            f_{F,i}(\boldsymbol{x}(t), \dot{\boldsymbol{x}}(t), \ddot{\boldsymbol{x}}(t)) F \cos(\omega t), \quad i=1,...,N.
         
         Rewritting them involves
 
         1. Replacing the :math:`x_i(t)` by their series expansions written in terms of time scales,
         
-        2. Scaling the forcing and the parameters in :math:`f_i^{\textrm{coeff}}` if any,
+        2. Scaling the forcing and the parameters in :math:`f_{F,i}` if any,
         
         3. Truncating terms whose order is larger than the largest order retained in the MMS,
         
-        4. Rewrite the :math:`\cos(\omega t)` as 
+        4. Rewrite :math:`\cos(\omega t)` as 
         
-        .. math::
-            \cos(\omega t) = \frac{1}{2} e^{\mathrm{i}(\omega_{\textrm{MMS}} + \epsilon \sigma)t} + cc = \frac{1}{2} e^{\mathrm{i}(\omega_{\textrm{MMS}}t_0 + \sigma t_1)} + cc.
+           .. math::
+            \cos(\omega t) = \frac{1}{2} e^{\mathrm{j}(\omega_{\textrm{MMS}} + \epsilon \sigma)t} + cc = \frac{1}{2} e^{\mathrm{j}(\omega_{\textrm{MMS}}t_0 + \sigma t_1)} + cc.
         
         """
         
@@ -855,23 +866,23 @@ class Multiple_scales_system:
             F       = 0
             f_order = self.eps_pow_0+self.Ne
             
-        # Get the forcing term for each dof
+        # Get the forcing term for each oscillator
         forcing_term = []
-        f_coeff      = []
+        fF           = []
         sub_t, sub_x, sub_xMMS_t = list(map(self.sub.__dict__.get,["sub_t", "sub_x", "sub_xMMS_t"]))
 
         for ix in range(self.ndof):
-            f_coeff.append( (dynamical_system.forcing.f_coeff[ix].subs(self.sub.sub_scaling)
-                             .subs(sub_x).doit().subs(sub_xMMS_t).expand().subs(sub_t).doit())
-                            .series(self.eps, n=self.eps_pow_0+self.Ne+1).removeO())
+            fF.append( (dynamical_system.forcing.fF[ix].subs(self.sub.sub_scaling)
+                        .subs(sub_x).doit().subs(sub_xMMS_t).expand().subs(sub_t).doit())
+                        .series(self.eps, n=self.eps_pow_0+self.Ne+1).removeO())
             
-            forcing_term.append( (f_coeff[ix] * Rational(1,2)*F*self.eps**f_order)
+            forcing_term.append( (fF[ix] * Rational(1,2)*F*self.eps**f_order)
                                 .series(self.eps, n=self.eps_pow_0+self.Ne+1).removeO() * 
                                 (exp( I*((omega*self.t).expand().subs(sub_t).doit())) + 
                                  exp(-I*((omega*self.t).expand().subs(sub_t).doit())) ) 
                                 )
         
-        forcing = Forcing_MMS(F, f_order, f_coeff, forcing_term)
+        forcing = Forcing_MMS(F, f_order, fF, forcing_term)
     
         return forcing
     
@@ -913,7 +924,7 @@ class Multiple_scales_system:
         
     def compute_EqMMS(self, dynamical_system):
         r"""
-        Compute the system of equations for each dof at each order of :math:`\epsilon`. This system is described in :class:`~MMS.MMS.Multiple_scales_system`.
+        Compute the system of equations for each oscillator at each order of :math:`\epsilon`. This system is described in :class:`~MMS.MMS.Multiple_scales_system`.
 
         The output `EqMMS` is a list of lists:
 
@@ -1038,11 +1049,11 @@ class Multiple_scales_system:
 
         Notes
         -----
-        Rewrite the equations in terms of temporary coordinates :math:`\tilde{x}_{i,j}(t_0)`, with :math:`i,j` denoting the oscillator number and :math:`\epsilon` order, respectively, 
-        in place of :math:`x_{i,j}(\boldsymbol{t})`. 
-        This is equivalent to temporary considering that :math:`\boldsymbol{A}` does not depend on the slow times, which is of no consequence as there are no slow time derivatives appearing in the higher order equations at this stage. 
+        This is a trick to use :func:`~sympy.solvers.ode.dsolve`, which only accepts functions of 1 variable, to solve higher order equations. 
+        The higher order equations are rewritten in terms of temporary coordinates :math:`\tilde{x}_{i,j}(t_0)` in place of :math:`x_{i,j}(\boldsymbol{t})`, with :math:`i,j` denoting the oscillator number and :math:`\epsilon` order, respectively. 
+        This is equivalent to temporary considering that :math:`\boldsymbol{A}(\boldsymbol{t}_s)` does not depend on the slow times, which is of no consequence as there are no slow time derivatives appearing in the higher order equations at this stage. 
         Indeed, they were either substituted using the complex evolution equations, or they disappeared when eliminating the secular terms. 
-        This is a trick to use :func:`~sympy.solvers.ode.dsolve`, which only accepts functions of 1 variable. 
+        
         """
         
         xMMS_t0  = [] # t0-dependent variables xij(t0). Higher time scales dependency is ignored.
@@ -1072,7 +1083,7 @@ class Multiple_scales_system:
         If the oscillator is subject to hard forcing (i.e. forcing appears at leading order), then the particular solution
         
         .. math::
-            x_{i,0}^{\textrm{p}}(t_0, t_1) = B_i e^{\textrm{j} \omega t} + cc = B_i e^{\textrm{j} (\omega_{\textrm{MMS}} t_0 + \sigma t_1)} + cc,
+            x_{i,0}^{\textrm{p}}(t_0, t_1) = B_i e^{\textrm{j} \omega t} + cc = B_i e^{\textrm{j} (\omega_{\textrm{MMS}} t_0 + \sigma t_1)} + cc
         
         is also taken into account. :math:`B_i` is a time-independent function of the forcing parameters.
         """
@@ -1468,15 +1479,15 @@ class Forcing_MMS:
     
     - A scaling order `f_order` for the forcing
     
-    - Forcing coefficients `f_coeff`
+    - Forcing coefficients `fF`
     
     - Forcing terms (direct or parametric) `forcing_term`
     """
     
-    def __init__(self, F, f_order, f_coeff, forcing_term):
-        self.F            = F
-        self.f_order      = f_order
-        self.f_coeff      = f_coeff
+    def __init__(self, F, f_order, fF, forcing_term):
+        self.F       = F
+        self.f_order = f_order
+        self.fF      = fF
         self.forcing_term = forcing_term
         
 class Coord_MMS:
@@ -1510,7 +1521,7 @@ class Steady_state:
 
     Parameters
     ----------
-    mms: Multiple_scales_sytem
+    mms : Multiple_scales_system
         The multiple scales system.
 
     Notes
@@ -1577,7 +1588,7 @@ class Steady_state:
 
     (iii) end up with a polynomial of order 2 in :math:`\sigma` and :math:`F` 
     
-    These difficulties become more pronounced when the system involves several dof, in which case the amplitudes and phases may only be **computed numerically**.
+    These difficulties become more pronounced when the system involves several oscillator, in which case the amplitudes and phases may only be **computed numerically**.
 
     To facilitate the derivation of an analytical solution, it is possible to consider the **backbone curve** (bbc) of the forced solution rather than the forced solution itself. 
     This bbc is computed in the absence of damping and forcing, therefore simplifying the system. Typically, this reduces the number of phase terms appearing. 
@@ -1586,12 +1597,7 @@ class Steady_state:
     ------------------
     Stability analysis
     ------------------
-
-    
-
-    
-
-    XXX parler du système qui devient algébrique, de l'obtention d'une réponse libre, d'une réponse forcée, puis du calcul de stabilité.
+    The stability analysis is described in details in :func:`stability_analysis`.
     """
     
     def __init__(self, mms):
@@ -1625,7 +1631,7 @@ class Steady_state:
         
         # Coordinates
         self.coord = Coord_SS()
-        self.SS_coord(mms)
+        self.polar_coordinates_SS(mms)
         
         # Solutions
         self.sol = Sol_SS(self, mms)
@@ -1634,12 +1640,12 @@ class Steady_state:
         self.stab = Stab_SS()
         
         # Evolution equations at steady state
-        self.SS_evolution_equations(mms)
+        self.evolution_equations_SS(mms)
         
     
-    def SS_coord(self, mms):
+    def polar_coordinates_SS(self, mms):
         """
-        Introduce time-independent amplitudes and phases.
+        Introduce time-independent amplitudes and phases (polar coordinates).
         """
         
         a, beta, sub_SS = [], [], []
@@ -1652,9 +1658,9 @@ class Steady_state:
         self.coord.beta = beta
         self.sub.sub_SS = sub_SS
         
-    def SS_evolution_equations(self, mms):
+    def evolution_equations_SS(self, mms):
         """
-        Evaluate the evolution equations at steady state.
+        Evaluate the evolution equations at steady state (polar system).
         """
         
         fa, fbeta, faO, fbetaO = [], [], [], []
@@ -1681,8 +1687,8 @@ class Steady_state:
         Parameters
         ----------
         solve_dof: None or int, optional
-            The dof number to solve for. Start from 0. 
-            If `None`, no dof is solved for.
+            The oscillator to solve for. 
+            If `None`, no oscillator is solved for.
             Default is `None`.
         
         Notes
@@ -1693,7 +1699,7 @@ class Steady_state:
         
         #. :func:`substitution_solve_dof`: Set the other oscillators' amplitude to 0, i.e. :math:`a_j = 0 \; \forall j \neq i`.
 
-        #. :func:`solve_phase`: express the oscillator's phase :math:`\beta_i `as a function of its amplitude :math:`a_i`. 
+        #. :func:`solve_phase`: express the oscillator's phase :math:`\beta_i` as a function of its amplitude :math:`a_i`. 
 
         #. :func:`solve_sigma`: find the expression of :math:`\sigma(a_i)`.
 
@@ -1708,9 +1714,9 @@ class Steady_state:
             return
         
         # Information
-        print('Computing the forced response for dof {}'.format(solve_dof))
+        print('Computing the forced response for oscillator {}'.format(solve_dof))
         
-        # Store the dof that is solved for
+        # Store the oscillator that is solved for
         self.sol.solve_dof = solve_dof
         
         # Set the other oscillator's amplitudes to zero
@@ -1730,7 +1736,7 @@ class Steady_state:
         
     def substitution_solve_dof(self, solve_dof):
         r"""
-        Set every dof amplitude to 0 except the one to solve for.
+        Set every oscillator amplitude to 0 except the one to solve for.
 
         Notes
         -----
@@ -1804,7 +1810,7 @@ class Steady_state:
                 sin_phase = sympify(0)
         
         else:
-            print("   dof {} is not forced".format(self.sol.solve_dof))
+            print("   oscillator {} is not forced".format(self.sol.solve_dof))
             return
     
         # Store the solutions
@@ -1833,7 +1839,7 @@ class Steady_state:
     def solve_a(self):
         r"""
         Solve the forced response in terms of the oscillator's amplitude.
-        For readability, the output actually returned is :math:`a^2(\sigma, F)`. 
+        For readability, the output actually returned is :math:`a_i^2(\sigma, F)`. 
         """
         
         sin_phase = self.sol.sin_phase[1]
@@ -1893,7 +1899,8 @@ class Steady_state:
             Note that these are the scaled damping terms.
             Default is `[]`.
         solve_dof: None or int, oprtional
-            The dof number to solve for. Start from 0. If `None`, no dof is solved for.
+            The oscillator number to solve for. 
+            If `None`, no oscillator is solved for.
             Default is `None`.
 
         Notes
@@ -1907,16 +1914,16 @@ class Steady_state:
         .. math::
             \omega_{\textrm{bbc}}^{(i)} = k\omega_{i} + f_{\textrm{bbc}}^{(i)} (a_i),
 
-        where :math:`k=1,\; k<1,\; k>1` are associated to direct, superharmonic and subharmonic resonances, respectively. 
+        where :math:`k=1,\; k<1,\; k>1` are associated to direct, superharmonic and subharmonic responses, respectively. 
         """
         
         if solve_dof==None:
             return
         
         # Information
-        print('Computing the backbone curve for dof {}'.format(solve_dof))
+        print('Computing the backbone curve for oscillator {}'.format(solve_dof))
         
-        # Set every dof amplitude to 0 except the one to solve for
+        # Set every oscillator amplitude to 0 except the one to solve for
         self.substitution_solve_dof(solve_dof)
         
         # Substitutions for the free response
@@ -1936,37 +1943,12 @@ class Steady_state:
 
     def Jacobian_polar(self):
         r"""
-        Compute the Jacobian of the evolution equations systems expressed in polar coordinates (defined in :func:`evolution_equations`).
+        Compute the Jacobian of the evolution equations systems expressed in polar coordinates (see :func:`stability_analysis`).
         
         Returns
         -------
-        J : Matrix
-            Jacobian of the polar system, defined as
-            
-            .. math::
-                \textrm{J} = 
-                \begin{bmatrix}
-                \textrm{J}_0 \\
-                \vdots \\
-                \textrm{J}_{N-1} 
-                \end{bmatrix}
-            
-            where :math:`\textrm{J}_i` is the :math:`2 \times 2N` block matrix associated to the evolution of dof :math:`i`, given by
-            
-            .. math::
-                \textrm{J}_i = 
-                \begin{bmatrix}
-                \frac{\partial f_{a_i}}      {a_0} & \frac{\partial f_{a_i}}      {\beta_0} & \cdots & \frac{\partial f_{a_i}}      {a_{N-1}} & \frac{\partial f_{a_i}}      {\beta_{N-1}} \\
-                \frac{\partial f_{\beta_i}^*}{a_0} & \frac{\partial f_{\beta_i}^*}{\beta_0} & \cdots & \frac{\partial f_{\beta_i}^*}{a_{N-1}} & \frac{\partial f_{\beta_i}^*}{\beta_{N-1}}
-                \end{bmatrix}.
-            
-            Functions :math:`f_{\beta_i}^*` are defined as
-            
-            .. math::
-                f_{\beta_i}^*(\boldsymbol{a}, \boldsymbol{\beta}) = \frac{f_{\beta_i}(\boldsymbol{a}, \boldsymbol{\beta})}{a_i}.
-
-            Note that they can only be introduced if :math:`a_i \neq 0`, which is not verified if oscillator :math:`i` does not respond.
-            
+        J : sympy.Matrix
+            Jacobian of the polar system.
         """
         
         J = zeros(2*self.ndof,2*self.ndof)
@@ -2051,8 +2033,8 @@ class Steady_state:
         
         .. math::
             \begin{cases}
-            \frac{\textrm{d} p_i}{\textrm{d} t} & = f_{p_i}(\boldsymbol{p}, \boldsymbol{q}), \\
-            \frac{\textrm{d} q_i}{\textrm{d} t} & = f_{q_i}(\boldsymbol{p}, \boldsymbol{q}),
+            \dfrac{\textrm{d} p_i}{\textrm{d} t} & = f_{p_i}(\boldsymbol{p}, \boldsymbol{q}), \\
+            \dfrac{\textrm{d} q_i}{\textrm{d} t} & = f_{q_i}(\boldsymbol{p}, \boldsymbol{q}),
             \end{cases}
         
         where :math:`\boldsymbol{p}(t)` and :math:`\boldsymbol{q}(t)` are vectors containing the cartesian coordinates.
@@ -2185,31 +2167,12 @@ class Steady_state:
     
     def Jacobian_cartesian(self):
         r"""
-        Compute the Jacobian of the evolution equations expressed in cartesian coordinates (defined in :func:`evolution_equations_cartesian`).
+        Compute the Jacobian of the evolution equations systems expressed in cartesian coordinates (see :func:`stability_analysis`).
         
         Returns
         -------
-        J : Matrix
-            Jacobian of the cartesian system, defined as
-            
-            .. math::
-                \textrm{J} = 
-                \begin{bmatrix}
-                \textrm{J}_0 \\
-                \vdots \\
-                \textrm{J}_{N-1} 
-                \end{bmatrix}
-            
-            where :math:`\textrm{J}_i` is the :math:`2 \times 2N` block matrix associated to the evolution of dof :math:`i`, given by
-            
-            .. math::
-                \textrm{J}_i = 
-                \begin{bmatrix}
-                \frac{\partial f_{p_i}}{p_0} & \frac{\partial f_{p_i}}{q_0} & \cdots & \frac{\partial f_{p_i}}{p_{N-1}} & \frac{\partial f_{p_i}}{q_{N-1}} \\
-                \frac{\partial f_{q_i}}{p_0} & \frac{\partial f_{q_i}}{q_0} & \cdots & \frac{\partial f_{q_i}}{p_{N-1}} & \frac{\partial f_{q_i}}{q_{N-1}} 
-                \end{bmatrix}.
-        
-        XXX : réécrire
+        J : sympy.Matrix
+            Jacobian of the cartesian system.
         """
         
         J = zeros(2*self.ndof,2*self.ndof)
@@ -2223,7 +2186,7 @@ class Steady_state:
         
         return J
 
-    def eval_sol_stability(self, coord="cartesian", rewrite_polar=False, eigenvalues=False, bifurcation_curves=False, analyse_blocks=False, kwargs_bif=dict()):
+    def stability_analysis(self, coord="cartesian", rewrite_polar=False, eigenvalues=False, bifurcation_curves=False, analyse_blocks=False, kwargs_bif=dict()):
         r"""
         Evaluate the stability of a steady state solution. 
 
@@ -2232,7 +2195,7 @@ class Steady_state:
         coord: str, optional
             Either ``"cartesian"`` or ``"polar"``. 
             Specifies the coordinates to use for the stability analysis.
-            ``"cartesian"`` is recommended as it prevents divisions by 0, which occur when at least one of the dof has a null ampliutude.
+            ``"cartesian"`` is recommended as it prevents divisions by 0, which occur when at least one of the oscillator has a 0 ampliutude.
             Default is ``"cartesian"``.
         rewrite_polar: bool, optional
             Rewrite the Jacobian's determinant and trace in polar coordinates (if computed using cartesian ones).
@@ -2470,7 +2433,7 @@ class Steady_state:
         Note that there are no constraints related to an oscillator's amplitude being 0 here. 
         This cartesian coordinates approach therefore allows to investigate how the stability of a steady state solution is affected by a perturbation from an oscillator who's amplitude is 0 in that steady state solution.
 
-        The stability analysis with :math:`\textrm{J}^{(\textrm{c})}` is carried as described previously with :math:`\textrm{J}^{(\textrm{p})}`.
+        The stability analysis with :math:`\textrm{J}^{(\textrm{c})}` is carried out as described previously with :math:`\textrm{J}^{(\textrm{p})}`.
         """
         
         # Check if a solution has been computed
@@ -2479,7 +2442,7 @@ class Steady_state:
             return
         
         # Information
-        print("Evaluating the stability of the solution of dof {}".format(self.sol.solve_dof))
+        print("Evaluating the stability of the solution of oscillator {}".format(self.sol.solve_dof))
         
         # Introduce the cartesian coordinates and evolution equations
         if coord == "cartesian":
@@ -2499,7 +2462,7 @@ class Steady_state:
         else:
             J = self.Jacobian_polar()
         
-        # Set every dof amplitude to 0 except the one solved for
+        # Set every oscillator amplitude to 0 except the one solved for
         if coord=="cartesian":
             for ix in range(self.ndof):
                 if ix != self.sol.solve_dof:
@@ -2595,7 +2558,7 @@ class Steady_state:
 
         Parameters
         ----------
-        J: Matrix
+        J: sympy.Matrix
             The matrix whose eigenvalues are to be computed.
 
         Returns
@@ -2635,14 +2598,14 @@ class Steady_state:
             The solver to use to compute the bifurcation curves.
             Available are solver called as `solve(expr, x)`, which solve `expr=0` for `x`.
             :func:`~sympy.solvers.solvers.solve` can be used but is sometimes slow.
-            Default is :func:`sfun.solve_poly2`.
+            Default is :func:`~MMS.sympy_functions.solve_poly2`.
 
         Returns
         -------
         bif_a : list
-            The bifurcation curves expressed in terms of :math:`a^2`.
+            The bifurcation curves for :math:`a_i^2`.
         bif_sig : list
-            The bifurcation curves expressed in terms of :math:`\sigma`. 
+            The bifurcation curves for :math:`\sigma`. 
 
         Notes
         -----
@@ -2825,7 +2788,7 @@ class Forcing_SS:
         
 class Coord_SS:
     """
-    The steady state coordinates.
+    The coordinates used in the steady state analysis.
     """      
     
     def __init__(self):
@@ -2844,7 +2807,7 @@ class Sol_SS:
         
 class Stab_SS:
     """
-    Stability analysis.
+    Stability analysis parameters and outputs.
     """                
     
     def __init__(self):
@@ -2853,27 +2816,26 @@ class Stab_SS:
 #%% Chain rule functions written for the MMS
 def Chain_rule_dfdt(f, tS, eps):
     r"""
-    Apply the chain rule to first order derivatives.
+    Apply the chain rule to express first order time derivatives in terms of the time scales' derivatives.
     
     Parameters
     ----------
     f: sympy.Function  
-        Function :math:`f(t_0,t_1,...)`, i.e. :math:`f_t(t)` expressed in terms of the time scales.
+        Time scales-dependent function :math:`f(\boldsymbol{t})`.
     tS: list 
-        Time scales.
+        Time scales :math:`\boldsymbol{t}^\intercal = [t_0, \cdots, t_{N_e}]`.
     eps: sympy.Symbol
         Small parameter :math:`\epsilon`.
     
     Returns
     -------
     dfdt: sympy.Function
-        :math:`\mathrm{d}f_t/ \mathrm{d}t` expressed in terms of the time scales.
+        :math:`\mathrm{d} f/ \mathrm{d}t` expressed in terms of the time scales.
     
     Notes
     -----
-    Consider a function :math:`f_t(t)` and its expression in terms of the time scales :math:`f(t_0, t_1, ...)`, 
-    where :math:`t_0` is the fast time and :math:`t_1, ...` are the slow times. 
-    The Chain Rule is applied to give the expression of :math:`\mathrm{d}f_t/ \mathrm{d}t` in terms of the time scales.
+    Consider a time scales-dependent function :math:`f(t_0, t_1, ...)`, where :math:`t_0` is the fast time and :math:`t_1, ...` are the slow times. 
+    The Chain Rule is applied to give the expression of :math:`\mathrm{d} f/ \mathrm{d}t` in terms of the time scales.
     """
     
     Nt = len(tS)
@@ -2885,28 +2847,26 @@ def Chain_rule_dfdt(f, tS, eps):
 
 def Chain_rule_d2fdt2(f, tS, eps):
     r"""
-    Apply the chain rule to second order derivatives.
+    Apply the chain rule to express second order time derivatives in terms of the time scales' derivatives.
 
     Parameters
     ----------
     f: sympy.Function  
-        Function :math:`f(t_0,t_1,...)`, i.e. :math:`f_t(t)` expressed in terms of the time scales.
+        Time scales-dependent function :math:`f(\boldsymbol{t})`.
     tS: list 
-        Time scales.
+        Time scales :math:`\boldsymbol{t}^\intercal = [t_0, \cdots, t_{N_e}]`.
     eps: sympy.Symbol
         Small parameter :math:`\epsilon`.
     
     Returns
     -------
     d2fdt2: sympy.Function
-        :math:`\mathrm{d}^2f_t/ \mathrm{d}t^2` expressed in terms of the time scales.
+        :math:`\mathrm{d}^2 f/ \mathrm{d}t^2` expressed in terms of the time scales.
     
     Notes
     -----
-    Consider a function :math:`f_t(t)` and its expression in terms of the time scales :math:`f(t_0, t_1, ...)`, 
-    where :math:`t_0` is the fast time and :math:`t_1, ...` are the slow times. 
-    The Chain Rule is applied to give the expression of :math:`\mathrm{d}^2f_t/ \mathrm{d}t^2` in terms of the time scales.
-    
+    Consider a time scales-dependent function :math:`f(t_0, t_1, ...)`, where :math:`t_0` is the fast time and :math:`t_1, ...` are the slow times. 
+    The Chain Rule is applied to give the expression of :math:`\mathrm{d}^2 f/ \mathrm{d}t^2` in terms of the time scales.
     """
     
     Nt = len(tS)
@@ -2919,11 +2879,11 @@ def Chain_rule_d2fdt2(f, tS, eps):
 
 def cartesian_to_polar(y, sub_polar, sub_phase=None):
     r"""
-    Rewrites an expression or a Matrix `y` from cartesian to polar coordinates.
+    Rewrites an expression or a matrix `y` from cartesian to polar coordinates.
 
     Parameters
     ----------
-    y : sympy.Expr or Matrix
+    y : sympy.Expr or sympy.Matrix
         A sympy expression or matrix written in cartesian coordinates.
     sub_polar: list
         A list of substitutions to perform to go from cartesian to polar coordinates. 
@@ -2933,7 +2893,7 @@ def cartesian_to_polar(y, sub_polar, sub_phase=None):
 
     Returns
     -------
-    yp: sympy.Expr or Matrix
+    yp: sympy.Expr or sympy.Matrix
         The initial expression or matrix written in polar coordinates.
     """
 
@@ -2949,33 +2909,7 @@ def cartesian_to_polar(y, sub_polar, sub_phase=None):
     return yp
 
 #%% Numpy transforms and plot functions
-def sympy_to_numpy(expr_sy, param):
-    """
-    Transform a sympy expression into a numpy array.
 
-    Parameters
-    ----------
-    expr_sy : sympy.Expr
-        A sympy expression.
-    param : dict
-        A dictionnary whose values are tuples with 2 elements:
-
-        1. The sympy symbol of a parameter
-        
-        2. The numerical value(s) taken by that parameter
-
-    Returns
-    -------
-    expr_np : numpy.ndarray
-        The numerical values taken by the sympy expression evaluated.
-    """
-    
-    args, values = zip(*param.values())
-    with warnings.catch_warnings(): 
-        warnings.filterwarnings("ignore", message="invalid value encountered in sqrt")
-        expr_np = lambdify(args, expr_sy, modules="numpy")(*values)
-
-    return expr_np
 
 def rescale(expr, mms):
     r"""
@@ -3107,14 +3041,14 @@ def numpise_omega_bbc(mms, ss, param):
     mms: Multiple_scales_system
     ss: Steady_state
     param: dict
-        See :func:`sympy_to_numpy`.
+        See :func:`~MMS.sympy_functions.sympy_to_numpy`.
 
     Returns
     -------
     omega_bbc: numpy.ndarray
         Numpised backbone curve's frequency.
     """
-    omega_bbc  = sympy_to_numpy(rescale(ss.sol.omega_bbc, mms), param)
+    omega_bbc  = sfun.sympy_to_numpy(rescale(ss.sol.omega_bbc, mms), param)
     return omega_bbc
 
 def numpise_omega_FRC(mms, ss, param):
@@ -3126,14 +3060,14 @@ def numpise_omega_FRC(mms, ss, param):
     mms: Multiple_scales_system
     ss: Steady_state
     param: dict
-        See :func:`sympy_to_numpy`.
+        See :func:`~MMS.sympy_functions.sympy_to_numpy`.
 
     Returns
     -------
     omega: numpy.ndarray
         Numpised forced response's frequency.
     """
-    omega = [np.real(sympy_to_numpy(mms.omegaMMS + rescale(mms.eps*sigmai, mms), param)) for sigmai in ss.sol.sigma]
+    omega = [np.real(sfun.sympy_to_numpy(mms.omegaMMS + rescale(mms.eps*sigmai, mms), param)) for sigmai in ss.sol.sigma]
     return omega
 
 def numpise_omega_bif(mms, ss, param):
@@ -3145,14 +3079,14 @@ def numpise_omega_bif(mms, ss, param):
     mms: Multiple_scales_system
     ss: Steady_state
     param: dict
-        See :func:`sympy_to_numpy`.
+        See :func:`~MMS.sympy_functions.sympy_to_numpy`.
 
     Returns
     -------
     omega_bif: list of numpy.ndarray
         Numpised bifurcation curves' frequency.
     """
-    omega_bif = [np.real(sympy_to_numpy(mms.omegaMMS + rescale(mms.eps*sigmai, mms), param)) for sigmai in ss.stab.bif_sigma]
+    omega_bif = [np.real(sfun.sympy_to_numpy(mms.omegaMMS + rescale(mms.eps*sigmai, mms), param)) for sigmai in ss.stab.bif_sigma]
     return omega_bif
 
 def numpise_phase(mms, ss, dyn, param, omega, F):
@@ -3165,7 +3099,7 @@ def numpise_phase(mms, ss, dyn, param, omega, F):
     ss: Steady_state
     dyn: Dynamical_system
     param: dict
-        See :func:`sympy_to_numpy`.
+        See :func:`~MMS.sympy_functions.sympy_to_numpy`.
     omega: numpy.ndarray or list of numpy.ndarray
         The frequency array.
     F: numpy.ndarray
@@ -3184,8 +3118,8 @@ def numpise_phase(mms, ss, dyn, param, omega, F):
     
     for omegai in omega:
         param_phase = param | dict(omega=(mms.omega, omegai), F=(dyn.forcing.F, F))
-        sin_phase = sympy_to_numpy( rescale(ss.sol.sin_phase[1], mms), param_phase )
-        cos_phase = sympy_to_numpy( rescale(ss.sol.cos_phase[1], mms), param_phase )
+        sin_phase = sfun.sympy_to_numpy( rescale(ss.sol.sin_phase[1], mms), param_phase )
+        cos_phase = sfun.sympy_to_numpy( rescale(ss.sol.cos_phase[1], mms), param_phase )
         phase.append(np.arctan2(sin_phase, cos_phase))
 
     return phase
@@ -3199,12 +3133,12 @@ def numpise_F_ARC(mms, ss, param):
     mms: Multiple_scales_system
     ss: Steady_state
     param: dict
-        See :func:`sympy_to_numpy`.
+        See :func:`~MMS.sympy_functions.sympy_to_numpy`.
 
     Returns
     -------
     F: numpy.ndarray
         Numpised forced response's forcing amplitude.
     """
-    F = sympy_to_numpy(rescale(mms.eps**mms.forcing.f_order * ss.sol.F, mms), param)
+    F = sfun.sympy_to_numpy(rescale(mms.eps**mms.forcing.f_order * ss.sol.F, mms), param)
     return F

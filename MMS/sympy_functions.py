@@ -9,25 +9,30 @@ Sympy functions useful to the use of MMS functions.
 
 #%% Imports
 import copy
-from sympy import sqrt, solve
+from sympy import sqrt, solve, lambdify
+import warnings
 
 #%% Functions
 def sub_deep(expr, sub):
-    """
-    Performs deep substitutions of an expression. This is needed when a substitution involves terms that can still be substituted.
-    For instance, one wants to substitute a1 and a2 by expressions, but a1 is actually a function of a2, so at least 2 substitutions are required.
-
+    r"""
+    Performs deep substitutions of an expression. 
+    
     Parameters
     ----------
-    expr : expr
+    expr : sympy.Expr
         Expression on which substitutions are to be performed.
     sub : list of tuples
         The substitutions to perform.
 
     Returns
     -------
-    expr_sub : expr
+    expr_sub : sympy.Expr
         The expression with substitutions performed.
+
+    Notes
+    -----
+    Deep substitutions are needed when a substitution involves terms that can still be substituted.
+    For instance, one wants to substitute :math:`a_1` and :math:`a_2` by expressions, but :math:`a_1` is actually a function of :math:`a_2`, so at least 2 substitutions are required.
 
     """
     expr_sub  = copy.copy(expr) 
@@ -40,28 +45,33 @@ def sub_deep(expr, sub):
 
 def solve_poly2(poly, x):
     r"""
-    Finds the roots of a polynomial of degree 2 of the form
+    Finds the roots of a polynomial of degree 2. 
 
-    .. math::
-        p(x) = a x^2 + bx + c
-    
-    Note that :math:`b` can be null but not :math:`a` or :math:`c`.
-    
-    It is a workaround to using :func:`solve` or :func:`solveset`. 
-    These two work but can be very long when coefficients :math:`a,\; b,\; c` are expressions involving many parameters.
-    Note that :func:`solve` is significantly slower than :func:`solveset`.
-    
     Parameters
     ----------
-    poly: Expr
+    poly: sympy.Expr
         polynomial whose roots are to be computed
-    x: Symbol
+    x: sympy.Symbol
         Variable of the polynomial
         
     Returns
     -------
-    x_sol: list of Expr
+    x_sol: list of sympy.Expr
         list containing the two roots of the polynomial
+
+    Notes
+    -----
+    The polynomial of degree 2 takes the form
+
+    .. math::
+        p(x) = a x^2 + bx + c.
+    
+    Note that :math:`b` can be null but not :math:`a` nor :math:`c`.
+    
+    It is a workaround to using :func:`~sympy.solvers.solvers.solve` or :func:`~sympy.solvers.solveset.solveset`. 
+    These two work but can be very long when coefficients :math:`a,\; b,\; c` are expressions involving many parameters.
+    Note that :func:`~sympy.solvers.solvers.solve` is significantly slower than :func:`~sympy.solvers.solveset.solveset`.
+    
     """
 
     # Check the solvability
@@ -70,7 +80,7 @@ def solve_poly2(poly, x):
         return False
 
     # Polynomial terms
-    dic_x = poly_positive_pow(poly, x)
+    dic_x = polynomial_terms(poly, x)
     keys  = set(dic_x.keys())
 
     # Solve
@@ -100,9 +110,25 @@ def solve_poly2(poly, x):
         
     return x_sol
 
-def poly_positive_pow(poly, x):
+def polynomial_terms(poly, x):
     r"""
-    Identify the terms of a polynomial. If the expression given for poly is of the form
+    Identify the terms of a polynomial. 
+    
+    Parameters
+    ----------
+    poly : sympy.Expr
+        The polynomial considered.
+    x : sympy.Symbol
+        The variable to solve for.
+
+    Returns
+    -------
+    dic_x: dict
+        The polynomial terms.
+
+    Notes
+    -----
+    If the expression given for poly is of the form
     
     .. math::
         p(x) = q(x) x^{-n},
@@ -113,20 +139,9 @@ def poly_positive_pow(poly, x):
     .. math::
         P(x) = \dfrac{p(x)}{x^{-n}} 
     
-    is constructed. 
-
-    Parameters
-    ----------
-    poly : Expr
-        The polynomial considered.
-    x : Symbol
-        The variable to solve for.
-
-    Returns
-    -------
-    dic_x: dict
-        The polynomial terms.
+    is constructed. It is the terms of that positive powers polynomial that are returned.
     """
+
     # Polynomial terms
     dic_x = poly.expand().collect(x, evaluate=False)
     keys = set(dic_x.keys())
@@ -148,9 +163,9 @@ def check_solvability(poly, x):
 
     Parameters
     ----------
-    poly : Expr
+    poly : sympy.Expr
         The polynomial considered.
-    x : Symbol
+    x : sympy.Symbol
         The variable to solve for.
 
     Returns
@@ -158,7 +173,7 @@ def check_solvability(poly, x):
     bool : bool,
         True is solvable, False otherwise.
     """
-    dic_x = poly_positive_pow(poly, x)
+    dic_x = polynomial_terms(poly, x)
     poly_terms = set(dic_x.keys())
     min_power  = min(poly_terms, key=lambda expr: get_exponent(expr, x))
     poly_terms = set([poly_term/min_power for poly_term in poly_terms])
@@ -171,6 +186,13 @@ def check_solvability(poly, x):
 def get_exponent(expr, x):
     r"""
     Get the exponent of :math:`x` in an expression of the type :math:`\lambda x^n` where :math:`\lambda` is a constant while :math:`n` is an integer or rational.
+
+    Parameters
+    ----------
+    expr: sympy.Expr
+        The expression in which one wants to identify the exponent of x.
+    x: sympy.Symbol
+        The variable whose exponent is to be known.
     """
     # This assumes expr is a power of x
     if expr.is_Number:
@@ -189,7 +211,7 @@ def get_block_diagonal_indices(matrix, block_sizes):
 
     Parameters
     ----------
-    matrix: Matrix
+    matrix: sympy.Matrix
         The matrix to check for block diagonality.
     block_sizes: int or list of int
         Size(s) of the diagonal blocks.
@@ -222,14 +244,14 @@ def is_block_diagonal(matrix, block_sizes):
 
     Parameters
     ----------
-    matrix: Matrix
+    matrix: sympy.Matrix
         The matrix to check for block diagonality.
     block_sizes: int or list of int
         Size(s) of the diagonal blocks.
 
     Returns
     -------
-        bool: True if the matrix is block-diagonal, False otherwise.
+        bool: `True` if the matrix is block-diagonal, `False` otherwise.
     """
     n = matrix.rows
     if isinstance(block_sizes, int):
@@ -249,3 +271,31 @@ def is_block_diagonal(matrix, block_sizes):
                     return False
 
     return True
+
+def sympy_to_numpy(expr_sy, param):
+    """
+    Transform a sympy expression into a numpy array.
+
+    Parameters
+    ----------
+    expr_sy : sympy.Expr
+        A sympy expression.
+    param : dict
+        A dictionnary whose values are tuples with 2 elements:
+
+        1. The sympy symbol of a parameter
+        
+        2. The numerical value(s) taken by that parameter
+
+    Returns
+    -------
+    expr_np : numpy.ndarray
+        The numerical values taken by the sympy expression evaluated.
+    """
+    
+    args, values = zip(*param.values())
+    with warnings.catch_warnings(): 
+        warnings.filterwarnings("ignore", message="invalid value encountered in sqrt")
+        expr_np = lambdify(args, expr_sy, modules="numpy")(*values)
+
+    return expr_np
