@@ -16,7 +16,7 @@ x1 = Function(r'x_1', real=True)(t)
 # Dynamical system
 Eq0 = x0.diff(t,2) + omega0**2*x0 + gamma0*x0**3 + gamma01*x0*x1**2 + c0*x0.diff(t)
 Eq1 = x1.diff(t,2) + omega0**2*x1 + gamma1*x1**3 + gamma01*x0**2*x1 + c1*x1.diff(t)
-dyn = MMS.Dynamical_system(t, [x0, x1], [Eq0, Eq1], [omega0, omega0], f_coeff=[0, 1], F=F)
+dyn = MMS.Dynamical_system(t, [x0, x1], [Eq0, Eq1], [omega0, omega0], fF=[0, 1], F=F)
 
 # Initialisation of the MMS sytem
 eps            = symbols(r"\epsilon", real=True, positive=True) # Small parameter epsilon
@@ -42,7 +42,7 @@ ss.solve_bbc(solve_dof=solve_dof, c=param_scaled[-2:])
 ss.solve_forced(solve_dof=solve_dof)
 
 # Stability analysis of the 1dof solution
-ss.eval_sol_stability(coord="cartesian", eigenvalues=False, rewrite_polar=True)
+ss.stability_analysis(coord="cartesian", eigenvalues=False, rewrite_polar=True)
 
 # Computation of the coupled free solution
 print("Manual computation of the coupled free solution")

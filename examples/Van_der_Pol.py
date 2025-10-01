@@ -34,5 +34,3 @@ mms.apply_MMS()
 # Evaluation at steady state
 ss = MMS.Steady_state(mms)
 
-
-# %%

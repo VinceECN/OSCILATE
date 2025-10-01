@@ -40,7 +40,7 @@ ss.solve_forced(solve_dof=solve_dof)
 ss.solve_bbc(solve_dof=solve_dof, c=param_scaled[-1])
 
 # Stability analysis
-ss.eval_sol_stability(coord="polar", eigenvalues=True, bifurcation_curves=True)
+ss.stability_analysis(coord="polar", eigenvalues=True, bifurcation_curves=True)
 
 # Plot the steady state results
 # -----------------------------
@@ -74,4 +74,3 @@ kwargs  = dict(phase_name=vlatex(ss.sol.cos_phase[0].args[0]), # Plot parameters
 ss.plot_ARC(ARC, **kwargs)
 
 
-# %%

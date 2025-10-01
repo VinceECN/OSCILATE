@@ -38,5 +38,3 @@ ss = MMS.Steady_state(mms)
 solve_dof = 0 # dof to solve for
 ss.solve_bbc(solve_dof=solve_dof, c=param_scaled[-1])
 ss.solve_forced(solve_dof=solve_dof)
-
-# %%

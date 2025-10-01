@@ -14,8 +14,8 @@ x            = Function(r'x', real=True)(t)
 
 # Dynamical system
 Eq = x.diff(t,2) + omega0**2*x + gamma*x.diff(t)**3 + c*x.diff(t) 
-f_coeff = -2*x # Parametric forcing
-dyn = MMS.Dynamical_system(t, x, Eq, omega0, f_coeff=f_coeff, F=F)
+fF = -2*x # Parametric forcing
+dyn = MMS.Dynamical_system(t, x, Eq, omega0, fF=fF, F=F)
 
 # Initialisation of the MMS sytem
 eps            = symbols(r"\epsilon", real=True, positive=True) # Small parameter epsilon
@@ -41,4 +41,4 @@ ss.solve_bbc(solve_dof=solve_dof, c=param_scaled[-1])
 ss.solve_forced(solve_dof=solve_dof)
 
 # Stability analysis
-ss.eval_sol_stability(coord="polar", eigenvalues=True)
+ss.stability_analysis(coord="polar", eigenvalues=True)

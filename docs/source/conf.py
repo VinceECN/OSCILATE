@@ -33,7 +33,6 @@ autosummary_imported_members = True
 intersphinx_mapping = {
     'python': ('https://docs.python.org/3', None),
     'sympy': ('https://docs.sympy.org/latest/', None),
-    # other mappings...
 }
 
 # Enable math support in MyST
