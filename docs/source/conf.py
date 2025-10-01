@@ -43,11 +43,3 @@ myst_enable_extensions = [
 
 # Options for HTML output
 html_theme = "sphinx_rtd_theme"
-# html_theme = "sphinx_book_theme"
-html_static_path = ['_static']
-# html_theme_options = {
-#     "show_nav_level": 4,  # Show up to 4 levels in the navigation
-#     "collapse_navigation": False,  # Do not collapse the navigation
-#     "navigation_depth": 4,  # Ensure deep navigation is rendered
-# }
-

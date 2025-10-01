@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 #%% Imports and initialisation
-from sympy import symbols, Function, solve, sin, cos
+from sympy import symbols, Function, solve, sin, cos, Rational
 from sympy.physics.vector.printing import init_vprinting
 init_vprinting(use_latex=True, forecolor='White') # Initialise latex printing 
 from MMS import MMS
@@ -51,8 +51,8 @@ print("Manual computation of the coupled forced solution")
 
 a, beta = ss.coord.a, ss.coord.beta
 
-Dbeta     = symbols(r"\Delta\beta", real=True) # Phase difference beta0-beta0
-sub_phase = [(beta[0], beta[1]-Dbeta)] # Substitute the phases by the phase difference
+Dbeta     = symbols(r"\Delta\beta", real=True) # Phase difference Dbeta = 2beta0-beta1
+sub_phase = [(beta[0], Rational(1,2)*(beta[1]-Dbeta))] # Substitute the phases by the phase difference
 fa        = [fai.subs(sub_phase) for fai in ss.sol.fa]
 fbeta     = [fbetai.subs(sub_phase) for fbetai in ss.sol.fbeta]
 
@@ -69,3 +69,4 @@ dic_fa1    = fa[1].collect(sin(beta[1]), evaluate=False)
 dic_fbeta0 = fbeta[1].collect(cos(beta[1]), evaluate=False)
 Eq_a0      = (((dic_fa1[1]/dic_fa1[sin(beta[1])])**2 + (dic_fbeta0[1]/dic_fbeta0[cos(beta[1])])**2 - 1).subs(sub_Dbeta).subs(ss.coord.a[1]**2, a1_2_sol)).simplify()
 a0_2_sol   = solve(Eq_a0, a[0]**2) # Solution a0**2
+

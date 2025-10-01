@@ -11,7 +11,7 @@ Analyse systems of coupled nonlinear equations using the Method of Multiple Scal
 from sympy import (exp, I, conjugate, re, im, Rational, 
                    symbols, Symbol, Function, solve, dsolve,
                    cos, sin, tan, srepr, sympify, simplify, 
-                   zeros, det, trace, eye, Mod)
+                   zeros, det, trace, eye, Mod, sqrt)
 from sympy.simplify.fu import TR5, TR8, TR10
 from . import sympy_functions as sfun
 import numpy as np
@@ -1279,15 +1279,15 @@ class Multiple_scales_system:
         The :math:`\beta_i` are defined as
         
         .. math::
-            \beta_i = - \frac{r_{\textrm{MMS}}}{r_i} \phi_i + \sigma t_1,
+            \beta_i = \frac{r_i}{r_{\textrm{MMS}}} \sigma t_1 - \phi_i,
         
         where we recall that
-        :math:`\omega = r_{\textrm{MMS}} \omega_{\textrm{ref}} + \epsilon \sigma` and
-        :math:`\omega_{i,0} = r_i \omega_{\textrm{ref}}`. 
+        :math:`\omega = r_{\textrm{MMS}} \omega_{\textrm{ref}} + \epsilon \sigma` and :math:`\omega_{i,0} = r_i \omega_{\textrm{ref}}`. 
+        See details on this choice in :class:`~MMS.MMS.Multiple_scales_system`.
         """
         
         self.coord.beta   = [ Function(r'\beta_{}'.format(ix), real=True)(*self.tS[1:])                                            for ix in range(self.ndof) ]
-        def_beta          = [ - Rational(self.ratio_omegaMMS, self.ratio_omega_osc[ix])*self.coord.phi[ix] + self.sigma*self.tS[1] for ix in range(self.ndof) ]
+        def_beta          = [ Rational(self.ratio_omega_osc[ix], self.ratio_omegaMMS) * self.sigma*self.tS[1] - self.coord.phi[ix] for ix in range(self.ndof) ]
         def_phi           = [ solve(def_beta[ix]-self.coord.beta[ix], self.coord.phi[ix])[0]                                       for ix in range(self.ndof) ]
         self.sub.sub_phi  = [ (self.coord.phi[ix], def_phi[ix])                                                                    for ix in range(self.ndof) ]
         self.sub.sub_beta = [ (self.coord.beta[ix], def_beta[ix])                                                                  for ix in range(self.ndof) ]
@@ -1752,7 +1752,7 @@ class Steady_state:
     def solve_phase(self):
         r"""
         Find solutions for the oscillator's phase :math:`\beta_i`. 
-        The solutions actually returned are :math:`\sin(k \beta_i)` and :math:`\cos(k \beta_i)`, where :math:`k` is an integer or rational.
+        The solutions actually returned are :math:`\sin(\beta_i)` and :math:`\cos(\beta_i)`.
         """
         
         # Evaluate the evolution equations for a single oscillator responding
@@ -1932,7 +1932,7 @@ class Steady_state:
         sub_free = [(self.forcing.F,0), *[(ci, 0) for ci in c]]
         
         # Establish the backbone curve equation
-        Eq_bbc        = self.sol.fbeta[solve_dof].subs(self.sub.sub_solve).subs(self.sub.sub_B).subs(sub_free)
+        Eq_bbc = self.sol.fbeta[solve_dof].subs(self.sub.sub_solve).subs(self.sub.sub_B).subs(sub_free)
         
         # Compute the backbone curve
         self.sol.sigma_bbc = solve(Eq_bbc, self.sigma)[0].simplify()
@@ -1982,19 +1982,16 @@ class Steady_state:
 
         .. math::
             \begin{cases}
-            p_i = a_i \cos\left(\frac{r_i}{r_{\textrm{MMS}}}\beta_i\right), \\
-            q_i = a_i \sin\left(\frac{r_i}{r_{\textrm{MMS}}}\beta_i\right),
+            p_i = a_i \cos (\beta_i), \\
+            q_i = a_i \sin (\beta_i),
             \end{cases}
 
         such that the leading order solution can be written as
 
         .. math::
             x_{i,0}^{\textrm{h}}(t) = p_i \cos\left(\frac{r_i}{r_{\textrm{MMS}}}\omega t\right) + q_i \sin\left(\frac{r_i}{r_{\textrm{MMS}}}\omega t\right).
-        
-        XXX : vérifier comment je définis beta ici, et les coord cartésiennes
         """
 
-        
         # Define the cartesian coordinates
         p = [symbols(r'p_{}'.format(ix), real=True) for ix in range(0, self.ndof)]
         q = [symbols(r'q_{}'.format(ix), real=True) for ix in range(0, self.ndof)]
@@ -2004,16 +2001,14 @@ class Steady_state:
         sub_cart  = []
         sub_polar = []
         for ix in range(self.ndof):
-            ratio_omega = Rational(self.ratio_omega_osc[ix], self.ratio_omegaMMS)
-            
-            sub_cart.append( (a[ix]*cos(beta[ix]*ratio_omega)     , p[ix]) )
-            sub_cart.append( (a[ix]*sin(beta[ix]*ratio_omega)     , q[ix]) )
-            sub_cart.append( (a[ix]**2*cos(2*beta[ix]*ratio_omega), p[ix]**2 - q[ix]**2) )
-            sub_cart.append( (a[ix]**2*sin(2*beta[ix]*ratio_omega), 2*p[ix]*q[ix]) )
+            sub_cart.append( (a[ix]*cos(beta[ix])     , p[ix]) )
+            sub_cart.append( (a[ix]*sin(beta[ix])     , q[ix]) )
+            sub_cart.append( (a[ix]**2*cos(2*beta[ix]), p[ix]**2 - q[ix]**2) )
+            sub_cart.append( (a[ix]**2*sin(2*beta[ix]), 2*p[ix]*q[ix]) )
             sub_cart.append( (a[ix]**2                            , p[ix]**2 + q[ix]**2) )
             
-            sub_polar.append( (p[ix], a[ix]*cos(beta[ix]*ratio_omega)) )
-            sub_polar.append( (q[ix], a[ix]*sin(beta[ix]*ratio_omega)) )
+            sub_polar.append( (p[ix], a[ix]*cos(beta[ix])) )
+            sub_polar.append( (q[ix], a[ix]*sin(beta[ix])) )
     
         # Store the results
         self.coord.p = p
@@ -2048,16 +2043,10 @@ class Steady_state:
         fa, fbeta = list(map(self.sol.__dict__.get, ["fa", "fbeta"]))
         
         for ix in range(self.ndof):
-            ratio_omega = Rational(self.ratio_omega_osc[ix], self.ratio_omegaMMS)
-            
-            fp.append( TR10( ( fa[ix]*cos(beta[ix]*ratio_omega) - 
-                               ratio_omega*fbeta[ix]*sin(beta[ix]*ratio_omega)
-                              ).expand().simplify()
+            fp.append( TR10( ( fa[ix]*cos(beta[ix]) - fbeta[ix]*sin(beta[ix]) ).expand().simplify()
                             ).expand().subs(self.sub.sub_cart) )
             
-            fq.append( TR10( ( fa[ix]*sin(beta[ix]*ratio_omega) + 
-                               ratio_omega*fbeta[ix]*cos(beta[ix]*ratio_omega)
-                              ).expand().simplify()
+            fq.append( TR10( ( fa[ix]*sin(beta[ix]) + fbeta[ix]*cos(beta[ix]) ).expand().simplify()
                             ).expand().subs(self.sub.sub_cart) )
         
         # Check if the a and beta have all been substituted
@@ -2539,7 +2528,7 @@ class Steady_state:
                     self.stab.blocks_tr.append(trA)
 
                     if eigenvalues:
-                        eigvalsA = self.eigenvalues(A)
+                        eigvalsA = self.eigenvalues(A, detA=detA, trA=trA)
                         if coord=="cartesian":
                             eigvalsA = [cartesian_to_polar(eigval, self.sub.sub_polar, sub_phase=self.sub.sub_phase) for eigval in eigvalsA]
                         self.stab.blocks_eigvals.append(eigvalsA)
@@ -2552,27 +2541,37 @@ class Steady_state:
             else:
                 print("Trying to perform a block analysis while the Jacobian is not block-diagonal")
 
-    def eigenvalues(self, J):
+    def eigenvalues(self, A, detA=None, trA=None):
         r"""
-        Computes the eigenvalues of a matrix :math:`\textrm{J}`.
+        Computes the eigenvalues of a matrix :math:`\textrm{A}`.
 
         Parameters
         ----------
-        J: sympy.Matrix
+        A: sympy.Matrix
             The matrix whose eigenvalues are to be computed.
+        detA: sympy.Expr
+            Determinant of A.
+            Default is `None`.
+        trA: sympy.Expr
+            Trace of A.
+            Default is `None`.
 
         Returns
         -------
         eigvals: list
-            The eigenvalues of :math:`\textrm{J}`.
+            The eigenvalues of :math:`\textrm{A}`.
         """
 
         print("   Computing eigenvalues")
         
-        lamb        = symbols(r"\lambda")
-        eig_problem = J - lamb * eye(*J.shape)
-        detEP       = eig_problem.det()
-        eigvals     = solve(detEP, lamb)
+        if A.shape == (2,2) and (detA, trA) != (None, None):
+            eigvals = [Rational(1,2)* (trA - sqrt(trA**2 - 4*detA)), 
+                       Rational(1,2)* (trA + sqrt(trA**2 - 4*detA))]
+        else:
+            lamb        = symbols(r"\lambda")
+            eig_problem = A - lamb * eye(*A.shape)
+            detEP       = eig_problem.det()
+            eigvals     = solve(detEP, lamb)
         
         return eigvals
             
