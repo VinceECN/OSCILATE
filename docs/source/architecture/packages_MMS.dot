@@ -1,0 +1,8 @@
+digraph "packages_MMS" {
+rankdir=BT
+charset="utf-8"
+"MMS_solver" [color="black", label=<MMS_solver>, shape="box", style="solid"];
+"MMS_solver.MMS" [color="black", label=<MMS_solver.MMS>, shape="box", style="solid"];
+"MMS_solver.MMS.MMS" [color="black", label=<MMS_solver.MMS.MMS>, shape="box", style="solid"];
+"MMS_solver.MMS.sympy_functions" [color="black", label=<MMS_solver.MMS.sympy_functions>, shape="box", style="solid"];
+}

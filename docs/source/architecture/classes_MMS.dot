@@ -1,0 +1,151 @@
+digraph "classes_MMS" {
+  rankdir=BT;
+  splines=true;
+  nodesep=0.5;
+  ranksep=0.75;
+  charset="utf-8";
+  fontname="Courier New";  // Set default font for the graph
+  node [fontname="Courier New"];  // Set default font for nodes
+  edge [fontname="Courier New", color="gray", fontcolor="black", fontsize=10];  // Set default font for edges
+
+  // Set default edge style
+  edge [color="gray", fontcolor="green", fontsize=10];
+
+  // Core classes
+  "MMS_solver.MMS.MMS.Dynamical_system" [
+    color="black", fontcolor="black",
+    label=<{Dynamical_system|Eq : list<br ALIGN="LEFT"/>forcing<br ALIGN="LEFT"/>ndof : int<br ALIGN="LEFT"/>omegas : list<br ALIGN="LEFT"/>t<br ALIGN="LEFT"/>x : list<br ALIGN="LEFT"/>|}>,
+    shape="record", style="filled", fillcolor="lightblue"
+  ];
+  "MMS_solver.MMS.MMS.Multiple_scales_system" [
+    color="black", fontcolor="black",
+    label=<{Multiple_scales_system|EqMMS : list<br ALIGN="LEFT"/>EqMMS_t0 : list<br ALIGN="LEFT"/>Ne<br ALIGN="LEFT"/>coord<br ALIGN="LEFT"/>detunings<br ALIGN="LEFT"/>eps<br ALIGN="LEFT"/>eps_pow_0 : int<br ALIGN="LEFT"/>forcing<br ALIGN="LEFT"/>ndof<br ALIGN="LEFT"/>omega : str, tuple<br ALIGN="LEFT"/>omegaMMS<br ALIGN="LEFT"/>omega_ref<br ALIGN="LEFT"/>omegas<br ALIGN="LEFT"/>omegas_O0 : list<br ALIGN="LEFT"/>ratio_omegaMMS : int<br ALIGN="LEFT"/>ratio_omega_osc<br ALIGN="LEFT"/>sigma : str, tuple<br ALIGN="LEFT"/>sol<br ALIGN="LEFT"/>sub<br ALIGN="LEFT"/>t<br ALIGN="LEFT"/>tS : list<br ALIGN="LEFT"/>xMMS : list<br ALIGN="LEFT"/>xMMS_t0 : list<br ALIGN="LEFT"/>|apply_MMS(rewrite_polar)<br ALIGN="LEFT"/>asymptotic_series(dynamical_system, eps_pow_0)<br ALIGN="LEFT"/>autonomous_phases()<br ALIGN="LEFT"/>compute_EqMMS(dynamical_system)<br ALIGN="LEFT"/>evolution_equations()<br ALIGN="LEFT"/>find_harmonics()<br ALIGN="LEFT"/>forcing_MMS(dynamical_system)<br ALIGN="LEFT"/>oscillators_frequencies()<br ALIGN="LEFT"/>polar_coordinates()<br ALIGN="LEFT"/>secular_analysis()<br ALIGN="LEFT"/>sol_higher_order(EqMMS_t0, xMMS_t0, io, ix)<br ALIGN="LEFT"/>sol_order_0()<br ALIGN="LEFT"/>sol_xMMS_polar(rewrite_polar)<br ALIGN="LEFT"/>system_t0()<br ALIGN="LEFT"/>time_scales()<br ALIGN="LEFT"/>}>,
+    shape="record", style="filled", fillcolor="lightblue"
+  ];
+  "MMS_solver.MMS.MMS.Steady_state" [
+    color="black", fontcolor="black",
+    label=<{Steady_state|coord<br ALIGN="LEFT"/>eps<br ALIGN="LEFT"/>forcing<br ALIGN="LEFT"/>ndof<br ALIGN="LEFT"/>omegaMMS<br ALIGN="LEFT"/>omega_ref<br ALIGN="LEFT"/>ratio_omegaMMS<br ALIGN="LEFT"/>ratio_omega_osc<br ALIGN="LEFT"/>sigma<br ALIGN="LEFT"/>sol<br ALIGN="LEFT"/>stab<br ALIGN="LEFT"/>sub<br ALIGN="LEFT"/>|Jacobian_cartesian()<br ALIGN="LEFT"/>Jacobian_polar()<br ALIGN="LEFT"/>additional_cartesian_substitutions(fp, fq)<br ALIGN="LEFT"/>bifurcation_curves(detJ, trJ, var_a, var_sig, solver)<br ALIGN="LEFT"/>cartesian_coordinates()<br ALIGN="LEFT"/>check_cartesian_substitutions(a, beta, fp, fq)<br ALIGN="LEFT"/>eigenvalues(A, detA, trA)<br ALIGN="LEFT"/>evolution_equations_SS(mms)<br ALIGN="LEFT"/>evolution_equations_cartesian()<br ALIGN="LEFT"/>plot_ARC(ARC)<br ALIGN="LEFT"/>plot_FRC(FRC)<br ALIGN="LEFT"/>polar_coordinates_SS(mms)<br ALIGN="LEFT"/>solve_F()<br ALIGN="LEFT"/>solve_a()<br ALIGN="LEFT"/>solve_bbc(c, solve_dof)<br ALIGN="LEFT"/>solve_forced(solve_dof)<br ALIGN="LEFT"/>solve_phase()<br ALIGN="LEFT"/>solve_sigma()<br ALIGN="LEFT"/>stability_analysis(coord, rewrite_polar, eigenvalues, bifurcation_curves, analyse_blocks, kwargs_bif)<br ALIGN="LEFT"/>substitution_solve_dof(solve_dof)<br ALIGN="LEFT"/>}>,
+    shape="record", style="filled", fillcolor="lightblue"
+  ];
+
+  // Coordinates classes
+  "MMS_solver.MMS.MMS.Coord_MMS" [
+    color="black", fontcolor="black",
+    label=<{Coord_MMS|A : list<br ALIGN="LEFT"/>B : list<br ALIGN="LEFT"/>a<br ALIGN="LEFT"/>beta<br ALIGN="LEFT"/>phi<br ALIGN="LEFT"/>|}>,
+    shape="record", style="filled", fillcolor="lightgreen"
+  ];
+  "MMS_solver.MMS.MMS.Coord_SS" [
+    color="black", fontcolor="black",
+    label=<{Coord_SS|a : list<br ALIGN="LEFT"/>beta : list<br ALIGN="LEFT"/>p<br ALIGN="LEFT"/>q<br ALIGN="LEFT"/>|}>,
+    shape="record", style="filled", fillcolor="lightgreen"
+  ];
+
+  // Solution classes
+  "MMS_solver.MMS.MMS.Sol_MMS" [
+    color="black", fontcolor="black",
+    label=<{Sol_MMS|DA : list<br ALIGN="LEFT"/>fa<br ALIGN="LEFT"/>faO<br ALIGN="LEFT"/>fbeta<br ALIGN="LEFT"/>fbetaO<br ALIGN="LEFT"/>sec : list<br ALIGN="LEFT"/>x<br ALIGN="LEFT"/>xMMS<br ALIGN="LEFT"/>xMMS_polar : list<br ALIGN="LEFT"/>|}>,
+    shape="record", style="filled", fillcolor="pink"
+  ];
+  "MMS_solver.MMS.MMS.Sol_SS" [
+    color="black", fontcolor="black",
+    label=<{Sol_SS|F : NoneType<br ALIGN="LEFT"/>cos_phase : tuple<br ALIGN="LEFT"/>fa : list<br ALIGN="LEFT"/>faO : list<br ALIGN="LEFT"/>fbeta : list<br ALIGN="LEFT"/>fbetaO : list<br ALIGN="LEFT"/>fp : list<br ALIGN="LEFT"/>fq : list<br ALIGN="LEFT"/>omega_bbc<br ALIGN="LEFT"/>sigma<br ALIGN="LEFT"/>sigma_bbc<br ALIGN="LEFT"/>sin_phase : tuple<br ALIGN="LEFT"/>sol_a2 : NoneType<br ALIGN="LEFT"/>solve_dof : NoneType<br ALIGN="LEFT"/>x : list<br ALIGN="LEFT"/>|}>,
+    shape="record", style="filled", fillcolor="pink"
+  ];
+
+  // Forcing classes
+  "MMS_solver.MMS.MMS.Forcing" [
+    color="black", fontcolor="black",
+    label=<{Forcing|F<br ALIGN="LEFT"/>fF<br ALIGN="LEFT"/>|}>,
+    shape="record", style="filled", fillcolor="cyan"
+  ];
+  "MMS_solver.MMS.MMS.Forcing_MMS" [
+    color="black", fontcolor="black",
+    label=<{Forcing_MMS|F<br ALIGN="LEFT"/>fF<br ALIGN="LEFT"/>f_order<br ALIGN="LEFT"/>forcing_term<br ALIGN="LEFT"/>|}>,
+    shape="record", style="filled", fillcolor="cyan"
+  ];
+  "MMS_solver.MMS.MMS.Forcing_SS" [
+    color="black", fontcolor="black",
+    label=<{Forcing_SS|F<br ALIGN="LEFT"/>f_order<br ALIGN="LEFT"/>|}>,
+    shape="record", style="filled", fillcolor="cyan"
+  ];
+
+  // Substitution classes
+  "MMS_solver.MMS.MMS.Substitutions_MMS" [
+    color="black", fontcolor="black",
+    label=<{Substitutions_MMS|sub_A<br ALIGN="LEFT"/>sub_B : list<br ALIGN="LEFT"/>sub_beta<br ALIGN="LEFT"/>sub_omega<br ALIGN="LEFT"/>sub_omegas : list<br ALIGN="LEFT"/>sub_phi<br ALIGN="LEFT"/>sub_scaling<br ALIGN="LEFT"/>sub_scaling_back<br ALIGN="LEFT"/>sub_sigma<br ALIGN="LEFT"/>sub_t<br ALIGN="LEFT"/>sub_x<br ALIGN="LEFT"/>sub_xMMS : list<br ALIGN="LEFT"/>sub_xMMS_t<br ALIGN="LEFT"/>|}>,
+    shape="record", style="filled", fillcolor="orange"
+  ];
+  "MMS_solver.MMS.MMS.Substitutions_SS" [
+    color="black", fontcolor="black",
+    label=<{Substitutions_SS|sub_B<br ALIGN="LEFT"/>sub_SS : list<br ALIGN="LEFT"/>sub_cart : list<br ALIGN="LEFT"/>sub_free<br ALIGN="LEFT"/>sub_phase : list<br ALIGN="LEFT"/>sub_polar : list<br ALIGN="LEFT"/>sub_scaling_back<br ALIGN="LEFT"/>sub_solve : list<br ALIGN="LEFT"/>|}>,
+    shape="record", style="filled", fillcolor="orange"
+  ];
+
+  // Stability class
+  "MMS_solver.MMS.MMS.Stab_SS" [
+    color="black", fontcolor="black",
+    label=<{Stab_SS|Jsol : NoneType<br ALIGN="LEFT"/>Jsolc : NoneType<br ALIGN="LEFT"/>analysis_coord : str<br ALIGN="LEFT"/>bif_a<br ALIGN="LEFT"/>bif_sigma<br ALIGN="LEFT"/>blocks : list<br ALIGN="LEFT"/>blocks_bif_a : list<br ALIGN="LEFT"/>blocks_bif_sig : list<br ALIGN="LEFT"/>blocks_det : list<br ALIGN="LEFT"/>blocks_eigvals : list<br ALIGN="LEFT"/>blocks_tr : list<br ALIGN="LEFT"/>det_Jsol : NoneType<br ALIGN="LEFT"/>det_Jsolc : NoneType<br ALIGN="LEFT"/>eigvals : BooleanFalse, list<br ALIGN="LEFT"/>tr_Jsol : NoneType<br ALIGN="LEFT"/>tr_Jsolc<br ALIGN="LEFT"/>|}>,
+    shape="record", style="filled", fillcolor="violet"
+  ];
+
+  // Core classes group
+  subgraph cluster_core {
+    label="Core Classes";
+    labelloc="t";  
+
+    { rank=same; "MMS_solver.MMS.MMS.Dynamical_system"; "MMS_solver.MMS.MMS.Multiple_scales_system"; }
+  "MMS_solver.MMS.MMS.Steady_state";
+  }
+
+  // Utility classes group
+  subgraph cluster_utils {
+    label="Coordinates Classes";
+    labelloc="t";  
+    "MMS_solver.MMS.MMS.Coord_MMS";
+    "MMS_solver.MMS.MMS.Coord_SS";
+  }
+
+  // Solution classes group
+  subgraph cluster_solutions {
+    label="Solution Classes";
+    labelloc="t";  
+    "MMS_solver.MMS.MMS.Sol_MMS";
+    "MMS_solver.MMS.MMS.Sol_SS";
+  }
+
+  // Forcing classes group
+  subgraph cluster_forcing {
+    label="Forcing Classes";
+    labelloc="t";  
+    "MMS_solver.MMS.MMS.Forcing";
+    "MMS_solver.MMS.MMS.Forcing_MMS";
+    "MMS_solver.MMS.MMS.Forcing_SS";
+  }
+
+  // Substitution classes group
+  subgraph cluster_substitutions {
+    label="Substitution Classes";
+    labelloc="t";  
+    "MMS_solver.MMS.MMS.Substitutions_MMS";
+    "MMS_solver.MMS.MMS.Substitutions_SS";
+  }
+
+  // Stability class group
+  subgraph cluster_stability {
+    label="Stability Analysis";
+    labelloc="t";  
+    "MMS_solver.MMS.MMS.Stab_SS";
+  }
+
+  // Edges
+  "MMS_solver.MMS.MMS.Coord_MMS" -> "MMS_solver.MMS.MMS.Multiple_scales_system" [arrowhead="diamond", arrowtail="none", label="coord"];
+  "MMS_solver.MMS.MMS.Coord_SS" -> "MMS_solver.MMS.MMS.Steady_state" [arrowhead="diamond", arrowtail="none", label="coord"];
+  "MMS_solver.MMS.MMS.Forcing" -> "MMS_solver.MMS.MMS.Dynamical_system" [arrowhead="diamond", arrowtail="none", label="forcing"];
+  "MMS_solver.MMS.MMS.Forcing_MMS" -> "MMS_solver.MMS.MMS.Multiple_scales_system" [arrowhead="diamond", arrowtail="none", label="forcing"];
+  "MMS_solver.MMS.MMS.Forcing_SS" -> "MMS_solver.MMS.MMS.Steady_state" [arrowhead="diamond", arrowtail="none", label="forcing"];
+  "MMS_solver.MMS.MMS.Sol_MMS" -> "MMS_solver.MMS.MMS.Multiple_scales_system" [arrowhead="diamond", arrowtail="none", label="sol"];
+  "MMS_solver.MMS.MMS.Sol_SS" -> "MMS_solver.MMS.MMS.Steady_state" [arrowhead="diamond", arrowtail="none", label="sol"];
+  "MMS_solver.MMS.MMS.Stab_SS" -> "MMS_solver.MMS.MMS.Steady_state" [arrowhead="diamond", arrowtail="none", label="stab"];
+  "MMS_solver.MMS.MMS.Substitutions_MMS" -> "MMS_solver.MMS.MMS.Multiple_scales_system" [arrowhead="diamond", arrowtail="none", label="sub"];
+  "MMS_solver.MMS.MMS.Substitutions_SS" -> "MMS_solver.MMS.MMS.Steady_state" [arrowhead="diamond", arrowtail="none", label="sub"];
+}
