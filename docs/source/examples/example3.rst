@@ -1,0 +1,59 @@
+Example 3: Coupled Duffings in 1:1 internal resonance
+-----------------------------------------------------
+
+MMS example on coupled Duffing oscillators in 1:1 internal resonance subject to harmonic forcing. 
+
+System description
+^^^^^^^^^^^^^^^^^^
+
+The system's equations are
+
+.. math::
+    
+    \begin{cases}
+        \ddot{x}_{0} + \omega_{0}^{2} x_{0} + c_{0} \dot{x}_{0} + \gamma_{0} x_{0}^{3} + \gamma_{01} x_{0} x_{1}^{2} & = F \cos(\omega t), \\
+        \ddot{x}_{1} + \omega_{0}^{2} x_{1} + c_{1} \dot{x}_{1} + \gamma_{1} x_{1}^{3} + \gamma_{01} x_{0}^{2} x_{1} & = F \cos(\omega t),
+    \end{cases}
+    
+
+where 
+
+- :math:`x_0,\; x_1` are the oscillators' coordinates,
+- :math:`t` is the time,
+- :math:`\dot{(\bullet)} = \mathrm{d}(\bullet)/\mathrm{d}t` is a time derivative,
+- :math:`c_0,\; c_1` are the linear viscous damping coefficients,
+- :math:`\omega_0` is the oscillators' natural frequency,
+- :math:`\gamma_0,\; \gamma_1,\; \gamma_{01}` are nonlinear coefficients,
+- :math:`F` is the forcing amplitude,
+- :math:`\omega` is the forcing frequency.
+
+A response around :math:`\omega_0` is sought so the frequency is set to
+
+.. math::
+    \omega = \omega_0 + \epsilon \sigma
+
+where
+
+- :math:`\epsilon` is a small parameter involved in the MMS,
+- :math:`\sigma` is the detuning wrt the oscillators' frequency :math:`\omega_0`.
+
+The parameters are then scaled to indicate how weak they are:
+
+- :math:`c_i = \epsilon \tilde{c}_i` indicates that damping is weak,
+- :math:`F = \epsilon \tilde{F}` indicates that forcing is weak,
+- :math:`\gamma_i = \epsilon \tilde{\gamma}_i, \; i\in\{0, 1, 01\}` indicates that nonlinearities are weak.
+
+Code description
+^^^^^^^^^^^^^^^^
+The script below allows to
+
+- Construct the dynamical system.
+- Apply the MMS to the system,
+- Evaluate the MMS results at steady state,
+- Compute the backbone curve and forced response when only oscillator 1 responds,
+- Evaluate the stability of the forced solution,
+- Compute the coupled-mode backbone curve. 
+
+.. literalinclude:: ../../../examples/Duffing_11_direct.py
+   :language: python
+   :linenos:
