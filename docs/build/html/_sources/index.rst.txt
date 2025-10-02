@@ -13,6 +13,8 @@ Welcome to the documentation for **MMS_solver**, a Python package for solving sy
    :caption: Contents:
 
    modules
+   architecture
    examples
    readme
    license
+   
