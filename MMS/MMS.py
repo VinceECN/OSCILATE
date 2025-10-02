@@ -54,13 +54,13 @@ class Dynamical_system:
         \end{cases}
     
     The :math:`x_i(t)` (:math:`i=0,...,N-1`) are the oscillators' coordinates (dof for degrees of freedom), 
-    :math:`\omega_i` are their natural frequencies, 
 
     .. math::
 
         \boldsymbol{x}(t)^\intercal = [x_0(t), x_1(t), \cdots, x_{N-1}(t)]
          
     is the vector containing all the oscillators' coordinates (:math:`^\intercal` denotes the transpose), 
+    :math:`\omega_i` are their natural frequencies, 
     :math:`t` is the time, 
     :math:`\dot{(\bullet)} = \textrm{d}(\bullet)/\textrm{d}t` denotes a time-derivative. 
     :math:`f_i` are functions which can contain:
