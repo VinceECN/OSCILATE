@@ -1,5 +1,5 @@
 # Nonlinear systems considered
-This package allows the application of the **Method of Multiple Scales** (MMS) to nonlinear equations and systems of $N$ coupled nonlinear equations of the form
+This package allows the application of the **Method of Multiple Scales** (MMS) to a nonlinear equation or systems of $N$ coupled nonlinear equations of the form
 
 $$
 \begin{cases}
@@ -58,7 +58,7 @@ Results are returned as sympy expressions.
 They can be printed using $\LaTeX$ if the code is ran in an appropriate interactive Window. 
 It is the case with VS Code's interactive Window or Spyder's IPython consol.
 
-Methods of `Steady_state` also allow to evaluate sympy results for given numerical values of system parameters, hence generating and plot them.
+Methods of `Steady_state` also allow to evaluate sympy results for given numerical values of system parameters and to plot them.
 
 # Disclaimer
 This code is provided as-is and has been tested on a limited number of nonlinear systems. 
