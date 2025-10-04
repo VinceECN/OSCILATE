@@ -20,7 +20,8 @@ jobs:
       - name: Build docs
         run: |
           cd docs/
-          .\make.bat html
+          make clean
+          make html
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
