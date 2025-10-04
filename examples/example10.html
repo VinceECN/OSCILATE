@@ -1,0 +1,313 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Example 10: Subharmonic response of parametrically excited coupled centrifugal pendulums in 1:1 internal resonance &mdash; MMS_solver 0.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=7026087e"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="README" href="../readme.html" />
+    <link rel="prev" title="Example 9: Subharmonic response of a Duffing oscillator" href="example9.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            MMS_solver
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">Package Architecture</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../examples.html">Application Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="example1.html">Example 1: Duffing oscillator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="example2.html">Example 2: Coupled Duffings in 1:3 internal resonance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="example3.html">Example 3: Coupled Duffings in 1:1 internal resonance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="example4.html">Example 4: Coupled quadratic oscillators in 1:2 internal resonance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="example5.html">Example 5: Parametrically excited Duffing oscillator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="example6.html">Example 6: Van der Pol oscillator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="example7.html">Example 7: Parametrically excited Van der Pol oscillator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="example8.html">Example 8: Superharmonic response of a Duffing oscillator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="example9.html">Example 9: Subharmonic response of a Duffing oscillator</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Example 10: Subharmonic response of parametrically excited coupled centrifugal pendulums in 1:1 internal resonance</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#system-description">System description</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#code-description">Code description</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">MMS_solver</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../examples.html">Application Examples</a></li>
+      <li class="breadcrumb-item active">Example 10: Subharmonic response of parametrically excited coupled centrifugal pendulums in 1:1 internal resonance</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/examples/example10.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="example-10-subharmonic-response-of-parametrically-excited-coupled-centrifugal-pendulums-in-1-1-internal-resonance">
+<h1>Example 10: Subharmonic response of parametrically excited coupled centrifugal pendulums in 1:1 internal resonance<a class="headerlink" href="#example-10-subharmonic-response-of-parametrically-excited-coupled-centrifugal-pendulums-in-1-1-internal-resonance" title="Link to this heading"></a></h1>
+<p>MMS example on two coupled centrifugal pendulums in 1:1 internal resonance subject to direct and parametric forcings, triggering a subharmonic response.
+The pendulums are indirectly and weakly coupled through the rotor that supports them.
+This configuration was studied in V. Mahé et al., <em>Subharmonic centrifugal pendulum vibration absorbers allowing a rotational mobility</em>, MSSP (2022).</p>
+<section id="system-description">
+<h2>System description<a class="headerlink" href="#system-description" title="Link to this heading"></a></h2>
+<p>The system’s equations in modal space are</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{cases}
+    \ddot{\zeta}_1 + n_p^2 \zeta_1 &amp; = f_1(\boldsymbol{\zeta}, \dot{\boldsymbol{\zeta}}, \ddot{\boldsymbol{\zeta}}, t) \\
+    \ddot{\zeta}_2 + n_p^2 \zeta_2 &amp; = f_2(\boldsymbol{\zeta}, \dot{\boldsymbol{\zeta}}, \ddot{\boldsymbol{\zeta}}, t),
+\end{cases}\end{split}\]</div>
+<p>where</p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\(\zeta_1,\; \zeta_2\)</span> are the (modal) oscillators’ coordinates,</p></li>
+<li><p><span class="math notranslate nohighlight">\(\boldsymbol{\zeta}\)</span> is the vector of oscillator coordinates,</p></li>
+<li><p><span class="math notranslate nohighlight">\(t\)</span> is the angular position of the rotor supporting the pendulums, analogous to time</p></li>
+<li><p><span class="math notranslate nohighlight">\(\dot{(\bullet)} = \mathrm{d}(\bullet)/\mathrm{d}t\)</span> is a angle derivative,</p></li>
+<li><p><span class="math notranslate nohighlight">\(n_p\)</span> is the pendulums’ tuning order and their natural frequency when they are uncoupled from the rotor,</p></li>
+<li><p><span class="math notranslate nohighlight">\(f_1(\boldsymbol{\zeta}, \dot{\boldsymbol{\zeta}}, \ddot{\boldsymbol{\zeta}}, t)\)</span> and <span class="math notranslate nohighlight">\(f_2(\boldsymbol{\zeta}, \dot{\boldsymbol{\zeta}}, \ddot{\boldsymbol{\zeta}}, t)\)</span> are (small) functions involving linear damping, an additional linear stiffness on oscillator 2, nonlinear terms, and both direct and parametric forcings. They take the form:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+\begin{split}
+f_1(\boldsymbol{\zeta}, \dot{\boldsymbol{\zeta}}, \ddot{\boldsymbol{\zeta}}, t) = &amp; -\Lambda_m^{-1} \Big[ (\Lambda_m \dot{\zeta}_1 - n_t^2(1+n_t^2)\zeta_1\zeta_2)(\mu n_p^2 \Lambda_c \zeta_2 + T_1\cos(\omega t)) \\
+&amp; + 2 \mu n_t^2 \Lambda_m \dot{\zeta}_1 (\zeta_1\dot{\zeta}_1 + \zeta_2 \dot{\zeta}_2) \\
+&amp; + 6 \eta \alpha_1 \alpha_3 (\zeta_1 \dot{\zeta}_1^2 + 2 \zeta_2 \dot{\zeta}_1 \dot{\zeta}_2 + \zeta_1 \dot{\zeta}_2^2 + \zeta_1^2 \ddot{\zeta}_1 + 2 \zeta_1 \zeta_2 \ddot{\zeta}_2 + \zeta_2^2 \ddot{\zeta}_1) \\
+&amp; - 2 x_4 (\zeta_1^3 + 3\zeta_1\zeta_2^2) + b \dot{\zeta}_1 \Big],
+\end{split} \\[
+0.5em]
+\begin{split}
+f_2(\boldsymbol{\zeta}, \dot{\boldsymbol{\zeta}}, \ddot{\boldsymbol{\zeta}}, t) = &amp; -\Lambda_m^{-1} \Bigg[ \left(\Lambda_c + \Lambda_m \dot{\zeta}_2 - \frac{n_t^2(1+n_t^2)}{2}(\zeta_1^2 + \zeta_2^2)\right)(\mu n_p^2 \Lambda_c \zeta_2 + T_1\cos(\omega t)) \\
+&amp; + 2 \mu n_t^2 (\Lambda_c + \Lambda_m \dot{\zeta}_2) (\zeta_1 \dot{\zeta}_1 + \zeta_2 \dot{\zeta}_2) \\
+&amp; - \Lambda_c \mu n_p^2\frac{n_t^2(1+n_t^2)}{2}(3\zeta_1^2\zeta_2 + \zeta_2^3) \\
+&amp; + \Lambda_c \mu n_t^2(1+n_t^2)(2\zeta_1 \dot{\zeta}_1 \dot{\zeta}_2 + \zeta_2\dot{\zeta}_1^2 + \zeta_2 \dot{\zeta}_2^2) \\
+&amp; + 6 \eta \alpha_1 \alpha_3 (2\zeta_1 \dot{\zeta}_1 \dot{\zeta}_2 + \zeta_2 \dot{\zeta}_1^2 + \zeta_2 \dot{\zeta}_2^2 + 2\zeta_1 \ddot{\zeta}_1 \zeta_2 + \ddot{\zeta}_2 \zeta_1^2 + \ddot{\zeta}_2 \zeta_2^2) \\
+&amp; - 2\tilde{x}_{4}(3\zeta_1^2\zeta_2 + \zeta_2^3) + \tilde{b}\dot{\zeta}_2 \Bigg].
+\end{split}
+\end{aligned}\end{split}\]</div>
+<p>where</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\Lambda_m\)</span> is an equivalent pendulum mass,</p></li>
+<li><p><span class="math notranslate nohighlight">\(\Lambda_c\)</span> is a linear coupling coefficient among the pendulums,</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mu\)</span> is a linear coupling coefficient between the pendulums and the rotor that supports them,</p></li>
+<li><p><span class="math notranslate nohighlight">\(n_t\)</span> and <span class="math notranslate nohighlight">\(x_4\)</span> are linear and nonlinear pendulums’ path coefficients, respectively,</p></li>
+<li><p><span class="math notranslate nohighlight">\(\alpha_1\)</span> and <span class="math notranslate nohighlight">\(\alpha_3\)</span> are linear and nonlinear pendulums’ rotation coefficients, respectively,</p></li>
+<li><p><span class="math notranslate nohighlight">\(b\)</span> is the linear viscous damping coefficient,</p></li>
+<li><p><span class="math notranslate nohighlight">\(T_1\)</span> is the forcing amplitude,</p></li>
+<li><p><span class="math notranslate nohighlight">\(\omega\)</span> is the forcing frequency (often written <span class="math notranslate nohighlight">\(n\)</span> as it is actually a forcing order).</p></li>
+</ul>
+</li>
+</ul>
+<p>A response around <span class="math notranslate nohighlight">\(n_p\)</span> is sought so the frequency is set to</p>
+<div class="math notranslate nohighlight">
+\[\omega = n_p + \epsilon \sigma\]</div>
+<p>where</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\epsilon\)</span> is a small parameter involved in the MMS,</p></li>
+<li><p><span class="math notranslate nohighlight">\(\sigma\)</span> is the detuning wrt the pendulums’ tuning order.</p></li>
+</ul>
+<p>The parameters are then scaled to indicate how weak they are:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\mu = \epsilon \tilde{\mu}\)</span> indicates that pendulums are weakly coupled,</p></li>
+<li><p><span class="math notranslate nohighlight">\(b = \epsilon \tilde{b}\)</span> indicates that damping is weak,</p></li>
+<li><p><span class="math notranslate nohighlight">\(T_1 = \epsilon \tilde{T}_1\)</span> indicates that forcing is weak,</p></li>
+<li><p><span class="math notranslate nohighlight">\(x_4 = \epsilon \tilde{x}_4, \; \alpha_3 = \tilde{\alpha}_3\)</span> indicates that nonlinearities are weak.</p></li>
+</ul>
+</section>
+<section id="code-description">
+<h2>Code description<a class="headerlink" href="#code-description" title="Link to this heading"></a></h2>
+<p>The script below allows to</p>
+<ul class="simple">
+<li><p>Construct the dynamical (modal) system,</p></li>
+<li><p>Apply the MMS to the system,</p></li>
+<li><p>Evaluate the MMS results at steady state,</p></li>
+<li><p>Introduce compact notations,</p></li>
+<li><p>Compute the backbone curve and forced response when only oscillator (mode) 1 responds,</p></li>
+<li><p>Evaluate the stability of the forced solution using cartesian coordinates,</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="linenos">  2</span>
+<span class="linenos">  3</span><span class="c1">#%% Imports and initialisation</span>
+<span class="linenos">  4</span><span class="kn">from</span><span class="w"> </span><span class="nn">sympy</span><span class="w"> </span><span class="kn">import</span> <span class="n">symbols</span><span class="p">,</span> <span class="n">Function</span><span class="p">,</span> <span class="n">Rational</span><span class="p">,</span> <span class="n">sin</span><span class="p">,</span> <span class="n">cos</span><span class="p">,</span> <span class="n">sqrt</span><span class="p">,</span> <span class="n">solve</span>
+<span class="linenos">  5</span><span class="kn">from</span><span class="w"> </span><span class="nn">sympy.physics.vector.printing</span><span class="w"> </span><span class="kn">import</span> <span class="n">init_vprinting</span>
+<span class="linenos">  6</span><span class="n">init_vprinting</span><span class="p">(</span><span class="n">use_latex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forecolor</span><span class="o">=</span><span class="s1">&#39;White&#39;</span><span class="p">)</span> <span class="c1"># Initialise latex printing </span>
+<span class="linenos">  7</span><span class="kn">from</span><span class="w"> </span><span class="nn">MMS</span><span class="w"> </span><span class="kn">import</span> <span class="n">MMS</span>
+<span class="linenos">  8</span>
+<span class="linenos">  9</span><span class="c1"># Parameters and variables</span>
+<span class="linenos"> 10</span><span class="n">nP</span><span class="p">,</span> <span class="n">nt</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">eta</span><span class="p">,</span> <span class="n">Lm</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">T1</span>  <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;n_p, n_t, \mu, \eta, \Lambda_m, b, T_1&quot;</span><span class="p">,</span> <span class="n">real</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">positive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="linenos"> 11</span><span class="n">Lc</span><span class="p">,</span> <span class="n">alpha1</span><span class="p">,</span> <span class="n">alpha3</span><span class="p">,</span> <span class="n">x4</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\Lambda_c, \alpha_1, \alpha_3, x_4&quot;</span><span class="p">,</span> <span class="n">real</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="linenos"> 12</span><span class="n">t</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;t&#39;</span><span class="p">)</span> <span class="c1"># Replaces the rotor&#39;s angular position \vartheta.</span>
+<span class="linenos"> 13</span><span class="n">z1</span> <span class="o">=</span> <span class="n">Function</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\zeta_1&#39;</span><span class="p">,</span> <span class="n">real</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="n">t</span><span class="p">)</span> <span class="c1"># Mode 1 coordinate (phase-opposition mode)</span>
+<span class="linenos"> 14</span><span class="n">z2</span> <span class="o">=</span> <span class="n">Function</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\zeta_2&#39;</span><span class="p">,</span> <span class="n">real</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="n">t</span><span class="p">)</span> <span class="c1"># Mode 2 coordinate (unison mode)</span>
+<span class="linenos"> 15</span>
+<span class="linenos"> 16</span><span class="c1"># Dynamical system</span>
+<span class="linenos"> 17</span><span class="n">dz1</span> <span class="o">=</span> <span class="n">z1</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<span class="linenos"> 18</span><span class="n">dz2</span> <span class="o">=</span> <span class="n">z2</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<span class="linenos"> 19</span><span class="n">ddz1</span> <span class="o">=</span> <span class="n">z1</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="linenos"> 20</span><span class="n">ddz2</span> <span class="o">=</span> <span class="n">z2</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="linenos"> 21</span>
+<span class="linenos"> 22</span><span class="n">f1</span> <span class="o">=</span> <span class="o">-</span><span class="n">Lm</span><span class="o">**-</span><span class="mi">1</span> <span class="o">*</span> \
+<span class="linenos"> 23</span>     <span class="p">(</span>
+<span class="linenos"> 24</span>         <span class="p">(</span><span class="n">Lm</span><span class="o">*</span><span class="n">dz1</span> <span class="o">-</span> <span class="n">nt</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">nt</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">z1</span><span class="o">*</span><span class="n">z2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">mu</span><span class="o">*</span><span class="n">nP</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">Lc</span><span class="o">*</span><span class="n">z2</span><span class="p">)</span>
+<span class="linenos"> 25</span>         <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">mu</span><span class="o">*</span><span class="n">nt</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">Lm</span><span class="o">*</span><span class="n">dz1</span><span class="o">*</span><span class="p">(</span><span class="n">z1</span><span class="o">*</span><span class="n">dz1</span> <span class="o">+</span> <span class="n">z2</span><span class="o">*</span><span class="n">dz2</span><span class="p">)</span>
+<span class="linenos"> 26</span>         <span class="o">+</span> <span class="mi">6</span><span class="o">*</span><span class="n">eta</span><span class="o">*</span><span class="n">alpha1</span><span class="o">*</span><span class="n">alpha3</span><span class="o">*</span><span class="p">(</span><span class="n">z1</span><span class="o">*</span><span class="n">dz1</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">z2</span><span class="o">*</span><span class="n">dz1</span><span class="o">*</span><span class="n">dz2</span> <span class="o">+</span> <span class="n">z1</span><span class="o">*</span><span class="n">dz2</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">z1</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">ddz1</span>
+<span class="linenos"> 27</span>                                <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">z1</span><span class="o">*</span><span class="n">z2</span><span class="o">*</span><span class="n">ddz2</span> <span class="o">+</span> <span class="n">z2</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">ddz1</span><span class="p">)</span>
+<span class="linenos"> 28</span>         <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">x4</span><span class="o">*</span><span class="p">(</span><span class="n">z1</span><span class="o">**</span><span class="mi">3</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">z1</span><span class="o">*</span><span class="n">z2</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="linenos"> 29</span>         <span class="o">+</span> <span class="n">b</span><span class="o">*</span><span class="n">dz1</span>
+<span class="linenos"> 30</span>       <span class="p">)</span>
+<span class="linenos"> 31</span>
+<span class="linenos"> 32</span><span class="n">f2</span> <span class="o">=</span> <span class="o">-</span><span class="n">Lm</span><span class="o">**-</span><span class="mi">1</span> <span class="o">*</span> \
+<span class="linenos"> 33</span>     <span class="p">(</span>
+<span class="linenos"> 34</span>         <span class="p">(</span><span class="n">Lc</span> <span class="o">+</span> <span class="n">Lm</span><span class="o">*</span><span class="n">dz2</span> <span class="o">-</span> <span class="n">Rational</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">nt</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">nt</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">z1</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">z2</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="n">mu</span><span class="o">*</span><span class="n">nP</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">Lc</span><span class="o">*</span><span class="n">z2</span><span class="p">)</span>
+<span class="linenos"> 35</span>         <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">mu</span><span class="o">*</span><span class="n">nt</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">Lc</span> <span class="o">+</span> <span class="n">Lm</span><span class="o">*</span><span class="n">dz2</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">z1</span><span class="o">*</span><span class="n">dz1</span> <span class="o">+</span> <span class="n">z2</span><span class="o">*</span><span class="n">dz2</span><span class="p">)</span>
+<span class="linenos"> 36</span>         <span class="o">-</span> <span class="n">Lc</span><span class="o">*</span><span class="n">mu</span><span class="o">*</span><span class="n">nP</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">Rational</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">nt</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">nt</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">z1</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">z2</span> <span class="o">+</span> <span class="n">z2</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span>
+<span class="linenos"> 37</span>         <span class="o">+</span> <span class="n">Lc</span><span class="o">*</span><span class="n">mu</span><span class="o">*</span><span class="n">nt</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">nt</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">z1</span><span class="o">*</span><span class="n">dz1</span><span class="o">*</span><span class="n">dz2</span> <span class="o">+</span> <span class="n">z2</span><span class="o">*</span><span class="n">dz1</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">z2</span><span class="o">*</span><span class="n">dz2</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="linenos"> 38</span>         <span class="o">+</span> <span class="mi">6</span><span class="o">*</span><span class="n">eta</span><span class="o">*</span><span class="n">alpha1</span><span class="o">*</span><span class="n">alpha3</span><span class="o">*</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">z1</span><span class="o">*</span><span class="n">dz1</span><span class="o">*</span><span class="n">dz2</span> <span class="o">+</span> <span class="n">z2</span><span class="o">*</span><span class="n">dz1</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">z2</span><span class="o">*</span><span class="n">dz2</span><span class="o">**</span><span class="mi">2</span> 
+<span class="linenos"> 39</span>                                <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">z1</span><span class="o">*</span><span class="n">ddz1</span><span class="o">*</span><span class="n">z2</span> <span class="o">+</span> <span class="n">ddz2</span><span class="o">*</span><span class="n">z1</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">ddz2</span><span class="o">*</span><span class="n">z2</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="linenos"> 40</span>         <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">x4</span><span class="o">*</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">z1</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span><span class="n">z2</span> <span class="o">+</span> <span class="n">z2</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span>
+<span class="linenos"> 41</span>         <span class="o">+</span> <span class="n">b</span><span class="o">*</span><span class="n">dz2</span>
+<span class="linenos"> 42</span>       <span class="p">)</span>
+<span class="linenos"> 43</span>
+<span class="linenos"> 44</span><span class="n">fF1</span> <span class="o">=</span> <span class="o">-</span><span class="n">Lm</span><span class="o">**-</span><span class="mi">1</span> <span class="o">*</span> <span class="p">(</span><span class="n">Lm</span><span class="o">*</span><span class="n">dz1</span> <span class="o">-</span> <span class="n">nt</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">nt</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">z1</span><span class="o">*</span><span class="n">z2</span><span class="p">)</span>
+<span class="linenos"> 45</span><span class="n">fF2</span> <span class="o">=</span> <span class="o">-</span><span class="n">Lm</span><span class="o">**-</span><span class="mi">1</span> <span class="o">*</span> <span class="p">(</span><span class="n">Lc</span> <span class="o">+</span> <span class="n">Lm</span><span class="o">*</span><span class="n">dz2</span> <span class="o">-</span> <span class="n">Rational</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">nt</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">nt</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">z1</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">z2</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+<span class="linenos"> 46</span>
+<span class="linenos"> 47</span><span class="n">Eq1</span> <span class="o">=</span> <span class="n">ddz1</span> <span class="o">+</span> <span class="n">nP</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">z1</span> <span class="o">-</span> <span class="n">f1</span>
+<span class="linenos"> 48</span><span class="n">Eq2</span> <span class="o">=</span> <span class="n">ddz2</span> <span class="o">+</span> <span class="n">nP</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">z2</span> <span class="o">-</span> <span class="n">f2</span>
+<span class="linenos"> 49</span>
+<span class="linenos"> 50</span><span class="n">kwargs_dyn</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">F</span><span class="o">=</span><span class="n">T1</span><span class="p">,</span> <span class="n">fF</span><span class="o">=</span><span class="p">[</span><span class="n">fF1</span><span class="p">,</span> <span class="n">fF2</span><span class="p">])</span>
+<span class="linenos"> 51</span><span class="n">dyn</span> <span class="o">=</span> <span class="n">MMS</span><span class="o">.</span><span class="n">Dynamical_system</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="p">[</span><span class="n">z1</span><span class="p">,</span> <span class="n">z2</span><span class="p">],</span> <span class="p">[</span><span class="n">Eq1</span><span class="p">,</span> <span class="n">Eq2</span><span class="p">],</span> <span class="p">[</span><span class="n">nP</span><span class="p">,</span> <span class="n">nP</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs_dyn</span><span class="p">)</span>
+<span class="linenos"> 52</span>
+<span class="linenos"> 53</span><span class="c1"># Initialisation of the MMS sytem</span>
+<span class="linenos"> 54</span><span class="n">eps</span>            <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\epsilon&quot;</span><span class="p">,</span> <span class="n">real</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">positive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># Small parameter epsilon</span>
+<span class="linenos"> 55</span><span class="n">Ne</span>             <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># Order of the expansions</span>
+<span class="linenos"> 56</span><span class="n">omega_ref</span>      <span class="o">=</span> <span class="n">nP</span> <span class="c1"># Reference frequency</span>
+<span class="linenos"> 57</span><span class="n">ratio_omegaMMS</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="linenos"> 58</span>
+<span class="linenos"> 59</span><span class="n">param_to_scale</span> <span class="o">=</span> <span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">alpha3</span><span class="p">,</span> <span class="n">x4</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">T1</span><span class="p">)</span>
+<span class="linenos"> 60</span><span class="n">scaling</span>        <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="p">,</span> <span class="mi">1</span><span class="p">,</span>      <span class="mi">1</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="linenos"> 61</span><span class="n">param_scaled</span><span class="p">,</span> <span class="n">sub_scaling</span> <span class="o">=</span> <span class="n">MMS</span><span class="o">.</span><span class="n">scale_parameters</span><span class="p">(</span><span class="n">param_to_scale</span><span class="p">,</span> <span class="n">scaling</span><span class="p">,</span> <span class="n">eps</span><span class="p">)</span>
+<span class="linenos"> 62</span>
+<span class="linenos"> 63</span><span class="n">mms</span> <span class="o">=</span> <span class="n">MMS</span><span class="o">.</span><span class="n">Multiple_scales_system</span><span class="p">(</span><span class="n">dyn</span><span class="p">,</span> <span class="n">eps</span><span class="p">,</span> <span class="n">Ne</span><span class="p">,</span> <span class="n">omega_ref</span><span class="p">,</span> <span class="n">sub_scaling</span><span class="p">,</span>
+<span class="linenos"> 64</span>                                 <span class="n">ratio_omegaMMS</span><span class="o">=</span><span class="n">ratio_omegaMMS</span><span class="p">)</span>
+<span class="linenos"> 65</span>
+<span class="linenos"> 66</span><span class="c1"># Application of the MMS</span>
+<span class="linenos"> 67</span><span class="n">mms</span><span class="o">.</span><span class="n">apply_MMS</span><span class="p">()</span>
+<span class="linenos"> 68</span>
+<span class="linenos"> 69</span><span class="c1"># Evaluation at steady state</span>
+<span class="linenos"> 70</span><span class="n">ss</span> <span class="o">=</span> <span class="n">MMS</span><span class="o">.</span><span class="n">Steady_state</span><span class="p">(</span><span class="n">mms</span><span class="p">)</span>
+<span class="linenos"> 71</span>
+<span class="linenos"> 72</span><span class="c1"># Substitute parameters</span>
+<span class="linenos"> 73</span><span class="n">cc</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;c_c&quot;</span><span class="p">,</span> <span class="n">real</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">positive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="linenos"> 74</span><span class="n">ct</span><span class="p">,</span> <span class="n">cp</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;c_t, c_p&quot;</span><span class="p">,</span> <span class="n">real</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="linenos"> 75</span><span class="n">mut</span><span class="p">,</span> <span class="n">alpha3t</span><span class="p">,</span> <span class="n">x4t</span> <span class="o">=</span> <span class="n">param_scaled</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+<span class="linenos"> 76</span><span class="n">def_param</span> <span class="o">=</span> <span class="p">[(</span><span class="n">cp</span><span class="p">,</span> <span class="mi">3</span><span class="o">*</span><span class="p">(</span><span class="n">x4t</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">nP</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">eta</span><span class="o">*</span><span class="n">alpha1</span><span class="o">*</span><span class="n">alpha3t</span><span class="p">)),</span>
+<span class="linenos"> 77</span>             <span class="p">(</span><span class="n">ct</span><span class="p">,</span> <span class="n">Rational</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">Lc</span><span class="o">*</span><span class="n">mut</span><span class="o">*</span><span class="n">nP</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">nt</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">nt</span><span class="o">**</span><span class="mi">2</span><span class="p">)),</span>
+<span class="linenos"> 78</span>             <span class="p">(</span><span class="n">cc</span><span class="p">,</span> <span class="n">mut</span><span class="o">*</span><span class="n">nt</span><span class="o">**</span><span class="mi">4</span><span class="p">)</span>
+<span class="linenos"> 79</span>             <span class="p">]</span>
+<span class="linenos"> 80</span><span class="n">sub_nt</span> <span class="o">=</span> <span class="p">[(</span><span class="n">nt</span><span class="p">,</span> <span class="n">nP</span><span class="o">*</span><span class="n">sqrt</span><span class="p">(</span><span class="n">Lm</span><span class="p">))]</span>
+<span class="linenos"> 81</span><span class="n">sub_param</span> <span class="o">=</span> <span class="p">[(</span><span class="n">x4t</span><span class="p">,</span> <span class="n">solve</span><span class="p">(</span><span class="n">def_param</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">def_param</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">x4t</span><span class="p">)[</span><span class="mi">0</span><span class="p">]),</span>
+<span class="linenos"> 82</span>             <span class="p">(</span><span class="n">Lc</span><span class="o">*</span><span class="n">mut</span><span class="o">*</span><span class="n">nt</span><span class="p">,</span> <span class="n">solve</span><span class="p">(</span><span class="n">def_param</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">def_param</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">Lc</span><span class="o">*</span><span class="n">mut</span><span class="o">*</span><span class="n">nt</span><span class="p">)[</span><span class="mi">0</span><span class="p">]),</span>
+<span class="linenos"> 83</span>             <span class="p">(</span><span class="n">mut</span><span class="o">*</span><span class="n">nt</span><span class="p">,</span> <span class="n">solve</span><span class="p">(</span><span class="n">def_param</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">def_param</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">mut</span><span class="o">*</span><span class="n">nt</span><span class="p">)[</span><span class="mi">0</span><span class="p">])]</span>
+<span class="linenos"> 84</span>
+<span class="linenos"> 85</span><span class="n">a</span><span class="p">,</span> <span class="n">beta</span> <span class="o">=</span> <span class="n">ss</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="n">ss</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">beta</span>
+<span class="linenos"> 86</span><span class="n">collect_f</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">beta</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">beta</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+<span class="linenos"> 87</span>             <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">beta</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">beta</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+<span class="linenos"> 88</span>             <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">cos</span><span class="p">(</span><span class="n">beta</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">beta</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+<span class="linenos"> 89</span>             <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">cos</span><span class="p">(</span><span class="n">beta</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">beta</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+<span class="linenos"> 90</span>             <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">]</span>
+<span class="linenos"> 91</span><span class="n">ss</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">fa</span>    <span class="o">=</span> <span class="p">[</span><span class="n">fa_ix</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">sub_param</span><span class="o">+</span><span class="n">sub_nt</span><span class="p">)</span><span class="o">.</span><span class="n">simplify</span><span class="p">()</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="n">collect_f</span><span class="p">)</span> <span class="k">for</span> <span class="n">fa_ix</span> <span class="ow">in</span> <span class="n">ss</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">fa</span><span class="p">]</span>
+<span class="linenos"> 92</span><span class="n">ss</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">fbeta</span> <span class="o">=</span> <span class="p">[</span><span class="n">fbeta_ix</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">sub_param</span><span class="o">+</span><span class="n">sub_nt</span><span class="p">)</span><span class="o">.</span><span class="n">simplify</span><span class="p">()</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="n">collect_f</span><span class="p">)</span> <span class="k">for</span> <span class="n">fbeta_ix</span> <span class="ow">in</span> <span class="n">ss</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">fbeta</span><span class="p">]</span>
+<span class="linenos"> 93</span>
+<span class="linenos"> 94</span><span class="c1"># Solve the evolution equations for a given dof</span>
+<span class="linenos"> 95</span><span class="n">solve_dof</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1"># dof to solve for</span>
+<span class="linenos"> 96</span><span class="n">ss</span><span class="o">.</span><span class="n">solve_forced</span><span class="p">(</span><span class="n">solve_dof</span><span class="o">=</span><span class="n">solve_dof</span><span class="p">)</span>
+<span class="linenos"> 97</span><span class="n">ss</span><span class="o">.</span><span class="n">solve_bbc</span><span class="p">(</span><span class="n">solve_dof</span><span class="o">=</span><span class="n">solve_dof</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">param_scaled</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>
+<span class="linenos"> 98</span>
+<span class="linenos"> 99</span><span class="c1"># Stability analysis </span>
+<span class="linenos">100</span><span class="n">kwargs_stab</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">coord</span><span class="o">=</span><span class="s2">&quot;cartesian&quot;</span><span class="p">,</span> <span class="n">eigenvalues</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bifurcation_curves</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">analyse_blocks</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kwargs_bif</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">var_a</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">var_sig</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="n">solve</span><span class="p">))</span>
+<span class="linenos">101</span><span class="n">ss</span><span class="o">.</span><span class="n">stability_analysis</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs_stab</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="example9.html" class="btn btn-neutral float-left" title="Example 9: Subharmonic response of a Duffing oscillator" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../readme.html" class="btn btn-neutral float-right" title="README" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Vincent MAHE.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
