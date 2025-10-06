@@ -60,6 +60,9 @@ It is the case with VS Code's interactive Window or Spyder's IPython consol.
 
 Methods of `Steady_state` also allow to evaluate sympy results for given numerical values of system parameters and to plot them.
 
+# Citation
+Please cite this package when using it – see the CITATION file for details.
+
 # Disclaimer
 This code is provided as-is and has been tested on a limited number of nonlinear systems. 
 Other test cases might trigger bugs or unexpected behavior that I am not yet aware of.
