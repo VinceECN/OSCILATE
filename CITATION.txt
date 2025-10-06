@@ -1,2 +1,5 @@
 If you use this code in your work, please cite it as follows:
-[https://github.com/VinceECN/MMS_solver].
+Vincent Mahe. (2025). MMS_solver (Version 0.1.0) [Computer software]. GitHub. https://github.com/VinceECN/MMS_solver
+
+For LaTeX/BibTeX users, a citation entry is available in CITATION.bib.
+A paper describing this work is currently in publication and will become the preferred citation once published. For now, please cite this repository.
