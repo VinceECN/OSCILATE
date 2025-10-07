@@ -1,0 +1,5 @@
+include CITATION.txt
+include CITATION.bib
+include NOTICE.txt
+include README.md
+include requirements.txt
