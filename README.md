@@ -92,7 +92,7 @@ pip install .
   pip install -r docs/requirements.txt
   ```
 
-## Optional: Use a Virtual Environment (recommended)
+## Optional: use a virtual environment (recommended)
 To avoid conflicts with other packages, create and activate a virtual environment:
 
 ```bash
