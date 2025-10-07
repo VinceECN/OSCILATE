@@ -75,6 +75,11 @@ To install the stable version from [PyPI](https://pypi.org/project/oscilate/), u
 pip install oscilate
 ```
 
+Then, simply import the package in a python environment using
+```python
+import oscilate
+```
+
 ## Install from the repository (latest version)
 To install the latest version directly from the GitHub repository, run:
 
