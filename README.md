@@ -1,7 +1,7 @@
 **OSCILATE** (Oscillators' nonlinear analysis through Symbolic ImplementATion of the mEthod of multiple scales)
 ==============
 
-# Nonlinear systems considered
+## Nonlinear systems considered
 The **OSCILATE** package allows the application of the **Method of Multiple Scales** (MMS) to a nonlinear equation or systems of $N$ coupled nonlinear equations of the form
 
 $$
@@ -36,7 +36,8 @@ The $f_i$ are functions which can contain:
 Internal resonance relations among oscillators can be specified in a second step by expressing the $\omega_i$ as a function of a reference frequency.
 Detuning can also be introduced during this step.
 
-# Solver
+## Overview
+### Solver
 `MMS.py` is the MMS solver. It contains 3 main classes:
 - `Dynamical_system` : the dynamical system considered
 - `Multiple_scales_system` : the system obtained after applying the MMS to the dynamical system
@@ -44,10 +45,10 @@ Detuning can also be introduced during this step.
 
 These classes are described in details in the documentation.
 
-# Additional functions
+### Additional functions
 `sympy_functions.py` contains additional functions that are not directly related to the MMS but which are used in `MMS.py`.
 
-# Examples
+### Examples
 Application examples are proposed in the documentation. They include
 - The Duffing oscillator
 - Coupled Duffing oscillators
@@ -56,19 +57,23 @@ Application examples are proposed in the documentation. They include
 - Hard forcing of a Duffing oscillator
 - Subharmonic response of 2 coupled centrifugal pendulum modes
 
-# Outputs
+### Outputs
 Results are returned as sympy expressions.
 They can be printed using $\LaTeX$ if the code is ran in an appropriate interactive Window. 
 It is the case with VS Code's interactive Window or Spyder's IPython consol.
 
 Methods of `Steady_state` also allow to evaluate sympy results for given numerical values of system parameters and to plot them.
 
-# Citation
+## Documentation
+
+A full documentation is available here: [Documentation](https://vinceECN.github.io/OSCILATE/)
+
+## Citation
 Please cite this package when using it – see the CITATION file for details.
 
-# Installation guide
+## Installation guide
 
-## Install from PyPI (recommended)
+#### Install from PyPI (recommended)
 To install the stable version from [PyPI](https://pypi.org/project/oscilate/), use:
 
 ```bash
@@ -80,7 +85,7 @@ Then, simply import the package in a python environment using
 import oscilate
 ```
 
-## Install from the repository (latest version)
+#### Install from the repository (latest version)
 To install the latest version directly from the GitHub repository, run:
 
 ```bash
@@ -89,7 +94,7 @@ cd OSCILATE
 pip install .
 ```
 
-## Dependencies
+#### Dependencies
 - **Python 3.8 or higher** is required.
 - For development or building documentation, install additional dependencies:
   ```bash
@@ -97,16 +102,16 @@ pip install .
   pip install -r docs/requirements.txt
   ```
 
-## Optional: use a virtual environment (recommended)
+#### Optional: use a virtual environment (recommended)
 To avoid conflicts with other packages, create and activate a virtual environment:
 
 ```bash
 python -m venv venv_mms
-source venv_mms/bin/activate   # Linux/macOS
-.\venv_mms\Scripts\activate    # Windows
+source venv_mms/bin/activate   ## Linux/macOS
+.\venv_mms\Scripts\activate    ## Windows
 ```
 
-# Disclaimer
+## Disclaimer
 This code is provided as-is and has been tested on a limited number of nonlinear systems. 
 Other test cases might trigger bugs or unexpected behavior that I am not yet aware of.
 If you encounter any issues, find a bug, or have suggestions for improvements, please feel free to:
@@ -118,6 +123,6 @@ Your feedback is highly appreciated!
 
 Vincent MAHE
 
-# License
+## License
 This project is licensed under the **Apache License 2.0** – see the LICENSE file for details.
 
