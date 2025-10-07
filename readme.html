@@ -57,7 +57,13 @@
 <li class="toctree-l2"><a class="reference internal" href="#examples">Examples</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#outputs">Outputs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#citation">Citation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#installation-guide">Installation guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installation-guide">Installation guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#install-from-pypi-recommended">Install from PyPI (recommended)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#install-from-the-repository-latest-version">Install from the repository (latest version)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dependencies">Dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#optional-use-a-virtual-environment-recommended">Optional: Use a Virtual Environment (recommended)</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#disclaimer">Disclaimer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#license">License</a></li>
 </ul>
@@ -171,6 +177,43 @@ It is the case with VS Code’s interactive Window or Spyder’s IPython consol.
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="installation-guide">
 <h2>Installation guide<a class="headerlink" href="#installation-guide" title="Link to this heading"></a></h2>
+<section id="install-from-pypi-recommended">
+<h3>Install from PyPI (recommended)<a class="headerlink" href="#install-from-pypi-recommended" title="Link to this heading"></a></h3>
+<p>To install the stable version from <a class="reference external" href="https://pypi.org/project/oscilate/">PyPI</a>, use:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>oscilate
+</pre></div>
+</div>
+</section>
+<section id="install-from-the-repository-latest-version">
+<h3>Install from the repository (latest version)<a class="headerlink" href="#install-from-the-repository-latest-version" title="Link to this heading"></a></h3>
+<p>To install the latest version directly from the GitHub repository, run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/vinceECN/OSCILATE.git
+<span class="nb">cd</span><span class="w"> </span>OSCILATE
+pip<span class="w"> </span>install<span class="w"> </span>.
+</pre></div>
+</div>
+</section>
+<section id="dependencies">
+<h3>Dependencies<a class="headerlink" href="#dependencies" title="Link to this heading"></a></h3>
+<ul>
+<li><p><strong>Python 3.8 or higher</strong> is required.</p></li>
+<li><p>For development or building documentation, install additional dependencies:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements-dev.txt
+pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>docs/requirements.txt
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+<section id="optional-use-a-virtual-environment-recommended">
+<h3>Optional: Use a Virtual Environment (recommended)<a class="headerlink" href="#optional-use-a-virtual-environment-recommended" title="Link to this heading"></a></h3>
+<p>To avoid conflicts with other packages, create and activate a virtual environment:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>venv_mms
+<span class="nb">source</span><span class="w"> </span>venv_mms/bin/activate<span class="w">   </span><span class="c1"># Linux/macOS</span>
+.<span class="se">\v</span>env_mms<span class="se">\S</span>cripts<span class="se">\a</span>ctivate<span class="w">    </span><span class="c1"># Windows</span>
+</pre></div>
+</div>
+</section>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="disclaimer">
 <h2>Disclaimer<a class="headerlink" href="#disclaimer" title="Link to this heading"></a></h2>
