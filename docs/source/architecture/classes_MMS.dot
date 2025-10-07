@@ -1,6 +1,6 @@
 digraph "classes_MMS" {
   rankdir=BT;
-  splines=true;
+  splines="curved"; // true, "polyline", "line"
   nodesep=0.5;
   ranksep=0.75;
   charset="utf-8";
@@ -138,14 +138,14 @@ digraph "classes_MMS" {
   }
 
   // Edges
-  "OSCILATE.MMS.MMS.Coord_MMS" -> "OSCILATE.MMS.MMS.Multiple_scales_system" [arrowhead="diamond", arrowtail="none", label="coord"];
-  "OSCILATE.MMS.MMS.Coord_SS" -> "OSCILATE.MMS.MMS.Steady_state" [arrowhead="diamond", arrowtail="none", label="coord"];
-  "OSCILATE.MMS.MMS.Forcing" -> "OSCILATE.MMS.MMS.Dynamical_system" [arrowhead="diamond", arrowtail="none", label="forcing"];
-  "OSCILATE.MMS.MMS.Forcing_MMS" -> "OSCILATE.MMS.MMS.Multiple_scales_system" [arrowhead="diamond", arrowtail="none", label="forcing"];
-  "OSCILATE.MMS.MMS.Forcing_SS" -> "OSCILATE.MMS.MMS.Steady_state" [arrowhead="diamond", arrowtail="none", label="forcing"];
-  "OSCILATE.MMS.MMS.Sol_MMS" -> "OSCILATE.MMS.MMS.Multiple_scales_system" [arrowhead="diamond", arrowtail="none", label="sol"];
-  "OSCILATE.MMS.MMS.Sol_SS" -> "OSCILATE.MMS.MMS.Steady_state" [arrowhead="diamond", arrowtail="none", label="sol"];
-  "OSCILATE.MMS.MMS.Stab_SS" -> "OSCILATE.MMS.MMS.Steady_state" [arrowhead="diamond", arrowtail="none", label="stab"];
-  "OSCILATE.MMS.MMS.Substitutions_MMS" -> "OSCILATE.MMS.MMS.Multiple_scales_system" [arrowhead="diamond", arrowtail="none", label="sub"];
-  "OSCILATE.MMS.MMS.Substitutions_SS" -> "OSCILATE.MMS.MMS.Steady_state" [arrowhead="diamond", arrowtail="none", label="sub"];
+  "OSCILATE.MMS.MMS.Coord_MMS" -> "OSCILATE.MMS.MMS.Multiple_scales_system" [arrowhead="normal", arrowtail="none", xlabel="coord"];
+  "OSCILATE.MMS.MMS.Coord_SS" -> "OSCILATE.MMS.MMS.Steady_state" [arrowhead="normal", arrowtail="none", xlabel="coord"];
+  "OSCILATE.MMS.MMS.Forcing" -> "OSCILATE.MMS.MMS.Dynamical_system" [arrowhead="normal", arrowtail="none", xlabel="forcing"];
+  "OSCILATE.MMS.MMS.Forcing_MMS" -> "OSCILATE.MMS.MMS.Multiple_scales_system" [arrowhead="normal", arrowtail="none", xlabel="forcing"];
+  "OSCILATE.MMS.MMS.Forcing_SS" -> "OSCILATE.MMS.MMS.Steady_state" [arrowhead="normal", arrowtail="none", xlabel="forcing"];
+  "OSCILATE.MMS.MMS.Sol_MMS" -> "OSCILATE.MMS.MMS.Multiple_scales_system" [arrowhead="normal", arrowtail="none", xlabel="sol"];
+  "OSCILATE.MMS.MMS.Sol_SS" -> "OSCILATE.MMS.MMS.Steady_state" [arrowhead="normal", arrowtail="none", xlabel="sol"];
+  "OSCILATE.MMS.MMS.Stab_SS" -> "OSCILATE.MMS.MMS.Steady_state" [arrowhead="normal", arrowtail="none", xlabel="stab"];
+  "OSCILATE.MMS.MMS.Substitutions_MMS" -> "OSCILATE.MMS.MMS.Multiple_scales_system" [arrowhead="normal", arrowtail="none", xlabel="sub"];
+  "OSCILATE.MMS.MMS.Substitutions_SS" -> "OSCILATE.MMS.MMS.Steady_state" [arrowhead="normal", arrowtail="none", xlabel="sub"];
 }

@@ -1,7 +1,7 @@
 Application Examples
 ====================
 
-Here are some practical examples of using **MMS_solver**:
+Here are some practical examples of using **OSCILATE**:
 
 .. toctree::
    :maxdepth: 1
