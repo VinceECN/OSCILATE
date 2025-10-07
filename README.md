@@ -68,6 +68,39 @@ Please cite this package when using it – see the CITATION file for details.
 
 # Installation guide
 
+## Install from PyPI (recommended)
+To install the stable version from [PyPI](https://pypi.org/project/oscilate/), use:
+
+```bash
+pip install oscilate
+```
+
+## Install from the repository (latest version)
+To install the latest version directly from the GitHub repository, run:
+
+```bash
+git clone https://github.com/vinceECN/OSCILATE.git
+cd OSCILATE
+pip install .
+```
+
+## Dependencies
+- **Python 3.8 or higher** is required.
+- For development or building documentation, install additional dependencies:
+  ```bash
+  pip install -r requirements-dev.txt
+  pip install -r docs/requirements.txt
+  ```
+
+## Optional: Use a Virtual Environment (recommended)
+To avoid conflicts with other packages, create and activate a virtual environment:
+
+```bash
+python -m venv venv_mms
+source venv_mms/bin/activate   # Linux/macOS
+.\venv_mms\Scripts\activate    # Windows
+```
+
 # Disclaimer
 This code is provided as-is and has been tested on a limited number of nonlinear systems. 
 Other test cases might trigger bugs or unexpected behavior that I am not yet aware of.
