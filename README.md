@@ -1,5 +1,8 @@
+**OSCILATE** (Oscillators' nonlinear analysis through Symbolic ImplementATion of the mEthod of multiple scales)
+==============
+
 # Nonlinear systems considered
-This package allows the application of the **Method of Multiple Scales** (MMS) to a nonlinear equation or systems of $N$ coupled nonlinear equations of the form
+The **OSCILATE** package allows the application of the **Method of Multiple Scales** (MMS) to a nonlinear equation or systems of $N$ coupled nonlinear equations of the form
 
 $$
 \begin{cases}
@@ -62,6 +65,8 @@ Methods of `Steady_state` also allow to evaluate sympy results for given numeric
 
 # Citation
 Please cite this package when using it – see the CITATION file for details.
+
+# Installation guide
 
 # Disclaimer
 This code is provided as-is and has been tested on a limited number of nonlinear systems. 

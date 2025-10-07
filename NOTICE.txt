@@ -1,4 +1,4 @@
-MMS_solver
+OSCILATE
 Copyright 2025 Vincent Mahé
 
-This product includes software developed by Vincent Mahé (https://github.com/VinceECN/MMS_solver).
+This product includes software developed by Vincent Mahé (https://github.com/VinceECN/OSCILATE).
