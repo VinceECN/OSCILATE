@@ -4,7 +4,7 @@ import sys
 sys.path.insert(0, os.path.abspath('../../'))
 
 # Project information
-project = 'MMS_solver'
+project = 'OSCILATE'
 copyright = '2025, Vincent MAHE'
 author = 'Vincent MAHE'
 release = '0.0.0'
