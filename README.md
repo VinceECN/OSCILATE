@@ -73,7 +73,7 @@ Please cite this package when using it – see the CITATION file for details.
 
 ## Installation guide
 
-#### Install from PyPI (recommended)
+### Install from PyPI (recommended)
 To install the stable version from [PyPI](https://pypi.org/project/oscilate/), use:
 
 ```bash
@@ -85,7 +85,7 @@ Then, simply import the package in a python environment using
 import oscilate
 ```
 
-#### Install from the repository (latest version)
+### Install from the repository (latest version)
 To install the latest version directly from the GitHub repository, run:
 
 ```bash
@@ -94,7 +94,7 @@ cd OSCILATE
 pip install .
 ```
 
-#### Dependencies
+### Dependencies
 - **Python 3.8 or higher** is required.
 - For development or building documentation, install additional dependencies:
   ```bash
@@ -102,7 +102,7 @@ pip install .
   pip install -r docs/requirements.txt
   ```
 
-#### Optional: use a virtual environment (recommended)
+### Optional: use a virtual environment (recommended)
 To avoid conflicts with other packages, create and activate a virtual environment:
 
 ```bash

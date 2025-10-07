@@ -4,7 +4,7 @@
 from sympy import symbols, Function
 from sympy.physics.vector.printing import init_vprinting
 init_vprinting(use_latex=True, forecolor='White') # Initialise latex printing 
-from MMS import MMS
+from oscilate import MMS
 
 # Parameters and variables
 omega0, omega1, F, mu0, ma0 = symbols(r'\omega_0, \omega_1, F, \mu_0, \mu_1', real=True, positive=True)

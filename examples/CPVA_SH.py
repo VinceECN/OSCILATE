@@ -4,7 +4,7 @@
 from sympy import symbols, Function, Rational, sin, cos, sqrt, solve
 from sympy.physics.vector.printing import init_vprinting
 init_vprinting(use_latex=True, forecolor='White') # Initialise latex printing 
-from MMS import MMS
+from oscilate import MMS
 
 # Parameters and variables
 nP, nt, mu, eta, Lm, b, T1  = symbols(r"n_p, n_t, \mu, \eta, \Lambda_m, b, T_1", real=True, positive=True)
