@@ -3,7 +3,7 @@ Modules
 
 MMS Module
 ----------
-.. automodule:: MMS.MMS
+.. automodule:: oscilate.MMS
    :members:
    :undoc-members:
    :show-inheritance:
@@ -14,7 +14,7 @@ MMS Module
 
 sympy_functions Module
 ----------------------
-.. automodule:: MMS.sympy_functions
+.. automodule:: oscilate.sympy_functions
    :members:
    :undoc-members:
    :show-inheritance:
