@@ -1,0 +1,64 @@
+Example 1: Duffing oscillator
+-----------------------------
+
+MMS example on the Duffing oscillator subject to harmonic forcing. 
+This configuration was studied by Nayfeh and Mook in *Nonlinear Oscillations* (1995), sections 4.1 and 4.1.1.
+
+System description
+^^^^^^^^^^^^^^^^^^
+
+The system's equation is
+
+.. math::
+    \ddot{x} + c \dot{x} + \omega_0^2 x + \gamma x^3 = F \cos(\omega t),
+
+where 
+
+- :math:`x` is the oscillator's coordinate,
+- :math:`t` is the time,
+- :math:`\dot{(\bullet)} = \mathrm{d}(\bullet)/\mathrm{d}t` is a time derivative,
+- :math:`c` is the linear viscous damping coefficient,
+- :math:`\omega_0` is the oscillator's natural frequency,
+- :math:`\gamma` is the nonlinear coefficient,
+- :math:`F` is the forcing amplitude,
+- :math:`\omega` is the forcing frequency.
+
+A direct response is sought so the frequency (either backbone curve frequency or forcing frequency) is close from the oscilltor's such that
+
+.. math::
+    \omega = \omega_0 + \epsilon \sigma
+
+where
+
+- :math:`\epsilon` is a small parameter involved in the MMS,
+- :math:`\sigma` is the detuning wrt the reference frequency :math:`\omega_0`.
+
+The parameters are then scaled to indicate how weak they are:
+
+- :math:`c = \epsilon^{N_e} \tilde{c}` indicates that damping is weak (of order :math:`N_e`),
+- :math:`F = \epsilon^{N_e} \tilde{F}` indicates that forcing is weak (of order :math:`N_e`),
+- :math:`\gamma = \epsilon \tilde{\gamma}` indicates that nonlinearities are weak (of order 1).
+
+Note that :math:`N_e` is the order up to which the solutions are sought and the time scales are constructed. 
+It is therefore chosen here to scale the damping and forcing at maximum order. 
+
+Code description
+^^^^^^^^^^^^^^^^
+The script below allows to
+
+- Construct the dynamical system.
+- Apply the MMS to the system up to order :math:`N_e = 3`. The MMS results can be visualized in LaTeX in an **IPython-based interactive environment** (e.g., VS Code's Python Interactive Window or Jupyter Notebook). For example, to visualize the evolution function :math:`f_\beta(a, \beta)`, use
+
+  .. prompt:: python
+
+     mms.sol.fbeta  # Display the symbolic expression for :math:`f_\beta(a, \beta)`
+
+- Evaluate the MMS results at steady state. The solutions are stored in ``ss.sol`` (e.g., ``ss.sol.fa``, ``ss.sol.fbeta``).
+- Compute the forced response and the backbone curve. These results are also stored in ``ss.sol`` (e.g., ``ss.sol.sigma``, ``ss.sol.F``, ``ss.sol.omega_bbc``).
+- Evaluate the stability of the computed forced solution. The stability results are stored in ``ss.stab`` (e.g., ``ss.stab.eigvals``, ``ss.stab.bif_a``).
+- Evaluate the steady-state results for given numerical values of the parameters and plot the results using methods like ``ss.plot_FRC()`` or ``ss.plot_ARC()``.
+
+.. literalinclude:: ../../../examples/Duffing_direct.py
+   :language: python
+   :linenos:
+

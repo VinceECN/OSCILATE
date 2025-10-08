@@ -1,0 +1,4 @@
+Legal Notices
+==============
+.. literalinclude:: ../../NOTICE.txt
+    :language: text
