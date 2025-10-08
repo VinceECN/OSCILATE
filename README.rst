@@ -20,7 +20,7 @@ The :math:`x_i(t)` (:math:`i=0,...,N-1`) are the oscillators' coordinates,
 is the vector containing all the oscillators' coordinates (the :math:`^\intercal` denotes the transpose),
 :math:`\omega_i` are their natural frequencies,
 :math:`t` is the time and
-:math:`\dot{\bullet} = \textrm{d} \bullet / \textrm{d}t` denotes a time-derivative.
+:math:`\dot{(\bullet)} = \textrm{d}(\bullet)/\textrm{d}t` denotes a time-derivative.
 The :math:`f_i` are functions which can contain:
 
 - **Weak linear terms** in :math:`x_i,\; \dot{x}_i`, or :math:`\ddot{x}_i`.
