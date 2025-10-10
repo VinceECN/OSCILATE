@@ -18,6 +18,7 @@ Welcome to the documentation for **OSCILATE**, a Python package for solving syst
    architecture
    examples
    readme
+   sympy_basics
    license
    citation
    notice
