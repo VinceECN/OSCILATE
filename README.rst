@@ -37,19 +37,19 @@ Overview
 ========
 Solver
 ------
-`MMS.py` is the MMS solver. It contains 3 main classes:
+``MMS.py`` is the MMS solver. It contains 3 main classes:
 
-- `Dynamical_system` : the dynamical system considered
+- ``Dynamical_system`` : the dynamical system considered
 
-- `Multiple_scales_system` : the system obtained after applying the MMS to the dynamical system
+- ``Multiple_scales_system`` : the system obtained after applying the MMS to the dynamical system
 
-- `Stead_state` : the MMS results evaluated at steady state and (if computed) the system's response and its stability. 
+- ``Stead_state`` : the MMS results evaluated at steady state and (if computed) the system's response and its stability. 
 
 These classes are described in details in the `documentation <https://vinceECN.github.io/OSCILATE/>`_.
 
 Additional functions
 --------------------
-`sympy_functions.py` contains additional functions that are not directly related to the MMS but which are used in `MMS.py`.
+``sympy_functions.py`` contains additional functions that are not directly related to the MMS but which are used in ``MMS.py``.
 
 Examples
 --------
