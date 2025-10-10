@@ -9,6 +9,7 @@
   <title>README &mdash; OSCILATE 0.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
@@ -16,6 +17,8 @@
       <script src="_static/documentation_options.js?v=7026087e"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
       <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
       <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="_static/js/theme.js"></script>
@@ -50,28 +53,25 @@
 <li class="toctree-l1"><a class="reference internal" href="architecture.html">Package Architecture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Application Examples</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">README</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#oscilate-oscillators-nonlinear-analysis-through-symbolic-implementation-of-the-method-of-multiple-scales"><strong>OSCILATE</strong> (Oscillators’ nonlinear analysis through Symbolic ImplementATion of the mEthod of multiple scales)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#nonlinear-systems-considered">Nonlinear systems considered</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#solver">Solver</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#additional-functions">Additional functions</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#outputs">Outputs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#nonlinear-systems-considered">Nonlinear systems considered</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#solver">Solver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#additional-functions">Additional functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#examples">Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#outputs">Outputs</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#documentation">Documentation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#citation">Citation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#installation-guide">Installation guide</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#install-from-pypi-recommended">Install from PyPI (recommended)</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#install-from-the-repository-latest-version">Install from the repository (latest version)</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#dependencies">Dependencies</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#optional-use-a-virtual-environment-recommended">Optional: use a virtual environment (recommended)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#documentation">Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#citation">Citation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installation-guide">Installation guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#install-from-pypi-recommended">Install from PyPI (recommended)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#install-from-the-repository-latest-version">Install from the repository (latest version)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dependencies">Dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#optional-use-a-virtual-environment-recommended">Optional: use a virtual environment (recommended)</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#disclaimer">Disclaimer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#license">License</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#disclaimer">Disclaimer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#license">License</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
@@ -105,11 +105,9 @@
              
   <section id="readme">
 <h1>README<a class="headerlink" href="#readme" title="Link to this heading"></a></h1>
-<section class="tex2jax_ignore mathjax_ignore" id="oscilate-oscillators-nonlinear-analysis-through-symbolic-implementation-of-the-method-of-multiple-scales">
-<h2><strong>OSCILATE</strong> (Oscillators’ nonlinear analysis through Symbolic ImplementATion of the mEthod of multiple scales)<a class="headerlink" href="#oscilate-oscillators-nonlinear-analysis-through-symbolic-implementation-of-the-method-of-multiple-scales" title="Link to this heading"></a></h2>
-<section id="nonlinear-systems-considered">
-<h3>Nonlinear systems considered<a class="headerlink" href="#nonlinear-systems-considered" title="Link to this heading"></a></h3>
-<p>The <strong>OSCILATE</strong> package allows the application of the <strong>Method of Multiple Scales</strong> (MMS) to a nonlinear equation or systems of <span class="math notranslate nohighlight">\(N\)</span> coupled nonlinear equations of the form</p>
+<section class="tex2jax_ignore mathjax_ignore" id="nonlinear-systems-considered">
+<h2>Nonlinear systems considered<a class="headerlink" href="#nonlinear-systems-considered" title="Link to this heading"></a></h2>
+<p>The <strong>OSCILATE</strong> (Oscillators’ nonlinear analysis through Symbolic ImplementATion of the mEthod of multiple scales) package allows the application of the <strong>Method of Multiple Scales</strong> (MMS) to a nonlinear equation or systems of <span class="math notranslate nohighlight">\(N\)</span> coupled nonlinear equations of the form</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{cases}
@@ -143,10 +141,10 @@ The <span class="math notranslate nohighlight">\(f_i\)</span> are functions whic
 <p>Internal resonance relations among oscillators can be specified in a second step by expressing the <span class="math notranslate nohighlight">\(\omega_i\)</span> as a function of a reference frequency.
 Detuning can also be introduced during this step.</p>
 </section>
-<section id="overview">
-<h3>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h3>
+<section class="tex2jax_ignore mathjax_ignore" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
 <section id="solver">
-<h4>Solver<a class="headerlink" href="#solver" title="Link to this heading"></a></h4>
+<h3>Solver<a class="headerlink" href="#solver" title="Link to this heading"></a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">MMS.py</span></code> is the MMS solver. It contains 3 main classes:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">Dynamical_system</span></code> : the dynamical system considered</p></li>
@@ -156,11 +154,11 @@ Detuning can also be introduced during this step.</p>
 <p>These classes are described in details in the documentation.</p>
 </section>
 <section id="additional-functions">
-<h4>Additional functions<a class="headerlink" href="#additional-functions" title="Link to this heading"></a></h4>
+<h3>Additional functions<a class="headerlink" href="#additional-functions" title="Link to this heading"></a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">sympy_functions.py</span></code> contains additional functions that are not directly related to the MMS but which are used in <code class="docutils literal notranslate"><span class="pre">MMS.py</span></code>.</p>
 </section>
 <section id="examples">
-<h4>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h4>
+<h3>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h3>
 <p>Application examples are proposed in the documentation. They include</p>
 <ul class="simple">
 <li><p>The Duffing oscillator</p></li>
@@ -172,25 +170,25 @@ Detuning can also be introduced during this step.</p>
 </ul>
 </section>
 <section id="outputs">
-<h4>Outputs<a class="headerlink" href="#outputs" title="Link to this heading"></a></h4>
+<h3>Outputs<a class="headerlink" href="#outputs" title="Link to this heading"></a></h3>
 <p>Results are returned as sympy expressions.
 They can be printed using <span class="math notranslate nohighlight">\(\LaTeX\)</span> if the code is ran in an appropriate interactive Window.
 It is the case with VS Code’s interactive Window or Spyder’s IPython consol.</p>
 <p>Methods of <code class="docutils literal notranslate"><span class="pre">Steady_state</span></code> also allow to evaluate sympy results for given numerical values of system parameters and to plot them.</p>
 </section>
 </section>
-<section id="documentation">
-<h3>Documentation<a class="headerlink" href="#documentation" title="Link to this heading"></a></h3>
+<section class="tex2jax_ignore mathjax_ignore" id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Link to this heading"></a></h2>
 <p>A full documentation is available here: <a class="reference external" href="https://vinceECN.github.io/OSCILATE/">Documentation</a></p>
 </section>
-<section id="citation">
-<h3>Citation<a class="headerlink" href="#citation" title="Link to this heading"></a></h3>
+<section class="tex2jax_ignore mathjax_ignore" id="citation">
+<h2>Citation<a class="headerlink" href="#citation" title="Link to this heading"></a></h2>
 <p>Please cite this package when using it – see the CITATION file for details.</p>
 </section>
-<section id="installation-guide">
-<h3>Installation guide<a class="headerlink" href="#installation-guide" title="Link to this heading"></a></h3>
+<section class="tex2jax_ignore mathjax_ignore" id="installation-guide">
+<h2>Installation guide<a class="headerlink" href="#installation-guide" title="Link to this heading"></a></h2>
 <section id="install-from-pypi-recommended">
-<h4>Install from PyPI (recommended)<a class="headerlink" href="#install-from-pypi-recommended" title="Link to this heading"></a></h4>
+<h3>Install from PyPI (recommended)<a class="headerlink" href="#install-from-pypi-recommended" title="Link to this heading"></a></h3>
 <p>To install the stable version from <a class="reference external" href="https://pypi.org/project/oscilate/">PyPI</a>, use:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>oscilate
 </pre></div>
@@ -201,7 +199,7 @@ It is the case with VS Code’s interactive Window or Spyder’s IPython consol.
 </div>
 </section>
 <section id="install-from-the-repository-latest-version">
-<h4>Install from the repository (latest version)<a class="headerlink" href="#install-from-the-repository-latest-version" title="Link to this heading"></a></h4>
+<h3>Install from the repository (latest version)<a class="headerlink" href="#install-from-the-repository-latest-version" title="Link to this heading"></a></h3>
 <p>To install the latest version directly from the GitHub repository, run:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/vinceECN/OSCILATE.git
 <span class="nb">cd</span><span class="w"> </span>OSCILATE
@@ -210,7 +208,7 @@ pip<span class="w"> </span>install<span class="w"> </span>.
 </div>
 </section>
 <section id="dependencies">
-<h4>Dependencies<a class="headerlink" href="#dependencies" title="Link to this heading"></a></h4>
+<h3>Dependencies<a class="headerlink" href="#dependencies" title="Link to this heading"></a></h3>
 <ul>
 <li><p><strong>Python 3.8 or higher</strong> is required.</p></li>
 <li><p>For development or building documentation, install additional dependencies:</p>
@@ -222,7 +220,7 @@ pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </s
 </ul>
 </section>
 <section id="optional-use-a-virtual-environment-recommended">
-<h4>Optional: use a virtual environment (recommended)<a class="headerlink" href="#optional-use-a-virtual-environment-recommended" title="Link to this heading"></a></h4>
+<h3>Optional: use a virtual environment (recommended)<a class="headerlink" href="#optional-use-a-virtual-environment-recommended" title="Link to this heading"></a></h3>
 <p>To avoid conflicts with other packages, create and activate a virtual environment:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>venv_mms
 <span class="nb">source</span><span class="w"> </span>venv_mms/bin/activate<span class="w">   </span><span class="c1">## Linux/macOS</span>
@@ -231,8 +229,8 @@ pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </s
 </div>
 </section>
 </section>
-<section id="disclaimer">
-<h3>Disclaimer<a class="headerlink" href="#disclaimer" title="Link to this heading"></a></h3>
+<section class="tex2jax_ignore mathjax_ignore" id="disclaimer">
+<h2>Disclaimer<a class="headerlink" href="#disclaimer" title="Link to this heading"></a></h2>
 <p>This code is provided as-is and has been tested on a limited number of nonlinear systems.
 Other test cases might trigger bugs or unexpected behavior that I am not yet aware of.
 If you encounter any issues, find a bug, or have suggestions for improvements, please feel free to:</p>
@@ -244,10 +242,9 @@ If you encounter any issues, find a bug, or have suggestions for improvements, p
 <p>Your feedback is highly appreciated!</p>
 <p>Vincent MAHE</p>
 </section>
-<section id="license">
-<h3>License<a class="headerlink" href="#license" title="Link to this heading"></a></h3>
+<section class="tex2jax_ignore mathjax_ignore" id="license">
+<h2>License<a class="headerlink" href="#license" title="Link to this heading"></a></h2>
 <p>This project is licensed under the <strong>Apache License 2.0</strong> – see the LICENSE file for details.</p>
-</section>
 </section>
 </section>
 
