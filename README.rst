@@ -73,7 +73,19 @@ Results are returned as sympy expressions.
 They can be printed using LaTeX if the code is ran in an appropriate interactive Window. 
 It is the case with VS Code's interactive Window or Spyder's IPython consol.
 
-Methods of `Steady_state` also allow to evaluate sympy results for given numerical values of system parameters and to plot them.
+Here are possibilities:
+
+- VS Code's interactive Window (powered by Jupyter)
+
+- Jupyter notebook
+
+- Spyder's IPython consol
+ 
+Sympy expressions can also be printed as unformatted LaTeX using 
+
+```
+print(vlatex(the_expr))
+```
 
 Documentation
 =============
@@ -97,6 +109,14 @@ Then, simply import the package in a python environment using::
     import oscilate
 
 
+Install from a GitHub release
+-----------------------------
+To install from a GitHub release tagged as version `vX.Y.Z`, run::
+
+    pip install https://github.com/vinceECN/OSCILATE/archive/refs/tags/vX.Y.Z.tar.gz
+
+
+
 Install from the repository (latest version)
 --------------------------------------------
 To install the latest version directly from the GitHub repository, run::
@@ -108,7 +128,6 @@ To install the latest version directly from the GitHub repository, run::
 
 Dependencies
 ------------
-
 
 - **Python 3.8 or higher** is required.
 
@@ -126,6 +145,26 @@ To avoid conflicts with other packages, create and activate a virtual environmen
     source venv_mms/bin/activate   ## Linux/macOS
     .\venv_mms\Scripts\activate    ## Windows
 
+
+
+Test the install
+----------------
+
+To test the install, follow these steps:
+
+1. Open a python environment. Ideally one powered by Jupyter (see Outputs section) to display results as LaTeX.
+
+2. In the documentation, go to *Application Examples/Example 1*. 
+
+3. Copy the example code.
+
+4. Run the example code in your python environment.
+
+5. You should see information about the ongoing computations.
+
+6. After the code is ran (a few seconds should be sufficient), figures of the forced response and its stability information are displayed.
+
+7. You can access the analytical solutions computed type, for instance, `ss.sol.fa`. They will be displayed as LaTeX if the python environment supports its. 
 
 Disclaimer
 ==========
