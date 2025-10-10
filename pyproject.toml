@@ -37,4 +37,4 @@ text = "Apache-2.0"
 [project.urls]
 Homepage = "https://github.com/VinceECN/OSCILATE"
 Repository = "https://github.com/VinceECN/OSCILATE"
-Documentation = "https://github.com/VinceECN/OSCILATE#readme"
+Documentation = "https://vinceecn.github.io/OSCILATE/"

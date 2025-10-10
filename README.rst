@@ -1,8 +1,6 @@
-**OSCILATE** (Oscillators' nonlinear analysis through Symbolic ImplementATion of the mEthod of multiple scales)
-
 Nonlinear systems considered
 ==============================
-The **OSCILATE** package allows the application of the **Method of Multiple Scales** (MMS) to a nonlinear equation or systems of :math:`N` coupled nonlinear equations of the form
+The **OSCILATE** (Oscillators' nonlinear analysis through Symbolic ImplementATion of the mEthod of multiple scales) package allows the application of the **Method of Multiple Scales** (MMS) to a nonlinear equation or systems of :math:`N` coupled nonlinear equations of the form
 
 .. math::
     \begin{cases}
