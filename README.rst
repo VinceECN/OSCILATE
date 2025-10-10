@@ -164,7 +164,7 @@ To test the install, follow these steps:
 
 6. After the code is ran (a few seconds should be sufficient), figures of the forced response and its stability information are displayed.
 
-7. To access the analytical solutions computed type, for instance, `ss.sol.fa`. They will be displayed as LaTeX if the python environment supports its. 
+7. To access the analytical solutions computed, type, for instance, `ss.sol.fa`. They will be displayed as LaTeX if the python environment supports its. 
 
 
 Disclaimer
