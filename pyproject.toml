@@ -7,7 +7,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "oscilate"
-version = "1.0.1"
+version = "1.0.2"
 description = "A Python implementation of the Method of Multiple Scales using SymPy for symbolic computation"
 readme = "README.rst"
 authors = [
