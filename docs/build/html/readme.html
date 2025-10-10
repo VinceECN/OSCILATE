@@ -65,9 +65,11 @@
 <li class="toctree-l2"><a class="reference internal" href="#citation">Citation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#installation-guide">Installation guide</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#install-from-pypi-recommended">Install from PyPI (recommended)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#install-from-the-repository-latest-version">Install from the repository (latest version)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#install-from-a-github-release">Install from a GitHub release</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#install-from-the-github-repository-latest-version">Install from the GitHub repository (latest version)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#dependencies">Dependencies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#optional-use-a-virtual-environment-recommended">Optional: use a virtual environment (recommended)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#test-the-install">Test the install</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#disclaimer">Disclaimer</a></li>
@@ -172,8 +174,16 @@ Detuning can also be introduced during this step.</p>
 <section id="outputs">
 <h3>Outputs<a class="headerlink" href="#outputs" title="Link to this heading"></a></h3>
 <p>Results are returned as sympy expressions.
-They can be printed using <span class="math notranslate nohighlight">\(\LaTeX\)</span> if the code is ran in an appropriate interactive Window.
-It is the case with VS Code’s interactive Window or Spyder’s IPython consol.</p>
+They can be printed using <span class="math notranslate nohighlight">\(\LaTeX\)</span> if the code is ran in an appropriate interactive Window. Here are possibilities:</p>
+<ul class="simple">
+<li><p>VS Code’s interactive Window (powered by Jupyter)</p></li>
+<li><p>Jupyter notebook</p></li>
+<li><p>Spyder’s IPython consol</p></li>
+</ul>
+<p>Sympy expressions can also be printed as unformatted <span class="math notranslate nohighlight">\(\LaTeX\)</span> using</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">vlatex</span><span class="p">(</span><span class="n">the_expr</span><span class="p">))</span>
+</pre></div>
+</div>
 <p>Methods of <code class="docutils literal notranslate"><span class="pre">Steady_state</span></code> also allow to evaluate sympy results for given numerical values of system parameters and to plot them.</p>
 </section>
 </section>
@@ -198,8 +208,15 @@ It is the case with VS Code’s interactive Window or Spyder’s IPython consol.
 </pre></div>
 </div>
 </section>
-<section id="install-from-the-repository-latest-version">
-<h3>Install from the repository (latest version)<a class="headerlink" href="#install-from-the-repository-latest-version" title="Link to this heading"></a></h3>
+<section id="install-from-a-github-release">
+<h3>Install from a GitHub release<a class="headerlink" href="#install-from-a-github-release" title="Link to this heading"></a></h3>
+<p>To install from a GitHub release tagged as version <code class="docutils literal notranslate"><span class="pre">vX.Y.Z</span></code>, run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>https://github.com/vinceECN/OSCILATE/archive/refs/tags/vX.Y.Z.tar.gz
+</pre></div>
+</div>
+</section>
+<section id="install-from-the-github-repository-latest-version">
+<h3>Install from the GitHub repository (latest version)<a class="headerlink" href="#install-from-the-github-repository-latest-version" title="Link to this heading"></a></h3>
 <p>To install the latest version directly from the GitHub repository, run:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/vinceECN/OSCILATE.git
 <span class="nb">cd</span><span class="w"> </span>OSCILATE
@@ -227,6 +244,19 @@ pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </s
 .<span class="se">\v</span>env_mms<span class="se">\S</span>cripts<span class="se">\a</span>ctivate<span class="w">    </span><span class="c1">## Windows</span>
 </pre></div>
 </div>
+</section>
+<section id="test-the-install">
+<h3>Test the install<a class="headerlink" href="#test-the-install" title="Link to this heading"></a></h3>
+<p>To test the install, follow these steps:</p>
+<ol class="arabic simple">
+<li><p>Open a python environment. Ideally one powered by Jupyter (see Outputs section) to display results as <span class="math notranslate nohighlight">\(\LaTeX\)</span>.</p></li>
+<li><p>In the documentation, go to <em>Application Examples/Example 1</em>.</p></li>
+<li><p>Copy the example code.</p></li>
+<li><p>Run the example code in your python environment.</p></li>
+<li><p>You should see information about the ongoing computations.</p></li>
+<li><p>After the code is ran (a few seconds should be sufficient), figures of the forced response and its stability information are displayed.</p></li>
+<li><p>You can access the analytical solutions computed type, for instance, <code class="docutils literal notranslate"><span class="pre">ss.sol.fa</span></code>. They will be displayed as <span class="math notranslate nohighlight">\(\LaTeX\)</span> if the python environment supports its.</p></li>
+</ol>
 </section>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="disclaimer">
