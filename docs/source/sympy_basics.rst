@@ -1,5 +1,5 @@
-Basic SymPy functions
-=====================
+SymPy basics
+============
 
 SymPy is the python symbolic calculus library on which the package relies. 
 Below are some basics about the possibilities it offers. 
