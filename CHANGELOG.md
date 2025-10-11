@@ -7,8 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.2] - 2025-10-10
 ### Added
-- SymPy basics in the doc
-- copy button (for codes) in the doc
-- Modify readme titles in the doc
-- Add a *install from release* section in the doc
-- Add a *test install* section in the doc
+- Links in the README
+- Separate readme files (md for GitHub, 2 .rst for PyPI and for the doc itself)
+- Make The install guide separate from readme
+- Reduce the readme size and point to the doc
