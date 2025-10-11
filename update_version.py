@@ -4,18 +4,13 @@ import tomli_w
 from oscilate.__version__ import __version__
 
 # Update citation.txt
-citation_content = f"""If you use this code in your work, please cite it as follows:
-Vincent Mahe. (2025). OSCILATE (Version {__version__}) [Computer software]. GitHub. https://github.com/VinceECN/OSCILATE
-
-For LaTeX/BibTeX users, a citation entry is available in CITATION.bib.
-A paper describing this work is currently in publication and will become the preferred citation once published. For now, please cite this repository.
-"""
+citation_content = f"""Vincent Mahé. (2025). OSCILATE (Version {__version__}) [Computer software]. GitHub. https://github.com/VinceECN/OSCILATE"""
 with open("citation.txt", "w") as f:
     f.write(citation_content)
 
 # Update CITATION.bib
 bib_content = f"""@software{{Mahe_OSCILATE_2025,
-  author = {{Mahe, Vincent}},
+  author = {{Mahé, Vincent}},
   title = {{OSCILATE: A Python implementation of the Method of Multiple Scales using SymPy for symbolic computation}},
   year = {{2025}},
   publisher = {{GitHub}},

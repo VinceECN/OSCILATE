@@ -93,7 +93,7 @@ A full `documentation <https://vinceECN.github.io/OSCILATE/>`_ is available.
 
 Citation
 ========
-Please cite this package when using it – see the CITATION file for details.
+Please cite this package when using it. See the Citation section for details.
 
 Installation guide
 ==================
@@ -162,7 +162,7 @@ To test the install, follow these steps:
 
 5. You should see information about the ongoing computations.
 
-6. After the code is ran (a few seconds should be sufficient), figures of the forced response and its stability information are displayed.
+6. After the code is ran (a few seconds should be enough), figures of the forced response and its stability information are displayed.
 
 7. To access the analytical solutions computed, type, for instance, ``ss.sol.fa``. They will be displayed as LaTeX if the python environment supports its. 
 

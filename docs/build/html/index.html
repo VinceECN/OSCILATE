@@ -22,7 +22,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Modules" href="modules.html" /> 
+    <link rel="next" title="README" href="readme.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -46,13 +46,14 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">Modules</a></li>
-<li class="toctree-l1"><a class="reference internal" href="architecture.html">Package Architecture</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples.html">Application Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="readme.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Main Module Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Application Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sympy_basics.html">SymPy basics</a></li>
-<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="citation.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notice.html">Legal Notices</a></li>
 </ul>
 
@@ -82,11 +83,26 @@
              
   <section id="oscilate-documentation">
 <h1>OSCILATE documentation<a class="headerlink" href="#oscilate-documentation" title="Link to this heading"></a></h1>
-<p>Welcome to the documentation for <strong>OSCILATE</strong>, a Python package for solving systems of nonlinear second-order ODEs.</p>
-<p><strong>OSCILATE</strong>: Oscillators’ nonlinear analysis through Symbolic ImplementATion of the mEthod of multiple scales.</p>
+<p>Welcome to the documentation for <strong>OSCILATE</strong>, a Python project for solving systems of coupled nonlinear second-order ODEs.</p>
+<p><strong>OSCILATE</strong>: Oscillators’ nonlinear analysis through SymboliC ImpLementATion of the mEthod of multiple scales</p>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="readme.html">README</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#project-home">Project Home</a></li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#nonlinear-systems-considered">Nonlinear systems considered</a></li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#overview">Overview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="readme.html#solver">Solver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="readme.html#examples">Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="readme.html#outputs">Outputs</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#citation">Citation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#installation-guide">Installation guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#disclaimer">Disclaimer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="readme.html#license">License</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">Modules</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="modules.html#module-oscilate.MMS">MMS Module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="modules.html#oscilate.MMS.Chain_rule_d2fdt2"><code class="docutils literal notranslate"><span class="pre">Chain_rule_d2fdt2()</span></code></a></li>
@@ -168,7 +184,19 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="architecture.html">Package Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Main Module Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="install.html#install-possibilities">Install possibilities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="install.html#install-from-pypi-recommended">Install from PyPI (recommended)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="install.html#install-from-a-github-release">Install from a GitHub release</a></li>
+<li class="toctree-l3"><a class="reference internal" href="install.html#install-from-the-repository-latest-version">Install from the repository (latest version)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="install.html#dependencies">Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install.html#optional-use-a-virtual-environment-recommended">Optional: use a virtual environment (recommended)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install.html#test-the-install">Test the install</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Application Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="examples/example1.html">Example 1: Duffing oscillator</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="examples/example1.html#system-description">System description</a></li>
@@ -223,38 +251,14 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="readme.html">README</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#nonlinear-systems-considered">Nonlinear systems considered</a></li>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#overview">Overview</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="readme.html#solver">Solver</a></li>
-<li class="toctree-l3"><a class="reference internal" href="readme.html#additional-functions">Additional functions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="readme.html#examples">Examples</a></li>
-<li class="toctree-l3"><a class="reference internal" href="readme.html#outputs">Outputs</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#documentation">Documentation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#citation">Citation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#installation-guide">Installation guide</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="readme.html#install-from-pypi-recommended">Install from PyPI (recommended)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="readme.html#install-from-a-github-release">Install from a GitHub release</a></li>
-<li class="toctree-l3"><a class="reference internal" href="readme.html#install-from-the-github-repository-latest-version">Install from the GitHub repository (latest version)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="readme.html#dependencies">Dependencies</a></li>
-<li class="toctree-l3"><a class="reference internal" href="readme.html#optional-use-a-virtual-environment-recommended">Optional: use a virtual environment (recommended)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="readme.html#test-the-install">Test the install</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#disclaimer">Disclaimer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="readme.html#license">License</a></li>
-</ul>
-</li>
 <li class="toctree-l1"><a class="reference internal" href="sympy_basics.html">SymPy basics</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="sympy_basics.html#symbols-and-functions">Symbols and functions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sympy_basics.html#working-with-expressions">Working with expressions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sympy_basics.html#display">Display</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="citation.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notice.html">Legal Notices</a></li>
 </ul>
 </div>
@@ -264,7 +268,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="modules.html" class="btn btn-neutral float-right" title="Modules" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="readme.html" class="btn btn-neutral float-right" title="README" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

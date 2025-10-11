@@ -24,8 +24,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="SymPy basics" href="sympy_basics.html" />
-    <link rel="prev" title="Example 10: Subharmonic response of parametrically excited coupled centrifugal pendulums in 1:1 internal resonance" href="examples/example10.html" /> 
+    <link rel="next" title="Modules" href="modules.html" />
+    <link rel="prev" title="OSCILATE documentation" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -49,36 +49,28 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="modules.html">Modules</a></li>
-<li class="toctree-l1"><a class="reference internal" href="architecture.html">Package Architecture</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples.html">Application Examples</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">README</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#project-home">Project Home</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#nonlinear-systems-considered">Nonlinear systems considered</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#solver">Solver</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#additional-functions">Additional functions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#examples">Examples</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#outputs">Outputs</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#documentation">Documentation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#citation">Citation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#installation-guide">Installation guide</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#install-from-pypi-recommended">Install from PyPI (recommended)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#install-from-a-github-release">Install from a GitHub release</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#install-from-the-github-repository-latest-version">Install from the GitHub repository (latest version)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#dependencies">Dependencies</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#optional-use-a-virtual-environment-recommended">Optional: use a virtual environment (recommended)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#test-the-install">Test the install</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#installation-guide">Installation guide</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#disclaimer">Disclaimer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#license">License</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Main Module Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Application Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sympy_basics.html">SymPy basics</a></li>
-<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="citation.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notice.html">Legal Notices</a></li>
 </ul>
 
@@ -108,30 +100,30 @@
              
   <section id="readme">
 <h1>README<a class="headerlink" href="#readme" title="Link to this heading"></a></h1>
-<section class="tex2jax_ignore mathjax_ignore" id="nonlinear-systems-considered">
+<section id="project-home">
+<h2>Project Home<a class="headerlink" href="#project-home" title="Link to this heading"></a></h2>
+<p>The source codes for the <strong>OSCILATE</strong> (Oscillators’ nonlinear analysis through SymboliC ImpLementATion of the mEthod of multiple scales) project are hosted on <a class="reference external" href="https://github.com/VinceECN/OSCILATE">GitHub</a>.</p>
+</section>
+<section id="nonlinear-systems-considered">
 <h2>Nonlinear systems considered<a class="headerlink" href="#nonlinear-systems-considered" title="Link to this heading"></a></h2>
-<p>The <strong>OSCILATE</strong> (Oscillators’ nonlinear analysis through Symbolic ImplementATion of the mEthod of multiple scales) package allows the application of the <strong>Method of Multiple Scales</strong> (MMS) to a nonlinear equation or systems of <span class="math notranslate nohighlight">\(N\)</span> coupled nonlinear equations of the form</p>
+<p>The <strong>OSCILATE</strong> project allows the application of the <strong>Method of Multiple Scales</strong> (MMS) to a nonlinear equation or systems of <span class="math notranslate nohighlight">\(N\)</span> coupled nonlinear equations of the form</p>
 <div class="math notranslate nohighlight">
-\[\begin{split}
-\begin{cases}
+\[\begin{split}\begin{cases}
         \ddot{x}_0 + \omega_0^2 x_0 &amp; = f_0(\boldsymbol{x}, \dot{\boldsymbol{x}}, \ddot{\boldsymbol{x}}, t), \\
         &amp; \vdots \\
         \ddot{x}_{N-1} + \omega_{N-1}^2 x_{N-1} &amp; = f_{N-1}(\boldsymbol{x}, \dot{\boldsymbol{x}}, \ddot{\boldsymbol{x}}, t).
-        \end{cases}
-\end{split}\]</div>
+        \end{cases}\end{split}\]</div>
 <p>The <span class="math notranslate nohighlight">\(x_i(t)\)</span> (<span class="math notranslate nohighlight">\(i=0,...,N-1\)</span>) are the oscillators’ coordinates,</p>
 <div class="math notranslate nohighlight">
-\[
-\boldsymbol{x}(t)^\intercal = [x_0(t), x_1(t), \cdots, x_{N-1}(t)]
-\]</div>
+\[\boldsymbol{x}(t)^\intercal = [x_0(t), x_1(t), \cdots, x_{N-1}(t)]\]</div>
 <p>is the vector containing all the oscillators’ coordinates (the <span class="math notranslate nohighlight">\(^\intercal\)</span> denotes the transpose),
 <span class="math notranslate nohighlight">\(\omega_i\)</span> are their natural frequencies,
 <span class="math notranslate nohighlight">\(t\)</span> is the time and
 <span class="math notranslate nohighlight">\(\dot{(\bullet)} = \textrm{d}(\bullet)/\textrm{d}t\)</span> denotes a time-derivative.
 The <span class="math notranslate nohighlight">\(f_i\)</span> are functions which can contain:</p>
 <ul class="simple">
-<li><p><strong>Weak linear terms</strong> in <span class="math notranslate nohighlight">\(x_i\)</span>, <span class="math notranslate nohighlight">\(\dot{x}_i\)</span>, or <span class="math notranslate nohighlight">\(\ddot{x}_i\)</span>.</p></li>
-<li><p><strong>Weak linear coupling terms</strong> involving <span class="math notranslate nohighlight">\(x_j\)</span>, <span class="math notranslate nohighlight">\(\dot{x}_j\)</span>, or <span class="math notranslate nohighlight">\(\ddot{x}_j\)</span> with <span class="math notranslate nohighlight">\(j \neq i\)</span>.</p></li>
+<li><p><strong>Weak linear terms</strong> in <span class="math notranslate nohighlight">\(x_i,\; \dot{x}_i\)</span>, or <span class="math notranslate nohighlight">\(\ddot{x}_i\)</span>.</p></li>
+<li><p><strong>Weak linear coupling terms</strong> involving <span class="math notranslate nohighlight">\(x_j,\; \dot{x}_j\)</span>, or <span class="math notranslate nohighlight">\(\ddot{x}_j\)</span> with <span class="math notranslate nohighlight">\(j \neq i\)</span>.</p></li>
 <li><p><strong>Weak nonlinear terms</strong>. Taylor expansions are performed to approximate nonlinear terms as <em>polynomial nonlinearities</em>.</p></li>
 <li><p><strong>Forcing terms</strong>:</p>
 <ul>
@@ -144,25 +136,28 @@ The <span class="math notranslate nohighlight">\(f_i\)</span> are functions whic
 <p>Internal resonance relations among oscillators can be specified in a second step by expressing the <span class="math notranslate nohighlight">\(\omega_i\)</span> as a function of a reference frequency.
 Detuning can also be introduced during this step.</p>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="overview">
+<section id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
+<p>The package associated to the <strong>OSCILATE</strong> project is called <code class="docutils literal notranslate"><span class="pre">oscilate</span></code>.
+It contains two modules:</p>
+<ul class="simple">
+<li><p>The <a class="reference internal" href="modules.html#module-oscilate.MMS" title="oscilate.MMS"><code class="xref py py-mod docutils literal notranslate"><span class="pre">oscilate.MMS</span></code></a> module is the MMS solver.</p></li>
+<li><p>The <a class="reference internal" href="modules.html#module-oscilate.sympy_functions" title="oscilate.sympy_functions"><code class="xref py py-mod docutils literal notranslate"><span class="pre">oscilate.sympy_functions</span></code></a> module contains additional functions that are not directly related to the MMS but which are used in <a class="reference internal" href="modules.html#module-oscilate.MMS" title="oscilate.MMS"><code class="xref py py-mod docutils literal notranslate"><span class="pre">oscilate.MMS</span></code></a>.</p></li>
+</ul>
 <section id="solver">
 <h3>Solver<a class="headerlink" href="#solver" title="Link to this heading"></a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">MMS.py</span></code> is the MMS solver. It contains 3 main classes:</p>
+<p><a class="reference internal" href="modules.html#module-oscilate.MMS" title="oscilate.MMS"><code class="xref py py-mod docutils literal notranslate"><span class="pre">oscilate.MMS</span></code></a> contains 3 main classes:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">Dynamical_system</span></code> : the dynamical system considered</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Multiple_scales_system</span></code> : the system obtained after applying the MMS to the dynamical system</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Stead_state</span></code> : the MMS results evaluated at steady state and (if computed) the system’s response and its stability.</p></li>
+<li><p><a class="reference internal" href="modules.html#oscilate.MMS.Dynamical_system" title="oscilate.MMS.Dynamical_system"><code class="xref py py-class docutils literal notranslate"><span class="pre">oscilate.MMS.Dynamical_system</span></code></a> : the dynamical system considered</p></li>
+<li><p><a class="reference internal" href="modules.html#oscilate.MMS.Multiple_scales_system" title="oscilate.MMS.Multiple_scales_system"><code class="xref py py-class docutils literal notranslate"><span class="pre">oscilate.MMS.Multiple_scales_system</span></code></a> : the system obtained after applying the MMS to the dynamical system</p></li>
+<li><p><a class="reference internal" href="modules.html#oscilate.MMS.Steady_state" title="oscilate.MMS.Steady_state"><code class="xref py py-class docutils literal notranslate"><span class="pre">oscilate.MMS.Steady_state</span></code></a> : the MMS results evaluated at steady state and (if computed) the system’s response and its stability.</p></li>
 </ul>
-<p>These classes are described in details in the documentation.</p>
-</section>
-<section id="additional-functions">
-<h3>Additional functions<a class="headerlink" href="#additional-functions" title="Link to this heading"></a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">sympy_functions.py</span></code> contains additional functions that are not directly related to the MMS but which are used in <code class="docutils literal notranslate"><span class="pre">MMS.py</span></code>.</p>
+<p>These classes are described in details in the <a class="reference internal" href="modules.html"><span class="doc">Modules</span></a> section of the <a class="reference external" href="https://vinceECN.github.io/OSCILATE/">documentation</a>.
+A visual description of their connection with other classes is provided in <a class="reference internal" href="architecture.html"><span class="doc">Main Module Architecture</span></a>.</p>
 </section>
 <section id="examples">
 <h3>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h3>
-<p>Application examples are proposed in the documentation. They include</p>
+<p><a class="reference internal" href="examples.html"><span class="doc">Application examples</span></a> are proposed in the documentation. They include:</p>
 <ul class="simple">
 <li><p>The Duffing oscillator</p></li>
 <li><p>Coupled Duffing oscillators</p></li>
@@ -173,107 +168,44 @@ Detuning can also be introduced during this step.</p>
 </ul>
 </section>
 <section id="outputs">
-<h3>Outputs<a class="headerlink" href="#outputs" title="Link to this heading"></a></h3>
-<p>Results are returned as sympy expressions.
-They can be printed using <span class="math notranslate nohighlight">\(\LaTeX\)</span> if the code is ran in an appropriate interactive Window. Here are possibilities:</p>
+<span id="outputs-section"></span><h3>Outputs<a class="headerlink" href="#outputs" title="Link to this heading"></a></h3>
+<p>Results are returned as SymPy expressions.
+They can be printed using <span class="math notranslate nohighlight">\(\LaTeX\)</span> if the code is ran in an appropriate interactive window.
+Here are possibilities:</p>
 <ul class="simple">
-<li><p>VS Code’s interactive Window (powered by Jupyter)</p></li>
-<li><p>Jupyter notebook</p></li>
-<li><p>Spyder’s IPython consol</p></li>
+<li><p><a class="reference external" href="https://code.visualstudio.com/docs/python/jupyter-support-py">VS Code’s interactive window</a>,</p></li>
+<li><p><a class="reference external" href="https://jupyter.org/">Jupyter notebook</a>,</p></li>
+<li><p><a class="reference external" href="https://docs.spyder-ide.org/current/panes/ipythonconsole.html">Spyder’s IPython consol</a>.</p></li>
 </ul>
-<p>Sympy expressions can also be printed as unformatted <span class="math notranslate nohighlight">\(\LaTeX\)</span> using</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">vlatex</span><span class="p">(</span><span class="n">the_expr</span><span class="p">))</span>
+<p>SymPy expressions can also be printed as unformatted <span class="math notranslate nohighlight">\(\LaTeX\)</span> using</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">vlatex</span><span class="p">(</span><span class="n">the_expr</span><span class="p">))</span>
 </pre></div>
 </div>
-<p>Methods of <code class="docutils literal notranslate"><span class="pre">Steady_state</span></code> also allow to evaluate sympy results for given numerical values of system parameters and to plot them.</p>
+<p>Methods of <a class="reference internal" href="modules.html#oscilate.MMS.Steady_state" title="oscilate.MMS.Steady_state"><code class="xref py py-class docutils literal notranslate"><span class="pre">oscilate.MMS.Steady_state</span></code></a> also allow to evaluate sympy results for given numerical values of system parameters and to plot them.</p>
 </section>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="documentation">
-<h2>Documentation<a class="headerlink" href="#documentation" title="Link to this heading"></a></h2>
-<p>A full documentation is available here: <a class="reference external" href="https://vinceECN.github.io/OSCILATE/">Documentation</a></p>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="citation">
+<section id="citation">
 <h2>Citation<a class="headerlink" href="#citation" title="Link to this heading"></a></h2>
-<p>Please cite this package when using it – see the CITATION file for details.</p>
+<p>Please cite this package when using it. See the <a class="reference internal" href="citation.html"><span class="doc">Citation</span></a> section for details.</p>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="installation-guide">
+<section id="installation-guide">
 <h2>Installation guide<a class="headerlink" href="#installation-guide" title="Link to this heading"></a></h2>
-<section id="install-from-pypi-recommended">
-<h3>Install from PyPI (recommended)<a class="headerlink" href="#install-from-pypi-recommended" title="Link to this heading"></a></h3>
-<p>To install the stable version from <a class="reference external" href="https://pypi.org/project/oscilate/">PyPI</a>, use:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>oscilate
-</pre></div>
-</div>
-<p>Then, simply import the package in a python environment using</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">oscilate</span>
-</pre></div>
-</div>
+<p>To install the <code class="docutils literal notranslate"><span class="pre">oscilate</span></code> package, refer to the <a class="reference internal" href="install.html"><span class="doc">Installation guide</span></a> section.</p>
 </section>
-<section id="install-from-a-github-release">
-<h3>Install from a GitHub release<a class="headerlink" href="#install-from-a-github-release" title="Link to this heading"></a></h3>
-<p>To install from a GitHub release tagged as version <code class="docutils literal notranslate"><span class="pre">vX.Y.Z</span></code>, run:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>https://github.com/vinceECN/OSCILATE/archive/refs/tags/vX.Y.Z.tar.gz
-</pre></div>
-</div>
-</section>
-<section id="install-from-the-github-repository-latest-version">
-<h3>Install from the GitHub repository (latest version)<a class="headerlink" href="#install-from-the-github-repository-latest-version" title="Link to this heading"></a></h3>
-<p>To install the latest version directly from the GitHub repository, run:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/vinceECN/OSCILATE.git
-<span class="nb">cd</span><span class="w"> </span>OSCILATE
-pip<span class="w"> </span>install<span class="w"> </span>.
-</pre></div>
-</div>
-</section>
-<section id="dependencies">
-<h3>Dependencies<a class="headerlink" href="#dependencies" title="Link to this heading"></a></h3>
-<ul>
-<li><p><strong>Python 3.8 or higher</strong> is required.</p></li>
-<li><p>For development or building documentation, install additional dependencies:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements-dev.txt
-pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>docs/requirements.txt
-</pre></div>
-</div>
-</li>
-</ul>
-</section>
-<section id="optional-use-a-virtual-environment-recommended">
-<h3>Optional: use a virtual environment (recommended)<a class="headerlink" href="#optional-use-a-virtual-environment-recommended" title="Link to this heading"></a></h3>
-<p>To avoid conflicts with other packages, create and activate a virtual environment:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>venv_mms
-<span class="nb">source</span><span class="w"> </span>venv_mms/bin/activate<span class="w">   </span><span class="c1">## Linux/macOS</span>
-.<span class="se">\v</span>env_mms<span class="se">\S</span>cripts<span class="se">\a</span>ctivate<span class="w">    </span><span class="c1">## Windows</span>
-</pre></div>
-</div>
-</section>
-<section id="test-the-install">
-<h3>Test the install<a class="headerlink" href="#test-the-install" title="Link to this heading"></a></h3>
-<p>To test the install, follow these steps:</p>
-<ol class="arabic simple">
-<li><p>Open a python environment. Ideally one powered by Jupyter (see Outputs section) to display results as <span class="math notranslate nohighlight">\(\LaTeX\)</span>.</p></li>
-<li><p>In the documentation, go to <em>Application Examples/Example 1</em>.</p></li>
-<li><p>Copy the example code.</p></li>
-<li><p>Run the example code in your python environment.</p></li>
-<li><p>You should see information about the ongoing computations.</p></li>
-<li><p>After the code is ran (a few seconds should be sufficient), figures of the forced response and its stability information are displayed.</p></li>
-<li><p>To access the analytical solutions computed, type, for instance, <code class="docutils literal notranslate"><span class="pre">ss.sol.fa</span></code>. They will be displayed as <span class="math notranslate nohighlight">\(\LaTeX\)</span> if the python environment supports its.</p></li>
-</ol>
-</section>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="disclaimer">
+<section id="disclaimer">
 <h2>Disclaimer<a class="headerlink" href="#disclaimer" title="Link to this heading"></a></h2>
 <p>This code is provided as-is and has been tested on a limited number of nonlinear systems.
 Other test cases might trigger bugs or unexpected behavior that I am not yet aware of.
 If you encounter any issues, find a bug, or have suggestions for improvements, please feel free to:</p>
 <ul class="simple">
-<li><p>Open an issue on the GitHub repository (if applicable).</p></li>
-<li><p>Propose a solution.</p></li>
-<li><p>Contact me directly at [vincent.mahe&#64;ec-nantes.fr].</p></li>
+<li><p>Open an issue on the <a class="reference external" href="https://github.com/VinceECN/OSCILATE">GitHub repository</a>,</p></li>
+<li><p>Propose a solution,</p></li>
+<li><p>Contact me directly at [<a class="reference external" href="mailto:vincent&#46;mahe&#37;&#52;&#48;ec-nantes&#46;fr">vincent<span>&#46;</span>mahe<span>&#64;</span>ec-nantes<span>&#46;</span>fr</a>].</p></li>
 </ul>
 <p>Your feedback is highly appreciated!</p>
 <p>Vincent MAHE</p>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="license">
+<section id="license">
 <h2>License<a class="headerlink" href="#license" title="Link to this heading"></a></h2>
 <p>This project is licensed under the <strong>Apache License 2.0</strong> – see the LICENSE file for details.</p>
 </section>
@@ -283,8 +215,8 @@ If you encounter any issues, find a bug, or have suggestions for improvements, p
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="examples/example10.html" class="btn btn-neutral float-left" title="Example 10: Subharmonic response of parametrically excited coupled centrifugal pendulums in 1:1 internal resonance" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="sympy_basics.html" class="btn btn-neutral float-right" title="SymPy basics" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="index.html" class="btn btn-neutral float-left" title="OSCILATE documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="modules.html" class="btn btn-neutral float-right" title="Modules" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

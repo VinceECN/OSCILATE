@@ -1,5 +1,5 @@
 # Nonlinear systems considered
-The **OSCILATE** (Oscillators' nonlinear analysis through Symbolic ImplementATion of the mEthod of multiple scales) package allows the application of the **Method of Multiple Scales** (MMS) to a nonlinear equation or systems of $N$ coupled nonlinear equations of the form
+The **OSCILATE** (Oscillators' nonlinear analysis through Symbolic ImplementATion of the mEthod of multiple scales) project allows the application of the **Method of Multiple Scales** (MMS) to a nonlinear equation or systems of $N$ coupled nonlinear equations of the form
 
 $$
 \begin{cases}
@@ -34,19 +34,24 @@ Internal resonance relations among oscillators can be specified in a second step
 Detuning can also be introduced during this step.
 
 # Overview
+
+
+The package associated to the **OSCILATE** project is called ``oscilate``. 
+It contains two modules:
+- The `MMS` module is the MMS solver.
+- The `sympy_functions` module contains additional functions that are not directly related to the MMS but which are used in `MMS`.
+
+
 ## Solver
-`MMS.py` is the MMS solver. It contains 3 main classes:
+`MMS` contains 3 main classes:
 - `Dynamical_system` : the dynamical system considered
 - `Multiple_scales_system` : the system obtained after applying the MMS to the dynamical system
-- `Stead_state` : the MMS results evaluated at steady state and (if computed) the system's response and its stability. 
+- `Steady_state` : the MMS results evaluated at steady state and (if computed) the system's response and its stability. 
 
-These classes are described in details in the documentation.
-
-## Additional functions
-`sympy_functions.py` contains additional functions that are not directly related to the MMS but which are used in `MMS.py`.
+These classes are described in details in the [documentation](https://vinceECN.github.io/OSCILATE/).
 
 ## Examples
-Application examples are proposed in the documentation. They include
+Application examples are proposed in the [documentation](https://vinceECN.github.io/OSCILATE/). They include
 - The Duffing oscillator
 - Coupled Duffing oscillators
 - Coupled nonlinear oscillators with quadratic nonlinearities
@@ -58,11 +63,11 @@ Application examples are proposed in the documentation. They include
 Results are returned as sympy expressions.
 They can be printed using $\LaTeX$ if the code is ran in an appropriate interactive Window. Here are possibilities:
 
-* VS Code's interactive Window (powered by Jupyter)
+* [VS Code's interactive Window](https://code.visualstudio.com/docs/python/jupyter-support-py) 
 
-* Jupyter notebook
+* [Jupyter notebook](https://jupyter.org/)
 
-* Spyder's IPython consol
+* [Spyder's IPython consol](https://docs.spyder-ide.org/current/panes/ipythonconsole.html)
  
 Sympy expressions can also be printed as unformatted $\LaTeX$ using 
 
@@ -77,74 +82,14 @@ Methods of `Steady_state` also allow to evaluate sympy results for given numeric
 A full documentation is available here: [Documentation](https://vinceECN.github.io/OSCILATE/)
 
 # Citation
-Please cite this package when using it. See the Citation section for details.
+Please cite this package when using it, See the Citation section of the [Documentation](https://vinceECN.github.io/OSCILATE/) for details.
+A regular entry and a LaTeX/BibTeX users entry are given.  
+
+A paper describing this work is currently in publication and will become the preferred citation once published. For now, please cite this repository.
 
 # Installation guide
 
-## Install from PyPI (recommended)
-To install the stable version from [PyPI](https://pypi.org/project/oscilate/), use:
-
-```bash
-pip install oscilate
-```
-
-Then, simply import the package in a python environment using
-```python
-import oscilate
-```
-
-## Install from a GitHub release
-To install from a GitHub release tagged as version `vX.Y.Z`, run:
-
-```bash
-pip install https://github.com/vinceECN/OSCILATE/archive/refs/tags/vX.Y.Z.tar.gz
-```
-
-
-## Install from the GitHub repository (latest version)
-To install the latest version directly from the GitHub repository, run:
-
-```bash
-git clone https://github.com/vinceECN/OSCILATE.git
-cd OSCILATE
-pip install .
-```
-
-## Dependencies
-- **Python 3.8 or higher** is required.
-- For development or building documentation, install additional dependencies:
-  ```bash
-  pip install -r requirements-dev.txt
-  pip install -r docs/requirements.txt
-  ```
-
-## Optional: use a virtual environment (recommended)
-To avoid conflicts with other packages, create and activate a virtual environment:
-
-```bash
-python -m venv venv_mms
-source venv_mms/bin/activate   ## Linux/macOS
-.\venv_mms\Scripts\activate    ## Windows
-```
-
-## Test the install
-
-To test the install, follow these steps:
-
-1. Open a python environment. Ideally one powered by Jupyter (see Outputs section) to display results as $\LaTeX$.
-
-2. In the documentation, go to *Application Examples/Example 1*. 
-
-3. Copy the example code.
-
-4. Run the example code in your python environment.
-
-5. You should see information about the ongoing computations.
-
-6. After the code is ran (a few seconds should be enough), figures of the forced response and its stability information are displayed.
-
-7. To access the analytical solutions computed, type, for instance, `ss.sol.fa`. They will be displayed as $\LaTeX$ if the python environment supports its. 
-
+To install the ``oscilate`` package, refer to the Installation guide section of the [Documentation](https://vinceECN.github.io/OSCILATE/).
 
 # Disclaimer
 This code is provided as-is and has been tested on a limited number of nonlinear systems. 

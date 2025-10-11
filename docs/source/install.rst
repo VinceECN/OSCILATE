@@ -62,7 +62,7 @@ To test the install, follow these steps:
 
 1. Open a Python environment. Ideally one powered by Jupyter (see :ref:`Outputs <outputs_section>` section) to display results as :math:`\LaTeX`.
 
-2. In the documentation, go to :doc:`*Application Examples/Example 1* <examples/example1>`,
+2. In the documentation, go to :doc:`Application Examples/Example 1 <examples/example1>`,
 
 3. Copy the example code,
 

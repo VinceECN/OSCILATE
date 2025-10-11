@@ -1,10 +1,10 @@
-Package Architecture
-====================
+Main Module Architecture
+========================
 
-The following diagram illustrates the class structure of the MMS package:
+The following diagram illustrates the class structure of the :py:mod:`oscilate.MMS` Module:
 
 .. image:: /_static/classes_MMS.svg
-   :alt: MMS Package Class Diagram
+   :alt: MMS Module Class Diagram
    :width: 100%
    :align: center
 
