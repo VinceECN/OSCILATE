@@ -1,4 +1,4 @@
-Main Module Architecture
+Main module architecture
 ========================
 
 The following diagram illustrates the class structure of the :py:mod:`oscilate.MMS` Module:

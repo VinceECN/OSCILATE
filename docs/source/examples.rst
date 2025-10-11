@@ -1,4 +1,4 @@
-Application Examples
+Application examples
 ====================
 
 Here are some practical examples of using **OSCILATE**:
