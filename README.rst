@@ -1,3 +1,9 @@
+
+Project Home
+============
+The source codes for the **OSCILATE** (Oscillators' nonlinear analysis through SymboliC ImpLementATion of the mEthod of multiple scales) project are hosted on `GitHub <https://github.com/VinceECN/OSCILATE>`_.
+
+
 Nonlinear systems considered
 ============================
 
@@ -108,7 +114,7 @@ This code is provided as-is and has been tested on a limited number of nonlinear
 Other test cases might trigger bugs or unexpected behavior that I am not yet aware of.
 If you encounter any issues, find a bug, or have suggestions for improvements, please feel free to:
 
-- Open an issue on the GitHub repository (if applicable).
+- Open an issue on the `GitHub <https://github.com/VinceECN/OSCILATE>`_ repository (if applicable).
 - Propose a solution.
 - Contact me directly at vincent.mahe@ec-nantes.fr.
 
