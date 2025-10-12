@@ -10,7 +10,6 @@ For LaTeX/BibTeX users, use the following:
 .. literalinclude:: ../../CITATION.bib
     :language: text
 
-
 .. note::
    
     A paper describing this work is currently in publication and will become the preferred citation once published. 
