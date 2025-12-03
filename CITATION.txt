@@ -1,1 +1,1 @@
-Vincent Mahé. (2025). OSCILATE (Version 1.0.4) [Computer software]. GitHub. https://github.com/VinceECN/OSCILATE
+Vincent Mahé. (2025). OSCILATE: A Python implementation of the Method of Multiple Scales using SymPy for symbolic computation (Version 1.0.4) [Computer software]. Software Heritage. https://archive.softwareheritage.org/swh:1:snp:2d8da922eeec0ffef43c467543f05c6363d76ee0;origin=https://github.com/VinceECN/OSCILATE
