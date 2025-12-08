@@ -72,4 +72,4 @@ ARC     = MMS.numpise_ARC(mms, ss, dyn, dic_ARC)
 kwargs  = dict(phase_name=vlatex(ss.sol.cos_phase[0].args[0]), # Plot parameters
                amp_name=vlatex(ss.coord.a[0]))
 ss.plot_ARC(ARC, **kwargs)
-# %%
+
