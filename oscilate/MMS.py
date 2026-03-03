@@ -1038,6 +1038,9 @@ class Multiple_scales_system:
 
         # Derive the evolution equations
         self.evolution_equations()
+
+        # Reconstitution
+        self.reconstitution() 
         
         # Write the x solutions in terms of polar coordinates
         self.sol_xMMS_polar(rewrite_polar=rewrite_polar)
@@ -1375,9 +1378,31 @@ class Multiple_scales_system:
         # Store the results
         self.sol.faO    = faO
         self.sol.fbetaO = fbetaO
-        self.sol.fa     = fa
-        self.sol.fbeta  = fbeta
+        self.sol.fa     = fa    # Modified in reconstitution() to account for physical time variables
+        self.sol.fbeta  = fbeta # Modified in reconstitution() to account for physical time variables
                     
+    def reconstitution(self):
+        """
+        Use the reconstitution method to combine the modulation equations at each order. This reconstitution is based on the chain rule relation
+
+        .. math::
+            \begin{aligned}
+            \dfrac{\textrm{d}(\bullet)}{\textrm{d}t}     & = \sum_{i=0}^{N_e} \epsilon^{i} \mathrm{D}_i (\bullet) + \mathcal{O}(\epsilon^{N_e+1}).
+            \end{aligned}
+
+        Note that some MMS approaches do not apply this reconstitution step.
+        """
+
+        # Introduce amplitudes and phases as functions of the physical time
+        self.coord.at = [ Function(r'a_{}'.format(ix)   , real=True, positive=True)(self.t) for ix in range(self.ndof) ]
+        self.coord.betat = [ Function(r'\beta_{}'.format(ix)   , real=True, positive=True)(self.t) for ix in range(self.ndof) ]
+
+        # Substitutions from functions of the tS (time scales) to t (physical time)
+        self.sub.sub_tS_to_t_func = sum([[(a, at), (beta, betat)] for (a, at, beta, betat) in zip(*list(map(self.coord.__dict__.get, ["a","at","beta","betat"])))], [])
+
+        # Rewrite the previsouly obtained 
+        self.sol.fa    = [ fa.subs(self.sub.sub_tS_to_t_func) for fa in self.sol.fa ]
+        self.sol.fbeta = [ fbeta.subs(self.sub.sub_tS_to_t_func) for fbeta in self.sol.fbeta ]
 
     def sol_xMMS_polar(self, rewrite_polar=0):
         r"""
@@ -1423,7 +1448,7 @@ class Multiple_scales_system:
                                         .subs(self.sub.sub_A).doit().expand()
                                         .subs(self.sub.sub_phi).doit()) 
                                       .rewrite(cos).simplify()) 
-                                      .subs(sub_t_back).subs(sub_sigma).simplify()) 
+                                      .subs(self.sub.sub_tS_to_t_func).subs(sub_t_back).subs(sub_sigma).simplify()) 
                                       .expand()
                                       .collect(collect_omega)
                                       )
@@ -1652,7 +1677,8 @@ class Steady_state:
         for ix in range(self.ndof):
             a   .append( symbols(r'a_{}'.format(ix),positive=True))
             beta.append( symbols(r'\beta_{}'.format(ix),real=True) )
-            sub_SS .extend( [(mms.coord.a[ix] , a[ix]), (mms.coord.beta[ix], beta[ix])] )
+            sub_SS .extend( [(mms.coord.a[ix]  , a[ix]), (mms.coord.beta[ix], beta[ix]),
+                             (mms.coord.at[ix] , a[ix]), (mms.coord.betat[ix], beta[ix])] )
     
         self.coord.a    = a
         self.coord.beta = beta
