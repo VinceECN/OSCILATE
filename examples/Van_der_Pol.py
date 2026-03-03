@@ -37,7 +37,7 @@ mms = MMS.Multiple_scales_system(dyn, eps, Ne, omega_ref, sub_scaling, **kwargs_
 mms.apply_MMS(rewrite_polar="all")
 
 # Transient analysis - slow time solutions
-Eqa    = mms.coord.at[0].diff(t)                   - mms.sol.fa[0]    # Equation on a
+Eqa    = mms.coord.at[0].diff(t)                    - mms.sol.fa[0]    # Equation on a
 Eqbeta = mms.coord.at[0]*mms.coord.betat[0].diff(t) - mms.sol.fbeta[0] # Equation on beta
 ai    = symbols(r"a_i", real=True, positive=True)     # Initial amplitude
 betai = symbols(r"\beta_i", real=True, positive=True) # Initial phase
@@ -139,3 +139,5 @@ ax.plot(xUT[0], vUT[0], marker="o", mfc="tab:red", mec="none", ms=4)
 ax.set_xlabel(r"${}$".format(vlatex(x)))
 ax.set_ylabel(r"${}$".format(vlatex(x.diff(t))))
 
+
+# %%
