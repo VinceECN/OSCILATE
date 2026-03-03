@@ -22,12 +22,12 @@ Ne             = 2      # Order of the expansions
 omega_ref      = sympify(1) # Reference frequency
 ratio_omegaMMS = 1      # Look for a solution around omega_ref
 
-sigma0          = symbols(r"\sigma_v", real=True) # Detuning of omega0 wrt 1
+sigma0          = symbols(r"\sigma_0", real=True) # Detuning of omega0 wrt 1
 detunings       = [sigma0] # Detuning of the oscillator's frequency
 sub_sigma0      = [(sigma0, omega0-1)] # Only for display purposes
 
 param_to_scale = (mu, sigma0)
-scaling        = (2 , 2     )
+scaling        = (1 , 1     )
 param_scaled, sub_scaling = MMS.scale_parameters(param_to_scale, scaling, eps)
 
 kwargs_mms = dict(ratio_omegaMMS=ratio_omegaMMS, ratio_omega_osc=[1], detunings=detunings)
