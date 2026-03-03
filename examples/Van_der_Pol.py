@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 #%% Imports and initialisation
-from sympy import symbols, Function, sympify, solve, dsolve, cos, sin, sqrt
+from sympy import symbols, Function, sympify, solve, dsolve, cos, sin
 from sympy.physics.vector.printing import init_vprinting, vlatex
 init_vprinting(use_latex=True, forecolor='White') 
 from oscilate import MMS
@@ -37,18 +37,18 @@ mms = MMS.Multiple_scales_system(dyn, eps, Ne, omega_ref, sub_scaling, **kwargs_
 mms.apply_MMS(rewrite_polar="all")
 
 # Transient analysis - slow time solutions
-Eqa    = mms.coord.a[0].diff(t)                   - mms.sol.fa[0]    # Equation on a
-Eqbeta = mms.coord.a[0]*mms.coord.beta[0].diff(t) - mms.sol.fbeta[0] # Equation on beta
+Eqa    = mms.coord.at[0].diff(t)                   - mms.sol.fa[0]    # Equation on a
+Eqbeta = mms.coord.at[0]*mms.coord.betat[0].diff(t) - mms.sol.fbeta[0] # Equation on beta
 ai    = symbols(r"a_i", real=True, positive=True)     # Initial amplitude
 betai = symbols(r"\beta_i", real=True, positive=True) # Initial phase
-ICa = {mms.coord.a[0].subs(t,0) : ai}           # Initial condition on a
-ICbeta = {mms.coord.beta[0].subs(t,0) : betai}  # Initial condition on beta
-a_sol    = dsolve(Eqa, mms.coord.a[0], ics=ICa).rhs.subs(mms.sub.sub_scaling_back).subs(sigma0+1, omega0)
-beta_sol = dsolve(Eqbeta, mms.coord.beta[0], ics=ICbeta).rhs.subs(mms.coord.a[0], a_sol).doit().expand().simplify().subs(mms.sub.sub_scaling_back).subs(sigma0+1, omega0)
+ICa = {mms.coord.at[0].subs(t,0) : ai}           # Initial condition on a
+ICbeta = {mms.coord.betat[0].subs(t,0) : betai}  # Initial condition on beta
+a_sol    = dsolve(Eqa, mms.coord.at[0], ics=ICa).rhs.subs(mms.sub.sub_scaling_back).subs(sigma0+1, omega0)
+beta_sol = dsolve(Eqbeta, mms.coord.betat[0], ics=ICbeta).rhs.subs(mms.coord.at[0], a_sol).doit().expand().simplify().subs(mms.sub.sub_scaling_back).subs(sigma0+1, omega0)
 
 # Transient analysis - instantaneous oscillation frequency and time response
 psi = Function(r"\psi", real=True, positive=True)(t) # Full phase
-sub_psi = [(mms.omega*t, psi+mms.coord.beta[0])]     # Substitution from the relative phase beta to the full one psi
+sub_psi = [(mms.omega*t, psi+mms.coord.betat[0])]     # Substitution from the relative phase beta to the full one psi
 psi_sol = (mms.omega*t - beta_sol).subs([mms.sub.sub_omega]).expand().simplify() # From the beta solution to the psi one
 omegaNL = psi_sol.diff(t).simplify().factor() # Instantaneous oscillation frequency
 list_cos_sin = list(mms.sol.x[0].atoms(cos, sin)) # List of harmonics in the response
@@ -58,7 +58,7 @@ x_sol = mms.sol.x[0].expand().collect(list_cos_sin).subs(mms.sub.sub_t[:-1]).sub
 ss = MMS.Steady_state(mms)
 
 # Steady state analysis - amplitude and frequency
-aSS_sol     = sqrt(solve(ss.sol.fa[0], ss.coord.a[0]**2)[1]) # Amplitude solution
+aSS_sol     = solve(ss.sol.fa[0], ss.coord.a[0])[0] # Amplitude solution
 sigSS_sol   = solve(ss.sol.fbeta[0], mms.sigma)[0].subs(ss.coord.a[0], aSS_sol) # Detuning solution
 omegaSS_sol = (1 + eps*sigSS_sol).subs(mms.sub.sub_scaling_back).simplify() # Frequency solution
 sub_SS_sol  = [(ss.coord.a[0], aSS_sol), (mms.sigma, sigSS_sol)] # Substitutions to steady state solutions
@@ -110,9 +110,9 @@ def get_x_v(omega0_num, mu_num, SS=False, **kwargs):
         dic_time["betai"] = (betai, 0)
 
         dic_a_psi = {
-        "a": (mms.coord.a[0], sympy_to_numpy(a_sol, dic_time)),
+        "a": (mms.coord.at[0], sympy_to_numpy(a_sol, dic_time)),
         "psi": (psi, sympy_to_numpy(psi_sol, dic_time)),
-        "da": (mms.coord.a[0].diff(t), sympy_to_numpy(a_sol.diff(t).simplify(), dic_time)),
+        "da": (mms.coord.at[0].diff(t), sympy_to_numpy(a_sol.diff(t).simplify(), dic_time)),
         "dpsi": (psi.diff(t), sympy_to_numpy(psi_sol.diff(t).simplify(), dic_time))
         }
 
@@ -139,4 +139,3 @@ ax.plot(xUT[0], vUT[0], marker="o", mfc="tab:red", mec="none", ms=4)
 ax.set_xlabel(r"${}$".format(vlatex(x)))
 ax.set_ylabel(r"${}$".format(vlatex(x.diff(t))))
 
-# %%
