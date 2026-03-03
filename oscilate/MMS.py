@@ -2175,7 +2175,7 @@ class Steady_state:
         
         return J
 
-    def stability_analysis(self, coord="cartesian", rewrite_polar=False, eigenvalues=False, bifurcation_curves=False, analyse_blocks=False, kwargs_bif=dict()):
+    def stability_analysis(self, coord="cartesian", rewrite_polar=False, eigenvalues=False, bifurcation_curves=False, trace_curves=False, analyse_blocks=False, kwargs_bif=dict()):
         r"""
         Evaluate the stability of a steady state solution. 
 
@@ -2195,6 +2195,9 @@ class Steady_state:
             Default is `False`.
         bifurcation_curves: bool, optional
             Compute the bifurcation curves.
+            Default is `False`.
+        trace_curves: bool, optional
+            Compute the trace curves, i.e. the zeros of the Jacobian's trace.
             Default is `False`.
         analyse_blocks: bool, optional
             Analyse the diagonal blocks of the Jacobian rather than the Jacobian itself. This is relevant if the Jacobian is block-diagonal.
@@ -2498,7 +2501,9 @@ class Steady_state:
             if eigenvalues:
                 self.stab.eigvals = self.eigenvalues(Jsol)
             if bifurcation_curves:
-                self.stab.bif_a, self.stab.bif_sigma = self.bifurcation_curves(det_Jsol, tr_Jsol, **kwargs_bif)
+                self.stab.bif_a, self.stab.bif_sigma = self.bifurcation_curves(det_Jsol, **kwargs_bif)
+            if trace_curves:
+                self.stab.tr_a, self.stab.tr_sigma = self.trace_curves(tr_Jsol, **kwargs_bif)
 
         # Analyse the blocks of Jsol
         if analyse_blocks:
@@ -2514,6 +2519,8 @@ class Steady_state:
                 self.stab.blocks_eigvals = []
                 self.stab.blocks_bif_a   = []
                 self.stab.blocks_bif_sig = []
+                self.stab.blocks_tr_a    = []
+                self.stab.blocks_tr_sig  = []
 
                 for idx in range(0, Jsol.rows, 2):
                     A = Jsol[idx:idx+2, idx:idx+2] 
@@ -2534,9 +2541,14 @@ class Steady_state:
                         self.stab.blocks_eigvals.append(eigvalsA)
 
                     if bifurcation_curves:
-                        bif_aA, bif_sigA = self.bifurcation_curves(detA, trA, **kwargs_bif)
+                        bif_aA, bif_sigA = self.bifurcation_curves(detA, **kwargs_bif)
                         self.stab.blocks_bif_a.append(bif_aA)
                         self.stab.blocks_bif_sig.append(bif_sigA)
+
+                    if trace_curves:
+                        tr_aA, tr_sigA = self.bifurcation_curves(trA, **kwargs_bif)
+                        self.stab.blocks_tr_a.append(tr_aA)
+                        self.stab.blocks_tr_sig.append(tr_sigA)
 
             else:
                 print("Trying to perform a block analysis while the Jacobian is not block-diagonal")
@@ -2575,16 +2587,14 @@ class Steady_state:
         
         return eigvals
             
-    def bifurcation_curves(self, detJ, trJ, var_a=False, var_sig=True, solver=sfun.solve_poly2):
+    def bifurcation_curves(self, detJ, var_a=False, var_sig=True, solver=sfun.solve_poly2):
         r"""
-        Compute bifurcation curves.
+        Compute bifurcation curves, defined by the simple bifurcation points of the slow time system obtained for any forcing frequency and amplitude. 
 
         Parameters
         ----------
         detJ: sympy.Expr
             The determinant of the matrix.
-        trJ: sympy.Expr
-            The trace of the matrix.
         var_a: bool, optional
             Consider the :math:`i^{\textrm{th}}` oscillator's amplitude :math:`a_i` as the variable and find the bifurcation curve as an expression for :math:`a_i`.
             `detJ` is rarely a quadratic polynomial in :math:`a_i`, so this can rarely be computed easily.
@@ -2608,7 +2618,7 @@ class Steady_state:
 
         Notes
         -----
-        The bifurcation curves computed here are the curves defined by the bifurcation points obtained for any forcing frequency and amplitude. 
+        Simple bifurcations are associated to real eigenvalues of the Jacobian matrix crossing the imaginary axis, hence passing through 0. As the determinant is the product of the eigenvalues, the zeros of the determinant give the bifurcation points of the system. 
         """
         
         print("   Computing bifurcation curves")
@@ -2638,15 +2648,67 @@ class Steady_state:
         else:
             bif_sig = []
         
-        # Add bifurcation curves related to the trace of the Jacobian if it is not a constant
-        if self.coord.a[self.sol.solve_dof] in trJ.atoms(Symbol):
-            bif_a   += solver(trJ, self.coord.a[self.sol.solve_dof]**2)
-        if self.sigma in list(trJ.atoms(Symbol)):
-            bif_sig += solver(trJ, self.sigma)
-        
         # Return
         return bif_a, bif_sig
     
+    def trace_curves(self, trJ, var_a=False, var_sig=True, solver=sfun.solve_poly2):
+        r"""
+        Compute curves capturing the variations of the trace of the Jacobian. For 2 by 2 Jacobians, a negative trace with a positive determinant indicates a stable response.
+
+        Parameters
+        ----------
+        trJ: sympy.Expr
+            The trace of the matrix.
+        var_a: bool, optional
+            Consider the :math:`i^{\textrm{th}}` oscillator's amplitude :math:`a_i` as the variable and find the trace curve as an expression for :math:`a_i`.
+            Default is `False`.
+        var_sig: bool, optional
+            Consider the detuning :math:`\sigma` as the variable and find the trace curve as an expression for :math:`\sigma`.
+            Default is `True`.
+        solver: function, optional
+            The solver to use to compute the trace curves.
+            Available are solver called as `solve(expr, x)`, which solve `expr=0` for `x`.
+            :func:`~sympy.solvers.solvers.solve` can be used but is sometimes slow.
+            Default is :func:`~MMS.sympy_functions.solve_poly2`.
+
+        Returns
+        -------
+        tr_a : list
+            The trace curves for :math:`a_i^2`.
+        tr_sig : list
+            The trace curves for :math:`\sigma`. 
+        """
+        
+        print("   Computing trace curves")
+
+        # Check if a stability analysis was performed
+        if not "Jsol" in self.stab.__dict__.keys():
+            print("There was no stability analysis performed.")
+            return
+
+        # Check if the stability analysis is expressed in polar coordinates
+        if "p" in self.coord.__dict__.keys():
+            cartesian_coordinates = self.coord.p + self.coord.q
+            symbols_tr = list(trJ.atoms(Symbol)) 
+            for cartesian_coordinate in cartesian_coordinates:
+                if cartesian_coordinate in symbols_tr:
+                    print("Substitutions from cartesian back to polar coordinates were incomplete. \n ",
+                          "Try other substitutions manually or compute the Jacobian's  trace using block partitions if possible")
+
+        # Add curves related to the trace of the Jacobian if it is not a constant
+        if var_a and self.coord.a[self.sol.solve_dof] in trJ.atoms(Symbol):
+            tr_a   += solver(trJ, self.coord.a[self.sol.solve_dof]**2)
+        else:
+            tr_a = []
+        
+        if var_sig and self.sigma in list(trJ.atoms(Symbol)):
+            tr_sig += solver(trJ, self.sigma)
+        else:
+            tr_sig = []
+        
+        # Return
+        return tr_a, tr_sig
+
     @staticmethod
     def plot_FRC(FRC, **kwargs):
         r"""
