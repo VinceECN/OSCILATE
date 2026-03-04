@@ -6,6 +6,9 @@ from sympy.physics.vector.printing import init_vprinting, vlatex
 init_vprinting(use_latex=True, forecolor='White') 
 from oscilate import MMS
 
+import importlib
+importlib.reload(MMS) 
+
 # Parameters and variables
 omega0, c = symbols(r'\omega_0, c', real=True, positive=True)
 mu        = symbols(r'\mu', real=True, positive=True)
