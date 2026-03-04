@@ -42,3 +42,5 @@ ss.solve_forced(solve_dof=solve_dof)
 
 # Stability analysis
 ss.stability_analysis(coord="polar", eigenvalues=True)
+
+# %%

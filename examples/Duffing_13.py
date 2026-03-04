@@ -44,3 +44,5 @@ mms.apply_MMS()
 # Evaluation at steady state
 ss = MMS.Steady_state(mms)
 ss.solve_bbc(solve_dof=1, c=param_scaled[9:11])
+
+# %%

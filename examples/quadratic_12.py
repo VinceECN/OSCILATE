@@ -70,3 +70,5 @@ dic_fbeta0 = fbeta[1].collect(cos(beta[1]), evaluate=False)
 Eq_a0      = (((dic_fa1[1]/dic_fa1[sin(beta[1])])**2 + (dic_fbeta0[1]/dic_fbeta0[cos(beta[1])])**2 - 1).subs(sub_Dbeta).subs(ss.coord.a[1]**2, a1_2_sol)).simplify()
 a0_2_sol   = solve(Eq_a0, a[0]**2) # Solution a0**2
 
+
+# %%

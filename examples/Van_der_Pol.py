@@ -17,7 +17,7 @@ x         = Function(r'x', real=True)(t)
 
 # Dynamical system
 Eq = x.diff(t,2) + omega0**2*x + mu*(x**2 - 1 )*x.diff(t) 
-dyn = MMS.Dynamical_system(t, x, Eq, omega0, F=0)
+dyn = MMS.dyn_sys.Dynamical_system(t, x, Eq, omega0, F=0)
 
 # Initialisation of the MMS sytem
 eps            = symbols(r"\epsilon", real=True, positive=True) # Small parameter epsilon
@@ -141,6 +141,5 @@ ax.plot(xUT, vUT, c="tab:red")
 ax.plot(xUT[0], vUT[0], marker="o", mfc="tab:red", mec="none", ms=4)
 ax.set_xlabel(r"${}$".format(vlatex(x)))
 ax.set_ylabel(r"${}$".format(vlatex(x.diff(t))))
-
 
 # %%

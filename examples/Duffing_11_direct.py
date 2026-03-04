@@ -56,3 +56,5 @@ fbeta_free    = [fbetai.subs(ss.sub.sub_free + sub_phase + sub_cos2Dbeta) for fb
 a02_sol       = solve(fbeta_free[0], ss.coord.a[0]**2)[1]
 sig_bbc       = solve(fbeta_free[1].subs(ss.coord.a[0]**2, a02_sol), mms.sigma)[0].subs(chi**2,1)
 
+
+# %%
