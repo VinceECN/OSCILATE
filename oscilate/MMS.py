@@ -2888,10 +2888,16 @@ class Sol_SS:
     
     def __init__(self, ss, mms):
         
-        self.x = []
+        self.xO = []
+        self.x  = []
         for ix in range(ss.ndof):
-            self.x.append( [xio.subs(mms.sub.sub_t[:-1]+ss.sub.sub_SS) for xio in mms.sol.xO_polar[ix]] )
-        
+            self.xO.append( [xio.subs(ss.sub.sub_SS) for xio in mms.sol.xO_polar[ix]] )
+            if not isinstance(mms.sol.x[ix], str):
+                self.x.append( mms.sol.x[ix].subs(ss.sub.sub_SS) )
+            else:
+                self.x.append( "all solution orders were not rewritten in polar form" )
+
+
 class Stab_SS:
     """
     Stability analysis parameters and outputs.
