@@ -38,7 +38,16 @@ Detuning can also be introduced during this step.
 
 The package associated to the **OSCILATE** project is called ``oscilate``. 
 It contains two modules:
-- The `MMS` module is the MMS solver.
+- The `MMS` module is the MMS solver. It is divided into four sub-modules: 
+
+  - The `oscilate.MMS.dyn_sys` sub-module defines the dynamical system of interest,
+
+  - The `oscilate.MMS.mms` sub-module applies the MMS to the dynamical system,
+
+  - The `oscilate.MMS.steady_state` sub-module allows for a steady state analysis,
+
+  - The `oscilate.MMS.visualisation` sub-module contains numerical evaluation and plotting functions,
+
 - The `sympy_functions` module contains additional functions that are not directly related to the MMS but which are used in `MMS`.
 
 

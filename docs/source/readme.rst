@@ -41,25 +41,53 @@ The :math:`f_i` are functions which can contain:
 Internal resonance relations among oscillators can be specified in a second step by expressing the :math:`\omega_i` as a function of a reference frequency.
 Detuning can also be introduced during this step.
 
+Details on the Method of Multiple Scales are given in :doc:`mms`.
+
 Overview
 --------
 
 The package associated to the **OSCILATE** project is called :mod:`oscilate`. 
-It contains two modules:
+It is organised as follows:
 
-- The :py:mod:`oscilate.MMS` module is the MMS solver.
+.. code-block:: text
 
-- The :py:mod:`oscilate.sympy_functions` module contains additional functions that are not directly related to the MMS but which are used in :py:mod:`oscilate.MMS`.
+   oscilate
+   │   sympy_functions.py
+   │   __init__.py
+   │   __version__.py
+   │
+   └───MMS
+           dyn_sys.py
+           mms.py
+           steady_state.py
+           visualisation.py
+           __init__.py
+
+- :py:mod:`oscilate.MMS` module is the MMS solver. It is divided into four sub-modules: 
+  
+  - :py:mod:`oscilate.MMS.dyn_sys` sub-module defines the dynamical system of interest,
+
+  - :py:mod:`oscilate.MMS.mms` sub-module applies the MMS to the dynamical system,
+
+  - :py:mod:`oscilate.MMS.steady_state` sub-module allows for a steady state analysis,
+
+  - :py:mod:`oscilate.MMS.visualisation` sub-module contains numerical evaluation and plotting functions,
+
+- :py:mod:`oscilate.sympy_functions` module contains additional functions that are not directly related to the MMS but which are used in :py:mod:`oscilate.MMS`.
+
+
+
+
 
 Solver
 ~~~~~~
-:py:mod:`oscilate.MMS` contains 3 main classes:
+:py:mod:`oscilate.MMS` embeds 3 main classes:
 
-- :py:class:`oscilate.MMS.Dynamical_system` : the dynamical system considered
+- :py:class:`oscilate.MMS.dyn_sys.Dynamical_system` : the dynamical system considered
 
-- :py:class:`oscilate.MMS.Multiple_scales_system` : the system obtained after applying the MMS to the dynamical system
+- :py:class:`oscilate.MMS.mms.Multiple_scales_system` : the system obtained after applying the MMS to the dynamical system
 
-- :py:class:`oscilate.MMS.Steady_state` : the MMS results evaluated at steady state and (if computed) the system's response and its stability. 
+- :py:class:`oscilate.MMS.steady_state.Steady_state` : the MMS results evaluated at steady state and (if computed) the system's response and its stability. 
 
 These classes are described in details in the :doc:`Modules <modules>` section of the `documentation <https://vinceECN.github.io/OSCILATE/>`_.
 A visual description of their connection with other classes is provided in :doc:`architecture`.
@@ -99,7 +127,7 @@ SymPy expressions can also be printed as unformatted :math:`\LaTeX` using ::
    print(vlatex(the_expr))
 
 
-Methods of :py:class:`oscilate.MMS.Steady_state` also allow to evaluate sympy results for given numerical values of system parameters and to plot them.
+Methods of :py:class:`oscilate.mms.MMS.Steady_state` also allow to evaluate sympy results for given numerical values of system parameters and to plot them.
 
 
 Citation

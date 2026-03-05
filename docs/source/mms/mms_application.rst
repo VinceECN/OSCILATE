@@ -245,8 +245,8 @@ However, this approach is not the prefered one as
 
 The first two points can be achieved introducing new coordinates, as described thereafter.
 
-Evolution equations
-~~~~~~~~~~~~~~~~~~~
+Modulation equations
+~~~~~~~~~~~~~~~~~~~~
 
 Polar coordinates
 ^^^^^^^^^^^^^^^^^
@@ -367,8 +367,8 @@ the modulation equations can be rewritten as
     \end{aligned}
 
 The above system is the key result of the application of the MMS as it governs the modulation of leading order amplitudes and phases, on which all higher order solutions depend. 
-It can be solved numerically or analytically, if analytical solutions exist, though it is generally not the case. 
-It can also be rewritten in a more compact form as discussed in the following.
+It can be solved numerically or analytically, if analytical solutions exist, though it is generally not the case. An analytical resolution is shown in :ref:`example_VdP`.
+The modulation system can also be rewritten in a more compact form as discussed in the following.
 
 The autonomous phase coordinates are introduced in :func:`autonomous_phases` and the modulation equations are computed in :func:`modulation_equations`.
 

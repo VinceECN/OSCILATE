@@ -881,7 +881,7 @@ class Multiple_scales_system:
 
         Parameters
         ----------
-        rewrite_polar : str or int or list of int or optional
+        rewrite_polar : str or int or list of int, optional
             The orders at which the solutions will be rewritten in polar form.
             If ``"all"``, then all solution orders will be rewritten.
             If `int`, then only a single order will be rewritten.

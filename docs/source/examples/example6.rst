@@ -1,3 +1,5 @@
+.. _example_VdP:
+
 Example 6: Van der Pol oscillator
 ---------------------------------
 
