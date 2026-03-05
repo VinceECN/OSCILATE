@@ -10,7 +10,7 @@ System description
 The system's equation is
 
 .. math::
-    \ddot{x} + c \dot{x} + \gamma \dot{x}^{3} + \omega_{0}^{2} x = -2x F \cos(\omega t),
+    \ddot{x} + c \dot{x} + \gamma \dot{x}^{3} + \omega_{0}^{2} x = F \cos(\omega t),
 
 where 
 
