@@ -45,6 +45,10 @@ myst_enable_extensions = [
 # Options for HTML output
 html_theme = "sphinx_rtd_theme"
 html_static_path = ['_static']
+html_theme_options = {
+    'navigation_depth': 6,  # default is 4
+}
+
 
 # Types
 autodoc_typehints = "none"  # This hides type hints from the function signature

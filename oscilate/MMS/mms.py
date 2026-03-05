@@ -206,7 +206,7 @@ class Multiple_scales_system:
 
         Notes
         -----
-        The time scales are defined as (see :class:`~MMS.MMS.Multiple_scales_system`)
+        The time scales are defined as (see :ref:`mms`)
         
         .. math::
             t_0 = t, \quad t_1 = \epsilon t, \quad \cdots, \quad t_{N_e} = \epsilon^{N_e} t.
@@ -232,7 +232,7 @@ class Multiple_scales_system:
 
         Notes
         -----
-        The series expansion for oscillator :math:`i` (and for a leading order term :math:`\epsilon^0 = 1`) takes the form (see :class:`~MMS.MMS.Multiple_scales_system`)
+        The series expansion for oscillator :math:`i` (and for a leading order term :math:`\epsilon^0 = 1`) takes the form (see :ref:`mms`)
 
         .. math::
             x_i(t) = x_{i,0}(t) + \epsilon x_{i,1}(t) + \epsilon^2 x_{i,2}(t) + \cdots + \epsilon^{N_e} x_{i,N_e}(t) + \mathcal{O}(\epsilon^{N_e+1}).
@@ -395,7 +395,7 @@ class Multiple_scales_system:
         
     def compute_EqO(self, dynamical_system):
         r"""
-        Compute the system of equations for each oscillator at each order of :math:`\epsilon`. This system is described in :class:`~MMS.MMS.Multiple_scales_system`.
+        Compute the system of equations for each oscillator at each order of :math:`\epsilon`. This system is described in :ref:`mms`.
 
         The output `EqO` is a list of lists:
 
@@ -492,7 +492,7 @@ class Multiple_scales_system:
             a_i \dfrac{\textrm{d}}{dt} \beta_i(t) & = f_{\beta_i}(\boldsymbol{a}, \boldsymbol{\beta}).
             \end{cases}
 
-            This is known as the reconstitution method.
+           This is known as the reconstitution method.
 
         #. :func:`sol_x_polar`: The leading and higher order solutions are rewritten in terms of polar coordinates using :math:`\cos` and :math:`\sin` functions.
         """
@@ -759,7 +759,7 @@ class Multiple_scales_system:
         
         where we recall that
         :math:`\omega = r_{\textrm{MMS}} \omega_{\textrm{ref}} + \epsilon \sigma` and :math:`\omega_{i,0} = r_i \omega_{\textrm{ref}}`. 
-        See details on this choice in :class:`~MMS.MMS.Multiple_scales_system`.
+        See details on this choice in :ref:`mms`.
         """
         
         self.coord.beta   = [ Function(r'\beta_{}'.format(ix), real=True)(*self.tS[1:])                                            for ix in range(self.ndof) ]

@@ -825,7 +825,7 @@ class Steady_state:
             The solver to use to compute the bifurcation curves.
             Available are solver called as `solve(expr, x)`, which solve `expr=0` for `x`.
             :func:`~sympy.solvers.solvers.solve` can be used but is sometimes slow.
-            Default is :func:`~MMS.sympy_functions.solve_poly2`.
+            Default is :func:`~oscilate.sympy_functions.solve_poly2`.
 
         Returns
         -------
@@ -887,7 +887,7 @@ class Steady_state:
             The solver to use to compute the trace curves.
             Available are solver called as `solve(expr, x)`, which solve `expr=0` for `x`.
             :func:`~sympy.solvers.solvers.solve` can be used but is sometimes slow.
-            Default is :func:`~MMS.sympy_functions.solve_poly2`.
+            Default is :func:`~oscilate.sympy_functions.solve_poly2`.
 
         Returns
         -------
