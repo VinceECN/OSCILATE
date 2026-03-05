@@ -14,7 +14,8 @@ from sympy import sympify
 #%% Classes and functions
 class Dynamical_system:
     r"""
-    The dynamical system studied.
+    The dynamical system studied. 
+    See :ref:`dyn_sys` for a detailed description of the dynamical system.
 
     Parameters
     ----------
@@ -34,46 +35,6 @@ class Dynamical_system:
         For each oscillator, specify the coefficient multiplying the forcing terms in the equation.
         It can be used to define parametric forcing. Typically, if the forcing is :math:`x F \cos(\omega t)`, then ``fF = x``.
         Default is a list of 1, so the forcing is direct. 
-
-    Notes
-    -----
-    Systems considered are typically composed of :math:`N` coupled nonlinear equations of the form
-
-    .. math::
-        \begin{cases}
-        \ddot{x}_0 + \omega_0^2 x_0 & = f_0(\boldsymbol{x}, \dot{\boldsymbol{x}}, \ddot{\boldsymbol{x}}, t), \\
-        & \vdots \\
-        \ddot{x}_{N-1} + \omega_{N-1}^2 x_{N-1} & = f_{N-1}(\boldsymbol{x}, \dot{\boldsymbol{x}}, \ddot{\boldsymbol{x}}, t).
-        \end{cases}
-    
-    The :math:`x_i(t)` (:math:`i=0,...,N-1`) are the oscillators' coordinates (dof for degrees of freedom), 
-
-    .. math::
-
-        \boldsymbol{x}(t)^\intercal = [x_0(t), x_1(t), \cdots, x_{N-1}(t)]
-         
-    is the vector containing all the oscillators' coordinates (:math:`^\intercal` denotes the transpose), 
-    :math:`\omega_i` are their natural frequencies, 
-    :math:`t` is the time, 
-    :math:`\dot{(\bullet)} = \textrm{d}(\bullet)/\textrm{d}t` denotes a time-derivative. 
-    :math:`f_i` are functions which can contain:
-
-    - **Weak linear terms** in :math:`x_i`, :math:`\dot{x}_i`, or :math:`\ddot{x}_i`.
-    
-    - **Weak linear coupling terms** involving :math:`x_j`, :math:`\dot{x}_j`, or :math:`\ddot{x}_j` with :math:`j \neq i`.
-    
-    - **Weak nonlinear terms**. Taylor expansions are performed to approximate nonlinear terms as polynomial nonlinearities.
-    
-    - **Forcing terms**, which can be:
-    
-        - *Hard* (appearing at leading order) or *weak* (small).
-        
-        - Primarily harmonic, e.g., :math:`F \cos(\omega t)`, where :math:`F` and :math:`\omega` are the forcing amplitude and frequency, respectively.
-        
-        - Modulated by any function (constant, linear, or nonlinear) to model parametric forcing (e.g., :math:`x_i(t) F \cos(\omega t)`).
-
-    Internal resonance relations among oscillators can be specified in a second step by expressing the :math:`\omega_i` as a function of a reference frequency. 
-    Detuning can also be introduced during this step.
     """
     
     def __init__(self, t, x, Eq, omegas, **kwargs):

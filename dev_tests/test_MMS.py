@@ -44,7 +44,11 @@ plt.close("all")
 
 # Force the reload of MMS - useful when developping in VS Code using the IPython consol
 import importlib
-importlib.reload(MMS) 
+from oscilate import MMS
+from oscilate.MMS import mms
+
+importlib.reload(mms)
+importlib.reload(MMS)
 
 # display() function - useful when in debugger mode in Spyder
 from IPython.display import display 

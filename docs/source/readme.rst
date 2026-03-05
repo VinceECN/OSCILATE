@@ -44,7 +44,7 @@ Detuning can also be introduced during this step.
 Overview
 --------
 
-The package associated to the **OSCILATE** project is called ``oscilate``. 
+The package associated to the **OSCILATE** project is called :mod:`oscilate`. 
 It contains two modules:
 
 - The :py:mod:`oscilate.MMS` module is the MMS solver.
@@ -108,7 +108,7 @@ Please cite this package when using it. See the :doc:`Citation <citation>` secti
 
 Installation guide
 ------------------
-To install the ``oscilate`` package, refer to the :doc:`install` section.
+To install the :mod:`oscilate` package, refer to the :doc:`install` section.
 
 Disclaimer
 ----------

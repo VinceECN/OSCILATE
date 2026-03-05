@@ -21,6 +21,8 @@ from .mms import cartesian_to_polar
 class Steady_state:
     r"""
     Steady state analysis of the multiple scales system.
+    See :ref:`steady_state` for a detailed description of the dynamical system.
+
 
     Parameters
     ----------
@@ -31,76 +33,7 @@ class Steady_state:
     -----
     Description of the steady state analysis.
 
-    ----------------------
-    Steady state solutions
-    ----------------------
-
-    ^^^^^^^^^^^^^^^^^^^^^^^
-    Steady state conditions
-    ^^^^^^^^^^^^^^^^^^^^^^^
-
-    At steady state, the solutions' amplitudes and phases are time-independent. One therefore has, for each oscillator :math:`i=1,...,N`,
-
-    .. math::
-        \begin{cases}
-        \dfrac{\textrm{d}}{dt} a_i & = 0, \\
-        \dfrac{\textrm{d}}{dt} \beta_i & = 0, \\
-        \end{cases}
     
-    and the homogeneous steady state solutions take the form
-
-    .. math::
-        x^{\textrm{h}}_{i,0}(t) = a_i \cos\left( \frac{r_i}{r_{\textrm{MMS}}} \omega t - \frac{r_i}{r_{\textrm{MMS}}} \beta_i \right).    
-    
-    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    MMS evolution equations at steady state
-    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-    The steady state amplitudes :math:`\boldsymbol{a}` and phases :math:`\boldsymbol{\beta}` are governed by the evolution equations evaluated at steady state, which take the form
-
-    .. math::
-        \begin{cases}
-        f_{a_0}(\boldsymbol{a}, \boldsymbol{\beta})     & = 0, \\
-        f_{\beta_0}(\boldsymbol{a}, \boldsymbol{\beta}) & = 0, \\
-        & \vdots \\
-        f_{a_{N-1}}(\boldsymbol{a}, \boldsymbol{\beta})     & = 0, \\
-        f_{\beta_{N-1}}(\boldsymbol{a}, \boldsymbol{\beta}) & = 0.
-        \end{cases}
-
-    This is now an algebraic system of equations. 
-
-    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    MMS solutions at steady state
-    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-    Solving the evolution equations at steady state yields the steady state solutions :math:`\boldsymbol{a}, \boldsymbol{\beta}`. 
-    The system can be solved directly for :math:`\boldsymbol{a}` and :math:`\boldsymbol{\beta}`, yielding explicit analytical solutions, but this is often complex as the system is nonlinear. 
-
-    A possibility that is sometimes available to obtain **analytical solutions** is to rearrange the equations to isolate the phase terms :math:`\cos(f(\boldsymbol{\beta})),\; \sin(f(\boldsymbol{\beta}))` where :math:`f(\boldsymbol{\beta})` is a linear function of the :math:`\beta_i`. 
-    Then the equations can be squared and summed up to obtain an equation on :math:`a_i` only and/or :math:`a_j` as a function of :math:`a_i`. The :math:`a_j` can be expressed as a function of :math:`a_i`, leading to a polynomial equation on :math:`a_i`.
-    The resulting polynomial equation can rarely be solved directly as the polynomial involved are often of high order. 
-    However, the polynomial is often quadratic in the detuning :math:`\sigma` and forcing amplitude :math:`F`. 
-    It can therefore be solved for :math:`\sigma` and :math:`F` with :math:`a_i` seen as a parameter. 
-    This yields an implicit solution for :math:`a_i(\sigma) \Rightarrow a_i(\omega)` and :math:`a_i(F)`, from which one can deduce the other amplitudes :math:`a_j` and phases :math:`\boldsymbol{\beta}`, thus reconstructing the oscillators' solutions.
-    
-    The processus described above is not always feasible. The blocking points are typically to 
-
-    (i) get rid of phase terms :math:`\cos(f(\boldsymbol{\beta})),\; \sin(f(\boldsymbol{\beta}))` in the equations, 
-
-    (ii) express every amplitude :math:`a_j` in terms of a single one, :math:`a_i`,
-
-    (iii) end up with a polynomial of order 2 in :math:`\sigma` and :math:`F` 
-    
-    These difficulties become more pronounced when the system involves several oscillator, in which case the amplitudes and phases may only be **computed numerically**.
-
-    To facilitate the derivation of an analytical solution, it is possible to consider the **backbone curve** (bbc) of the forced solution rather than the forced solution itself. 
-    This bbc is computed in the absence of damping and forcing, therefore simplifying the system. Typically, this reduces the number of phase terms appearing. 
-    The solving procedure is then the same as that described previously.
-
-    ------------------
-    Stability analysis
-    ------------------
-    The stability analysis is described in details in :func:`stability_analysis`.
     """
     
     def __init__(self, mms):
@@ -143,7 +76,7 @@ class Steady_state:
         self.stab = Stab_SS()
         
         # Evolution equations at steady state
-        self.evolution_equations_SS(mms)
+        self.modulation_equations_SS(mms)
         
     
     def polar_coordinates_SS(self, mms):
@@ -162,9 +95,9 @@ class Steady_state:
         self.coord.beta = beta
         self.sub.sub_SS = sub_SS
         
-    def evolution_equations_SS(self, mms):
+    def modulation_equations_SS(self, mms):
         """
-        Evaluate the evolution equations at steady state (polar system).
+        Evaluate the modulation equations at steady state (polar system).
         """
         
         fa, fbeta, faO, fbetaO = [], [], [], []
@@ -180,9 +113,9 @@ class Steady_state:
         self.sol.faO    = faO
         self.sol.fbetaO = fbetaO
         
-        # Check if the evolution equations are autonomous
+        # Check if the modulation equations are autonomous
         if 't_1' in srepr(fa) or 't_1' in srepr(fbeta):
-            print("The evolution equations do not form an autonomous system")
+            print("The modulation equations do not form an autonomous system")
 
     def solve_forced(self, solve_dof=None):
         r"""
@@ -259,11 +192,11 @@ class Steady_state:
         The solutions actually returned are :math:`\sin(\beta_i)` and :math:`\cos(\beta_i)`.
         """
         
-        # Evaluate the evolution equations for a single oscillator responding
+        # Evaluate the modulation equations for a single oscillator responding
         fa_dof    = self.sol.fa[self.sol.solve_dof]   .expand().subs(self.sub.sub_solve)
         fbeta_dof = self.sol.fbeta[self.sol.solve_dof].expand().subs(self.sub.sub_solve)
         
-        # Collect sin and cos terms in the evolution equations
+        # Collect sin and cos terms in the modulation equations
         collect_sin_cos = list(fa_dof.atoms(cos, sin)) + list(fbeta_dof.atoms(cos, sin))
         collect_sin_cos = [item for item in collect_sin_cos if item.has(self.coord.beta[self.sol.solve_dof])]
     
@@ -447,7 +380,7 @@ class Steady_state:
 
     def Jacobian_polar(self):
         r"""
-        Compute the Jacobian of the evolution equations systems expressed in polar coordinates (see :func:`stability_analysis`).
+        Compute the Jacobian of the modulation equations systems expressed in polar coordinates (see :func:`stability_analysis`).
         
         Returns
         -------
@@ -521,13 +454,13 @@ class Steady_state:
         self.sub.sub_polar = sub_polar
         
     
-    def evolution_equations_cartesian(self):
+    def modulation_equations_cartesian(self):
         r"""
-        Compute the evolution equations of the cartesian coordinates system.
+        Compute the modulation equations of the cartesian coordinates system.
 
         Notes
         -----
-        Write the evolution equations using the cartesian coordinates (defined in :func:`cartesian_coordinates`). 
+        Write the modulation equations using the cartesian coordinates (defined in :func:`cartesian_coordinates`). 
         For oscillator :math:`i`, this results in
         
         .. math::
@@ -567,7 +500,7 @@ class Steady_state:
         if not substitution_OK:
             print("   The substitution from polar to cartesian coordinates is incomplete")
         
-        # Store the evolution equations
+        # Store the modulation equations
         self.sol.fp = fp
         self.sol.fq = fq
         
@@ -660,7 +593,7 @@ class Steady_state:
     
     def Jacobian_cartesian(self):
         r"""
-        Compute the Jacobian of the evolution equations systems expressed in cartesian coordinates (see :func:`stability_analysis`).
+        Compute the Jacobian of the modulation equations systems expressed in cartesian coordinates (see :func:`stability_analysis`).
         
         Returns
         -------
@@ -682,6 +615,7 @@ class Steady_state:
     def stability_analysis(self, coord="cartesian", rewrite_polar=False, eigenvalues=False, bifurcation_curves=False, trace_curves=False, analyse_blocks=False, kwargs_bif=dict()):
         r"""
         Evaluate the stability of a steady state solution. 
+        See :ref:`stability` for a detailed description of the dynamical system.
 
         Parameters
         ----------
@@ -709,227 +643,7 @@ class Steady_state:
             Passed to :func:`bifurcation_curves`
             Default is `dict()`.
 
-        Notes
-        -----
-
-        ^^^^^^^^^^^^^^^^^^^^^
-        Stability information
-        ^^^^^^^^^^^^^^^^^^^^^
-
-        Consider a steady state solution :math:`(\hat{\boldsymbol{a}} , \hat{\boldsymbol{\beta}})` such that, for :math:`i=1,...,N`,
-
-        .. math::
-            \begin{cases}
-            f_{a_i}(\hat{\boldsymbol{a}}, \hat{\boldsymbol{\beta}})     & = 0, \\
-            f_{\beta_i}(\hat{\boldsymbol{a}}, \hat{\boldsymbol{\beta}}) & = 0.
-            \end{cases}
-
-        The aim is to determine the stability state of that steady solution, which corresponds to a fixed point in the phase space. 
-
-        ---------------
-        Jacobian matrix
-        ---------------
-        Let's first introduce the vector of polar coordinates and polar evolution functions
-
-        .. math::
-            \boldsymbol{x}^{(\textrm{p})\intercal} & = [a_0, \beta_0, \cdots, a_{N-1}, \beta_{N-1}], \\
-            \boldsymbol{f}^{(\textrm{p})\intercal} & = [f_{a_0}, f_{\beta_0}^*, \cdots, f_{a_{N-1}}, f_{\beta_{N-1}}^*].
-
-        Note that the appearance of :math:`f_{\beta_i}^*` in :math:`\boldsymbol{f}^{(\textrm{p})}` requires :math:`a_i \neq 0`, which strongly constraints the type of steady state solutions that can be considered in the approach described below. 
-        To relax this constraint, one can use a change of coordinates from polar to cartesian ones. 
-        This will be discussed in following sections, after the description of this polar approach. 
         
-        Using the vectors of polar coordinates and evolution functions, one can write the evolution equations system as
-
-        .. math::
-            \dfrac{\textrm{d} \boldsymbol{x}^{(\textrm{p})}}{\textrm{d}t} = \textrm{J}^{(\textrm{p})} \boldsymbol{x}^{(\textrm{p})},
-
-        where we introduced the Jacobian matrix 
-
-        .. math::
-            \textrm{J}^{(\textrm{p})} 
-            = \dfrac{\partial \boldsymbol{f}^{(\textrm{p})} }{ \partial \boldsymbol{x}^{(\textrm{p})} }
-            = \begin{bmatrix}
-            \frac{\partial f_{a_0}}{\partial a_0} & \frac{\partial f_{a_0}}{\partial \beta_0} & \cdots & \frac{\partial f_{a_0}}{\partial \beta_{N-1}} \\
-            \frac{\partial f_{\beta_0}^*}{\partial a_0} & \frac{\partial f_{\beta_0}^*}{\partial \beta_0} & \cdots & \frac{\partial f_{\beta_0}^*}{\partial \beta_{N-1}} \\
-            \vdots & \vdots & \ddots & \vdots \\
-            \frac{\partial f_{\beta_{N-1}}^*}{\partial a_0} & \frac{\partial f_{\beta_{N-1}}^*}{\partial \beta_0} & \cdots & \frac{\partial f_{\beta_{N-1}}^*}{\partial \beta_{N-1}}
-            \end{bmatrix}.
-
-        -----------------------------------------
-        Perturbation of the steady state solution
-        -----------------------------------------
-        Let us now consider a small perturbation :math:`\tilde{\boldsymbol{x}}^{(\textrm{p})}` of the steady state solution such that
-
-        .. math::
-            \boldsymbol{x}^{(\textrm{p})} = \hat{\boldsymbol{x}}^{(\textrm{p})} + \tilde{\boldsymbol{x}}^{(\textrm{p})} \quad \Leftrightarrow \quad \tilde{\boldsymbol{x}}^{(\textrm{p})} = \boldsymbol{x}^{(\textrm{p})} - \hat{\boldsymbol{x}}^{(\textrm{p})}.
-
-        Using a first order Taylor expansion for :math:`\textrm{d} \tilde{\boldsymbol{x}}^{(\textrm{p})} / \textrm{d} t`, one can write
-
-        .. math::
-            \dfrac{\textrm{d} \tilde{\boldsymbol{x}}^{(\textrm{p})}}{\textrm{d}t} = \left.\textrm{J}^{(\textrm{p})}\right|_{\hat{\boldsymbol{x}}^{(\textrm{p})}} \tilde{\boldsymbol{x}}^{(\textrm{p})} + \mathcal{O}(||\tilde{\boldsymbol{x}}^{(\textrm{p})}||^2),
-
-        where :math:`\left.\textrm{J}^{(\textrm{p})}\right|_{\hat{\boldsymbol{x}}^{(\textrm{p})}}` denotes the Jacobian matrix evaluated on the steady state solution. 
-        The perturbation solution takes the form
-
-        .. math::
-            \tilde{\boldsymbol{x}}^{(\textrm{p})} = \sum_{i=1}^{2N} C_i \boldsymbol{\psi}_i e^{\lambda_i t},
-
-        where :math:`(\lambda_i, \boldsymbol{\psi}_i),\; i=1, ..., 2N` are the eigensolutions of the Jacobian (evaluated on :math:`\hat{\boldsymbol{x}}^{(\textrm{p})}`).
-        
-        -------------------
-        Stability condition
-        -------------------
-        The steady state solution :math:`\hat{\boldsymbol{x}}^{(\textrm{p})}` is considered stable if a small perturbation :math:`\tilde{\boldsymbol{x}}^{(\textrm{p})}` vanishes in time, 
-        such that solutions close from :math:`\hat{\boldsymbol{x}}^{(\textrm{p})}` are converging towards it. This condition is fulfilled if
-
-        .. math::
-            \Re[\lambda_i] < 0, \quad \forall i,
-
-        meaning that all eigenvalues of the Jacobian evaluated on the steady state solution must have negative real parts.
-        If this condition is not met, the system is either quasi stable or unstable.
-
-        ------------
-        Bifurcations
-        ------------
-        A bifurcation occurs when the stability state of the system changes. 
-        
-        #. Simple bifurcations occur when at least one eigenvalue crosses the imaginary axis through 0.
-           Such bifurcations include saddle node and pitchfork bifurcations, which cause jumps of the response and the appearance of lower symmetry solutions, respectively.
-
-        #. Neimark-Sacker bifurcations occur when a pair of complex conjugate eigenvalues with nonzero real parts cross the imaginary axis.
-           These bifurcations lead to non periodic solutions. 
-
-        Simple bifurcations can be detected by evaluating the sign of the Jacobian, as
-
-        .. math::
-            \det \left.\textrm{J}^{(\textrm{p})}\right|_{\hat{\boldsymbol{x}}^{(\textrm{p})}} = \prod_{i=1}^{2N} \lambda_i,
-
-        thereby making :math:`\det \left.\textrm{J}^{(\textrm{p})}\right|_{\hat{\boldsymbol{x}}^{(\textrm{p})}}` an important stability indicator.
-        Neimark-Sacker bifurcations are more difficult to detect. Information from the trace of :math:`\left.\textrm{J}^{(\textrm{p})}\right|_{\hat{\boldsymbol{x}}^{(\textrm{p})}}` can be considered, or the Routh-Hurwitz criterion can be used. This is not detailed here.
-
-        ------------------
-        Bifurcation curves
-        ------------------
-        Bifurcation curves are curves constructed by evaluating the coordinates of bifurcation points when varying one or more parameters.
-        The stability state of a solution changes when the response curve crosses a bifurcation curve.
-
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-        Stability analysis in cartesian coordinates
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-        --------------------------------
-        Limitations of polar coordinates
-        --------------------------------
-        As mentioned previously, the approach described above fails when one of the oscillator's leading order amplitude is 0.
-        Indeed, the Jacobian is constructed using the evolution functions
-
-        .. math::
-                f_{\beta_i}^*(\boldsymbol{a}, \boldsymbol{\beta}) = \frac{f_{\beta_i}(\boldsymbol{a}, \boldsymbol{\beta})}{a_i},
-
-        which are defined only if :math:`a_i=0`. 
-        This prevents evaluating the stability of
-
-        - Trivial solutions, for which no oscillator responds,
-
-        - 1 mode solutions, whose stability can be affected under perturbation from another mode.
-
-        These limitations can be overcome using a change of coordinates.
-
-        ---------------------
-        Cartesian coordinates
-        ---------------------
-        The leading order homogeneous solution for oscillator :math:`i` can be written as
-
-        .. math::
-            \begin{split}
-            x_{i,0}^{\textrm{h}}(t) & = a_i \cos\left(\frac{r_i}{r_{\textrm{MMS}}}\omega t - \beta_i \right), \\
-                                    & = a_i \cos(\beta_i) \cos\left(\frac{r_i}{r_{\textrm{MMS}}}\omega t\right) 
-                                      + a_i \sin(\beta_i) \sin\left(\frac{r_i}{r_{\textrm{MMS}}}\omega t\right).
-            \end{split}
-
-        It then appears natural to introduce the cartesian coordinates
-
-        .. math::
-            \begin{cases}
-            p_i = a_i \cos(\beta_i), \\
-            q_i = a_i \sin(\beta_i),
-            \end{cases}
-
-        in order to rewrite the solution as
-
-        .. math::
-            x_{i,0}^{\textrm{h}}(t) = p_i \cos\left(\frac{r_i}{r_{\textrm{MMS}}}\omega t\right) + q_i \sin\left(\frac{r_i}{r_{\textrm{MMS}}}\omega t\right).
-
-        In the following it will be convenient to use the cartesian coordinates vectors
-
-        .. math::
-            \begin{aligned}
-            \boldsymbol{p}(t)^\intercal & = [p_0(t), p_1(t), \cdots, p_{N-1}(t)], \\
-            \boldsymbol{q}(t)^\intercal & = [q_0(t), q_1(t), \cdots, q_{N-1}(t)].
-            \end{aligned}
-
-        -----------------------------
-        Cartesian evolution equations
-        -----------------------------
-        The cartesian evolution equations can be obtained from the polar ones. To do so, one can write
-
-        .. math::
-            \begin{cases}
-            \dfrac{\textrm{d} p_i}{\textrm{d}t} & = \dfrac{\textrm{d} a_i}{\textrm{d}t} \cos(\beta_i) - a_i \sin(\beta_i) \dfrac{\textrm{d} \beta_i}{\textrm{d}t}, \\
-            \dfrac{\textrm{d} q_i}{\textrm{d}t} & = \dfrac{\textrm{d} a_i}{\textrm{d}t} \sin(\beta_i) + a_i \cos(\beta_i) \dfrac{\textrm{d} \beta_i}{\textrm{d}t}.
-            \end{cases}
-
-        Then, by identification, one necessarily has
-
-        .. math::
-            \begin{cases}
-            f_{p_i}(\boldsymbol{p}, \boldsymbol{q}) & = f_{a_i}(\boldsymbol{a}, \boldsymbol{\beta}) \cos(\beta_i) - f_{\beta_i}(\boldsymbol{a}, \boldsymbol{\beta}) \sin(\beta_i), \\
-            f_{q_i}(\boldsymbol{p}, \boldsymbol{q}) & = f_{a_i}(\boldsymbol{a}, \boldsymbol{\beta}) \sin(\beta_i) + f_{\beta_i}(\boldsymbol{a}, \boldsymbol{\beta}) \cos(\beta_i),
-            \end{cases}
-
-        in order to write the evolution equations in cartesian coordinates
-
-        .. math::
-            \begin{cases}
-            \dfrac{\textrm{d}}{dt} p_0(t) & = f_{p_0}(\boldsymbol{p}, \boldsymbol{q}), \\
-            \dfrac{\textrm{d}}{dt} q_0(t) & = f_{q_0}(\boldsymbol{p}, \boldsymbol{q}), \\
-            & \vdots \\
-            \dfrac{\textrm{d}}{dt} p_{N-1}(t) & = f_{p_{N-1}}(\boldsymbol{p}, \boldsymbol{q}), \\
-            \dfrac{\textrm{d}}{dt} q_{N-1}(t) & = f_{q_{N-1}}(\boldsymbol{p}, \boldsymbol{q}).
-            \end{cases}
-
-        ---------------
-        Jacobian matrix
-        ---------------
-
-        As done previously for polar coordinates, let's introduce the vectors of cartesian coordinates and evolution equations as
-
-        .. math::
-            \boldsymbol{x}^{(\textrm{c})\intercal} & = [p_0, q_0, \cdots, p_{N-1}, q_{N-1}], \\
-            \boldsymbol{f}^{(\textrm{c})\intercal} & = [f_{p_0}, f_{q_0}, \cdots, f_{p_{N-1}}, f_{q_{N-1}}].
-
-        Then one can write
-
-        .. math::
-            \dfrac{\textrm{d} \boldsymbol{x}^{(\textrm{c})}}{\textrm{d}t} = \textrm{J}^{(\textrm{c})} \boldsymbol{x}^{(\textrm{c})},
-
-        where we introduced the Jacobian matrix 
-
-        .. math::
-            \textrm{J}^{(\textrm{c})}
-            = \dfrac{\partial \boldsymbol{f}^{(\textrm{c})} }{ \partial \boldsymbol{x}^{(\textrm{c})} }
-            = \begin{bmatrix}
-            \frac{\partial f_{p_0}}{\partial p_0} & \frac{\partial f_{p_0}}{\partial q_0} & \cdots & \frac{\partial f_{p_0}}{\partial q_{N-1}} \\
-            \frac{\partial f_{q_0}}{\partial p_0} & \frac{\partial f_{q_0}}{\partial q_0} & \cdots & \frac{\partial f_{q_0}}{\partial q_{N-1}} \\
-            \vdots & \vdots & \ddots & \vdots \\
-            \frac{\partial f_{q_{N-1}}}{\partial p_0} & \frac{\partial f_{q_{N-1}}}{\partial q_0} & \cdots & \frac{\partial f_{q_{N-1}}}{\partial q_{N-1}}
-            \end{bmatrix}.
-
-        Note that there are no constraints related to an oscillator's amplitude being 0 here. 
-        This cartesian coordinates approach therefore allows to investigate how the stability of a steady state solution is affected by a perturbation from an oscillator who's amplitude is 0 in that steady state solution.
-
-        The stability analysis with :math:`\textrm{J}^{(\textrm{c})}` is carried out as described previously with :math:`\textrm{J}^{(\textrm{p})}`.
         """
         
         # Check if a solution has been computed
@@ -940,13 +654,13 @@ class Steady_state:
         # Information
         print("Evaluating the stability of the solution of oscillator {}".format(self.sol.solve_dof))
         
-        # Introduce the cartesian coordinates and evolution equations
+        # Introduce the cartesian coordinates and modulation equations
         if coord == "cartesian":
             print("   Rewritting the system in cartesian coordinates")
 
             self.stab.analysis_coord = "cartesian"
             self.cartesian_coordinates()
-            self.evolution_equations_cartesian()
+            self.modulation_equations_cartesian()
 
         else:
             self.stab.analysis_coord = "polar"

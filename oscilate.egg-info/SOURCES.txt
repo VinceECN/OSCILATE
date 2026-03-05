@@ -9,7 +9,6 @@ README.rst
 pyproject.toml
 requirements.txt
 setup.cfg
-oscilate/MMS.py
 oscilate/__init__.py
 oscilate/__version__.py
 oscilate/sympy_functions.py
@@ -18,3 +17,8 @@ oscilate.egg-info/SOURCES.txt
 oscilate.egg-info/dependency_links.txt
 oscilate.egg-info/requires.txt
 oscilate.egg-info/top_level.txt
+oscilate/MMS/__init__.py
+oscilate/MMS/dyn_sys.py
+oscilate/MMS/mms.py
+oscilate/MMS/steady_state.py
+oscilate/MMS/visualisation.py
