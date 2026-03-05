@@ -99,4 +99,4 @@ In the current notations, this is equivalent to
     \end{cases}
 
 which are the outputs for ``ss.sol.x[0][0].simplify()``, ``ss.sol.faO[0][1]``, ``ss.sol.fbetaO[0][1]`` and ``ss.stab.eigvals``, respectively. 
-Note the :math:`\epsilon` factor for the eigenvalues. It is related to the eigenvalues being computed from the physical time evolution equations rather than just the :math:`1^{\textrm{st}` order slow time evolution equations.
+Note the :math:`\epsilon` factor for the eigenvalues. It is related to the eigenvalues being computed from the reconstituted modulation equations rather than just the :math:`1^{\textrm{st}` order slow time modulation equations.

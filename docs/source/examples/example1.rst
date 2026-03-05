@@ -47,7 +47,7 @@ Code description
 The script below allows to
 
 - Construct the dynamical system.
-- Apply the MMS to the system up to order :math:`N_e = 3`. The MMS results can be visualized in LaTeX in an **IPython-based interactive environment** (e.g., VS Code's Python Interactive Window or Jupyter Notebook). For example, to visualize the evolution function :math:`f_\beta(a, \beta)`, use
+- Apply the MMS to the system up to order :math:`N_e = 3`. The MMS results can be visualized in LaTeX in an **IPython-based interactive environment** (e.g., VS Code's Python Interactive Window or Jupyter Notebook). For example, to visualize the modulation function :math:`f_\beta(a, \beta)`, use
 
   .. prompt:: python
 

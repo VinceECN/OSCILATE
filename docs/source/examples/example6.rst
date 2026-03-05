@@ -2,6 +2,8 @@ Example 6: Van der Pol oscillator
 ---------------------------------
 
 MMS example on a Van der Pol oscillator. 
+This configuration is very close from that studied by Nayfeh and Mook in *Nonlinear Oscillations* (1995), section 3.3.4.
+
 
 System description
 ^^^^^^^^^^^^^^^^^^
@@ -42,7 +44,10 @@ The script below allows to
 
 - Construct the dynamical system.
 - Apply the MMS to the system,
-- Evaluate the MMS results at steady state.
+- Solve the modulation equations (yields the transient response),
+- Evaluate the MMS results at steady state,
+- Solve the steady state modulation equations (yields the limit cycle),
+- Evaluate the symbolic expressions for given numerical parameters and plot the limit cycle and two trajectories in the phase portrait.
 
 .. literalinclude:: ../../../examples/Van_der_Pol.py
    :language: python
