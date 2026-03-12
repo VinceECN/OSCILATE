@@ -8,19 +8,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Example 5: Parametrically excited Duffing oscillator &mdash; OSCILATE 0.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
 
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../_static/documentation_options.js?v=7026087e"></script>
-      <script src="../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../_static/copybutton.js?v=f281be69"></script>
       <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -50,6 +50,7 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../readme.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mms.html">The Method of Multiple Scales</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../modules.html">Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../architecture.html">Main module architecture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation guide</a></li>
@@ -65,7 +66,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="example6.html">Example 6: Van der Pol oscillator</a></li>
-<li class="toctree-l2"><a class="reference internal" href="example7.html">Example 7: Parametrically excited Van der Pol oscillator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="example7.html">Example 7: Parametrically excited Rayleigh oscillator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="example8.html">Example 8: Superharmonic response of a Duffing oscillator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="example9.html">Example 9: Subharmonic response of a Duffing oscillator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="example10.html">Example 10: Subharmonic response of parametrically excited coupled centrifugal pendulums in 1:1 internal resonance</a></li>
@@ -108,6 +109,13 @@
 This configuration was studied by Nayfeh and Mook in <em>Nonlinear Oscillations</em> (1995), section 5.7.3.</p>
 <section id="system-description">
 <h2>System description<a class="headerlink" href="#system-description" title="Link to this heading"></a></h2>
+<figure class="align-center" id="id1">
+<a class="reference internal image-reference" href="_static/Duffing_oscillator_param.svg"><img alt="Nonlinear system." src="_static/Duffing_oscillator_param.svg" style="width: 70%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Illustration of a parametrically forced Duffing oscillator through the time-varying stiffness <span class="math notranslate nohighlight">\(\omega_0^2 + 2 F \cos(\omega t)\)</span>.</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
 <p>The system’s equation is</p>
 <div class="math notranslate nohighlight">
 \[\ddot{x} + c \dot{x} + \omega_0^2 x + \gamma x^3 = -2 x F \cos(\omega t),\]</div>
@@ -179,7 +187,7 @@ This configuration was studied by Nayfeh and Mook in <em>Nonlinear Oscillations<
 <span class="linenos">30</span><span class="n">mms</span> <span class="o">=</span> <span class="n">MMS</span><span class="o">.</span><span class="n">Multiple_scales_system</span><span class="p">(</span><span class="n">dyn</span><span class="p">,</span> <span class="n">eps</span><span class="p">,</span> <span class="n">Ne</span><span class="p">,</span> <span class="n">omega_ref</span><span class="p">,</span> <span class="n">sub_scaling</span><span class="p">,</span> <span class="n">ratio_omegaMMS</span><span class="o">=</span><span class="n">ratio_omegaMMS</span><span class="p">)</span>
 <span class="linenos">31</span>
 <span class="linenos">32</span><span class="c1"># Application of the MMS</span>
-<span class="linenos">33</span><span class="n">mms</span><span class="o">.</span><span class="n">apply_MMS</span><span class="p">()</span>
+<span class="linenos">33</span><span class="n">mms</span><span class="o">.</span><span class="n">apply_MMS</span><span class="p">(</span><span class="n">rewrite_polar</span><span class="o">=</span><span class="s2">&quot;all&quot;</span><span class="p">)</span>
 <span class="linenos">34</span>
 <span class="linenos">35</span><span class="c1"># Evaluation at steady state</span>
 <span class="linenos">36</span><span class="n">ss</span> <span class="o">=</span> <span class="n">MMS</span><span class="o">.</span><span class="n">Steady_state</span><span class="p">(</span><span class="n">mms</span><span class="p">)</span>
@@ -191,14 +199,16 @@ This configuration was studied by Nayfeh and Mook in <em>Nonlinear Oscillations<
 <span class="linenos">42</span>
 <span class="linenos">43</span><span class="c1"># Stability analysis</span>
 <span class="linenos">44</span><span class="n">ss</span><span class="o">.</span><span class="n">stability_analysis</span><span class="p">(</span><span class="n">coord</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">,</span> <span class="n">eigenvalues</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="linenos">45</span>
+<span class="linenos">46</span><span class="c1"># %%</span>
 </pre></div>
 </div>
 </section>
 <section id="validation">
 <h2>Validation<a class="headerlink" href="#validation" title="Link to this heading"></a></h2>
 <p>The notations used in the above code are related to those in <em>Nonlinear Oscillations</em> as follows:</p>
-<table class="docutils align-default" id="id1">
-<caption><span class="caption-text">Link between notations from <em>Nonlinear Oscillations</em> and this document.</span><a class="headerlink" href="#id1" title="Link to this table"></a></caption>
+<table class="docutils align-default" id="id2">
+<caption><span class="caption-text">Link between notations from <em>Nonlinear Oscillations</em> and this document.</span><a class="headerlink" href="#id2" title="Link to this table"></a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>Current Notation</p></th>
 <th class="head"><p><em>Nonlinear Oscillations</em></p></th>
@@ -274,7 +284,7 @@ a_0 \textrm{D}_1 \beta_0 &amp; = \dfrac{\sigma a_{0}}{2} - \dfrac{\tilde{F} a_{0
 \lambda_{1,2}            &amp; = \epsilon \dfrac{1}{2} \dfrac{ \left(- \omega_{0} \tilde{c} \pm \sqrt{\omega_{0}^{2} \tilde{c}^{2} + 3 \omega_{0} \sigma \tilde{\gamma} a_{0}^{2} - \frac{9}{4} \tilde{\gamma}^{2} a_{0}^{4}}\right)}{ \omega_{0}},
 \end{cases}\end{split}\]</div>
 <p>which are the outputs for <code class="docutils literal notranslate"><span class="pre">ss.sol.x[0][0].simplify()</span></code>, <code class="docutils literal notranslate"><span class="pre">ss.sol.faO[0][1]</span></code>, <code class="docutils literal notranslate"><span class="pre">ss.sol.fbetaO[0][1]</span></code> and <code class="docutils literal notranslate"><span class="pre">ss.stab.eigvals</span></code>, respectively.
-Note the <span class="math notranslate nohighlight">\(\epsilon\)</span> factor for the eigenvalues. It is related to the eigenvalues being computed from the physical time evolution equations rather than just the <span class="math notranslate nohighlight">\(1^{\textrm{st}\)</span> order slow time evolution equations.</p>
+Note the <span class="math notranslate nohighlight">\(\epsilon\)</span> factor for the eigenvalues. It is related to the eigenvalues being computed from the reconstituted modulation equations rather than just the <span class="math notranslate nohighlight">\(1^{\textrm{st}\)</span> order slow time modulation equations.</p>
 </section>
 </section>
 

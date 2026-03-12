@@ -10,6 +10,7 @@ Welcome to the documentation for **OSCILATE**, a Python project for solving syst
    :caption: Contents:
 
    readme
+   mms
    modules
    architecture
    install

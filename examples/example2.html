@@ -8,19 +8,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Example 2: Coupled Duffings in 1:3 internal resonance &mdash; OSCILATE 0.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
 
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../_static/documentation_options.js?v=7026087e"></script>
-      <script src="../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../_static/copybutton.js?v=f281be69"></script>
       <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -50,6 +50,7 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../readme.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mms.html">The Method of Multiple Scales</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../modules.html">Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../architecture.html">Main module architecture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation guide</a></li>
@@ -64,7 +65,7 @@
 <li class="toctree-l2"><a class="reference internal" href="example4.html">Example 4: Coupled quadratic oscillators in 1:2 internal resonance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="example5.html">Example 5: Parametrically excited Duffing oscillator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="example6.html">Example 6: Van der Pol oscillator</a></li>
-<li class="toctree-l2"><a class="reference internal" href="example7.html">Example 7: Parametrically excited Van der Pol oscillator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="example7.html">Example 7: Parametrically excited Rayleigh oscillator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="example8.html">Example 8: Superharmonic response of a Duffing oscillator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="example9.html">Example 9: Subharmonic response of a Duffing oscillator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="example10.html">Example 10: Subharmonic response of parametrically excited coupled centrifugal pendulums in 1:1 internal resonance</a></li>
@@ -107,6 +108,13 @@
 This configuration was studied by Nayfeh and Mook in <em>Nonlinear Oscillations</em> (1995), sections 6.6 and 6.6.2.</p>
 <section id="system-description">
 <h2>System description<a class="headerlink" href="#system-description" title="Link to this heading"></a></h2>
+<figure class="align-center" id="id1">
+<a class="reference internal image-reference" href="_static/Duffing_oscillators_13.svg"><img alt="Nonlinear system." src="_static/Duffing_oscillators_13.svg" style="width: 90%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Illustration of two forced, nonlinearly coupled Duffing oscillators in 1:3 internal resonance, provided <span class="math notranslate nohighlight">\(\omega_1 \approx 3 \omega_0\)</span>.</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
 <p>The system’s equations are</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{cases}
@@ -200,6 +208,8 @@ This configuration was studied by Nayfeh and Mook in <em>Nonlinear Oscillations<
 <span class="linenos">44</span><span class="c1"># Evaluation at steady state</span>
 <span class="linenos">45</span><span class="n">ss</span> <span class="o">=</span> <span class="n">MMS</span><span class="o">.</span><span class="n">Steady_state</span><span class="p">(</span><span class="n">mms</span><span class="p">)</span>
 <span class="linenos">46</span><span class="n">ss</span><span class="o">.</span><span class="n">solve_bbc</span><span class="p">(</span><span class="n">solve_dof</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">param_scaled</span><span class="p">[</span><span class="mi">9</span><span class="p">:</span><span class="mi">11</span><span class="p">])</span>
+<span class="linenos">47</span>
+<span class="linenos">48</span><span class="c1"># %%</span>
 </pre></div>
 </div>
 </section>

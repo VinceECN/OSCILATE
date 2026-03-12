@@ -7,10 +7,17 @@ This configuration was studied by Nayfeh and Mook in *Nonlinear Oscillations* (1
 System description
 ^^^^^^^^^^^^^^^^^^
 
+.. figure:: /_static/Duffing_oscillator.svg
+   :alt: Nonlinear system.
+   :width: 70%
+   :align: center
+
+   Illustration of a forced Duffing oscillator. Superharmonic oscillations (of order 3) are triggered provided :math:`F` is large and :math:`\omega_0 \approx 3 \omega`.
+
 The system's equation is
 
 .. math::
-    \ddot{x} + c \dot{x} + \gamma \dot{x}^{3} + \omega_{0}^{2} x = -2x F \cos(\omega t),
+    \ddot{x} + c \dot{x} + \gamma \dot{x}^{3} + \omega_{0}^{2} x = F \cos(\omega t),
 
 where 
 

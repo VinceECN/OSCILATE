@@ -1,0 +1,171 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Evaluation at steady state &mdash; OSCILATE 0.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=7026087e"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=f281be69"></script>
+      <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            OSCILATE
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mms.html">The Method of Multiple Scales</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture.html">Main module architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Application examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sympy_basics.html">SymPy basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../citation.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notice.html">Legal notices</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">OSCILATE</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Evaluation at steady state</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/mms/steady_state.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="evaluation-at-steady-state">
+<h1>Evaluation at steady state<a class="headerlink" href="#evaluation-at-steady-state" title="Link to this heading"></a></h1>
+<section id="steady-state-solutions">
+<h2>Steady state solutions<a class="headerlink" href="#steady-state-solutions" title="Link to this heading"></a></h2>
+<section id="steady-state-conditions">
+<h3>Steady state conditions<a class="headerlink" href="#steady-state-conditions" title="Link to this heading"></a></h3>
+<p>At steady state, the solutions’ amplitudes and phases are time-independent. One therefore has, for each oscillator <span class="math notranslate nohighlight">\(i=1,...,N\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{cases}
+\dfrac{\textrm{d}}{dt} a_i &amp; = 0, \\
+\dfrac{\textrm{d}}{dt} \beta_i &amp; = 0, \\
+\end{cases}\end{split}\]</div>
+<p>and the homogeneous steady state solutions take the form</p>
+<div class="math notranslate nohighlight">
+\[x^{\textrm{h}}_{i,0}(t) = a_i \cos\left( \frac{r_i}{r_{\textrm{MMS}}} \omega t - \frac{r_i}{r_{\textrm{MMS}}} \beta_i \right).\]</div>
+</section>
+<section id="mms-modulation-equations-at-steady-state">
+<h3>MMS modulation equations at steady state<a class="headerlink" href="#mms-modulation-equations-at-steady-state" title="Link to this heading"></a></h3>
+<p>The steady state amplitudes <span class="math notranslate nohighlight">\(\boldsymbol{a}\)</span> and phases <span class="math notranslate nohighlight">\(\boldsymbol{\beta}\)</span> are governed by the modulation equations evaluated at steady state, which take the form</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{cases}
+f_{a_0}(\boldsymbol{a}, \boldsymbol{\beta})     &amp; = 0, \\
+f_{\beta_0}(\boldsymbol{a}, \boldsymbol{\beta}) &amp; = 0, \\
+&amp; \vdots \\
+f_{a_{N-1}}(\boldsymbol{a}, \boldsymbol{\beta})     &amp; = 0, \\
+f_{\beta_{N-1}}(\boldsymbol{a}, \boldsymbol{\beta}) &amp; = 0.
+\end{cases}\end{split}\]</div>
+<p>This is now an algebraic system of equations.</p>
+</section>
+<section id="mms-solutions-at-steady-state">
+<h3>MMS solutions at steady state<a class="headerlink" href="#mms-solutions-at-steady-state" title="Link to this heading"></a></h3>
+<p>Solving the modulation equations at steady state yields the steady state solutions <span class="math notranslate nohighlight">\(\boldsymbol{a}, \boldsymbol{\beta}\)</span>.
+The system can be solved directly for <span class="math notranslate nohighlight">\(\boldsymbol{a}\)</span> and <span class="math notranslate nohighlight">\(\boldsymbol{\beta}\)</span>, yielding explicit analytical solutions, but this is often complex as the system is nonlinear.</p>
+<p>A possibility that is sometimes available to obtain <strong>analytical solutions</strong> is to rearrange the equations to isolate the phase terms <span class="math notranslate nohighlight">\(\cos(f(\boldsymbol{\beta})),\; \sin(f(\boldsymbol{\beta}))\)</span> where <span class="math notranslate nohighlight">\(f(\boldsymbol{\beta})\)</span> is a linear function of the <span class="math notranslate nohighlight">\(\beta_i\)</span>.
+Then the equations can be squared and summed up to obtain an equation on <span class="math notranslate nohighlight">\(a_i\)</span> only and/or <span class="math notranslate nohighlight">\(a_j\)</span> as a function of <span class="math notranslate nohighlight">\(a_i\)</span>. The <span class="math notranslate nohighlight">\(a_j\)</span> can be expressed as a function of <span class="math notranslate nohighlight">\(a_i\)</span>, leading to a polynomial equation on <span class="math notranslate nohighlight">\(a_i\)</span>.
+The resulting polynomial equation can rarely be solved directly as the polynomial involved are often of high order.
+However, the polynomial is often quadratic in the detuning <span class="math notranslate nohighlight">\(\sigma\)</span> and forcing amplitude <span class="math notranslate nohighlight">\(F\)</span>.
+It can therefore be solved for <span class="math notranslate nohighlight">\(\sigma\)</span> and <span class="math notranslate nohighlight">\(F\)</span> with <span class="math notranslate nohighlight">\(a_i\)</span> seen as a parameter.
+This yields an implicit solution for <span class="math notranslate nohighlight">\(a_i(\sigma) \Rightarrow a_i(\omega)\)</span> and <span class="math notranslate nohighlight">\(a_i(F)\)</span>, from which one can deduce the other amplitudes <span class="math notranslate nohighlight">\(a_j\)</span> and phases <span class="math notranslate nohighlight">\(\boldsymbol{\beta}\)</span>, thus reconstructing the oscillators’ solutions.</p>
+<p>The processus described above is not always feasible. The blocking points are typically to</p>
+<ol class="lowerroman simple">
+<li><p>get rid of phase terms <span class="math notranslate nohighlight">\(\cos(f(\boldsymbol{\beta})),\; \sin(f(\boldsymbol{\beta}))\)</span> in the equations,</p></li>
+<li><p>express every amplitude <span class="math notranslate nohighlight">\(a_j\)</span> in terms of a single one, <span class="math notranslate nohighlight">\(a_i\)</span>,</p></li>
+<li><p>end up with a polynomial of order 2 in <span class="math notranslate nohighlight">\(\sigma\)</span> and <span class="math notranslate nohighlight">\(F\)</span></p></li>
+</ol>
+<p>These difficulties become more pronounced when the system involves several oscillator, in which case the amplitudes and phases may only be <strong>computed numerically</strong>.</p>
+<p>To facilitate the derivation of an analytical solution, it is possible to consider the <strong>backbone curve</strong> (bbc) of the forced solution rather than the forced solution itself.
+This bbc is computed in the absence of damping and forcing, therefore simplifying the system. Typically, this reduces the number of phase terms appearing.
+The solving procedure is then the same as that described previously.</p>
+</section>
+</section>
+<section id="stability-analysis">
+<h2>Stability analysis<a class="headerlink" href="#stability-analysis" title="Link to this heading"></a></h2>
+<p>The stability analysis is described in details in <a class="reference internal" href="../mms.html#stability"><span class="std std-ref">Stability analysis</span></a>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Vincent MAHE.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,206 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>oscilate.MMS.dyn_sys &mdash; OSCILATE 0.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=7026087e"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            OSCILATE
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../mms.html">The Method of Multiple Scales</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Main module architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Application examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sympy_basics.html">SymPy basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../citation.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notice.html">Legal notices</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">OSCILATE</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">oscilate.MMS.dyn_sys</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for oscilate.MMS.dyn_sys</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Started on Tue Feb 15 17:25:59 2022</span>
+
+<span class="sd">@author: Vincent MAHE</span>
+
+<span class="sd">Analyse systems of coupled nonlinear equations using the Method of Multiple Scales (MMS).</span>
+<span class="sd">This sub-module defines the dynamical system.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1">#%% Imports and initialisation</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sympy</span><span class="w"> </span><span class="kn">import</span> <span class="n">sympify</span>
+
+<span class="c1">#%% Classes and functions</span>
+<div class="viewcode-block" id="Dynamical_system">
+<a class="viewcode-back" href="../../../modules.html#oscilate.MMS.dyn_sys.Dynamical_system">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Dynamical_system</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The dynamical system studied. </span>
+<span class="sd">    See :ref:`dyn_sys` for a detailed description of the dynamical system.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    t : sympy.Symbol</span>
+<span class="sd">        time :math:`t`.</span>
+<span class="sd">    x : sympy.Function or list of sympy.Function</span>
+<span class="sd">        Unknown(s) of the problem.</span>
+<span class="sd">    Eq : sympy.Expr or list of sympy.Expr</span>
+<span class="sd">        System&#39;s equations without forcing, which can be defined separately (see parameters `F` and `fF`).</span>
+<span class="sd">        Eq is the unforced system of equations describing the system&#39;s dynamics. </span>
+<span class="sd">    omegas : sympy.Symbol or list of sympy.Symbol</span>
+<span class="sd">        The natural frequency of each oscillator.</span>
+<span class="sd">    F : sympy.Symbol or 0, optional</span>
+<span class="sd">        Forcing amplitude :math:`F`. </span>
+<span class="sd">        Default is 0.</span>
+<span class="sd">    fF : sympy.Expr or list of sympy.Expr, optional</span>
+<span class="sd">        For each oscillator, specify the coefficient multiplying the forcing terms in the equation.</span>
+<span class="sd">        It can be used to define parametric forcing. Typically, if the forcing is :math:`x F \cos(\omega t)`, then ``fF = x``.</span>
+<span class="sd">        Default is a list of 1, so the forcing is direct. </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">Eq</span><span class="p">,</span> <span class="n">omegas</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialisation of the dynamical system.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="c1"># Information</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Creation of the dynamical system&#39;</span><span class="p">)</span>
+        
+        <span class="c1"># Time</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="n">t</span>
+        
+        <span class="c1"># Variables and equations</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ndof</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">x</span>  <span class="o">=</span> <span class="n">x</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Eq</span> <span class="o">=</span> <span class="n">Eq</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">omegas</span> <span class="o">=</span> <span class="n">omegas</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ndof</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">x</span>    <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Eq</span>   <span class="o">=</span> <span class="p">[</span><span class="n">Eq</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">omegas</span> <span class="o">=</span> <span class="p">[</span><span class="n">omegas</span><span class="p">]</span>
+            
+        <span class="c1"># Forcing</span>
+        <span class="n">F</span>  <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="n">sympify</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+        <span class="n">fF</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fF&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fF</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span> 
+            <span class="n">fF</span> <span class="o">=</span> <span class="p">[</span><span class="n">fF</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">ix</span><span class="p">,</span> <span class="n">coeff</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">fF</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">coeff</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+                <span class="n">fF</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span> <span class="o">=</span> <span class="n">sympify</span><span class="p">(</span><span class="n">coeff</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">forcing</span> <span class="o">=</span> <span class="n">Forcing</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">fF</span><span class="p">)</span></div>
+
+        
+<div class="viewcode-block" id="Forcing">
+<a class="viewcode-back" href="../../../modules.html#oscilate.MMS.dyn_sys.Forcing">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Forcing</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Define the forcing on the system as</span>
+
+<span class="sd">    - A forcing amplitude `F`,</span>
+<span class="sd">    </span>
+<span class="sd">    - Forcing coefficients `fF`, used to introduce parametric forcing or simply weight the harmonic forcing.</span>
+<span class="sd">    </span>
+<span class="sd">    For the :math:`i^\textrm{th}` oscillator, denoting `fF[i]` as :math:`f_{F,i}(\boldsymbol{x}(t), \dot{\boldsymbol{x}}(t), \ddot{\boldsymbol{x}}(t))`, </span>
+<span class="sd">    the forcing term on that oscillator is :math:`f_{F,i} F \cos(\omega t)`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">fF</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">F</span>       <span class="o">=</span> <span class="n">F</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fF</span> <span class="o">=</span> <span class="n">fF</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Vincent MAHE.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -8,6 +8,14 @@ This configuration was studied by Nayfeh and Mook in *Nonlinear Oscillations* (1
 System description
 ^^^^^^^^^^^^^^^^^^
 
+.. figure:: /_static/Quadratic_oscillators_12.svg
+   :alt: Nonlinear system.
+   :width: 90%
+   :align: center
+
+   Illustration of two forced oscillators coupled through quadratic nonlinearities in 1:2 internal resonance, provided :math:`\omega_1 \approx 2 \omega_0`.
+
+
 The system's equations are
 
 .. math::

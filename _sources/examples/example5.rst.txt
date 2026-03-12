@@ -7,6 +7,13 @@ This configuration was studied by Nayfeh and Mook in *Nonlinear Oscillations* (1
 System description
 ^^^^^^^^^^^^^^^^^^
 
+.. figure:: /_static/Duffing_oscillator_param.svg
+   :alt: Nonlinear system.
+   :width: 70%
+   :align: center
+
+   Illustration of a parametrically forced Duffing oscillator through the time-varying stiffness :math:`\omega_0^2 + 2 F \cos(\omega t)`.
+
 The system's equation is
 
 .. math::
@@ -99,4 +106,4 @@ In the current notations, this is equivalent to
     \end{cases}
 
 which are the outputs for ``ss.sol.x[0][0].simplify()``, ``ss.sol.faO[0][1]``, ``ss.sol.fbetaO[0][1]`` and ``ss.stab.eigvals``, respectively. 
-Note the :math:`\epsilon` factor for the eigenvalues. It is related to the eigenvalues being computed from the physical time evolution equations rather than just the :math:`1^{\textrm{st}` order slow time evolution equations.
+Note the :math:`\epsilon` factor for the eigenvalues. It is related to the eigenvalues being computed from the reconstituted modulation equations rather than just the :math:`1^{\textrm{st}` order slow time modulation equations.

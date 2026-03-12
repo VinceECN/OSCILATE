@@ -8,19 +8,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Example 1: Duffing oscillator &mdash; OSCILATE 0.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
 
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../_static/documentation_options.js?v=7026087e"></script>
-      <script src="../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../_static/copybutton.js?v=f281be69"></script>
       <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -50,6 +50,7 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../readme.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mms.html">The Method of Multiple Scales</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../modules.html">Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../architecture.html">Main module architecture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation guide</a></li>
@@ -64,7 +65,7 @@
 <li class="toctree-l2"><a class="reference internal" href="example4.html">Example 4: Coupled quadratic oscillators in 1:2 internal resonance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="example5.html">Example 5: Parametrically excited Duffing oscillator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="example6.html">Example 6: Van der Pol oscillator</a></li>
-<li class="toctree-l2"><a class="reference internal" href="example7.html">Example 7: Parametrically excited Van der Pol oscillator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="example7.html">Example 7: Parametrically excited Rayleigh oscillator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="example8.html">Example 8: Superharmonic response of a Duffing oscillator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="example9.html">Example 9: Subharmonic response of a Duffing oscillator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="example10.html">Example 10: Subharmonic response of parametrically excited coupled centrifugal pendulums in 1:1 internal resonance</a></li>
@@ -107,6 +108,13 @@
 This configuration was studied by Nayfeh and Mook in <em>Nonlinear Oscillations</em> (1995), sections 4.1 and 4.1.1.</p>
 <section id="system-description">
 <h2>System description<a class="headerlink" href="#system-description" title="Link to this heading"></a></h2>
+<figure class="align-center" id="id1">
+<a class="reference internal image-reference" href="_static/Duffing_oscillator.svg"><img alt="Nonlinear system." src="_static/Duffing_oscillator.svg" style="width: 70%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Illustration of a forced Duffing oscillator.</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
 <p>The system’s equation is</p>
 <div class="math notranslate nohighlight">
 \[\ddot{x} + c \dot{x} + \omega_0^2 x + \gamma x^3 = F \cos(\omega t),\]</div>
@@ -143,7 +151,7 @@ It is therefore chosen here to scale the damping and forcing at maximum order.</
 <p>The script below allows to</p>
 <ul>
 <li><p>Construct the dynamical system.</p></li>
-<li><p>Apply the MMS to the system up to order <span class="math notranslate nohighlight">\(N_e = 3\)</span>. The MMS results can be visualized in LaTeX in an <strong>IPython-based interactive environment</strong> (e.g., VS Code’s Python Interactive Window or Jupyter Notebook). For example, to visualize the evolution function <span class="math notranslate nohighlight">\(f_\beta(a, \beta)\)</span>, use</p>
+<li><p>Apply the MMS to the system up to order <span class="math notranslate nohighlight">\(N_e = 3\)</span>. The MMS results can be visualized in LaTeX in an <strong>IPython-based interactive environment</strong> (e.g., VS Code’s Python Interactive Window or Jupyter Notebook). For example, to visualize the modulation function <span class="math notranslate nohighlight">\(f_\beta(a, \beta)\)</span>, use</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><style type="text/css">
 span.prompt1:before {
   content: " ";
@@ -218,18 +226,19 @@ span.prompt1:before {
 <span class="linenos">61</span>
 <span class="linenos">62</span><span class="c1"># Compute and plot the frequency-response curves (FRC)</span>
 <span class="linenos">63</span><span class="n">dic_FRC</span> <span class="o">=</span> <span class="n">dic_numpy</span> <span class="o">|</span> <span class="nb">dict</span><span class="p">(</span><span class="n">F</span><span class="o">=</span><span class="p">(</span><span class="n">dyn</span><span class="o">.</span><span class="n">forcing</span><span class="o">.</span><span class="n">F</span><span class="p">,</span> <span class="n">F_val</span><span class="p">))</span> <span class="c1"># Parameters for the FRC</span>
-<span class="linenos">64</span><span class="n">FRC</span>     <span class="o">=</span> <span class="n">MMS</span><span class="o">.</span><span class="n">numpise_FRC</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">dyn</span><span class="p">,</span> <span class="n">dic_FRC</span><span class="p">)</span>
+<span class="linenos">64</span><span class="n">FRC</span>     <span class="o">=</span> <span class="n">MMS</span><span class="o">.</span><span class="n">visualisation</span><span class="o">.</span><span class="n">numpise_FRC</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">dyn</span><span class="p">,</span> <span class="n">dic_FRC</span><span class="p">)</span>
 <span class="linenos">65</span><span class="n">kwargs</span>  <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">phase_name</span><span class="o">=</span><span class="n">vlatex</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">cos_phase</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>  <span class="c1"># Plot parameters</span>
 <span class="linenos">66</span>               <span class="n">amp_name</span><span class="o">=</span><span class="n">vlatex</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
-<span class="linenos">67</span><span class="n">ss</span><span class="o">.</span><span class="n">plot_FRC</span><span class="p">(</span><span class="n">FRC</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="linenos">67</span><span class="n">MMS</span><span class="o">.</span><span class="n">visualisation</span><span class="o">.</span><span class="n">plot_FRC</span><span class="p">(</span><span class="n">FRC</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 <span class="linenos">68</span>
 <span class="linenos">69</span><span class="c1"># Compute and plot the amplitude-response curves (ARC)</span>
 <span class="linenos">70</span><span class="n">dic_ARC</span> <span class="o">=</span> <span class="n">dic_numpy</span> <span class="o">|</span> <span class="nb">dict</span><span class="p">(</span><span class="n">omega</span><span class="o">=</span><span class="p">(</span><span class="n">mms</span><span class="o">.</span><span class="n">omega</span><span class="p">,</span> <span class="n">omega_val</span><span class="p">))</span> <span class="c1"># Parameters for the ARC</span>
-<span class="linenos">71</span><span class="n">ARC</span>     <span class="o">=</span> <span class="n">MMS</span><span class="o">.</span><span class="n">numpise_ARC</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">dyn</span><span class="p">,</span> <span class="n">dic_ARC</span><span class="p">)</span>
+<span class="linenos">71</span><span class="n">ARC</span>     <span class="o">=</span> <span class="n">MMS</span><span class="o">.</span><span class="n">visualisation</span><span class="o">.</span><span class="n">numpise_ARC</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">dyn</span><span class="p">,</span> <span class="n">dic_ARC</span><span class="p">)</span>
 <span class="linenos">72</span><span class="n">kwargs</span>  <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">phase_name</span><span class="o">=</span><span class="n">vlatex</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">cos_phase</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="c1"># Plot parameters</span>
 <span class="linenos">73</span>               <span class="n">amp_name</span><span class="o">=</span><span class="n">vlatex</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
-<span class="linenos">74</span><span class="n">ss</span><span class="o">.</span><span class="n">plot_ARC</span><span class="p">(</span><span class="n">ARC</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="linenos">74</span><span class="n">MMS</span><span class="o">.</span><span class="n">visualisation</span><span class="o">.</span><span class="n">plot_ARC</span><span class="p">(</span><span class="n">ARC</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 <span class="linenos">75</span>
+<span class="linenos">76</span><span class="c1"># %%</span>
 </pre></div>
 </div>
 </section>

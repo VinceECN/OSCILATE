@@ -8,6 +8,21 @@ This configuration was studied in V. Mahé et al., *Subharmonic centrifugal pend
 System description
 ^^^^^^^^^^^^^^^^^^
 
+.. figure:: /_static/CPVA_modes.svg
+   :alt: Nonlinear system.
+   :width: 80%
+   :align: center
+
+   Illustration of the modes of a CPVA made of a rotor and 2 pendulums. The rotor is in grey, the pendulums in black, they path in blue, and their position on that path in red. Their rotation with respect to the rotor is not represented here. The direction of the rotor's motino with respect to the pendulums' is shown through the black arrow. 
+
+.. figure:: /_static/CPVA_modal_oscillators.svg
+   :alt: Nonlinear system.
+   :width: 70%
+   :align: center
+
+   Illustration of CPVA modes 1 (phase opposition) and 2 (unison) as oscillators. This representation can be adopted when solving for the rigid body mode, and then injecting this solution in the two other modes. This reduces the system's degrees of freedom by one, and produces the 2 coupled (reduced) modes system. Note that the excitation order :math:`n` and the rotor's angular position :math:`\vartheta` in this sketch stand for the excitation frequency :math:`\omega` and time :math:`t`, as is usual in the context of rotating machines.
+
+
 The system's equations in modal space are
 
 .. math::

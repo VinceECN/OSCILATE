@@ -8,19 +8,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Example 10: Subharmonic response of parametrically excited coupled centrifugal pendulums in 1:1 internal resonance &mdash; OSCILATE 0.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
 
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../_static/documentation_options.js?v=7026087e"></script>
-      <script src="../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../_static/copybutton.js?v=f281be69"></script>
       <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -50,6 +50,7 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../readme.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mms.html">The Method of Multiple Scales</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../modules.html">Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../architecture.html">Main module architecture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation guide</a></li>
@@ -60,7 +61,7 @@
 <li class="toctree-l2"><a class="reference internal" href="example4.html">Example 4: Coupled quadratic oscillators in 1:2 internal resonance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="example5.html">Example 5: Parametrically excited Duffing oscillator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="example6.html">Example 6: Van der Pol oscillator</a></li>
-<li class="toctree-l2"><a class="reference internal" href="example7.html">Example 7: Parametrically excited Van der Pol oscillator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="example7.html">Example 7: Parametrically excited Rayleigh oscillator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="example8.html">Example 8: Superharmonic response of a Duffing oscillator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="example9.html">Example 9: Subharmonic response of a Duffing oscillator</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Example 10: Subharmonic response of parametrically excited coupled centrifugal pendulums in 1:1 internal resonance</a><ul>
@@ -108,6 +109,20 @@ The pendulums are indirectly and weakly coupled through the rotor that supports 
 This configuration was studied in V. Mahé et al., <em>Subharmonic centrifugal pendulum vibration absorbers allowing a rotational mobility</em>, MSSP (2022).</p>
 <section id="system-description">
 <h2>System description<a class="headerlink" href="#system-description" title="Link to this heading"></a></h2>
+<figure class="align-center" id="id1">
+<a class="reference internal image-reference" href="_static/CPVA_modes.svg"><img alt="Nonlinear system." src="_static/CPVA_modes.svg" style="width: 80%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Illustration of the modes of a CPVA made of a rotor and 2 pendulums. The rotor is in grey, the pendulums in black, they path in blue, and their position on that path in red. Their rotation with respect to the rotor is not represented here. The direction of the rotor’s motino with respect to the pendulums’ is shown through the black arrow.</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<figure class="align-center" id="id2">
+<a class="reference internal image-reference" href="_static/CPVA_modal_oscillators.svg"><img alt="Nonlinear system." src="_static/CPVA_modal_oscillators.svg" style="width: 70%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Illustration of CPVA modes 1 (phase opposition) and 2 (unison) as oscillators. This representation can be adopted when solving for the rigid body mode, and then injecting this solution in the two other modes. This reduces the system’s degrees of freedom by one, and produces the 2 coupled (reduced) modes system. Note that the excitation order <span class="math notranslate nohighlight">\(n\)</span> and the rotor’s angular position <span class="math notranslate nohighlight">\(\vartheta\)</span> in this sketch stand for the excitation frequency <span class="math notranslate nohighlight">\(\omega\)</span> and time <span class="math notranslate nohighlight">\(t\)</span>, as is usual in the context of rotating machines.</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
+</figcaption>
+</figure>
 <p>The system’s equations in modal space are</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{cases}
@@ -281,6 +296,8 @@ f_2(\boldsymbol{\zeta}, \dot{\boldsymbol{\zeta}}, \ddot{\boldsymbol{\zeta}}, t) 
 <span class="linenos"> 99</span><span class="c1"># Stability analysis </span>
 <span class="linenos">100</span><span class="n">kwargs_stab</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">coord</span><span class="o">=</span><span class="s2">&quot;cartesian&quot;</span><span class="p">,</span> <span class="n">eigenvalues</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bifurcation_curves</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">analyse_blocks</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kwargs_bif</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">var_a</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">var_sig</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="n">solve</span><span class="p">))</span>
 <span class="linenos">101</span><span class="n">ss</span><span class="o">.</span><span class="n">stability_analysis</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs_stab</span><span class="p">)</span>
+<span class="linenos">102</span>
+<span class="linenos">103</span><span class="c1"># %%</span>
 </pre></div>
 </div>
 </section>

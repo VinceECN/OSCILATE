@@ -19,7 +19,7 @@ Working with expressions
 
 Combinations of symbols and/or Functions form SymPy expressions. For instance, ::
 
-    expr = 2 f
+    expr = 2*f*t
 
 is an expression. 
 Expressions can be simplified, developed or factored using the ``.simplify()``, ``.expand()``, ``.factor()`` methods.

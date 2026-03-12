@@ -1,11 +1,18 @@
-Example 7: Parametrically excited Van der Pol oscillator
---------------------------------------------------------
+Example 7: Parametrically excited Rayleigh oscillator
+-----------------------------------------------------
 
-MMS example on a Van der Pol oscillator subject to parametric forcing. 
-This configuration was studied by Nayfeh and Mook in *Nonlinear Oscillations* (1995), section 5.7.2, where the Van der Pol oscillator is also called Rayleigh oscillator.
+MMS example on a Rayleigh oscillator subject to parametric forcing. 
+This configuration was studied by Nayfeh and Mook in *Nonlinear Oscillations* (1995), section 5.7.2. Note that the Rayleigh oscillator is quite similar to the Van der Pol oscillator as they are both associated to damping nonlinearities.
 
 System description
 ^^^^^^^^^^^^^^^^^^
+
+.. figure:: /_static/Rayleigh_oscillator.svg
+   :alt: Nonlinear system.
+   :width: 70%
+   :align: center
+
+   Illustration of a parametrically forced Rayleigh oscillator through the time-varying stiffness :math:`\omega_0^2 + 2 F \cos(\omega t)`.
 
 The system's equation is
 
@@ -49,6 +56,6 @@ The script below allows to
 - Compute the forced response and the backbone curve,
 - Evaluate the stability of the computed forced solution.
 
-.. literalinclude:: ../../../examples/Van_der_Pol_parametric.py
+.. literalinclude:: ../../../examples/Rayleigh_parametric.py
    :language: python
    :linenos:

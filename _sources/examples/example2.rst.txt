@@ -7,6 +7,13 @@ This configuration was studied by Nayfeh and Mook in *Nonlinear Oscillations* (1
 System description
 ^^^^^^^^^^^^^^^^^^
 
+.. figure:: /_static/Duffing_oscillators_13.svg
+   :alt: Nonlinear system.
+   :width: 90%
+   :align: center
+
+   Illustration of two forced, nonlinearly coupled Duffing oscillators in 1:3 internal resonance, provided :math:`\omega_1 \approx 3 \omega_0`.
+
 The system's equations are
 
 .. math::
