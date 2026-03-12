@@ -7,6 +7,13 @@ This configuration was studied by Nayfeh and Mook in *Nonlinear Oscillations* (1
 System description
 ^^^^^^^^^^^^^^^^^^
 
+.. figure:: /_static/Duffing_oscillator.svg
+   :alt: Nonlinear system.
+   :width: 70%
+   :align: center
+
+   Illustration of a forced Duffing oscillator. Subharmonic oscillations (of order 3) are triggered provided :math:`F` is large and :math:`\omega_0 \approx 1/3 \omega`.
+
 The system's equation is
 
 .. math::

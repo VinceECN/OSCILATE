@@ -7,6 +7,13 @@ This configuration was studied by Nayfeh and Mook in *Nonlinear Oscillations* (1
 System description
 ^^^^^^^^^^^^^^^^^^
 
+.. figure:: /_static/Duffing_oscillator_param.svg
+   :alt: Nonlinear system.
+   :width: 70%
+   :align: center
+
+   Illustration of a parametrically forced Duffing oscillator through the time-varying stiffness :math:`\omega_0^2 + 2 F \cos(\omega t)`.
+
 The system's equation is
 
 .. math::

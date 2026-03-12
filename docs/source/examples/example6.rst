@@ -10,6 +10,13 @@ This configuration is very close from that studied by Nayfeh and Mook in *Nonlin
 System description
 ^^^^^^^^^^^^^^^^^^
 
+.. figure:: /_static/VdP_oscillator.svg
+   :alt: Nonlinear system.
+   :width: 50%
+   :align: center
+
+   Illustration of a Van der Pol oscillator. 
+
 The system's equation is
 
 .. math::
