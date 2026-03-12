@@ -1,0 +1,484 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>oscilate.MMS.visualisation &mdash; OSCILATE 0.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=7026087e"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            OSCILATE
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../mms.html">The Method of Multiple Scales</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Main module architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Application examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sympy_basics.html">SymPy basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../citation.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notice.html">Legal notices</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">OSCILATE</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">oscilate.MMS.visualisation</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for oscilate.MMS.visualisation</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Started on Tue Feb 15 17:25:59 2022</span>
+
+<span class="sd">@author: Vincent MAHE</span>
+
+<span class="sd">Analyse systems of coupled nonlinear equations using the Method of Multiple Scales (MMS).</span>
+<span class="sd">This sub-module evaluates the symbolic expressions for given numerical parameters and allows to plot the resulting numerical results.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1">#%% Imports and initialisation</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..</span><span class="w"> </span><span class="kn">import</span> <span class="n">sympy_functions</span> <span class="k">as</span> <span class="n">sfun</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.mms</span><span class="w"> </span><span class="kn">import</span> <span class="n">rescale</span>
+
+<span class="c1">#%% Classes and functions</span>
+<div class="viewcode-block" id="plot_FRC">
+<a class="viewcode-back" href="../../../modules.html#oscilate.MMS.visualisation.plot_FRC">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_FRC</span><span class="p">(</span><span class="n">FRC</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plots the frequency response curves (FRC), both frequency-amplitude and frequency-phase.</span>
+<span class="sd">    Also includes the stability information if given.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    FRC : dict</span>
+<span class="sd">        Dictionary containing the frequency response curves and the bifurcation curves.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    fig1 : Figure</span>
+<span class="sd">        The amplitude plot :math:`a(\omega)`.</span>
+<span class="sd">    fig2 : Figure</span>
+<span class="sd">        The phase plot :math:`\beta(\omega)`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Extract the FRC data</span>
+    <span class="n">a</span>         <span class="o">=</span> <span class="n">FRC</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">))</span>
+    <span class="n">omega_bbc</span> <span class="o">=</span> <span class="n">FRC</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;omega_bbc&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">))</span>
+    <span class="n">omega</span>     <span class="o">=</span> <span class="n">FRC</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;omega&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)])</span>
+    <span class="n">phase</span>     <span class="o">=</span> <span class="n">FRC</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;phase&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)])</span>
+    <span class="n">omega_bif</span> <span class="o">=</span> <span class="n">FRC</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;omega_bif&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)])</span>
+    <span class="n">phase_bif</span> <span class="o">=</span> <span class="n">FRC</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;phase_bif&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)])</span>
+    
+    <span class="c1"># Extract the keyword arguments</span>
+    <span class="n">fig_param</span>  <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fig_param&quot;</span><span class="p">,</span> <span class="nb">dict</span><span class="p">())</span>
+    <span class="n">amp_name</span>   <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;amp_name&quot;</span><span class="p">,</span> <span class="s2">&quot;amplitude&quot;</span><span class="p">)</span>
+    <span class="n">phase_name</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;phase_name&quot;</span><span class="p">,</span> <span class="s2">&quot;phase&quot;</span><span class="p">)</span>
+    <span class="n">xlim</span>       <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;xlim&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">coeff</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">omega_bbc</span><span class="p">)</span> <span class="k">for</span> <span class="n">coeff</span> <span class="ow">in</span> <span class="p">(</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">)])</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">xlim</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+        <span class="n">xlim</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
+        
+    <span class="c1"># FRC - amplitude </span>
+    <span class="n">fig1</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="o">**</span><span class="n">fig_param</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">omega_bbc</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;tab:grey&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">omega_bbc</span><span class="p">),</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">)</span>
+    <span class="p">[</span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">omegai</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;tab:blue&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">omegai</span> <span class="ow">in</span> <span class="n">omega</span><span class="p">]</span>
+    <span class="p">[</span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">omegai</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;tab:red&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span> <span class="k">for</span> <span class="n">omegai</span> <span class="ow">in</span> <span class="n">omega_bif</span><span class="p">]</span>
+    
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">xlim</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\omega$&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$</span><span class="si">{}</span><span class="s2">$&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">amp_name</span><span class="p">))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">margins</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    
+    <span class="c1"># FRC - phase</span>
+    <span class="n">fig2</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="o">**</span><span class="n">fig_param</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">omega_bbc</span><span class="p">),</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+    <span class="p">[</span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">omegai</span><span class="p">,</span> <span class="n">phasei</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;tab:blue&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">omegai</span><span class="p">,</span> <span class="n">phasei</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">omega</span><span class="p">,</span> <span class="n">phase</span><span class="p">)]</span>
+    <span class="p">[</span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">omegai</span><span class="p">,</span> <span class="n">phasei</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;tab:red&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">omegai</span><span class="p">,</span> <span class="n">phasei</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">omega_bif</span><span class="p">,</span> <span class="n">phase_bif</span><span class="p">)]</span>
+    
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">xlim</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\omega$&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$</span><span class="si">{}</span><span class="s2">$&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">phase_name</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    
+    <span class="c1"># Return</span>
+    <span class="k">return</span> <span class="n">fig1</span><span class="p">,</span> <span class="n">fig2</span></div>
+
+
+<div class="viewcode-block" id="plot_ARC">
+<a class="viewcode-back" href="../../../modules.html#oscilate.MMS.visualisation.plot_ARC">[docs]</a>
+<span class="nd">@staticmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_ARC</span><span class="p">(</span><span class="n">ARC</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plots the amplitude-response curves (ARC), both forcing amplitude-amplitude and forcing amplitude-phase.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ARC : dict</span>
+<span class="sd">        Dictionary containing the amplitude response curves.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    fig1 : Figure</span>
+<span class="sd">        The amplitude plot :math:`a(F)`.</span>
+<span class="sd">    fig2 : Figure</span>
+<span class="sd">        The phase plot :math:`\beta(F)`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Extract the FRC data and keyword arguments</span>
+    <span class="n">a</span>     <span class="o">=</span> <span class="n">ARC</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">))</span>
+    <span class="n">F</span>     <span class="o">=</span> <span class="n">ARC</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">))</span>
+    <span class="n">phase</span> <span class="o">=</span> <span class="n">ARC</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;phase&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">))</span>
+    
+    <span class="c1"># Extract the keyword arguments</span>
+    <span class="n">fig_param</span>  <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fig_param&quot;</span><span class="p">,</span> <span class="nb">dict</span><span class="p">())</span>
+    <span class="n">amp_name</span>   <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;amp_name&quot;</span><span class="p">,</span> <span class="s2">&quot;amplitude&quot;</span><span class="p">)</span>
+    <span class="n">phase_name</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;phase_name&quot;</span><span class="p">,</span> <span class="s2">&quot;phase&quot;</span><span class="p">)</span>
+    <span class="n">xlim</span>       <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;xlim&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">F</span><span class="p">)])</span>
+
+    <span class="c1"># ARC - amplitude </span>
+    <span class="n">fig1</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="o">**</span><span class="n">fig_param</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;tab:blue&quot;</span><span class="p">)</span>
+    
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">xlim</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$F$&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$</span><span class="si">{}</span><span class="s2">$&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">amp_name</span><span class="p">))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">margins</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="c1"># ARC - phase</span>
+    <span class="n">fig2</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="o">**</span><span class="n">fig_param</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">phase</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;tab:blue&quot;</span><span class="p">)</span>
+    
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">xlim</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$F$&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$</span><span class="si">{}</span><span class="s2">$&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">phase_name</span><span class="p">))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">margins</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    
+    <span class="c1"># Return</span>
+    <span class="k">return</span> <span class="n">fig1</span><span class="p">,</span> <span class="n">fig2</span></div>
+
+
+<div class="viewcode-block" id="numpise_FRC">
+<a class="viewcode-back" href="../../../modules.html#oscilate.MMS.visualisation.numpise_FRC">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">numpise_FRC</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">dyn</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="n">bbc</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forced</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bif</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Evaluate the frequency-response and bifurcation curves at given numerical values.</span>
+<span class="sd">    This transforms the sympy expressions to numpy arrays.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mms : Multiple_scales_system</span>
+<span class="sd">        The MMS object.</span>
+<span class="sd">    ss : Steady_state</span>
+<span class="sd">        The MMS results evaluated at steady state.</span>
+<span class="sd">    dyn : Dynamical_system</span>
+<span class="sd">        The initial dynamical system.</span>
+<span class="sd">    param : dict</span>
+<span class="sd">        A dictionary whose values are tuples with 2 elements:</span>
+
+<span class="sd">        1. The sympy symbol of a parameter,</span>
+
+<span class="sd">        2. The numerical value(s) taken by that parameter.</span>
+
+<span class="sd">        The key of the amplitude vector must be ``&quot;a&quot;``.</span>
+<span class="sd">        The key of the forcing amplitude must be ``&quot;F&quot;``.</span>
+<span class="sd">    bbc : bool, optional</span>
+<span class="sd">        Evaluate the backbone curve. </span>
+<span class="sd">        Default is `True`.</span>
+<span class="sd">    forced : bool, optional</span>
+<span class="sd">        Evaluate the forced response. </span>
+<span class="sd">        Default is `True`.</span>
+<span class="sd">    bif : bool, optional</span>
+<span class="sd">        Evaluate the bifurcation curves. </span>
+<span class="sd">        Default is `True`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    FRC : dict</span>
+<span class="sd">        The frequency-response curves data.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    
+    <span class="c1"># Information</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Converting sympy FRC expressions to numpy&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Initialisation</span>
+    <span class="n">a</span>     <span class="o">=</span> <span class="n">param</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">F_val</span> <span class="o">=</span> <span class="n">param</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;F&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">FRC</span>   <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="n">a</span><span class="p">}</span>
+
+    <span class="c1"># Evaluation of the FRC</span>
+    <span class="k">if</span> <span class="n">bbc</span><span class="p">:</span>
+        <span class="n">FRC</span><span class="p">[</span><span class="s2">&quot;omega_bbc&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">numpise_omega_bbc</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">forced</span><span class="p">:</span>
+        <span class="n">FRC</span><span class="p">[</span><span class="s2">&quot;omega&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">numpise_omega_FRC</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
+        <span class="n">FRC</span><span class="p">[</span><span class="s2">&quot;phase&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">numpise_phase</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">dyn</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="n">FRC</span><span class="p">[</span><span class="s2">&quot;omega&quot;</span><span class="p">],</span> <span class="n">F_val</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">bif</span><span class="p">:</span>
+        <span class="n">FRC</span><span class="p">[</span><span class="s2">&quot;omega_bif&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">numpise_omega_bif</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
+        <span class="n">FRC</span><span class="p">[</span><span class="s2">&quot;phase_bif&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">numpise_phase</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">dyn</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="n">FRC</span><span class="p">[</span><span class="s2">&quot;omega_bif&quot;</span><span class="p">],</span> <span class="n">F_val</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">FRC</span></div>
+
+
+<div class="viewcode-block" id="numpise_ARC">
+<a class="viewcode-back" href="../../../modules.html#oscilate.MMS.visualisation.numpise_ARC">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">numpise_ARC</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">dyn</span><span class="p">,</span> <span class="n">param</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Evaluate the amplitude-response curves at given numerical values. </span>
+<span class="sd">    This transforms the sympy expressions to numpy arrays. </span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mms : Multiple_scales_system</span>
+<span class="sd">        The MMS object.</span>
+<span class="sd">    ss : Steady_state</span>
+<span class="sd">        The MMS results evaluated at steady state.</span>
+<span class="sd">    dyn : Dynamical_system</span>
+<span class="sd">        The initial dynamical system.</span>
+<span class="sd">    param : dict</span>
+<span class="sd">        A dictionnary whose values are tuples with 2 elements:</span>
+
+<span class="sd">        1. The sympy symbol of a parameter,</span>
+
+<span class="sd">        2. The numerical value(s) taken by that parameter.</span>
+
+<span class="sd">        The key of the amplitude vector must be ``&quot;a&quot;``.</span>
+<span class="sd">        The key of the angular frequency must be ``&quot;omega&quot;``.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ARC: dict</span>
+<span class="sd">        The amplitude-response curves data.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1"># Information</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Converting sympy ARC expressions to numpy&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Initialisation</span>
+    <span class="n">a</span>         <span class="o">=</span> <span class="n">param</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">omega_val</span> <span class="o">=</span> <span class="n">param</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;omega&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">ARC</span>       <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="n">a</span><span class="p">}</span>
+
+    <span class="c1"># Evaluation of the FRC</span>
+    <span class="n">ARC</span><span class="p">[</span><span class="s2">&quot;F&quot;</span><span class="p">]</span>     <span class="o">=</span> <span class="n">numpise_F_ARC</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
+    <span class="n">ARC</span><span class="p">[</span><span class="s2">&quot;phase&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">numpise_phase</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">dyn</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="n">omega_val</span><span class="p">,</span> <span class="n">ARC</span><span class="p">[</span><span class="s2">&quot;F&quot;</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">ARC</span></div>
+
+
+<div class="viewcode-block" id="numpise_omega_bbc">
+<a class="viewcode-back" href="../../../modules.html#oscilate.MMS.visualisation.numpise_omega_bbc">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">numpise_omega_bbc</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">param</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Numpise the backbone curve&#39;s frequency :math:`\omega_{\textrm{bbc}}`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mms: Multiple_scales_system</span>
+<span class="sd">    ss: Steady_state</span>
+<span class="sd">    param: dict</span>
+<span class="sd">        See :func:`~MMS.sympy_functions.sympy_to_numpy`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    omega_bbc: numpy.ndarray</span>
+<span class="sd">        Numpised backbone curve&#39;s frequency.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">omega_bbc</span>  <span class="o">=</span> <span class="n">sfun</span><span class="o">.</span><span class="n">sympy_to_numpy</span><span class="p">(</span><span class="n">rescale</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">omega_bbc</span><span class="p">,</span> <span class="n">mms</span><span class="p">),</span> <span class="n">param</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">omega_bbc</span></div>
+
+
+<div class="viewcode-block" id="numpise_omega_FRC">
+<a class="viewcode-back" href="../../../modules.html#oscilate.MMS.visualisation.numpise_omega_FRC">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">numpise_omega_FRC</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">param</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Numpise the forced response&#39;s frequency :math:`\omega`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mms: Multiple_scales_system</span>
+<span class="sd">    ss: Steady_state</span>
+<span class="sd">    param: dict</span>
+<span class="sd">        See :func:`~MMS.sympy_functions.sympy_to_numpy`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    omega: numpy.ndarray</span>
+<span class="sd">        Numpised forced response&#39;s frequency.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">omega</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">sfun</span><span class="o">.</span><span class="n">sympy_to_numpy</span><span class="p">(</span><span class="n">mms</span><span class="o">.</span><span class="n">omegaMMS</span> <span class="o">+</span> <span class="n">rescale</span><span class="p">(</span><span class="n">mms</span><span class="o">.</span><span class="n">eps</span><span class="o">*</span><span class="n">sigmai</span><span class="p">,</span> <span class="n">mms</span><span class="p">),</span> <span class="n">param</span><span class="p">))</span> <span class="k">for</span> <span class="n">sigmai</span> <span class="ow">in</span> <span class="n">ss</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">sigma</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">omega</span></div>
+
+
+<div class="viewcode-block" id="numpise_omega_bif">
+<a class="viewcode-back" href="../../../modules.html#oscilate.MMS.visualisation.numpise_omega_bif">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">numpise_omega_bif</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">param</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Numpise the bifurcation curves&#39; frequency :math:`\omega_{\textrm{bif}}`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mms: Multiple_scales_system</span>
+<span class="sd">    ss: Steady_state</span>
+<span class="sd">    param: dict</span>
+<span class="sd">        See :func:`~MMS.sympy_functions.sympy_to_numpy`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    omega_bif: list of numpy.ndarray</span>
+<span class="sd">        Numpised bifurcation curves&#39; frequency.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">omega_bif</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">sfun</span><span class="o">.</span><span class="n">sympy_to_numpy</span><span class="p">(</span><span class="n">mms</span><span class="o">.</span><span class="n">omegaMMS</span> <span class="o">+</span> <span class="n">rescale</span><span class="p">(</span><span class="n">mms</span><span class="o">.</span><span class="n">eps</span><span class="o">*</span><span class="n">sigmai</span><span class="p">,</span> <span class="n">mms</span><span class="p">),</span> <span class="n">param</span><span class="p">))</span> <span class="k">for</span> <span class="n">sigmai</span> <span class="ow">in</span> <span class="n">ss</span><span class="o">.</span><span class="n">stab</span><span class="o">.</span><span class="n">bif_sigma</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">omega_bif</span></div>
+
+
+<div class="viewcode-block" id="numpise_phase">
+<a class="viewcode-back" href="../../../modules.html#oscilate.MMS.visualisation.numpise_phase">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">numpise_phase</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">dyn</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="n">omega</span><span class="p">,</span> <span class="n">F</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Numpise the phase :math:`\beta_i`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mms: Multiple_scales_system</span>
+<span class="sd">    ss: Steady_state</span>
+<span class="sd">    dyn: Dynamical_system</span>
+<span class="sd">    param: dict</span>
+<span class="sd">        See :func:`~MMS.sympy_functions.sympy_to_numpy`.</span>
+<span class="sd">    omega: numpy.ndarray or list of numpy.ndarray</span>
+<span class="sd">        The frequency array.</span>
+<span class="sd">    F: numpy.ndarray</span>
+<span class="sd">        The forcing amplitude array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    phase: list of numpy.ndarray</span>
+<span class="sd">        Numpised phase.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">omega</span><span class="p">,</span><span class="nb">list</span><span class="p">):</span>
+        <span class="n">omega</span> <span class="o">=</span> <span class="p">[</span><span class="n">omega</span><span class="p">]</span>
+        
+    <span class="n">phase</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="k">for</span> <span class="n">omegai</span> <span class="ow">in</span> <span class="n">omega</span><span class="p">:</span>
+        <span class="n">param_phase</span> <span class="o">=</span> <span class="n">param</span> <span class="o">|</span> <span class="nb">dict</span><span class="p">(</span><span class="n">omega</span><span class="o">=</span><span class="p">(</span><span class="n">mms</span><span class="o">.</span><span class="n">omega</span><span class="p">,</span> <span class="n">omegai</span><span class="p">),</span> <span class="n">F</span><span class="o">=</span><span class="p">(</span><span class="n">dyn</span><span class="o">.</span><span class="n">forcing</span><span class="o">.</span><span class="n">F</span><span class="p">,</span> <span class="n">F</span><span class="p">))</span>
+        <span class="n">sin_phase</span> <span class="o">=</span> <span class="n">sfun</span><span class="o">.</span><span class="n">sympy_to_numpy</span><span class="p">(</span> <span class="n">rescale</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">sin_phase</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">mms</span><span class="p">),</span> <span class="n">param_phase</span> <span class="p">)</span>
+        <span class="n">cos_phase</span> <span class="o">=</span> <span class="n">sfun</span><span class="o">.</span><span class="n">sympy_to_numpy</span><span class="p">(</span> <span class="n">rescale</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">cos_phase</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">mms</span><span class="p">),</span> <span class="n">param_phase</span> <span class="p">)</span>
+        <span class="n">phase</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">sin_phase</span><span class="p">,</span> <span class="n">cos_phase</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">phase</span></div>
+
+
+<div class="viewcode-block" id="numpise_F_ARC">
+<a class="viewcode-back" href="../../../modules.html#oscilate.MMS.visualisation.numpise_F_ARC">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">numpise_F_ARC</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">param</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Numpise the forced response&#39;s forcing amplitude :math:`F`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mms: Multiple_scales_system</span>
+<span class="sd">    ss: Steady_state</span>
+<span class="sd">    param: dict</span>
+<span class="sd">        See :func:`~MMS.sympy_functions.sympy_to_numpy`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    F: numpy.ndarray</span>
+<span class="sd">        Numpised forced response&#39;s forcing amplitude.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="n">sfun</span><span class="o">.</span><span class="n">sympy_to_numpy</span><span class="p">(</span><span class="n">rescale</span><span class="p">(</span><span class="n">mms</span><span class="o">.</span><span class="n">eps</span><span class="o">**</span><span class="n">mms</span><span class="o">.</span><span class="n">forcing</span><span class="o">.</span><span class="n">f_order</span> <span class="o">*</span> <span class="n">ss</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">F</span><span class="p">,</span> <span class="n">mms</span><span class="p">),</span> <span class="n">param</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">F</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Vincent MAHE.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

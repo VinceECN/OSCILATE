@@ -1,0 +1,1170 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>oscilate.MMS.steady_state &mdash; OSCILATE 0.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=7026087e"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            OSCILATE
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../mms.html">The Method of Multiple Scales</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Main module architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Application examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sympy_basics.html">SymPy basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../citation.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notice.html">Legal notices</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">OSCILATE</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">oscilate.MMS.steady_state</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for oscilate.MMS.steady_state</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Started on Tue Feb 15 17:25:59 2022</span>
+
+<span class="sd">@author: Vincent MAHE</span>
+
+<span class="sd">Analyse systems of coupled nonlinear equations using the Method of Multiple Scales (MMS).</span>
+<span class="sd">This sub-module defines the steady state system from the multiple scales one, and the functions for steady state evaluation.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1">#%% Imports and initialisation</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sympy</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span><span class="n">exp</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="n">conjugate</span><span class="p">,</span> <span class="n">re</span><span class="p">,</span> <span class="n">im</span><span class="p">,</span> <span class="n">Rational</span><span class="p">,</span> 
+                   <span class="n">symbols</span><span class="p">,</span> <span class="n">Symbol</span><span class="p">,</span> <span class="n">Function</span><span class="p">,</span> <span class="n">solve</span><span class="p">,</span> <span class="n">dsolve</span><span class="p">,</span>
+                   <span class="n">cos</span><span class="p">,</span> <span class="n">sin</span><span class="p">,</span> <span class="n">tan</span><span class="p">,</span> <span class="n">srepr</span><span class="p">,</span> <span class="n">sympify</span><span class="p">,</span> <span class="n">simplify</span><span class="p">,</span> 
+                   <span class="n">zeros</span><span class="p">,</span> <span class="n">det</span><span class="p">,</span> <span class="n">trace</span><span class="p">,</span> <span class="n">eye</span><span class="p">,</span> <span class="n">Mod</span><span class="p">,</span> <span class="n">sqrt</span><span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sympy.simplify.fu</span><span class="w"> </span><span class="kn">import</span> <span class="n">TR10</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..</span><span class="w"> </span><span class="kn">import</span> <span class="n">sympy_functions</span> <span class="k">as</span> <span class="n">sfun</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.mms</span><span class="w"> </span><span class="kn">import</span> <span class="n">cartesian_to_polar</span>
+
+<span class="c1">#%% Classes and functions</span>
+<div class="viewcode-block" id="Steady_state">
+<a class="viewcode-back" href="../../../modules.html#oscilate.MMS.steady_state.Steady_state">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Steady_state</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Steady state analysis of the multiple scales system.</span>
+<span class="sd">    See :ref:`steady_state` for a detailed description of the dynamical system.</span>
+
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mms : Multiple_scales_system</span>
+<span class="sd">        The multiple scales system.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Description of the steady state analysis.</span>
+
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mms</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Evaluate the MMS quantities at steady state. </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="c1"># Information</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Initialisation of the steady state analysis&#39;</span><span class="p">)</span>
+        
+        <span class="c1"># Small parameter</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eps</span> <span class="o">=</span> <span class="n">mms</span><span class="o">.</span><span class="n">eps</span>
+        
+        <span class="c1"># MMS frequencies of interest</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">omega_ref</span>      <span class="o">=</span> <span class="n">mms</span><span class="o">.</span><span class="n">omega_ref</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ratio_omegaMMS</span> <span class="o">=</span> <span class="n">mms</span><span class="o">.</span><span class="n">ratio_omegaMMS</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span>          <span class="o">=</span> <span class="n">mms</span><span class="o">.</span><span class="n">sigma</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">omegaMMS</span>       <span class="o">=</span> <span class="n">mms</span><span class="o">.</span><span class="n">omegaMMS</span>
+        
+        <span class="c1"># Oscillators&#39; internal resonances relations</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ratio_omega_osc</span> <span class="o">=</span> <span class="n">mms</span><span class="o">.</span><span class="n">ratio_omega_osc</span>
+        
+        <span class="c1"># Number of dof</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ndof</span> <span class="o">=</span> <span class="n">mms</span><span class="o">.</span><span class="n">ndof</span>
+        
+        <span class="c1"># Substitutions (initialisation)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sub</span> <span class="o">=</span> <span class="n">Substitutions_SS</span><span class="p">(</span><span class="n">mms</span><span class="p">)</span>
+    
+        <span class="c1"># Forcing</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">forcing</span> <span class="o">=</span> <span class="n">Forcing_SS</span><span class="p">(</span><span class="n">mms</span><span class="p">)</span>
+        
+        <span class="c1"># Coordinates</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">coord</span> <span class="o">=</span> <span class="n">Coord_SS</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">polar_coordinates_SS</span><span class="p">(</span><span class="n">mms</span><span class="p">)</span>
+        
+        <span class="c1"># Solutions</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sol</span> <span class="o">=</span> <span class="n">Sol_SS</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mms</span><span class="p">)</span>
+        
+        <span class="c1"># Stability</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stab</span> <span class="o">=</span> <span class="n">Stab_SS</span><span class="p">()</span>
+        
+        <span class="c1"># Evolution equations at steady state</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">modulation_equations_SS</span><span class="p">(</span><span class="n">mms</span><span class="p">)</span>
+        
+    
+<div class="viewcode-block" id="Steady_state.polar_coordinates_SS">
+<a class="viewcode-back" href="../../../modules.html#oscilate.MMS.steady_state.Steady_state.polar_coordinates_SS">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">polar_coordinates_SS</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mms</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Introduce time-independent amplitudes and phases (polar coordinates).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="n">a</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">sub_SS</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">):</span>
+            <span class="n">a</span>   <span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">symbols</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;a_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ix</span><span class="p">),</span><span class="n">positive</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+            <span class="n">beta</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">symbols</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\beta_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ix</span><span class="p">),</span><span class="n">real</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="p">)</span>
+            <span class="n">sub_SS</span> <span class="o">.</span><span class="n">extend</span><span class="p">(</span> <span class="p">[(</span><span class="n">mms</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span>  <span class="p">,</span> <span class="n">a</span><span class="p">[</span><span class="n">ix</span><span class="p">]),</span> <span class="p">(</span><span class="n">mms</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">beta</span><span class="p">[</span><span class="n">ix</span><span class="p">],</span> <span class="n">beta</span><span class="p">[</span><span class="n">ix</span><span class="p">]),</span>
+                             <span class="p">(</span><span class="n">mms</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span> <span class="p">,</span> <span class="n">a</span><span class="p">[</span><span class="n">ix</span><span class="p">]),</span> <span class="p">(</span><span class="n">mms</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">betat</span><span class="p">[</span><span class="n">ix</span><span class="p">],</span> <span class="n">beta</span><span class="p">[</span><span class="n">ix</span><span class="p">])]</span> <span class="p">)</span>
+    
+        <span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">a</span>    <span class="o">=</span> <span class="n">a</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">beta</span> <span class="o">=</span> <span class="n">beta</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_SS</span> <span class="o">=</span> <span class="n">sub_SS</span></div>
+
+        
+<div class="viewcode-block" id="Steady_state.modulation_equations_SS">
+<a class="viewcode-back" href="../../../modules.html#oscilate.MMS.steady_state.Steady_state.modulation_equations_SS">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">modulation_equations_SS</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mms</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Evaluate the modulation equations at steady state (polar system).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="n">fa</span><span class="p">,</span> <span class="n">fbeta</span><span class="p">,</span> <span class="n">faO</span><span class="p">,</span> <span class="n">fbetaO</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">):</span>
+            <span class="n">fa</span>    <span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">mms</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">fa</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span>   <span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_SS</span><span class="p">)</span><span class="o">.</span><span class="n">doit</span><span class="p">()</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span> <span class="o">.</span><span class="n">collect</span><span class="p">([</span><span class="n">cos</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">beta</span><span class="p">[</span><span class="n">ix</span><span class="p">]),</span> <span class="n">sin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">beta</span><span class="p">[</span><span class="n">ix</span><span class="p">])])</span> <span class="p">)</span>
+            <span class="n">fbeta</span> <span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">mms</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">fbeta</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_SS</span><span class="p">)</span><span class="o">.</span><span class="n">doit</span><span class="p">()</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span> <span class="o">.</span><span class="n">collect</span><span class="p">([</span><span class="n">cos</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">beta</span><span class="p">[</span><span class="n">ix</span><span class="p">]),</span> <span class="n">sin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">beta</span><span class="p">[</span><span class="n">ix</span><span class="p">])])</span> <span class="p">)</span>
+        
+            <span class="n">faO</span>    <span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="p">[</span><span class="n">mms</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">faO</span><span class="p">[</span><span class="n">ix</span><span class="p">][</span><span class="n">io</span><span class="p">]</span>   <span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_SS</span><span class="p">)</span><span class="o">.</span><span class="n">doit</span><span class="p">()</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span> <span class="o">.</span><span class="n">collect</span><span class="p">([</span><span class="n">cos</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">beta</span><span class="p">[</span><span class="n">ix</span><span class="p">]),</span> <span class="n">sin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">beta</span><span class="p">[</span><span class="n">ix</span><span class="p">])])</span> <span class="k">for</span> <span class="n">io</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mms</span><span class="o">.</span><span class="n">Ne</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span> <span class="p">)</span>
+            <span class="n">fbetaO</span> <span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="p">[</span><span class="n">mms</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">fbetaO</span><span class="p">[</span><span class="n">ix</span><span class="p">][</span><span class="n">io</span><span class="p">]</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_SS</span><span class="p">)</span><span class="o">.</span><span class="n">doit</span><span class="p">()</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span> <span class="o">.</span><span class="n">collect</span><span class="p">([</span><span class="n">cos</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">beta</span><span class="p">[</span><span class="n">ix</span><span class="p">]),</span> <span class="n">sin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">beta</span><span class="p">[</span><span class="n">ix</span><span class="p">])])</span> <span class="k">for</span> <span class="n">io</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mms</span><span class="o">.</span><span class="n">Ne</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span> <span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">fa</span>     <span class="o">=</span> <span class="n">fa</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">fbeta</span>  <span class="o">=</span> <span class="n">fbeta</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">faO</span>    <span class="o">=</span> <span class="n">faO</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">fbetaO</span> <span class="o">=</span> <span class="n">fbetaO</span>
+        
+        <span class="c1"># Check if the modulation equations are autonomous</span>
+        <span class="k">if</span> <span class="s1">&#39;t_1&#39;</span> <span class="ow">in</span> <span class="n">srepr</span><span class="p">(</span><span class="n">fa</span><span class="p">)</span> <span class="ow">or</span> <span class="s1">&#39;t_1&#39;</span> <span class="ow">in</span> <span class="n">srepr</span><span class="p">(</span><span class="n">fbeta</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The modulation equations do not form an autonomous system&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Steady_state.solve_forced">
+<a class="viewcode-back" href="../../../modules.html#oscilate.MMS.steady_state.Steady_state.solve_forced">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">solve_forced</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">solve_dof</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Solve the forced response of an oscillator.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        solve_dof: None or int, optional</span>
+<span class="sd">            The oscillator to solve for. </span>
+<span class="sd">            If `None`, no oscillator is solved for.</span>
+<span class="sd">            Default is `None`.</span>
+<span class="sd">        </span>
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Find the steady state solution for a given oscillator with the other oscillators&#39; amplitude set to 0.</span>
+
+<span class="sd">        To do so, one must choose an oscillator to chose for, say oscillator :math:`i`. Then, the following methods are called: </span>
+<span class="sd">        </span>
+<span class="sd">        #. :func:`substitution_solve_dof`: Set the other oscillators&#39; amplitude to 0, i.e. :math:`a_j = 0 \; \forall j \neq i`.</span>
+
+<span class="sd">        #. :func:`solve_phase`: express the oscillator&#39;s phase :math:`\beta_i` as a function of its amplitude :math:`a_i`. </span>
+
+<span class="sd">        #. :func:`solve_sigma`: find the expression of :math:`\sigma(a_i)`.</span>
+
+<span class="sd">        #. :func:`solve_a`: find the expression of :math:`a_i (\sigma, F)`.</span>
+<span class="sd">                </span>
+<span class="sd">        #. :func:`solve_F`: find the expression of :math:`F(a_i)`.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="c1"># Conditions for not solving the forced response</span>
+        <span class="k">if</span> <span class="n">solve_dof</span><span class="o">==</span><span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">forcing</span><span class="o">.</span><span class="n">F</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span>
+        
+        <span class="c1"># Information</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Computing the forced response for oscillator </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">solve_dof</span><span class="p">))</span>
+        
+        <span class="c1"># Store the oscillator that is solved for</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">solve_dof</span> <span class="o">=</span> <span class="n">solve_dof</span>
+        
+        <span class="c1"># Set the other oscillator&#39;s amplitudes to zero</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">substitution_solve_dof</span><span class="p">(</span><span class="n">solve_dof</span><span class="p">)</span>
+        
+        <span class="c1"># Phase response</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">solve_phase</span><span class="p">()</span>
+        
+        <span class="c1"># Frequency (detuning) response</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">solve_sigma</span><span class="p">()</span>
+        
+        <span class="c1"># Frequency response (in terms of oscillator&#39;s amplitude)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">solve_a</span><span class="p">()</span>
+        
+        <span class="c1"># Amplitude (forcing) respose</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">solve_F</span><span class="p">()</span></div>
+
+        
+<div class="viewcode-block" id="Steady_state.substitution_solve_dof">
+<a class="viewcode-back" href="../../../modules.html#oscilate.MMS.steady_state.Steady_state.substitution_solve_dof">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">substitution_solve_dof</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">solve_dof</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set every oscillator amplitude to 0 except the one to solve for.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        If one wants to solve for :math:`a_i`, then the system is evaluated for :math:`a_j=0, \; \forall j \neq i`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">sub_solve</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">ix</span> <span class="o">!=</span> <span class="n">solve_dof</span><span class="p">:</span>
+                <span class="n">sub_solve</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="n">ix</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span> <span class="p">)</span>
+                
+        <span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_solve</span> <span class="o">=</span> <span class="n">sub_solve</span>    </div>
+
+        
+<div class="viewcode-block" id="Steady_state.solve_phase">
+<a class="viewcode-back" href="../../../modules.html#oscilate.MMS.steady_state.Steady_state.solve_phase">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">solve_phase</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Find solutions for the oscillator&#39;s phase :math:`\beta_i`. </span>
+<span class="sd">        The solutions actually returned are :math:`\sin(\beta_i)` and :math:`\cos(\beta_i)`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="c1"># Evaluate the modulation equations for a single oscillator responding</span>
+        <span class="n">fa_dof</span>    <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">fa</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">solve_dof</span><span class="p">]</span>   <span class="o">.</span><span class="n">expand</span><span class="p">()</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_solve</span><span class="p">)</span>
+        <span class="n">fbeta_dof</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">fbeta</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">solve_dof</span><span class="p">]</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_solve</span><span class="p">)</span>
+        
+        <span class="c1"># Collect sin and cos terms in the modulation equations</span>
+        <span class="n">collect_sin_cos</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">fa_dof</span><span class="o">.</span><span class="n">atoms</span><span class="p">(</span><span class="n">cos</span><span class="p">,</span> <span class="n">sin</span><span class="p">))</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">fbeta_dof</span><span class="o">.</span><span class="n">atoms</span><span class="p">(</span><span class="n">cos</span><span class="p">,</span> <span class="n">sin</span><span class="p">))</span>
+        <span class="n">collect_sin_cos</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">collect_sin_cos</span> <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">has</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">beta</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">solve_dof</span><span class="p">])]</span>
+    
+        <span class="k">def</span><span class="w"> </span><span class="nf">sort_key</span><span class="p">(</span><span class="n">expr</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Sorting function. Assign a lower value to sine terms and a higher value to cosine terms</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">if</span> <span class="n">expr</span><span class="o">.</span><span class="n">func</span> <span class="o">==</span> <span class="n">sin</span><span class="p">:</span>
+                <span class="k">return</span> <span class="mi">0</span>
+            <span class="k">elif</span> <span class="n">expr</span><span class="o">.</span><span class="n">func</span> <span class="o">==</span> <span class="n">cos</span><span class="p">:</span>
+                <span class="k">return</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="mi">2</span>  
+
+        <span class="n">collect_sin_cos</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">collect_sin_cos</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">sort_key</span><span class="p">)</span> <span class="c1"># sin terms first, cos terms then</span>
+
+        <span class="n">dic_fa</span>    <span class="o">=</span> <span class="n">fa_dof</span>   <span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="n">collect_sin_cos</span><span class="p">,</span> <span class="n">evaluate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">dic_fbeta</span> <span class="o">=</span> <span class="n">fbeta_dof</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="n">collect_sin_cos</span><span class="p">,</span> <span class="n">evaluate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    
+        <span class="c1"># Check the possibility to solve using standard procedure (quadratic sum) -&gt; enforce the presence of 3 keys : {1, sin(phase), cos(phase)}</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">dic_fa</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">dic_fbeta</span><span class="o">.</span><span class="n">keys</span><span class="p">()))))</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">)</span> <span class="ow">or</span> <span class="c1"># cos and sin terms both appear in the same expression </span>
+             <span class="p">(</span><span class="n">collect_sin_cos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">args</span> <span class="o">!=</span> <span class="n">collect_sin_cos</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">args</span><span class="p">)</span> <span class="p">):</span> <span class="c1"># Too many phases involved</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;    No implemented analytical solution&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+    
+        <span class="c1"># Compute the expression of sin/cos as a function of the amplitude</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;   Computing the phase response&#39;</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">collect_sin_cos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="n">dic_fa</span><span class="p">:</span> <span class="c1"># sin in fa</span>
+            <span class="k">if</span> <span class="mi">1</span> <span class="ow">in</span> <span class="n">dic_fa</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">sin_phase</span> <span class="o">=</span> <span class="p">(</span><span class="n">dic_fa</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="p">(</span><span class="o">-</span><span class="n">dic_fa</span><span class="p">[</span><span class="n">collect_sin_cos</span><span class="p">[</span><span class="mi">0</span><span class="p">]]))</span><span class="o">.</span><span class="n">simplify</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">sin_phase</span> <span class="o">=</span> <span class="n">sympify</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                
+            <span class="k">if</span> <span class="mi">1</span> <span class="ow">in</span> <span class="n">dic_fbeta</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">cos_phase</span> <span class="o">=</span> <span class="p">(</span><span class="n">dic_fbeta</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="p">(</span><span class="o">-</span><span class="n">dic_fbeta</span><span class="p">[</span><span class="n">collect_sin_cos</span><span class="p">[</span><span class="mi">1</span><span class="p">]]))</span><span class="o">.</span><span class="n">simplify</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">cos_phase</span> <span class="o">=</span> <span class="n">sympify</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                
+        <span class="k">elif</span> <span class="n">collect_sin_cos</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="n">dic_fa</span><span class="p">:</span> <span class="c1"># cos in fa</span>
+            <span class="k">if</span> <span class="mi">1</span> <span class="ow">in</span> <span class="n">dic_fa</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">cos_phase</span> <span class="o">=</span> <span class="p">(</span><span class="n">dic_fa</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="p">(</span><span class="o">-</span><span class="n">dic_fa</span><span class="p">[</span><span class="n">collect_sin_cos</span><span class="p">[</span><span class="mi">1</span><span class="p">]]))</span><span class="o">.</span><span class="n">simplify</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">cos_phase</span> <span class="o">=</span> <span class="n">sympify</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">if</span> <span class="mi">1</span> <span class="ow">in</span> <span class="n">dic_fbeta</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">sin_phase</span> <span class="o">=</span> <span class="p">(</span><span class="n">dic_fbeta</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="p">(</span><span class="o">-</span><span class="n">dic_fbeta</span><span class="p">[</span><span class="n">collect_sin_cos</span><span class="p">[</span><span class="mi">0</span><span class="p">]]))</span><span class="o">.</span><span class="n">simplify</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">sin_phase</span> <span class="o">=</span> <span class="n">sympify</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;   oscillator </span><span class="si">{}</span><span class="s2"> is not forced&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">solve_dof</span><span class="p">))</span>
+            <span class="k">return</span>
+    
+        <span class="c1"># Store the solutions</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">sin_phase</span> <span class="o">=</span> <span class="p">(</span><span class="n">collect_sin_cos</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">sin_phase</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">cos_phase</span> <span class="o">=</span> <span class="p">(</span><span class="n">collect_sin_cos</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">cos_phase</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_phase</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">sin_phase</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">cos_phase</span><span class="p">]</span></div>
+
+    
+<div class="viewcode-block" id="Steady_state.solve_sigma">
+<a class="viewcode-back" href="../../../modules.html#oscilate.MMS.steady_state.Steady_state.solve_sigma">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">solve_sigma</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Solve the forced response in terms of the detuning :math:`\sigma`. </span>
+<span class="sd">        Returns :math:`\sigma(a_i)`.</span>
+<span class="sd">        It is recalled that :math:`\omega = \omega_{\textrm{MMS}} + \epsilon \sigma`. </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="n">sin_phase</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">sin_phase</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">cos_phase</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">cos_phase</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        
+        <span class="n">Eq_sig</span> <span class="o">=</span> <span class="p">(</span><span class="n">sin_phase</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span> <span class="o">+</span> <span class="p">(</span><span class="n">cos_phase</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span>
+    
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;   Computing the frequency response&#39;</span><span class="p">)</span>
+        <span class="n">sol_sigma</span> <span class="o">=</span> <span class="n">sfun</span><span class="o">.</span><span class="n">solve_poly2</span><span class="p">(</span><span class="n">Eq_sig</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="p">)</span>
+        <span class="n">sol_sigma</span> <span class="o">=</span> <span class="p">[</span><span class="n">sol_sigma_i</span><span class="o">.</span><span class="n">simplify</span><span class="p">()</span> <span class="k">for</span> <span class="n">sol_sigma_i</span> <span class="ow">in</span> <span class="n">sol_sigma</span><span class="p">]</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">sigma</span> <span class="o">=</span> <span class="n">sol_sigma</span></div>
+
+    
+<div class="viewcode-block" id="Steady_state.solve_a">
+<a class="viewcode-back" href="../../../modules.html#oscilate.MMS.steady_state.Steady_state.solve_a">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">solve_a</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Solve the forced response in terms of the oscillator&#39;s amplitude.</span>
+<span class="sd">        For readability, the output actually returned is :math:`a_i^2(\sigma, F)`. </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="n">sin_phase</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">sin_phase</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">cos_phase</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">cos_phase</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">a</span>         <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">solve_dof</span><span class="p">]</span>
+        
+        <span class="c1"># Equation on a</span>
+        <span class="n">Eq_a</span> <span class="o">=</span> <span class="p">(</span><span class="n">sin_phase</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span> <span class="o">+</span> <span class="p">(</span><span class="n">cos_phase</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="n">Eq_a</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">evaluate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">min_power</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">keys</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">expr</span><span class="p">:</span> <span class="n">sfun</span><span class="o">.</span><span class="n">get_exponent</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="n">a</span><span class="p">))</span>
+        <span class="n">Eq_a</span> <span class="o">=</span> <span class="p">(</span><span class="n">Eq_a</span><span class="o">/</span><span class="n">min_power</span><span class="p">)</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span>
+        
+        <span class="c1"># Solve</span>
+        <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">Eq_a</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">evaluate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">set</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="n">a</span><span class="o">**</span><span class="mi">4</span><span class="p">]),</span> <span class="nb">set</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="n">a</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">a</span><span class="o">**</span><span class="mi">4</span><span class="p">])]:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;   Computing the response with respect to the oscillator&#39;s amplitude&quot;</span><span class="p">)</span>
+            <span class="n">sol_a2</span> <span class="o">=</span> <span class="n">sfun</span><span class="o">.</span><span class="n">solve_poly2</span><span class="p">(</span><span class="n">Eq_a</span><span class="p">,</span> <span class="n">a</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+            <span class="n">sol_a2</span> <span class="o">=</span> <span class="p">[</span><span class="n">sol_a2_i</span><span class="o">.</span><span class="n">simplify</span><span class="p">()</span> <span class="k">for</span> <span class="n">sol_a2_i</span> <span class="ow">in</span> <span class="n">sol_a2</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;   Not computing the response with respect to the oscillator&#39;s amplitude as the equation to solve is not of 2nd degree&quot;</span><span class="p">)</span>
+            <span class="n">sol_a2</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">sol_a2</span> <span class="o">=</span> <span class="n">sol_a2</span></div>
+
+    
+<div class="viewcode-block" id="Steady_state.solve_F">
+<a class="viewcode-back" href="../../../modules.html#oscilate.MMS.steady_state.Steady_state.solve_F">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">solve_F</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Solve the forced response in terms of the forcing amplitude :math:`F`. Returns :math:`F(a_i)`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="n">sin_phase</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">sin_phase</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">cos_phase</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">cos_phase</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">F</span>         <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forcing</span><span class="o">.</span><span class="n">F</span>
+        
+        <span class="c1"># Equation on F</span>
+        <span class="n">Eq_F</span>   <span class="o">=</span> <span class="p">(((</span><span class="n">sin_phase</span><span class="o">*</span><span class="n">F</span><span class="p">)</span><span class="o">.</span><span class="n">simplify</span><span class="p">()</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span> 
+               <span class="o">+</span> <span class="p">(</span> <span class="p">(</span><span class="n">cos_phase</span><span class="o">*</span><span class="n">F</span><span class="p">)</span><span class="o">.</span><span class="n">simplify</span><span class="p">()</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span> 
+               <span class="o">-</span>    <span class="bp">self</span><span class="o">.</span><span class="n">forcing</span><span class="o">.</span><span class="n">F</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_B</span><span class="p">)</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="n">Eq_F</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">evaluate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">min_power</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">keys</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">expr</span><span class="p">:</span> <span class="n">sfun</span><span class="o">.</span><span class="n">get_exponent</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="n">F</span><span class="p">))</span>
+        <span class="n">Eq_F</span> <span class="o">=</span> <span class="p">(</span><span class="n">Eq_F</span><span class="o">/</span><span class="n">min_power</span><span class="p">)</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span>
+        
+        <span class="c1"># Solve</span>
+        <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">Eq_F</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">evaluate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">set</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="n">F</span><span class="o">**</span><span class="mi">2</span><span class="p">]),</span> <span class="nb">set</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">F</span><span class="o">**</span><span class="mi">2</span><span class="p">])]:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;   Computing the response with respect to the forcing amplitude&#39;</span><span class="p">)</span>
+            <span class="n">sol_F</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">sfun</span><span class="o">.</span><span class="n">solve_poly2</span><span class="p">(</span><span class="n">Eq_F</span><span class="p">,</span> <span class="n">F</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;   Not computing the response with respect to the forcing amplitude as the equation to solve is not of 2nd degree&#39;</span><span class="p">)</span>
+            <span class="n">sol_F</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">F</span> <span class="o">=</span> <span class="n">sol_F</span>    </div>
+
+    
+<div class="viewcode-block" id="Steady_state.solve_bbc">
+<a class="viewcode-back" href="../../../modules.html#oscilate.MMS.steady_state.Steady_state.solve_bbc">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">solve_bbc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="p">[],</span> <span class="n">solve_dof</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Find the backbone curve (bbc) of a given oscillator with the other oscillators&#39; amplitude set to 0.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        c: list, optional</span>
+<span class="sd">            Damping terms. They will be set to 0 to compute the backbone curve.</span>
+<span class="sd">            Note that these are the scaled damping terms.</span>
+<span class="sd">            Default is `[]`.</span>
+<span class="sd">        solve_dof: None or int, oprtional</span>
+<span class="sd">            The oscillator number to solve for. </span>
+<span class="sd">            If `None`, no oscillator is solved for.</span>
+<span class="sd">            Default is `None`.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        The backbone curve describes the frequency of free oscillations as a function of the oscillator&#39;s amplitude.</span>
+<span class="sd">        In the presence of small damping (as in the case in the MMS) the frequency of free oscillations is close from the resonance frequency. </span>
+<span class="sd">        The backbone curve can therefore be interpreted as the *backbone* of the forced response. </span>
+
+<span class="sd">        The backbone curve of oscillator :math:`i` typically takes the form</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">            \omega_{\textrm{bbc}}^{(i)} = k\omega_{i} + f_{\textrm{bbc}}^{(i)} (a_i),</span>
+
+<span class="sd">        where :math:`k=1,\; k&lt;1,\; k&gt;1` are associated to direct, superharmonic and subharmonic responses, respectively. </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="k">if</span> <span class="n">solve_dof</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span>
+        
+        <span class="c1"># Information</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Computing the backbone curve for oscillator </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">solve_dof</span><span class="p">))</span>
+        
+        <span class="c1"># Set every oscillator amplitude to 0 except the one to solve for</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">substitution_solve_dof</span><span class="p">(</span><span class="n">solve_dof</span><span class="p">)</span>
+        
+        <span class="c1"># Substitutions for the free response</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span> 
+            <span class="n">c</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="p">]</span>
+        <span class="n">sub_free</span> <span class="o">=</span> <span class="p">[(</span><span class="bp">self</span><span class="o">.</span><span class="n">forcing</span><span class="o">.</span><span class="n">F</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="o">*</span><span class="p">[(</span><span class="n">ci</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">ci</span> <span class="ow">in</span> <span class="n">c</span><span class="p">]]</span>
+        
+        <span class="c1"># Establish the backbone curve equation</span>
+        <span class="n">Eq_bbc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">fbeta</span><span class="p">[</span><span class="n">solve_dof</span><span class="p">]</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_solve</span><span class="p">)</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_B</span><span class="p">)</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">sub_free</span><span class="p">)</span>
+        
+        <span class="c1"># Compute the backbone curve</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">sigma_bbc</span> <span class="o">=</span> <span class="n">solve</span><span class="p">(</span><span class="n">Eq_bbc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">simplify</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">omega_bbc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">omegaMMS</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">sigma_bbc</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_free</span> <span class="o">=</span> <span class="n">sub_free</span></div>
+
+
+
+<div class="viewcode-block" id="Steady_state.Jacobian_polar">
+<a class="viewcode-back" href="../../../modules.html#oscilate.MMS.steady_state.Steady_state.Jacobian_polar">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">Jacobian_polar</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the Jacobian of the modulation equations systems expressed in polar coordinates (see :func:`stability_analysis`).</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        J : sympy.Matrix</span>
+<span class="sd">            Jacobian of the polar system.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="n">J</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">)</span>
+        
+        <span class="k">for</span> <span class="n">ii</span><span class="p">,</span> <span class="p">(</span><span class="n">fai</span><span class="p">,</span> <span class="n">fbetai</span><span class="p">,</span> <span class="n">ai</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">fa</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">fbeta</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">a</span><span class="p">)):</span>
+            <span class="k">for</span> <span class="n">jj</span><span class="p">,</span> <span class="p">(</span><span class="n">aj</span><span class="p">,</span> <span class="n">betaj</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">beta</span><span class="p">)):</span>
+                <span class="n">J</span><span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">ii</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">jj</span><span class="p">]</span>     <span class="o">=</span> <span class="n">fai</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">aj</span><span class="p">)</span>
+                <span class="n">J</span><span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">ii</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">jj</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>   <span class="o">=</span> <span class="n">fai</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">betaj</span><span class="p">)</span>
+                <span class="n">J</span><span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">ii</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">jj</span><span class="p">]</span>   <span class="o">=</span> <span class="p">(</span><span class="n">fbetai</span><span class="o">/</span><span class="n">ai</span><span class="p">)</span><span class="o">.</span><span class="n">simplify</span><span class="p">()</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">aj</span><span class="p">)</span>
+                <span class="n">J</span><span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">ii</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">jj</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">fbetai</span><span class="o">/</span><span class="n">ai</span><span class="p">)</span><span class="o">.</span><span class="n">simplify</span><span class="p">()</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">betaj</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">J</span></div>
+
+        
+        
+<div class="viewcode-block" id="Steady_state.cartesian_coordinates">
+<a class="viewcode-back" href="../../../modules.html#oscilate.MMS.steady_state.Steady_state.cartesian_coordinates">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">cartesian_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Define cartesian coordinates from the polar ones.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        The homogeneous leading order solution for oscillator :math:`i` expressed in polar coordinates takes the form</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">            \begin{split}</span>
+<span class="sd">            x_{i,0}^{\textrm{h}}(t) &amp; = a_i \cos\left(\frac{r_i}{r_{\textrm{MMS}}}\omega t - \beta_i \right), \\</span>
+<span class="sd">                                    &amp; = a_i \cos(\beta_i) \cos\left(\frac{r_i}{r_{\textrm{MMS}}}\omega t\right) </span>
+<span class="sd">                                      + a_i \sin(\beta_i) \sin\left(\frac{r_i}{r_{\textrm{MMS}}}\omega t\right)</span>
+<span class="sd">            \end{split}</span>
+
+<span class="sd">        The polar coordinates are defined as</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">            \begin{cases}</span>
+<span class="sd">            p_i = a_i \cos (\beta_i), \\</span>
+<span class="sd">            q_i = a_i \sin (\beta_i),</span>
+<span class="sd">            \end{cases}</span>
+
+<span class="sd">        such that the leading order solution can be written as</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">            x_{i,0}^{\textrm{h}}(t) = p_i \cos\left(\frac{r_i}{r_{\textrm{MMS}}}\omega t\right) + q_i \sin\left(\frac{r_i}{r_{\textrm{MMS}}}\omega t\right).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Define the cartesian coordinates</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="p">[</span><span class="n">symbols</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;p_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ix</span><span class="p">),</span> <span class="n">real</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">)]</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="p">[</span><span class="n">symbols</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;q_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ix</span><span class="p">),</span> <span class="n">real</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">)]</span>
+        
+        <span class="c1"># Define relations between the polar and cartesian coordinates</span>
+        <span class="n">a</span><span class="p">,</span> <span class="n">beta</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;beta&quot;</span><span class="p">]))</span>
+        <span class="n">sub_cart</span>  <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">sub_polar</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">):</span>
+            <span class="n">sub_cart</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">*</span><span class="n">cos</span><span class="p">(</span><span class="n">beta</span><span class="p">[</span><span class="n">ix</span><span class="p">])</span>     <span class="p">,</span> <span class="n">p</span><span class="p">[</span><span class="n">ix</span><span class="p">])</span> <span class="p">)</span>
+            <span class="n">sub_cart</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">beta</span><span class="p">[</span><span class="n">ix</span><span class="p">])</span>     <span class="p">,</span> <span class="n">q</span><span class="p">[</span><span class="n">ix</span><span class="p">])</span> <span class="p">)</span>
+            <span class="n">sub_cart</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">beta</span><span class="p">[</span><span class="n">ix</span><span class="p">]),</span> <span class="n">p</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">q</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="p">)</span>
+            <span class="n">sub_cart</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">beta</span><span class="p">[</span><span class="n">ix</span><span class="p">]),</span> <span class="mi">2</span><span class="o">*</span><span class="n">p</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">*</span><span class="n">q</span><span class="p">[</span><span class="n">ix</span><span class="p">])</span> <span class="p">)</span>
+            <span class="n">sub_cart</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span>                <span class="p">,</span> <span class="n">p</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">q</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="p">)</span>
+            
+            <span class="n">sub_polar</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="n">ix</span><span class="p">],</span> <span class="n">a</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">*</span><span class="n">cos</span><span class="p">(</span><span class="n">beta</span><span class="p">[</span><span class="n">ix</span><span class="p">]))</span> <span class="p">)</span>
+            <span class="n">sub_polar</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="n">ix</span><span class="p">],</span> <span class="n">a</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">beta</span><span class="p">[</span><span class="n">ix</span><span class="p">]))</span> <span class="p">)</span>
+    
+        <span class="c1"># Store the results</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="n">p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">q</span> <span class="o">=</span> <span class="n">q</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_cart</span>  <span class="o">=</span> <span class="n">sub_cart</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_polar</span> <span class="o">=</span> <span class="n">sub_polar</span></div>
+
+        
+    
+<div class="viewcode-block" id="Steady_state.modulation_equations_cartesian">
+<a class="viewcode-back" href="../../../modules.html#oscilate.MMS.steady_state.Steady_state.modulation_equations_cartesian">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">modulation_equations_cartesian</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the modulation equations of the cartesian coordinates system.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Write the modulation equations using the cartesian coordinates (defined in :func:`cartesian_coordinates`). </span>
+<span class="sd">        For oscillator :math:`i`, this results in</span>
+<span class="sd">        </span>
+<span class="sd">        .. math::</span>
+<span class="sd">            \begin{cases}</span>
+<span class="sd">            \dfrac{\textrm{d} p_i}{\textrm{d} t} &amp; = f_{p_i}(\boldsymbol{p}, \boldsymbol{q}), \\</span>
+<span class="sd">            \dfrac{\textrm{d} q_i}{\textrm{d} t} &amp; = f_{q_i}(\boldsymbol{p}, \boldsymbol{q}),</span>
+<span class="sd">            \end{cases}</span>
+<span class="sd">        </span>
+<span class="sd">        where :math:`\boldsymbol{p}(t)` and :math:`\boldsymbol{q}(t)` are vectors containing the cartesian coordinates.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="c1"># Compute the functions fp(p,q) and fq(p,q)</span>
+        <span class="n">fp</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">fq</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        <span class="n">a</span><span class="p">,</span> <span class="n">beta</span>   <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;beta&quot;</span><span class="p">]))</span>
+        <span class="n">fa</span><span class="p">,</span> <span class="n">fbeta</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;fa&quot;</span><span class="p">,</span> <span class="s2">&quot;fbeta&quot;</span><span class="p">]))</span>
+        
+        <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">):</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">TR10</span><span class="p">(</span> <span class="p">(</span> <span class="n">fa</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">*</span><span class="n">cos</span><span class="p">(</span><span class="n">beta</span><span class="p">[</span><span class="n">ix</span><span class="p">])</span> <span class="o">-</span> <span class="n">fbeta</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">beta</span><span class="p">[</span><span class="n">ix</span><span class="p">])</span> <span class="p">)</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span><span class="o">.</span><span class="n">simplify</span><span class="p">()</span>
+                            <span class="p">)</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_cart</span><span class="p">)</span> <span class="p">)</span>
+            
+            <span class="n">fq</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">TR10</span><span class="p">(</span> <span class="p">(</span> <span class="n">fa</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">beta</span><span class="p">[</span><span class="n">ix</span><span class="p">])</span> <span class="o">+</span> <span class="n">fbeta</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">*</span><span class="n">cos</span><span class="p">(</span><span class="n">beta</span><span class="p">[</span><span class="n">ix</span><span class="p">])</span> <span class="p">)</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span><span class="o">.</span><span class="n">simplify</span><span class="p">()</span>
+                            <span class="p">)</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_cart</span><span class="p">)</span> <span class="p">)</span>
+        
+        <span class="c1"># Check if the a and beta have all been substituted</span>
+        <span class="n">substitution_OK</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_cartesian_substitutions</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">fp</span><span class="p">,</span> <span class="n">fq</span><span class="p">)</span>
+        
+        <span class="c1"># Try additional substitutions if the change of coordinates is incomplete</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">substitution_OK</span><span class="p">:</span>
+            <span class="n">fp</span><span class="p">,</span> <span class="n">fq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">additional_cartesian_substitutions</span><span class="p">(</span><span class="n">fp</span><span class="p">,</span> <span class="n">fq</span><span class="p">)</span>
+            
+            <span class="c1"># Check if the a and beta have all been substituted</span>
+            <span class="n">substitution_OK</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_cartesian_substitutions</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">fp</span><span class="p">,</span> <span class="n">fq</span><span class="p">)</span>
+            
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">substitution_OK</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;   The substitution from polar to cartesian coordinates is incomplete&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># Store the modulation equations</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">fp</span> <span class="o">=</span> <span class="n">fp</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">fq</span> <span class="o">=</span> <span class="n">fq</span></div>
+
+        
+<div class="viewcode-block" id="Steady_state.check_cartesian_substitutions">
+<a class="viewcode-back" href="../../../modules.html#oscilate.MMS.steady_state.Steady_state.check_cartesian_substitutions">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">check_cartesian_substitutions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">fp</span><span class="p">,</span> <span class="n">fq</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check if substitutions from polar to cartesian coordinates are complete.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        a: list of sympy.Symbol</span>
+<span class="sd">            Amplitudes of the leading order solutions.</span>
+<span class="sd">        beta: list of sympy.Symbol</span>
+<span class="sd">            Phases of the leading order solutions.</span>
+<span class="sd">        fp: list of sympy.Expr</span>
+<span class="sd">            Evolution functions for the cartesian coordinates :math:`p_i`.</span>
+<span class="sd">        fq: list of sympy.Expr</span>
+<span class="sd">            Evolution functions for the cartesian coordinates :math:`q_i`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        substitution_OK : bool</span>
+<span class="sd">            `True` if substitutions are complete.</span>
+<span class="sd">            `False` otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">polar_coordinates</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">beta</span>
+        <span class="n">substitution_OK</span>   <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">count</span>             <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="n">substitution_OK</span> <span class="ow">and</span> <span class="n">count</span><span class="o">&lt;</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">):</span>
+                <span class="n">symbols_fpq</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">fp</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">.</span><span class="n">atoms</span><span class="p">(</span><span class="n">Symbol</span><span class="p">))</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">fq</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">.</span><span class="n">atoms</span><span class="p">(</span><span class="n">Symbol</span><span class="p">))</span>
+
+                <span class="k">for</span> <span class="n">polar_coordinate</span> <span class="ow">in</span> <span class="n">polar_coordinates</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">polar_coordinate</span> <span class="ow">in</span> <span class="n">symbols_fpq</span><span class="p">:</span>
+                        <span class="n">substitution_OK</span> <span class="o">=</span> <span class="kc">False</span>
+                        
+                <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+        
+        <span class="k">return</span> <span class="n">substitution_OK</span></div>
+
+        
+<div class="viewcode-block" id="Steady_state.additional_cartesian_substitutions">
+<a class="viewcode-back" href="../../../modules.html#oscilate.MMS.steady_state.Steady_state.additional_cartesian_substitutions">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">additional_cartesian_substitutions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fp</span><span class="p">,</span> <span class="n">fq</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Reformulate the already-existing substitutions from polar to cartesian to try and substitute leftover polar terms.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        fp: list of sympy.Expr</span>
+<span class="sd">            Evolution functions for the cartesian coordinates :math:`p_i`.</span>
+<span class="sd">            There are polar coordinates remaining.</span>
+<span class="sd">        fq: list of sympy.Expr</span>
+<span class="sd">            Evolution functions for the cartesian coordinates :math:`q_i`.</span>
+<span class="sd">            There are polar coordinates remaining.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        fp: list of sympy.Expr</span>
+<span class="sd">            Evolution functions for the cartesian coordinates :math:`p_i`.</span>
+<span class="sd">            Additional substitutions were performed to get rid of polar coordinates.</span>
+<span class="sd">        fq: list of sympy.Expr</span>
+<span class="sd">            Evolution functions for the cartesian coordinates :math:`q_i`.</span>
+<span class="sd">            Additional substitutions were performed to get rid of polar coordinates.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="n">sub_cart_add</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># Additional substitutions required</span>
+        
+        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">fp</span><span class="o">+</span><span class="n">fq</span><span class="p">:</span>
+            <span class="c1"># Terms that were not properly substituted</span>
+            <span class="n">left_polar_terms</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">atoms</span><span class="p">(</span><span class="n">sin</span><span class="p">,</span> <span class="n">cos</span><span class="p">))</span>
+            
+            <span class="c1"># Check if unsubstituted terms were identified</span>
+            <span class="k">if</span> <span class="n">left_polar_terms</span><span class="p">:</span> 
+                
+                <span class="c1"># Loop over the unsubstituted terms</span>
+                <span class="k">for</span> <span class="n">term</span> <span class="ow">in</span> <span class="n">left_polar_terms</span><span class="p">:</span>
+                    
+                    <span class="c1"># Loop over already-defined substitutions and look for the current unsubstituted term</span>
+                    <span class="k">for</span> <span class="n">sub_cart_item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_cart</span><span class="p">:</span>
+                        <span class="n">dic</span> <span class="o">=</span> <span class="n">sub_cart_item</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="n">term</span><span class="p">,</span> <span class="n">evaluate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                        
+                        <span class="c1"># Identify possible additional substitutions</span>
+                        <span class="k">if</span> <span class="n">term</span> <span class="ow">in</span> <span class="n">dic</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                            <span class="n">sub_cart_add</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="p">(</span><span class="n">term</span><span class="p">,</span> <span class="n">solve</span><span class="p">(</span><span class="n">sub_cart_item</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">sub_cart_item</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">term</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_cart</span><span class="p">))</span> <span class="p">)</span>
+        
+        <span class="c1"># Apply these new substitutions                                </span>
+        <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">):</span>
+            <span class="n">fp</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span> <span class="o">=</span> <span class="n">fp</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">sub_cart_add</span><span class="p">)</span>
+            <span class="n">fq</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span> <span class="o">=</span> <span class="n">fq</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">sub_cart_add</span><span class="p">)</span>
+            
+        <span class="k">return</span> <span class="n">fp</span><span class="p">,</span> <span class="n">fq</span></div>
+
+    
+    
+<div class="viewcode-block" id="Steady_state.Jacobian_cartesian">
+<a class="viewcode-back" href="../../../modules.html#oscilate.MMS.steady_state.Steady_state.Jacobian_cartesian">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">Jacobian_cartesian</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the Jacobian of the modulation equations systems expressed in cartesian coordinates (see :func:`stability_analysis`).</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        J : sympy.Matrix</span>
+<span class="sd">            Jacobian of the cartesian system.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="n">J</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">)</span>
+        
+        <span class="k">for</span> <span class="n">ii</span><span class="p">,</span> <span class="p">(</span><span class="n">fpi</span><span class="p">,</span> <span class="n">fqi</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">fp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">fq</span><span class="p">)):</span>
+            <span class="k">for</span> <span class="n">jj</span><span class="p">,</span> <span class="p">(</span><span class="n">pj</span><span class="p">,</span> <span class="n">qj</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">q</span><span class="p">)):</span>
+                <span class="n">J</span><span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">ii</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">jj</span><span class="p">]</span>     <span class="o">=</span> <span class="n">fpi</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">pj</span><span class="p">)</span>
+                <span class="n">J</span><span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">ii</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">jj</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>   <span class="o">=</span> <span class="n">fpi</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">qj</span><span class="p">)</span>
+                <span class="n">J</span><span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">ii</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">jj</span><span class="p">]</span>   <span class="o">=</span> <span class="n">fqi</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">pj</span><span class="p">)</span>
+                <span class="n">J</span><span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">ii</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">jj</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">fqi</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">qj</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">J</span></div>
+
+
+<div class="viewcode-block" id="Steady_state.stability_analysis">
+<a class="viewcode-back" href="../../../modules.html#oscilate.MMS.steady_state.Steady_state.stability_analysis">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">stability_analysis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coord</span><span class="o">=</span><span class="s2">&quot;cartesian&quot;</span><span class="p">,</span> <span class="n">rewrite_polar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">eigenvalues</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">bifurcation_curves</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">trace_curves</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">analyse_blocks</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">kwargs_bif</span><span class="o">=</span><span class="nb">dict</span><span class="p">()):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Evaluate the stability of a steady state solution. </span>
+<span class="sd">        See :ref:`stability` for a detailed description of the dynamical system.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        coord: str, optional</span>
+<span class="sd">            Either ``&quot;cartesian&quot;`` or ``&quot;polar&quot;``. </span>
+<span class="sd">            Specifies the coordinates to use for the stability analysis.</span>
+<span class="sd">            ``&quot;cartesian&quot;`` is recommended as it prevents divisions by 0, which occur when at least one of the oscillator has a 0 ampliutude.</span>
+<span class="sd">            Default is ``&quot;cartesian&quot;``.</span>
+<span class="sd">        rewrite_polar: bool, optional</span>
+<span class="sd">            Rewrite the Jacobian&#39;s determinant and trace in polar coordinates (if computed using cartesian ones).</span>
+<span class="sd">            This is time consuming and the current back substitutions from cartesian to polar coordinates are not always sufficient.</span>
+<span class="sd">            Default is `False`.</span>
+<span class="sd">        eigenvalues: bool, optional</span>
+<span class="sd">            Compute the eigenvalues of the Jacobian.</span>
+<span class="sd">            Default is `False`.</span>
+<span class="sd">        bifurcation_curves: bool, optional</span>
+<span class="sd">            Compute the bifurcation curves.</span>
+<span class="sd">            Default is `False`.</span>
+<span class="sd">        trace_curves: bool, optional</span>
+<span class="sd">            Compute the trace curves, i.e. the zeros of the Jacobian&#39;s trace.</span>
+<span class="sd">            Default is `False`.</span>
+<span class="sd">        analyse_blocks: bool, optional</span>
+<span class="sd">            Analyse the diagonal blocks of the Jacobian rather than the Jacobian itself. This is relevant if the Jacobian is block-diagonal.</span>
+<span class="sd">        kwargs_bif: dict, optional</span>
+<span class="sd">            Passed to :func:`bifurcation_curves`</span>
+<span class="sd">            Default is `dict()`.</span>
+
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="c1"># Check if a solution has been computed</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="s2">&quot;sigma&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;There is no solution to evaluate the stability of.&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+        
+        <span class="c1"># Information</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Evaluating the stability of the solution of oscillator </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">solve_dof</span><span class="p">))</span>
+        
+        <span class="c1"># Introduce the cartesian coordinates and modulation equations</span>
+        <span class="k">if</span> <span class="n">coord</span> <span class="o">==</span> <span class="s2">&quot;cartesian&quot;</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;   Rewritting the system in cartesian coordinates&quot;</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">stab</span><span class="o">.</span><span class="n">analysis_coord</span> <span class="o">=</span> <span class="s2">&quot;cartesian&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cartesian_coordinates</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">modulation_equations_cartesian</span><span class="p">()</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stab</span><span class="o">.</span><span class="n">analysis_coord</span> <span class="o">=</span> <span class="s2">&quot;polar&quot;</span>
+        
+        <span class="c1"># Compute the Jacobian</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;   Computing the Jacobian&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">coord</span><span class="o">==</span><span class="s2">&quot;cartesian&quot;</span><span class="p">:</span>
+            <span class="n">J</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Jacobian_cartesian</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">J</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Jacobian_polar</span><span class="p">()</span>
+        
+        <span class="c1"># Set every oscillator amplitude to 0 except the one solved for</span>
+        <span class="k">if</span> <span class="n">coord</span><span class="o">==</span><span class="s2">&quot;cartesian&quot;</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">ix</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">solve_dof</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_solve</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span> <span class="p">[(</span><span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">p</span><span class="p">[</span><span class="n">ix</span><span class="p">],</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">q</span><span class="p">[</span><span class="n">ix</span><span class="p">],</span> <span class="mi">0</span><span class="p">)]</span> <span class="p">)</span>
+         
+        <span class="c1"># Use the steady state solutions to perform substitutions</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_solve</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span> <span class="p">[(</span><span class="bp">self</span><span class="o">.</span><span class="n">forcing</span><span class="o">.</span><span class="n">F</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">sin_phase</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">forcing</span><span class="o">.</span><span class="n">F</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">sin_phase</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+                                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">forcing</span><span class="o">.</span><span class="n">F</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">cos_phase</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">forcing</span><span class="o">.</span><span class="n">F</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">cos_phase</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span> <span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">coord</span><span class="o">==</span><span class="s2">&quot;cartesian&quot;</span><span class="p">:</span> 
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">forcing</span><span class="o">.</span><span class="n">F</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">fp</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">solve_dof</span><span class="p">]</span><span class="o">.</span><span class="n">atoms</span><span class="p">(</span><span class="n">Symbol</span><span class="p">):</span> 
+                <span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_solve</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">forcing</span><span class="o">.</span><span class="n">F</span><span class="p">,</span> <span class="n">solve</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">fp</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">solve_dof</span><span class="p">]</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_solve</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">forcing</span><span class="o">.</span><span class="n">F</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span> <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_solve</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">forcing</span><span class="o">.</span><span class="n">F</span><span class="p">,</span> <span class="n">solve</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">fq</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">solve_dof</span><span class="p">]</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_solve</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">forcing</span><span class="o">.</span><span class="n">F</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span> <span class="p">)</span>
+        
+        <span class="c1"># Evaluate the Jacobian on the solution</span>
+        <span class="n">Jsol</span> <span class="o">=</span> <span class="n">simplify</span><span class="p">(</span><span class="n">J</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_solve</span><span class="p">))</span> 
+        
+        <span class="c1"># Analyse the Jacobian</span>
+        <span class="n">tr_Jsol</span>  <span class="o">=</span> <span class="n">trace</span><span class="p">(</span><span class="n">Jsol</span><span class="p">)</span><span class="o">.</span><span class="n">simplify</span><span class="p">()</span>
+        <span class="n">det_Jsol</span> <span class="o">=</span> <span class="n">det</span><span class="p">(</span><span class="n">Jsol</span><span class="p">)</span><span class="o">.</span><span class="n">simplify</span><span class="p">()</span>
+        
+        <span class="c1"># Rewrite the results in polar form if cartesian coordinates were used (time consuming)</span>
+        <span class="k">if</span> <span class="n">coord</span><span class="o">==</span><span class="s2">&quot;cartesian&quot;</span><span class="p">:</span> 
+            <span class="c1"># Save cartesian results</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stab</span><span class="o">.</span><span class="n">Jsolc</span>     <span class="o">=</span> <span class="n">Jsol</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stab</span><span class="o">.</span><span class="n">tr_Jsolc</span>  <span class="o">=</span> <span class="n">tr_Jsol</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stab</span><span class="o">.</span><span class="n">det_Jsolc</span> <span class="o">=</span> <span class="n">det_Jsol</span>
+            
+            <span class="c1"># Write the results in polar form</span>
+            <span class="k">if</span> <span class="n">rewrite_polar</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;   Expressing the stability results in polar coordinates&quot;</span><span class="p">)</span>
+                <span class="n">Jsol</span>     <span class="o">=</span> <span class="n">cartesian_to_polar</span><span class="p">(</span><span class="n">Jsol</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_polar</span><span class="p">,</span> <span class="n">sub_phase</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_phase</span><span class="p">)</span>
+                <span class="n">tr_Jsol</span>  <span class="o">=</span> <span class="n">cartesian_to_polar</span><span class="p">(</span><span class="n">tr_Jsol</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_polar</span><span class="p">,</span> <span class="n">sub_phase</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_phase</span><span class="p">)</span>
+                <span class="n">det_Jsol</span> <span class="o">=</span> <span class="n">cartesian_to_polar</span><span class="p">(</span><span class="n">det_Jsol</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_polar</span><span class="p">,</span> <span class="n">sub_phase</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_phase</span><span class="p">)</span>
+
+        <span class="c1"># Store results</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stab</span><span class="o">.</span><span class="n">Jsol</span>     <span class="o">=</span> <span class="n">Jsol</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stab</span><span class="o">.</span><span class="n">tr_Jsol</span>  <span class="o">=</span> <span class="n">tr_Jsol</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stab</span><span class="o">.</span><span class="n">det_Jsol</span> <span class="o">=</span> <span class="n">det_Jsol</span>
+        
+        <span class="c1"># Compute eigenvalues and bifurcation curves from the analysis of Jsol</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">analyse_blocks</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">eigenvalues</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">stab</span><span class="o">.</span><span class="n">eigvals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eigenvalues</span><span class="p">(</span><span class="n">Jsol</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">bifurcation_curves</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">stab</span><span class="o">.</span><span class="n">bif_a</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">stab</span><span class="o">.</span><span class="n">bif_sigma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bifurcation_curves</span><span class="p">(</span><span class="n">det_Jsol</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs_bif</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">trace_curves</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">stab</span><span class="o">.</span><span class="n">tr_a</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">stab</span><span class="o">.</span><span class="n">tr_sigma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trace_curves</span><span class="p">(</span><span class="n">tr_Jsol</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs_bif</span><span class="p">)</span>
+
+        <span class="c1"># Analyse the blocks of Jsol</span>
+        <span class="k">if</span> <span class="n">analyse_blocks</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;   Block analysis&quot;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">coord</span> <span class="o">==</span> <span class="s2">&quot;cartesian&quot;</span><span class="p">:</span>
+                <span class="n">Jsol</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stab</span><span class="o">.</span><span class="n">Jsolc</span>
+
+            <span class="k">if</span> <span class="n">sfun</span><span class="o">.</span><span class="n">is_block_diagonal</span><span class="p">(</span><span class="n">Jsol</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">stab</span><span class="o">.</span><span class="n">blocks</span>         <span class="o">=</span> <span class="p">[]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">stab</span><span class="o">.</span><span class="n">blocks_det</span>     <span class="o">=</span> <span class="p">[]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">stab</span><span class="o">.</span><span class="n">blocks_tr</span>      <span class="o">=</span> <span class="p">[]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">stab</span><span class="o">.</span><span class="n">blocks_eigvals</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">stab</span><span class="o">.</span><span class="n">blocks_bif_a</span>   <span class="o">=</span> <span class="p">[]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">stab</span><span class="o">.</span><span class="n">blocks_bif_sig</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">stab</span><span class="o">.</span><span class="n">blocks_tr_a</span>    <span class="o">=</span> <span class="p">[]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">stab</span><span class="o">.</span><span class="n">blocks_tr_sig</span>  <span class="o">=</span> <span class="p">[]</span>
+
+                <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Jsol</span><span class="o">.</span><span class="n">rows</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+                    <span class="n">A</span> <span class="o">=</span> <span class="n">Jsol</span><span class="p">[</span><span class="n">idx</span><span class="p">:</span><span class="n">idx</span><span class="o">+</span><span class="mi">2</span><span class="p">,</span> <span class="n">idx</span><span class="p">:</span><span class="n">idx</span><span class="o">+</span><span class="mi">2</span><span class="p">]</span> 
+                    <span class="bp">self</span><span class="o">.</span><span class="n">stab</span><span class="o">.</span><span class="n">blocks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+                    <span class="n">detA</span> <span class="o">=</span> <span class="n">det</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+                    <span class="n">trA</span>  <span class="o">=</span> <span class="n">trace</span><span class="p">(</span><span class="n">A</span><span class="p">)</span> 
+                    <span class="k">if</span> <span class="n">coord</span><span class="o">==</span><span class="s2">&quot;cartesian&quot;</span><span class="p">:</span>
+                        <span class="n">detA</span> <span class="o">=</span> <span class="n">cartesian_to_polar</span><span class="p">(</span><span class="n">detA</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_polar</span><span class="p">,</span> <span class="n">sub_phase</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_phase</span><span class="p">)</span><span class="o">.</span><span class="n">factor</span><span class="p">()</span>
+                        <span class="n">trA</span>  <span class="o">=</span> <span class="n">cartesian_to_polar</span><span class="p">(</span><span class="n">trA</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_polar</span><span class="p">,</span> <span class="n">sub_phase</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_phase</span><span class="p">)</span><span class="o">.</span><span class="n">factor</span><span class="p">()</span>
+                    
+                    <span class="bp">self</span><span class="o">.</span><span class="n">stab</span><span class="o">.</span><span class="n">blocks_det</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">detA</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">stab</span><span class="o">.</span><span class="n">blocks_tr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">trA</span><span class="p">)</span>
+
+                    <span class="k">if</span> <span class="n">eigenvalues</span><span class="p">:</span>
+                        <span class="n">eigvalsA</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eigenvalues</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">detA</span><span class="o">=</span><span class="n">detA</span><span class="p">,</span> <span class="n">trA</span><span class="o">=</span><span class="n">trA</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">coord</span><span class="o">==</span><span class="s2">&quot;cartesian&quot;</span><span class="p">:</span>
+                            <span class="n">eigvalsA</span> <span class="o">=</span> <span class="p">[</span><span class="n">cartesian_to_polar</span><span class="p">(</span><span class="n">eigval</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_polar</span><span class="p">,</span> <span class="n">sub_phase</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_phase</span><span class="p">)</span> <span class="k">for</span> <span class="n">eigval</span> <span class="ow">in</span> <span class="n">eigvalsA</span><span class="p">]</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">stab</span><span class="o">.</span><span class="n">blocks_eigvals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">eigvalsA</span><span class="p">)</span>
+
+                    <span class="k">if</span> <span class="n">bifurcation_curves</span><span class="p">:</span>
+                        <span class="n">bif_aA</span><span class="p">,</span> <span class="n">bif_sigA</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bifurcation_curves</span><span class="p">(</span><span class="n">detA</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs_bif</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">stab</span><span class="o">.</span><span class="n">blocks_bif_a</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bif_aA</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">stab</span><span class="o">.</span><span class="n">blocks_bif_sig</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bif_sigA</span><span class="p">)</span>
+
+                    <span class="k">if</span> <span class="n">trace_curves</span><span class="p">:</span>
+                        <span class="n">tr_aA</span><span class="p">,</span> <span class="n">tr_sigA</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bifurcation_curves</span><span class="p">(</span><span class="n">trA</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs_bif</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">stab</span><span class="o">.</span><span class="n">blocks_tr_a</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tr_aA</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">stab</span><span class="o">.</span><span class="n">blocks_tr_sig</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tr_sigA</span><span class="p">)</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Trying to perform a block analysis while the Jacobian is not block-diagonal&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Steady_state.eigenvalues">
+<a class="viewcode-back" href="../../../modules.html#oscilate.MMS.steady_state.Steady_state.eigenvalues">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">eigenvalues</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">detA</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">trA</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Computes the eigenvalues of a matrix :math:`\textrm{A}`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        A: sympy.Matrix</span>
+<span class="sd">            The matrix whose eigenvalues are to be computed.</span>
+<span class="sd">        detA: sympy.Expr</span>
+<span class="sd">            Determinant of A.</span>
+<span class="sd">            Default is `None`.</span>
+<span class="sd">        trA: sympy.Expr</span>
+<span class="sd">            Trace of A.</span>
+<span class="sd">            Default is `None`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        eigvals: list</span>
+<span class="sd">            The eigenvalues of :math:`\textrm{A}`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;   Computing eigenvalues&quot;</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">A</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">detA</span><span class="p">,</span> <span class="n">trA</span><span class="p">)</span> <span class="o">!=</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="n">eigvals</span> <span class="o">=</span> <span class="p">[</span><span class="n">Rational</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span> <span class="p">(</span><span class="n">trA</span> <span class="o">-</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">trA</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">4</span><span class="o">*</span><span class="n">detA</span><span class="p">)),</span> 
+                       <span class="n">Rational</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span> <span class="p">(</span><span class="n">trA</span> <span class="o">+</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">trA</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">4</span><span class="o">*</span><span class="n">detA</span><span class="p">))]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">lamb</span>        <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\lambda&quot;</span><span class="p">)</span>
+            <span class="n">eig_problem</span> <span class="o">=</span> <span class="n">A</span> <span class="o">-</span> <span class="n">lamb</span> <span class="o">*</span> <span class="n">eye</span><span class="p">(</span><span class="o">*</span><span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+            <span class="n">detEP</span>       <span class="o">=</span> <span class="n">eig_problem</span><span class="o">.</span><span class="n">det</span><span class="p">()</span>
+            <span class="n">eigvals</span>     <span class="o">=</span> <span class="n">solve</span><span class="p">(</span><span class="n">detEP</span><span class="p">,</span> <span class="n">lamb</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">eigvals</span></div>
+
+            
+<div class="viewcode-block" id="Steady_state.bifurcation_curves">
+<a class="viewcode-back" href="../../../modules.html#oscilate.MMS.steady_state.Steady_state.bifurcation_curves">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">bifurcation_curves</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">detJ</span><span class="p">,</span> <span class="n">var_a</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">var_sig</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="n">sfun</span><span class="o">.</span><span class="n">solve_poly2</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute bifurcation curves, defined by the simple bifurcation points of the slow time system obtained for any forcing frequency and amplitude. </span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        detJ: sympy.Expr</span>
+<span class="sd">            The determinant of the matrix.</span>
+<span class="sd">        var_a: bool, optional</span>
+<span class="sd">            Consider the :math:`i^{\textrm{th}}` oscillator&#39;s amplitude :math:`a_i` as the variable and find the bifurcation curve as an expression for :math:`a_i`.</span>
+<span class="sd">            `detJ` is rarely a quadratic polynomial in :math:`a_i`, so this can rarely be computed easily.</span>
+<span class="sd">            Default is `False`.</span>
+<span class="sd">        var_sig: bool, optional</span>
+<span class="sd">            Consider the detuning :math:`\sigma` as the variable and find the bifurcation curve as an expression for :math:`\sigma`.</span>
+<span class="sd">            `detJ` is often a quadratic polynomial in :math:`\sigma`, so this can often be computed.</span>
+<span class="sd">            Default is `True`.</span>
+<span class="sd">        solver: function, optional</span>
+<span class="sd">            The solver to use to compute the bifurcation curves.</span>
+<span class="sd">            Available are solver called as `solve(expr, x)`, which solve `expr=0` for `x`.</span>
+<span class="sd">            :func:`~sympy.solvers.solvers.solve` can be used but is sometimes slow.</span>
+<span class="sd">            Default is :func:`~oscilate.sympy_functions.solve_poly2`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        bif_a : list</span>
+<span class="sd">            The bifurcation curves for :math:`a_i^2`.</span>
+<span class="sd">        bif_sig : list</span>
+<span class="sd">            The bifurcation curves for :math:`\sigma`. </span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Simple bifurcations are associated to real eigenvalues of the Jacobian matrix crossing the imaginary axis, hence passing through 0. As the determinant is the product of the eigenvalues, the zeros of the determinant give the bifurcation points of the system. </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;   Computing bifurcation curves&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Check if a stability analysis was performed</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="s2">&quot;Jsol&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">stab</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;There was no stability analysis performed.&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="c1"># Check if the stability analysis is expressed in polar coordinates</span>
+        <span class="k">if</span> <span class="s2">&quot;p&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">cartesian_coordinates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">p</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">q</span>
+            <span class="n">symbols_det</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">detJ</span><span class="o">.</span><span class="n">atoms</span><span class="p">(</span><span class="n">Symbol</span><span class="p">))</span> 
+            <span class="k">for</span> <span class="n">cartesian_coordinate</span> <span class="ow">in</span> <span class="n">cartesian_coordinates</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">cartesian_coordinate</span> <span class="ow">in</span> <span class="n">symbols_det</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Substitutions from cartesian back to polar coordinates were incomplete. </span><span class="se">\n</span><span class="s2"> &quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;Try other substitutions manually or compute the Jacobian&#39;s determinant using block partitions if possible&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Compute the bifurcation curves from the determinant of the Jacobian</span>
+        <span class="k">if</span> <span class="n">var_a</span> <span class="ow">and</span> <span class="n">sfun</span><span class="o">.</span><span class="n">check_solvability</span><span class="p">(</span><span class="n">detJ</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">solve_dof</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">):</span>
+            <span class="n">bif_a</span> <span class="o">=</span> <span class="n">solver</span><span class="p">(</span><span class="n">detJ</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">solve_dof</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">bif_a</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">if</span> <span class="n">var_sig</span> <span class="ow">and</span> <span class="n">sfun</span><span class="o">.</span><span class="n">check_solvability</span><span class="p">(</span><span class="n">detJ</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="p">):</span>
+            <span class="n">bif_sig</span> <span class="o">=</span> <span class="n">solver</span><span class="p">(</span><span class="n">detJ</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">bif_sig</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        <span class="c1"># Return</span>
+        <span class="k">return</span> <span class="n">bif_a</span><span class="p">,</span> <span class="n">bif_sig</span></div>
+
+    
+<div class="viewcode-block" id="Steady_state.trace_curves">
+<a class="viewcode-back" href="../../../modules.html#oscilate.MMS.steady_state.Steady_state.trace_curves">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">trace_curves</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trJ</span><span class="p">,</span> <span class="n">var_a</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">var_sig</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="n">sfun</span><span class="o">.</span><span class="n">solve_poly2</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute curves capturing the variations of the trace of the Jacobian. For 2 by 2 Jacobians, a negative trace with a positive determinant indicates a stable response.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        trJ: sympy.Expr</span>
+<span class="sd">            The trace of the matrix.</span>
+<span class="sd">        var_a: bool, optional</span>
+<span class="sd">            Consider the :math:`i^{\textrm{th}}` oscillator&#39;s amplitude :math:`a_i` as the variable and find the trace curve as an expression for :math:`a_i`.</span>
+<span class="sd">            Default is `False`.</span>
+<span class="sd">        var_sig: bool, optional</span>
+<span class="sd">            Consider the detuning :math:`\sigma` as the variable and find the trace curve as an expression for :math:`\sigma`.</span>
+<span class="sd">            Default is `True`.</span>
+<span class="sd">        solver: function, optional</span>
+<span class="sd">            The solver to use to compute the trace curves.</span>
+<span class="sd">            Available are solver called as `solve(expr, x)`, which solve `expr=0` for `x`.</span>
+<span class="sd">            :func:`~sympy.solvers.solvers.solve` can be used but is sometimes slow.</span>
+<span class="sd">            Default is :func:`~oscilate.sympy_functions.solve_poly2`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        tr_a : list</span>
+<span class="sd">            The trace curves for :math:`a_i^2`.</span>
+<span class="sd">        tr_sig : list</span>
+<span class="sd">            The trace curves for :math:`\sigma`. </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;   Computing trace curves&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Check if a stability analysis was performed</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="s2">&quot;Jsol&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">stab</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;There was no stability analysis performed.&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="c1"># Check if the stability analysis is expressed in polar coordinates</span>
+        <span class="k">if</span> <span class="s2">&quot;p&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">cartesian_coordinates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">p</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">q</span>
+            <span class="n">symbols_tr</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">trJ</span><span class="o">.</span><span class="n">atoms</span><span class="p">(</span><span class="n">Symbol</span><span class="p">))</span> 
+            <span class="k">for</span> <span class="n">cartesian_coordinate</span> <span class="ow">in</span> <span class="n">cartesian_coordinates</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">cartesian_coordinate</span> <span class="ow">in</span> <span class="n">symbols_tr</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Substitutions from cartesian back to polar coordinates were incomplete. </span><span class="se">\n</span><span class="s2"> &quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;Try other substitutions manually or compute the Jacobian&#39;s  trace using block partitions if possible&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Add curves related to the trace of the Jacobian if it is not a constant</span>
+        <span class="k">if</span> <span class="n">var_a</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">solve_dof</span><span class="p">]</span> <span class="ow">in</span> <span class="n">trJ</span><span class="o">.</span><span class="n">atoms</span><span class="p">(</span><span class="n">Symbol</span><span class="p">):</span>
+            <span class="n">tr_a</span>   <span class="o">+=</span> <span class="n">solver</span><span class="p">(</span><span class="n">trJ</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">solve_dof</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">tr_a</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        <span class="k">if</span> <span class="n">var_sig</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">trJ</span><span class="o">.</span><span class="n">atoms</span><span class="p">(</span><span class="n">Symbol</span><span class="p">)):</span>
+            <span class="n">tr_sig</span> <span class="o">+=</span> <span class="n">solver</span><span class="p">(</span><span class="n">trJ</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">tr_sig</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        <span class="c1"># Return</span>
+        <span class="k">return</span> <span class="n">tr_a</span><span class="p">,</span> <span class="n">tr_sig</span></div>
+</div>
+
+
+<div class="viewcode-block" id="Substitutions_SS">
+<a class="viewcode-back" href="../../../modules.html#oscilate.MMS.steady_state.Substitutions_SS">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Substitutions_SS</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Substitutions used in the steady state evaluations.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mms</span><span class="p">):</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">sub_scaling_back</span> <span class="o">=</span> <span class="n">mms</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_scaling_back</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sub_B</span>            <span class="o">=</span> <span class="n">mms</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_B</span>
+        <span class="k">pass</span></div>
+
+        
+    
+<div class="viewcode-block" id="Forcing_SS">
+<a class="viewcode-back" href="../../../modules.html#oscilate.MMS.steady_state.Forcing_SS">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Forcing_SS</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Define the forcing on the system.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mms</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">F</span>            <span class="o">=</span> <span class="n">mms</span><span class="o">.</span><span class="n">forcing</span><span class="o">.</span><span class="n">F</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">f_order</span>      <span class="o">=</span> <span class="n">mms</span><span class="o">.</span><span class="n">forcing</span><span class="o">.</span><span class="n">f_order</span></div>
+
+        
+<div class="viewcode-block" id="Coord_SS">
+<a class="viewcode-back" href="../../../modules.html#oscilate.MMS.steady_state.Coord_SS">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Coord_SS</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The coordinates used in the steady state analysis.</span>
+<span class="sd">    &quot;&quot;&quot;</span>      
+    
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+
+    
+<div class="viewcode-block" id="Sol_SS">
+<a class="viewcode-back" href="../../../modules.html#oscilate.MMS.steady_state.Sol_SS">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Sol_SS</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Solutions obtained when evaluating at steady state.</span>
+<span class="sd">    &quot;&quot;&quot;</span>                
+    
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">mms</span><span class="p">):</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">xO</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span>  <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">ndof</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xO</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="p">[</span><span class="n">xio</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_SS</span><span class="p">)</span> <span class="k">for</span> <span class="n">xio</span> <span class="ow">in</span> <span class="n">mms</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">xO_polar</span><span class="p">[</span><span class="n">ix</span><span class="p">]]</span> <span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mms</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">ix</span><span class="p">],</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">mms</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_SS</span><span class="p">)</span> <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="s2">&quot;all solution orders were not rewritten in polar form&quot;</span> <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Stab_SS">
+<a class="viewcode-back" href="../../../modules.html#oscilate.MMS.steady_state.Stab_SS">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Stab_SS</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Stability analysis parameters and outputs.</span>
+<span class="sd">    &quot;&quot;&quot;</span>                
+    
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>  </div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Vincent MAHE.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
