@@ -7,6 +7,13 @@ This configuration was studied by Nayfeh and Mook in *Nonlinear Oscillations* (1
 System description
 ^^^^^^^^^^^^^^^^^^
 
+.. figure:: /_static/Duffing_oscillator.svg
+   :alt: Nonlinear system.
+   :width: 70%
+   :align: center
+
+   Illustration of a forced Duffing oscillator.
+
 The system's equation is
 
 .. math::

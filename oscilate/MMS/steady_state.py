@@ -442,7 +442,7 @@ class Steady_state:
             sub_cart.append( (a[ix]*sin(beta[ix])     , q[ix]) )
             sub_cart.append( (a[ix]**2*cos(2*beta[ix]), p[ix]**2 - q[ix]**2) )
             sub_cart.append( (a[ix]**2*sin(2*beta[ix]), 2*p[ix]*q[ix]) )
-            sub_cart.append( (a[ix]**2                            , p[ix]**2 + q[ix]**2) )
+            sub_cart.append( (a[ix]**2                , p[ix]**2 + q[ix]**2) )
             
             sub_polar.append( (p[ix], a[ix]*cos(beta[ix])) )
             sub_polar.append( (q[ix], a[ix]*sin(beta[ix])) )

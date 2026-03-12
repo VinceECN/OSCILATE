@@ -924,9 +924,8 @@ class Multiple_scales_system:
                                       .collect(collect_omega)
                                       )
             if rewrite_polar == range(self.Ne+1): # Construct the full response if relevant
-                x[ix] = sum([self.eps**(io+self.eps_pow_0) * xO_polar[ix][io] for io in range(self.Ne+1)]).simplify()
-                list_cos_sin = list(x[ix].atoms(cos, sin)) # Get the sin and cosine terms from x
-                x[ix] = x[ix].expand().collect(list_cos_sin) # Factor by the cos and sin terms
+                x[ix] = sum([self.eps**(io+self.eps_pow_0) * xO_polar[ix][io] for io in range(self.Ne+1)])
+                x[ix] = x[ix].expand().collect(collect_omega) # Factor by the cos and sin terms
             else:
                 x[ix] = "all solution orders were not rewritten in polar form"
         # Store
