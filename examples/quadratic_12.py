@@ -40,7 +40,7 @@ kwargs_mms = dict(ratio_omegaMMS=ratio_omegaMMS, ratio_omega_osc=ratio_omega_osc
 mms = MMS.Multiple_scales_system(dyn, eps, Ne, omega_ref, sub_scaling, **kwargs_mms)
 
 # Application of the MMS
-mms.apply_MMS()
+mms.apply_MMS(rewrite_polar="all")
 
 # Evaluation at steady state
 ss = MMS.Steady_state(mms)

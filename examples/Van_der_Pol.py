@@ -6,9 +6,6 @@ from sympy.physics.vector.printing import init_vprinting, vlatex
 init_vprinting(use_latex=True, forecolor='White') 
 from oscilate import MMS
 
-import importlib
-importlib.reload(MMS) 
-
 # Parameters and variables
 omega0, c = symbols(r'\omega_0, c', real=True, positive=True)
 mu        = symbols(r'\mu', real=True, positive=True)
@@ -55,7 +52,7 @@ sub_psi = [(mms.omega*t, psi+mms.coord.betat[0])]     # Substitution from the re
 psi_sol = (mms.omega*t - beta_sol).subs([mms.sub.sub_omega]).expand().simplify() # From the beta solution to the psi one
 omegaNL = psi_sol.diff(t).simplify().factor() # Instantaneous oscillation frequency
 list_cos_sin = list(mms.sol.x[0].atoms(cos, sin)) # List of harmonics in the response
-x_sol = mms.sol.x[0].expand().collect(list_cos_sin).subs(mms.sub.sub_t[:-1]).subs(mms.sub.sub_scaling_back).subs(sub_psi) # Time signal
+x_sol = mms.sol.x[0].expand().collect(list_cos_sin).subs(mms.sub.sub_t[:-1]).subs(mms.sub.sub_scaling_back).subs(sub_psi).simplify() # Time signal
 
 # Evaluation at steady state
 ss = MMS.Steady_state(mms)
@@ -74,6 +71,7 @@ eigvals = list(JSS.eigenvals().keys()) # Eigenvalues
 eigvecs = list([item[2][0] for item in JSS.eigenvects()]) # Eigenvectors
 
 # Phase portrait - Numerical evaluation of the symbolic solutions
+print("Numerical evaluation")
 from oscilate.sympy_functions import sympy_to_numpy
 import numpy as np
 
