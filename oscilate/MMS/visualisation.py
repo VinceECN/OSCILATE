@@ -45,14 +45,14 @@ def plot_FRC(FRC, **kwargs):
     fig_param  = kwargs.get("fig_param", dict())
     amp_name   = kwargs.get("amp_name", "amplitude")
     phase_name = kwargs.get("phase_name", "phase")
-    xlim       = kwargs.get("xlim", [coeff*np.min(omega_bbc) for coeff in (0.9, 1.1)])
+    xlim       = kwargs.get("xlim", [coeff*omega_bbc[0] for coeff in (0.9, 1.1)])
     if np.isnan(xlim).any():
         xlim = [None, None]
         
     # FRC - amplitude 
     fig1, ax = plt.subplots(**fig_param)
     ax.plot(omega_bbc, a, c="tab:grey", lw=0.7)
-    ax.axvline(np.min(omega_bbc), c="k")
+    ax.axvline(omega_bbc[0], c="k")
     [ax.plot(omegai, a, c="tab:blue") for omegai in omega]
     [ax.plot(omegai, a, c="tab:red", lw=0.7) for omegai in omega_bif]
     
@@ -60,11 +60,10 @@ def plot_FRC(FRC, **kwargs):
     ax.set_xlabel(r"$\omega$")
     ax.set_ylabel(r"${}$".format(amp_name))
     ax.margins(y=0)
-    plt.show(block=False)
     
     # FRC - phase
     fig2, ax = plt.subplots(**fig_param)
-    ax.axvline(np.min(omega_bbc), c="k")
+    ax.axvline(omega_bbc[0], c="k")
     ax.axhline(np.pi/2, c="k", lw=0.7)
     [ax.plot(omegai, phasei, c="tab:blue") for (omegai, phasei) in zip(omega, phase)]
     [ax.plot(omegai, phasei, c="tab:red", lw=0.7) for (omegai, phasei) in zip(omega_bif, phase_bif)]
@@ -72,7 +71,6 @@ def plot_FRC(FRC, **kwargs):
     ax.set_xlim(xlim)
     ax.set_xlabel(r"$\omega$")
     ax.set_ylabel(r"${}$".format(phase_name))
-    plt.show(block=False)
     
     # Return
     return fig1, fig2
@@ -113,7 +111,6 @@ def plot_ARC(ARC, **kwargs):
     ax.set_xlabel(r"$F$")
     ax.set_ylabel(r"${}$".format(amp_name))
     ax.margins(x=0, y=0)
-    plt.show(block=False)
 
     # ARC - phase
     fig2, ax = plt.subplots(**fig_param)
@@ -124,7 +121,6 @@ def plot_ARC(ARC, **kwargs):
     ax.set_xlabel(r"$F$")
     ax.set_ylabel(r"${}$".format(phase_name))
     ax.margins(x=0)
-    plt.show(block=False)
     
     # Return
     return fig1, fig2
