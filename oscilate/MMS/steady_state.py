@@ -372,7 +372,7 @@ class Steady_state:
         Eq_bbc = self.sol.fbeta[solve_dof].subs(self.sub.sub_solve).subs(self.sub.sub_B).subs(sub_free)
         
         # Compute the backbone curve
-        self.sol.sigma_bbc = solve(Eq_bbc, self.sigma)[0].simplify()
+        self.sol.sigma_bbc = solve(Eq_bbc, self.sigma)[0].expand().collect(self.coord.a[solve_dof])
         self.sol.omega_bbc = self.omegaMMS + self.eps*self.sol.sigma_bbc
         
         self.sub.sub_free = sub_free
