@@ -77,7 +77,6 @@ def plot_FRC(FRC, **kwargs):
     # Return
     return fig1, fig2
 
-@staticmethod
 def plot_ARC(ARC, **kwargs):
     r"""
     Plots the amplitude-response curves (ARC), both forcing amplitude-amplitude and forcing amplitude-phase.
