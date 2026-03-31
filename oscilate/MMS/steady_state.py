@@ -9,10 +9,9 @@ This sub-module defines the steady state system from the multiple scales one, an
 """
 
 #%% Imports and initialisation
-from sympy import (exp, I, conjugate, re, im, Rational, 
-                   symbols, Symbol, Function, solve, dsolve,
-                   cos, sin, tan, srepr, sympify, simplify, 
-                   zeros, det, trace, eye, Mod, sqrt)
+from sympy import (Rational, symbols, Symbol, Expr, solve, 
+                   cos, sin, srepr, sympify, simplify, 
+                   zeros, det, trace, eye, sqrt)
 from sympy.simplify.fu import TR10
 from .. import sympy_functions as sfun
 from .mms import cartesian_to_polar
@@ -28,13 +27,16 @@ class Steady_state:
     ----------
     mms : Multiple_scales_system
         The multiple scales system.
-
-    Notes
-    -----
-    Description of the steady state analysis.
-
-    
     """
+
+    # Class-level annotations for pyreverse
+    eps:             Symbol
+    ndof:            int
+    omegaMMS:        Expr
+    omega_ref:       Symbol
+    ratio_omegaMMS:  int | Rational
+    ratio_omega_osc: list
+    sigma:           Symbol
     
     def __init__(self, mms):
         """

@@ -10,11 +10,12 @@ This sub-module defines the multiple scales system from the dynamical one, and t
 
 #%% Imports and initialisation
 from sympy import (exp, I, conjugate, re, im, Rational, 
-                   symbols, Symbol, Function, sympify, simplify, 
+                   symbols, Symbol, Function, Expr, sympify, simplify, 
                    solve, dsolve, cos, sin, tan, sympify, Mod)
 from sympy.simplify.fu import TR5, TR8, TR10
 from .. import sympy_functions as sfun
 import itertools
+from __future__ import annotations
 
 #%% Classes and functions
 def scale_parameters(param, scaling, eps):
@@ -135,16 +136,34 @@ class Multiple_scales_system:
             \omega_i = r_i \omega_{\textrm{ref}} + \delta_i.
 
         Default is 0 for each oscillator.
-
-    Notes
-    -----
-    Description of the method of multiple scales.
-
-    
     """
+
+    # Class-level annotations for pyreverse
+    EqO:             list
+    EqO_t0:          list
+    Ne:              int
+    detunings:       list
+    eps:             Symbol
+    eps_pow_0:       int
+    ndof:            int
+    omega:           Symbol
+    omegaMMS:        Expr
+    omega_ref:       Symbol
+    omegas:          list
+    omegas_O0:       list
+    ratio_omegaMMS:  int | Rational
+    ratio_omega_osc: list
+    sigma:           Symbol
+    t:               Symbol
+    tS:              list
+    xO:              list
+    xO_t0:           list
     
-    def __init__(self, dynamical_system, eps, Ne, omega_ref, sub_scaling, 
-                 ratio_omegaMMS=1, eps_pow_0=0, **kwargs):
+    def __init__(self,
+             dynamical_system, eps, Ne, omega_ref, sub_scaling,
+             ratio_omegaMMS = 1, eps_pow_0 = 0, ratio_omega_osc = None,
+             detunings = 0
+             ):
         """
         Transform the dynamical system introducing asymptotic series and multiple time scales. 
         """
@@ -186,8 +205,10 @@ class Multiple_scales_system:
         
         # Oscillators' frequencies (internal resonances and detuning)
         self.omegas = dynamical_system.omegas
-        self.ratio_omega_osc = kwargs.get("ratio_omega_osc", [None]   *self.ndof)
-        self.detunings       = kwargs.get("detunings",       [0]*self.ndof)
+        if ratio_omega_osc == None:
+            self.ratio_omega_osc = [None]*self.ndof
+        if detunings == 0:
+            self.detunings = [0]*self.ndof
         self.oscillators_frequencies()        
         
         # Coordinates
@@ -263,19 +284,19 @@ class Multiple_scales_system:
             xO_t = []          # Temporary xO(t) -> depend on the physical time t
             x_expanded.append(0) # Initialise the current x to 0
             
-            for it in range(self.Ne+1):
+            for io in range(self.Ne+1):
             
                 # Define time-dependent asymptotic terms
-                xO_t.append(Function(r'x_{{{},{}}}'.format(ix,it), real=True)(self.t))
-                x_expanded[ix] += self.eps**(it+eps_pow_0) * xO_t[it]
+                xO_t.append(Function(r'x_{{{},{}}}'.format(ix,io), real=True)(self.t))
+                x_expanded[ix] += self.eps**(io+eps_pow_0) * xO_t[io]
                 
                 # Define time scales-dependent asymptotic terms
-                xO[ix].append(Function(xO_t[it].name, real=True)(*self.tS))
+                xO[ix].append(Function(xO_t[io].name, real=True)(*self.tS))
                 
                 # Substitutions from xO(t) and its time derivatives to xO(*tS) and its time scales derivatives
-                sub_xO_t.extend( [(xO_t[it].diff(self.t,2), Chain_rule_d2fdt2(xO[ix][it], self.tS, self.eps)), 
-                                  (xO_t[it].diff(self.t,1), Chain_rule_dfdt  (xO[ix][it], self.tS, self.eps)), 
-                                  (xO_t[it]               , xO[ix][it])] )
+                sub_xO_t.extend( [(xO_t[io].diff(self.t,2), Chain_rule_d2fdt2(xO[ix][io], self.tS, self.eps)), 
+                                  (xO_t[io].diff(self.t,1), Chain_rule_dfdt  (xO[ix][io], self.tS, self.eps)), 
+                                  (xO_t[io]               , xO[ix][io])] )
             
             # Substitutions from x to xO(t)
             sub_x.append((dynamical_system.x[ix], x_expanded[ix]))
@@ -980,6 +1001,10 @@ class Forcing_MMS:
     
     - Forcing terms (direct or parametric) `forcing_term`
     """
+
+    # Class-level annotations for pyreverse
+    F:  Symbol
+    fF: list
     
     def __init__(self, F, f_order, fF, forcing_term):
         self.F       = F
@@ -991,6 +1016,15 @@ class Coord_MMS:
     """
     The coordinates used in the MMS.
     """      
+
+    # Class-level annotations for pyreverse
+    A:     list
+    B:     list
+    a:     list
+    at:    list
+    beta:  list
+    betat: list
+    phi:   list
     
     def __init__(self, mms):
     

@@ -9,7 +9,7 @@ This sub-module defines the dynamical system.
 """
 
 #%% Imports and initialisation
-from sympy import sympify
+from sympy import sympify, Symbol, Function, Expr
 
 #%% Classes and functions
 class Dynamical_system:
@@ -36,8 +36,15 @@ class Dynamical_system:
         It can be used to define parametric forcing. Typically, if the forcing is :math:`x F \cos(\omega t)`, then ``fF = x``.
         Default is a list of 1, so the forcing is direct. 
     """
+
+    # Class-level annotations for pyreverse
+    Eq:     list
+    ndof:   int
+    omegas: list
+    t:      Symbol
+    x:      list
     
-    def __init__(self, t, x, Eq, omegas, **kwargs):
+    def __init__(self, t, x, Eq, omegas, F = 0, fF = None):
         r"""
         Initialisation of the dynamical system.
         """
@@ -61,8 +68,10 @@ class Dynamical_system:
             self.omegas = [omegas]
             
         # Forcing
-        F  = kwargs.get("F", sympify(0))
-        fF = kwargs.get("fF", [1]*self.ndof)
+        F  = sympify(F)
+        if fF == None:
+            fF = [1]*self.ndof
+        
         if not isinstance(fF, list): 
             fF = [fF]
         for ix, coeff in enumerate(fF):
