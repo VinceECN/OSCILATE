@@ -15,7 +15,7 @@ from sympy import (exp, I, conjugate, re, im, Rational,
 from sympy.simplify.fu import TR5, TR8, TR10
 from .. import sympy_functions as sfun
 import itertools
-from __future__ import annotations
+from typing import Union
 
 #%% Classes and functions
 def scale_parameters(param, scaling, eps):
@@ -63,8 +63,106 @@ def scale_parameters(param, scaling, eps):
         sub_scaling[1].append( (param_scaled[ii], p / eps**pow_p) )
         
     return param_scaled, sub_scaling
+            
+class Substitutions_MMS:
+    """
+    Substitutions used in the MMS.
+    """
+
+    # Class-level annotations for pyreverse
+    sub_A: list[tuple[Expr]]
+    sub_B: list 
+    sub_beta: list[tuple[Expr]]
+    sub_omega: tuple[Expr]
+    sub_omegas: list[tuple[Expr]] 
+    sub_phi: list[tuple[Expr]] 
+    sub_scaling: list[tuple[Expr]] 
+    sub_scaling_back: list[tuple[Expr]] 
+    sub_sigma: tuple[Expr] 
+    sub_t: list[tuple[Expr]]  
+    sub_tS_to_t_func: list[tuple[Function]]   
+    sub_x: list[tuple[Expr]]   
+    sub_xO : list[tuple[Expr]]   
+    sub_xO_t: list[tuple[Expr]]   
+    
+    def __init__(self, sub_t, sub_xO_t, sub_x, sub_scaling, sub_omega, sub_sigma): 
+        self.sub_t            = sub_t
+        self.sub_xO_t       = sub_xO_t
+        self.sub_x            = sub_x
+        self.sub_scaling      = sub_scaling[0]
+        self.sub_scaling_back = sub_scaling[1]
+        self.sub_omega        = sub_omega
+        self.sub_sigma        = sub_sigma
         
+class Forcing_MMS:
+    r"""
+    Define the forcing on the system as
+    
+    - A forcing amplitude `F`
+    
+    - A scaling order `f_order` for the forcing
+    
+    - Forcing coefficients `fF`
+    
+    - Forcing terms (direct or parametric) `forcing_term`
+    """
+
+    # Class-level annotations for pyreverse
+    F           : Symbol
+    fF          : list[Union[Expr, int]]
+    f_order     : list[int]
+    forcing_term: list[Expr]
+    
+    def __init__(self, F, f_order, fF, forcing_term):
+        self.F       = F
+        self.f_order = f_order
+        self.fF      = fF
+        self.forcing_term = forcing_term
         
+class Coord_MMS:
+    """
+    The coordinates used in the MMS.
+    """      
+
+    # Class-level annotations for pyreverse
+    A:     list[Symbol]
+    B:     list[Symbol]
+    a:     list[Symbol]
+    at:    list[Symbol]
+    beta:  list[Symbol]
+    betat: list[Symbol]
+    phi:   list[Symbol]
+    
+    def __init__(self, mms):
+    
+        self.A = [] # Complex amplitudes of the homogeneous leading order solutions
+        self.B = [] # Real amplitudes of the particular leading order solutions (nonzero only if the forcing is hard)
+        
+        for ix in range(mms.ndof):
+            self.A.append( Function(r'A_{}'.format(ix), complex=True)(*mms.tS[1:]) ) 
+            
+            if mms.forcing.f_order == 0: # Condition for hard forcing
+                self.B.append( symbols(r'B_{}'.format(ix), real=True) ) 
+
+class Sol_MMS:
+    """
+    Solutions obtained when applying the MMS.
+    """             
+
+    # Class-level annotations for pyreverse
+    DA      : list[list[Expr]]
+    fa      : list[Expr]
+    faO     : list[list[Expr]]
+    fbeta   : list[Expr]
+    fbetaO  : list[list[Expr]]
+    sec     : list[list[Expr]]
+    x       : Union[list[str], list[Expr]]
+    xO      : list[list[Expr]]
+    xO_polar: list[list[Expr]]
+    
+    def __init__(self):
+        pass
+
 class Multiple_scales_system:
     r"""
     The multiple scales system.
@@ -139,25 +237,29 @@ class Multiple_scales_system:
     """
 
     # Class-level annotations for pyreverse
-    EqO:             list
-    EqO_t0:          list
+    EqO:             list[list[Expr]]
+    EqO_t0:          list[list[Expr]]
     Ne:              int
+    coord:           Coord_MMS
     detunings:       list
     eps:             Symbol
     eps_pow_0:       int
+    forcing:         Forcing_MMS
     ndof:            int
     omega:           Symbol
     omegaMMS:        Expr
     omega_ref:       Symbol
-    omegas:          list
-    omegas_O0:       list
-    ratio_omegaMMS:  int | Rational
-    ratio_omega_osc: list
+    omegas:          list[Symbol]
+    omegas_O0:       list[Expr]
+    ratio_omegaMMS:  Union[int, Rational]
+    ratio_omega_osc: list[Union[int, Rational]]
     sigma:           Symbol
+    sol:             Sol_MMS
+    sub:             Substitutions_MMS
     t:               Symbol
-    tS:              list
-    xO:              list
-    xO_t0:           list
+    tS:              list[Symbol]
+    xO:              list[list[Function]]
+    xO_t0:           list[list[Function]]
     
     def __init__(self,
              dynamical_system, eps, Ne, omega_ref, sub_scaling,
@@ -974,76 +1076,6 @@ class Multiple_scales_system:
         harmonics = list(dict.fromkeys(harmonics))
         harmonics.sort()
         return harmonics
-    
-class Substitutions_MMS:
-    """
-    Substitutions used in the MMS.
-    """
-    
-    def __init__(self, sub_t, sub_xO_t, sub_x, sub_scaling, sub_omega, sub_sigma): 
-        self.sub_t            = sub_t
-        self.sub_xO_t       = sub_xO_t
-        self.sub_x            = sub_x
-        self.sub_scaling      = sub_scaling[0]
-        self.sub_scaling_back = sub_scaling[1]
-        self.sub_omega        = sub_omega
-        self.sub_sigma        = sub_sigma
-        
-class Forcing_MMS:
-    r"""
-    Define the forcing on the system as
-    
-    - A forcing amplitude `F`
-    
-    - A scaling order `f_order` for the forcing
-    
-    - Forcing coefficients `fF`
-    
-    - Forcing terms (direct or parametric) `forcing_term`
-    """
-
-    # Class-level annotations for pyreverse
-    F:  Symbol
-    fF: list
-    
-    def __init__(self, F, f_order, fF, forcing_term):
-        self.F       = F
-        self.f_order = f_order
-        self.fF      = fF
-        self.forcing_term = forcing_term
-        
-class Coord_MMS:
-    """
-    The coordinates used in the MMS.
-    """      
-
-    # Class-level annotations for pyreverse
-    A:     list
-    B:     list
-    a:     list
-    at:    list
-    beta:  list
-    betat: list
-    phi:   list
-    
-    def __init__(self, mms):
-    
-        self.A = [] # Complex amplitudes of the homogeneous leading order solutions
-        self.B = [] # Real amplitudes of the particular leading order solutions (nonzero only if the forcing is hard)
-        
-        for ix in range(mms.ndof):
-            self.A.append( Function(r'A_{}'.format(ix), complex=True)(*mms.tS[1:]) ) 
-            
-            if mms.forcing.f_order == 0: # Condition for hard forcing
-                self.B.append( symbols(r'B_{}'.format(ix), real=True) ) 
-
-class Sol_MMS:
-    """
-    Solutions obtained when applying the MMS.
-    """                
-    
-    def __init__(self):
-        pass
 
 def Chain_rule_dfdt(f, tS, eps):
     r"""

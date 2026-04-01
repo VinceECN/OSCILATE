@@ -10,8 +10,29 @@ This sub-module defines the dynamical system.
 
 #%% Imports and initialisation
 from sympy import sympify, Symbol, Function, Expr
+from typing import Union
 
 #%% Classes and functions
+class Forcing:
+    r"""
+    Define the forcing on the system as
+
+    - A forcing amplitude `F`,
+    
+    - Forcing coefficients `fF`, used to introduce parametric forcing or simply weight the harmonic forcing.
+    
+    For the :math:`i^\textrm{th}` oscillator, denoting `fF[i]` as :math:`f_{F,i}(\boldsymbol{x}(t), \dot{\boldsymbol{x}}(t), \ddot{\boldsymbol{x}}(t))`, 
+    the forcing term on that oscillator is :math:`f_{F,i} F \cos(\omega t)`.
+    """
+
+    # Class-level annotations for pyreverse
+    F : Symbol
+    fF: list[Union[Expr, int]]
+    
+    def __init__(self, F, fF):
+        self.F       = F
+        self.fF = fF
+
 class Dynamical_system:
     r"""
     The dynamical system studied. 
@@ -38,11 +59,12 @@ class Dynamical_system:
     """
 
     # Class-level annotations for pyreverse
-    Eq:     list
-    ndof:   int
-    omegas: list
-    t:      Symbol
-    x:      list
+    Eq:      list[Expr]
+    forcing: Forcing
+    ndof:    int
+    omegas:  list[Symbol]
+    t:       Symbol
+    x:       list[Function]
     
     def __init__(self, t, x, Eq, omegas, F = 0, fF = None):
         r"""
@@ -79,18 +101,3 @@ class Dynamical_system:
                 fF[ix] = sympify(coeff)
         self.forcing = Forcing(F, fF)
         
-class Forcing:
-    r"""
-    Define the forcing on the system as
-
-    - A forcing amplitude `F`,
-    
-    - Forcing coefficients `fF`, used to introduce parametric forcing or simply weight the harmonic forcing.
-    
-    For the :math:`i^\textrm{th}` oscillator, denoting `fF[i]` as :math:`f_{F,i}(\boldsymbol{x}(t), \dot{\boldsymbol{x}}(t), \ddot{\boldsymbol{x}}(t))`, 
-    the forcing term on that oscillator is :math:`f_{F,i} F \cos(\omega t)`.
-    """
-    
-    def __init__(self, F, fF):
-        self.F       = F
-        self.fF = fF

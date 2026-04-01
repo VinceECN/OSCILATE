@@ -84,7 +84,7 @@ def patch_node(match):
     attrs = attrs.replace('style="solid"', f'style="filled", fillcolor="{color}"')
     return f'"{node_id}" [{attrs}]'
 
-content = re.sub(r'"([^"]+)"\s*\[([^\]]+)\]', patch_node, content)
+content = re.sub(r'"([^"]+)"\s*\[([^\]]*(?:\[[^\]]*(?:\[[^\]]*\][^\]]*)*\][^\]]*)*)\](?=;)', patch_node, content)
 
 # 4. Patch edge styles
 def patch_edge(match):
@@ -119,6 +119,19 @@ for i, (label, members) in enumerate(CLUSTERS.items()):
 """
 
 content = content.rstrip("}\n") + clusters_dot + "\n}\n"
+
+# 6. Truncate long method signatures
+def truncate_methods(match):
+    label = match.group(0)
+    def shorten(m):
+        method = m.group(0)
+        if len(method) > 50:  # adjust threshold as needed
+            name = method.split('(')[0]
+            return name + '(...)<br ALIGN="LEFT"/>'
+        return method
+    return re.sub(r'\w+\([^<]*\)<br ALIGN="LEFT"/>', shorten, label)
+
+content = re.sub(r'<\{[^}]+\}>', truncate_methods, content)
 
 # ── Write output ───────────────────────────────────────────────────────────────
 

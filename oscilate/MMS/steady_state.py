@@ -9,19 +9,132 @@ This sub-module defines the steady state system from the multiple scales one, an
 """
 
 #%% Imports and initialisation
-from sympy import (Rational, symbols, Symbol, Expr, solve, 
+from sympy import (Rational, symbols, Symbol, Matrix, Expr, solve, 
                    cos, sin, srepr, sympify, simplify, 
                    zeros, det, trace, eye, sqrt)
 from sympy.simplify.fu import TR10
 from .. import sympy_functions as sfun
 from .mms import cartesian_to_polar
+from typing import Union
 
 #%% Classes and functions
+class Substitutions_SS:
+    """
+    Substitutions used in the steady state evaluations.
+    """
+
+    # Class-level annotations for pyreverse
+    sub_B               : list
+    sub_SS              : list[tuple]
+    sub_cart            : list[tuple[Expr]]
+    sub_free            : list[tuple]
+    sub_phase           : list[tuple[Expr]]
+    sub_polar           : list[tuple[Expr]]
+    sub_scaling_back    : list[tuple[Expr]]
+    sub_solve           : list[tuple[Expr]]
+    
+    def __init__(self, mms):
+        
+        self.sub_scaling_back = mms.sub.sub_scaling_back
+        self.sub_B            = mms.sub.sub_B
+        pass
+        
+    
+class Forcing_SS:
+    """
+    Define the forcing on the system.
+    """
+
+    # Class-level annotations for pyreverse
+    F      : Symbol
+    f_order: int
+    
+    def __init__(self, mms):
+        self.F            = mms.forcing.F
+        self.f_order      = mms.forcing.f_order
+        
+class Coord_SS:
+    """
+    The coordinates used in the steady state analysis.
+    """      
+    # Class-level annotations for pyreverse
+    a   : list[Symbol]
+    beta: list[Symbol]
+    p   : list[Symbol]
+    q   : list[Symbol]
+    
+    def __init__(self):
+        pass
+    
+class Sol_SS:
+    """
+    Solutions obtained when evaluating at steady state.
+    """        
+
+    # Class-level annotations for pyreverse       
+    F           : Union[Expr, None]
+    cos_phase   : tuple[Expr]
+    fa          : list[Expr]
+    faO         : list[list[Expr]]
+    fbeta       : list[Expr]
+    fbetaO      : list[list[Expr]]
+    fp          : list[Expr]
+    fq          : list[Expr]
+    omega_bbc   : Expr
+    sigma       : list[Expr]
+    sigma_bbc   : Expr
+    sin_phase   : tuple[Expr]
+    sol_a2      : Union[list[Expr], None]
+    solve_dof   : Union[int, None]
+    x           : list[Expr]
+    xO          : list[list[Expr]]
+    
+    def __init__(self, ss, mms):
+        
+        self.xO = []
+        self.x  = []
+        for ix in range(ss.ndof):
+            self.xO.append( [xio.subs(ss.sub.sub_SS) for xio in mms.sol.xO_polar[ix]] )
+            if not isinstance(mms.sol.x[ix], str):
+                self.x.append( mms.sol.x[ix].subs(ss.sub.sub_SS) )
+            else:
+                self.x.append( "all solution orders were not rewritten in polar form" )
+
+
+class Stab_SS:
+    """
+    Stability analysis parameters and outputs.
+    """                
+
+    # Class-level annotations for pyreverse      
+    Jsol            : Matrix
+    Jsolc           : Matrix
+    analysis_coord  : str
+    bif_a           : list[Expr]
+    bif_sigma       : list[Expr]
+    blocks          : list[Matrix]
+    blocks_bif_a    : list[list[Expr]]
+    blocks_bif_sig  : list[list[Expr]]
+    blocks_det      : list[Expr]
+    blocks_eigvals  : list[list[Expr]]
+    blocks_tr       : list[Expr]
+    blocks_tr_a     : list[list[Expr]]
+    blocks_tr_sig   : list[list[Expr]]
+    det_Jsol        : Expr
+    det_Jsolc       : Expr
+    eigvals         : list[Expr]
+    tr_Jsol         : Expr
+    tr_Jsolc        : Expr
+    tr_a            : list[Expr]
+    tr_sigma        : list[Expr]
+    
+    def __init__(self):
+        pass  
+
 class Steady_state:
     r"""
     Steady state analysis of the multiple scales system.
     See :ref:`steady_state` for a detailed description of the dynamical system.
-
 
     Parameters
     ----------
@@ -30,13 +143,18 @@ class Steady_state:
     """
 
     # Class-level annotations for pyreverse
+    coord:           Coord_SS
     eps:             Symbol
+    forcing:         Forcing_SS
     ndof:            int
     omegaMMS:        Expr
     omega_ref:       Symbol
-    ratio_omegaMMS:  int | Rational
-    ratio_omega_osc: list
+    ratio_omegaMMS:  Union[int, Rational]
+    ratio_omega_osc: list[Union[int, Rational]]
     sigma:           Symbol
+    sol:             Sol_SS
+    stab:            Stab_SS
+    sub:             Substitutions_SS
     
     def __init__(self, mms):
         """
@@ -928,57 +1046,3 @@ class Steady_state:
         
         # Return
         return tr_a, tr_sig
-
-class Substitutions_SS:
-    """
-    Substitutions used in the steady state evaluations.
-    """
-    
-    def __init__(self, mms):
-        
-        self.sub_scaling_back = mms.sub.sub_scaling_back
-        self.sub_B            = mms.sub.sub_B
-        pass
-        
-    
-class Forcing_SS:
-    """
-    Define the forcing on the system.
-    """
-    
-    def __init__(self, mms):
-        self.F            = mms.forcing.F
-        self.f_order      = mms.forcing.f_order
-        
-class Coord_SS:
-    """
-    The coordinates used in the steady state analysis.
-    """      
-    
-    def __init__(self):
-        pass
-    
-class Sol_SS:
-    """
-    Solutions obtained when evaluating at steady state.
-    """                
-    
-    def __init__(self, ss, mms):
-        
-        self.xO = []
-        self.x  = []
-        for ix in range(ss.ndof):
-            self.xO.append( [xio.subs(ss.sub.sub_SS) for xio in mms.sol.xO_polar[ix]] )
-            if not isinstance(mms.sol.x[ix], str):
-                self.x.append( mms.sol.x[ix].subs(ss.sub.sub_SS) )
-            else:
-                self.x.append( "all solution orders were not rewritten in polar form" )
-
-
-class Stab_SS:
-    """
-    Stability analysis parameters and outputs.
-    """                
-    
-    def __init__(self):
-        pass  
