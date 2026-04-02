@@ -1,10 +1,10 @@
 .. _example_VdP:
 
-Example 6: Van der Pol oscillator
----------------------------------
+Van der Pol oscillator
+----------------------
 
 MMS example on a Van der Pol oscillator. 
-This configuration is very close from that studied by Nayfeh and Mook in *Nonlinear Oscillations* (1995), section 3.3.4.
+This configuration is very close from that studied by Nayfeh and Mook :cite:`nayfehNonlinearOscillations1995`, section 3.3.4.
 
 
 System description

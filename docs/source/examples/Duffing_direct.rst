@@ -1,8 +1,8 @@
-Example 1: Duffing oscillator
------------------------------
+Duffing oscillator
+------------------
 
-MMS example on the Duffing oscillator subject to harmonic forcing. 
-This configuration was studied by Nayfeh and Mook in *Nonlinear Oscillations* (1995), sections 4.1 and 4.1.1.
+MMS example on the Duffing oscillator subject to a direct harmonic forcing. 
+This configuration was studied by Nayfeh and Mook :cite:`nayfehNonlinearOscillations1995`, sections 4.1 and 4.1.1.
 
 System description
 ^^^^^^^^^^^^^^^^^^
@@ -30,10 +30,10 @@ where
 - :math:`F` is the forcing amplitude,
 - :math:`\omega` is the forcing frequency.
 
-A direct response is sought so the frequency (either backbone curve frequency or forcing frequency) is close from the oscilltor's such that
+A direct response is sought so the frequency (either backbone curve frequency or forcing frequency) is close from the oscillator's, such that
 
 .. math::
-    \omega = \omega_0 + \epsilon \sigma
+    \omega = \omega_0 + \epsilon \sigma,
 
 where
 
@@ -54,11 +54,13 @@ Code description
 The script below allows to
 
 - Construct the dynamical system.
-- Apply the MMS to the system up to order :math:`N_e = 3`. The MMS results can be visualized in LaTeX in an **IPython-based interactive environment** (e.g., VS Code's Python Interactive Window or Jupyter Notebook). For example, to visualize the modulation function :math:`f_\beta(a, \beta)`, use
+- Apply the MMS to the system up to order :math:`N_e = 3`. The MMS results can be visualized in LaTeX in an **IPython-based interactive environment** (e.g., VS Code's Python Interactive Window or Jupyter Notebook). For example, to visualize the modulation function :math:`f_\beta(a, \beta)`, run
 
   .. prompt:: python
 
      mms.sol.fbeta  # Display the symbolic expression for :math:`f_\beta(a, \beta)`
+
+  in the Interactive Window.
 
 - Evaluate the MMS results at steady state. The solutions are stored in ``ss.sol`` (e.g., ``ss.sol.fa``, ``ss.sol.fbeta``).
 - Compute the forced response and the backbone curve. These results are also stored in ``ss.sol`` (e.g., ``ss.sol.sigma``, ``ss.sol.F``, ``ss.sol.omega_bbc``).

@@ -1,8 +1,8 @@
-Example 9: Subharmonic response of a Duffing oscillator
--------------------------------------------------------
+Subharmonic response of a Duffing oscillator
+--------------------------------------------
 
 MMS example on a Duffing oscillator subject to hard forcing triggering a subharmonic response. 
-This configuration was studied by Nayfeh and Mook in *Nonlinear Oscillations* (1995), sections 4.1.2 and 4.1.4.
+This configuration was studied by Nayfeh and Mook :cite:`nayfehNonlinearOscillations1995`, sections 4.1.2 and 4.1.4.
 
 System description
 ^^^^^^^^^^^^^^^^^^

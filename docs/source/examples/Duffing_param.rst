@@ -1,8 +1,8 @@
-Example 5: Parametrically excited Duffing oscillator
-----------------------------------------------------
+Parametrically excited Duffing oscillator
+-----------------------------------------
 
 MMS example on the Duffing oscillator subject to parametric forcing. 
-This configuration was studied by Nayfeh and Mook in *Nonlinear Oscillations* (1995), section 5.7.3.
+This configuration was studied by Nayfeh and Mook :cite:`nayfehNonlinearOscillations1995`, section 5.7.3.
 
 System description
 ^^^^^^^^^^^^^^^^^^
@@ -106,4 +106,4 @@ In the current notations, this is equivalent to
     \end{cases}
 
 which are the outputs for ``ss.sol.x[0][0].simplify()``, ``ss.sol.faO[0][1]``, ``ss.sol.fbetaO[0][1]`` and ``ss.stab.eigvals``, respectively. 
-Note the :math:`\epsilon` factor for the eigenvalues. It is related to the eigenvalues being computed from the reconstituted modulation equations rather than just the :math:`1^{\textrm{st}` order slow time modulation equations.
+Note the :math:`\epsilon` factor for the eigenvalues. It is related to the eigenvalues being computed from the reconstituted modulation equations rather than just the :math:`1^{\textrm{st}}` order slow time modulation equations.

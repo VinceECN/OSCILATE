@@ -1,9 +1,9 @@
-Example 10: Subharmonic response of parametrically excited coupled centrifugal pendulums in 1:1 internal resonance
-------------------------------------------------------------------------------------------------------------------
+Subharmonic response of parametrically excited coupled centrifugal pendulums in 1:1 internal resonance
+------------------------------------------------------------------------------------------------------
 
 MMS example on two coupled centrifugal pendulums in 1:1 internal resonance subject to direct and parametric forcings, triggering a subharmonic response. 
 The pendulums are indirectly and weakly coupled through the rotor that supports them.
-This configuration was studied in V. Mahé et al., *Subharmonic centrifugal pendulum vibration absorbers allowing a rotational mobility*, MSSP (2022).
+This configuration was studied in V. Mahé et al. :cite:`maheSubharmonicCentrifugalPendulum2022`.
 
 System description
 ^^^^^^^^^^^^^^^^^^
@@ -74,7 +74,7 @@ where
   - :math:`T_1` is the forcing amplitude,
   - :math:`\omega` is the forcing frequency (often written :math:`n` as it is actually a forcing order).
 
-A response around :math:`n_p` is sought so the frequency is set to
+A subharmonic response of order 2 is sought, corresponding to oscillations near :math:`2 n_p`, so the frequency is set to
 
 .. math::
     \omega = n_p + \epsilon \sigma

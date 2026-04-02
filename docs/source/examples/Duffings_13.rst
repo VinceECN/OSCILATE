@@ -1,8 +1,8 @@
-Example 2: Coupled Duffings in 1:3 internal resonance
------------------------------------------------------
+Coupled Duffings in 1:3 internal resonance
+------------------------------------------
 
 MMS example on coupled Duffing oscillators in 1:3 internal resonance subject to harmonic forcing. 
-This configuration was studied by Nayfeh and Mook in *Nonlinear Oscillations* (1995), sections 6.6 and 6.6.2.
+This configuration was studied by Nayfeh and Mook :cite:`nayfehNonlinearOscillations1995`, sections 6.6 and 6.6.2.
 
 System description
 ^^^^^^^^^^^^^^^^^^
