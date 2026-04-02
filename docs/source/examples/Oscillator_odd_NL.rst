@@ -1,23 +1,22 @@
-Duffing oscillator
-------------------
+Oscillator with odd nonlinearities
+----------------------------------
 
-MMS example on the Duffing oscillator subject to a direct harmonic forcing. 
-This configuration was studied by Nayfeh and Mook :cite:`nayfehNonlinearOscillations1995`, sections 4.1 and 4.1.1.
+MMS example of an oscillator with odd (cubic, quintic and septic) nonlinearities subject to a direct harmonic forcing. 
 
 System description
 ^^^^^^^^^^^^^^^^^^
 
-.. figure:: /_static/Duffing_oscillator.svg
+.. figure:: /_static/Oscillator_odd_NL.svg
    :alt: Nonlinear system.
    :width: 70%
    :align: center
 
-   Illustration of a forced Duffing oscillator.
+   Illustration of a forced nonlinear oscillator with odd nonlinearities of degree 3, 5 and 7.
 
 The system's equation is
 
 .. math::
-    \ddot{x} + c \dot{x} + \omega_0^2 x + \gamma x^3 = F \cos(\omega t),
+    \ddot{x} + c \dot{x} + \omega_0^2 x + \gamma_3 x^3 + \gamma_5 x^5 + \gamma_7 x^7 = F \cos(\omega t),
 
 where 
 
@@ -26,7 +25,7 @@ where
 - :math:`\dot{(\bullet)} = \mathrm{d}(\bullet)/\mathrm{d}t` is a time derivative,
 - :math:`c` is the linear viscous damping coefficient,
 - :math:`\omega_0` is the oscillator's natural frequency,
-- :math:`\gamma` is the nonlinear coefficient,
+- :math:`\gamma_3,\; \gamma_5, \; \gamma_7` are the nonlinear coefficients,
 - :math:`F` is the forcing amplitude,
 - :math:`\omega` is the forcing frequency.
 
@@ -44,7 +43,7 @@ The parameters are then scaled to indicate how weak they are:
 
 - :math:`c = \epsilon^{N_e} \tilde{c}` indicates that damping is weak (of order :math:`N_e`),
 - :math:`F = \epsilon^{N_e} \tilde{F}` indicates that forcing is weak (of order :math:`N_e`),
-- :math:`\gamma = \epsilon \tilde{\gamma}` indicates that nonlinearities are weak (of order 1).
+- :math:`\gamma_i = \epsilon \tilde{\gamma}_i, \; i=3, 5, 7` indicates that nonlinearities are weak (of order 1).
 
 Note that :math:`N_e` is the order up to which the solutions are sought and the time scales are constructed. 
 It is therefore chosen here to scale the damping and forcing at maximum order. 
@@ -53,21 +52,14 @@ Code description
 ^^^^^^^^^^^^^^^^
 The script below allows to
 
-- Construct the dynamical system.
-- Apply the MMS to the system up to order :math:`N_e = 3`. The MMS results can be visualized in LaTeX in an **IPython-based interactive environment** (e.g., VS Code's Python Interactive Window or Jupyter Notebook). For example, to visualize the modulation function :math:`f_\beta(a, \beta)`, run
-
-  .. prompt:: python
-
-     mms.sol.fbeta  # Display the symbolic expression for :math:`f_\beta(a, \beta)`
-
-  in the Interactive Window.
-
-- Evaluate the MMS results at steady state. The solutions are stored in ``ss.sol`` (e.g., ``ss.sol.fa``, ``ss.sol.fbeta``).
-- Compute the forced response and the backbone curve. These results are also stored in ``ss.sol`` (e.g., ``ss.sol.sigma``, ``ss.sol.F``, ``ss.sol.omega_bbc``).
-- Evaluate the stability of the computed forced solution. The stability results are stored in ``ss.stab`` (e.g., ``ss.stab.eigvals``, ``ss.stab.bif_a``).
+- Construct the dynamical system
+- Apply the MMS to the system up to order :math:`N_e=3`
+- Evaluate the MMS results at steady state
+- Compute the forced response and the backbone curve
+- Evaluate the stability of the computed forced solution. 
 - Evaluate the steady-state results for given numerical values of the parameters and plot the results.
 
-.. literalinclude:: ../../../examples/Duffing_direct.py
+.. literalinclude:: ../../../examples/Oscillator_odd_NL.py
    :language: python
    :linenos:
 

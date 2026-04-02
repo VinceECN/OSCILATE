@@ -13,6 +13,7 @@ These are 1 dof systems
    examples/Rayleigh
    examples/Duffing_SupH
    examples/Duffing_SubH
+   examples/Oscillator_odd_NL
 
 while these involve coupled oscillators
 
