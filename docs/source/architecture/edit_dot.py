@@ -2,7 +2,7 @@ import re
 
 # ── Configuration ──────────────────────────────────────────────────────────────
 
-INPUT  = "classes_MMS_test2.dot" # name of the input file
+INPUT  = "classes_MMS.dot" # name of the input file
 OUTPUT = f"{INPUT[:-4]}_edited.dot" # name of the output file
 
 # Map: substring in node name → fillcolor
