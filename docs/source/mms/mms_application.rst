@@ -194,7 +194,7 @@ Note that only the particular solutions are considered when solving higher order
 .. math::
     x_{i,1}(\boldsymbol{t}) = \underbrace{x_{i,1}^\textrm{h}(\boldsymbol{t})}_{=0} + x_{i,1}^\textrm{p}(t_0, t_1).
 
-This choice can be justified if one assumes that initial conditions are of leading order. Though this is questionable, it is assumed here.
+This choice can be justified if one assumes that initial conditions are of leading order. Though this is questionable, it is assumed here. A more advanced treatment of the initial conditions of higher order solutions is detailed in :cite:`nayfehResolvingControversiesApplication2005`.
 
 The higher order solutions :math:`x_{i,1}(\boldsymbol{t})` are expressed as a function of the leading order unknown amplitudes :math:`\boldsymbol{A}(\boldsymbol{t}_s)`, 
 their slow time derivatives :math:`\textrm{D}_i\boldsymbol{A}(\boldsymbol{t}_s), \; i=1, ..., N_e`, and forcing terms if any (including the hard forcing amplitudes :math:`\boldsymbol{B}`).  
@@ -377,7 +377,9 @@ All solutions previously computed using the complex amplitudes :math:`\boldsymbo
 Reconstituted equations
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-The reconstitution method consists in combining the modulation equations at each slow time scales in order to obtain modulation equations in the physical time. Recalling the chain rule
+The reconstitution method consists in combining the modulation equations at each slow time scales in order to obtain modulation equations in the physical time. The approach used in the ``oscilate`` package corresponds to the *Complete Inconsistent Method* discussed in :cite:`luongoReconstitutionProblemMultiple1999a`, in opposition to consistent approaches which treat each order individually. 
+
+Recalling the chain rule
 
 .. math::
     \dfrac{\textrm{d}(\bullet)}{\textrm{d}t} = \sum_{i=0}^{N_e} \epsilon^{i} \textrm{D}_i(\bullet), 

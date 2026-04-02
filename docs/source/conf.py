@@ -21,8 +21,10 @@ extensions = [
     'sphinx_copybutton',
     'sphinx_prompt',
     'myst_parser',
+    'sphinxcontrib.bibtex',
 ]
 
+# Template configuration
 templates_path = ['_templates']
 exclude_patterns = []
 
@@ -49,6 +51,10 @@ html_theme_options = {
     'navigation_depth': 6,  # default is 4
 }
 
+# Bibliography configuration
+bibtex_bibfiles         = ['refs_oscilate.bib']
+bibtex_default_style    = 'unsrt'  
+bibtex_reference_style  = 'label'
 
 # Types
 autodoc_typehints = "none"  # This hides type hints from the function signature
