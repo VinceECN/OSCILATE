@@ -695,7 +695,7 @@ class Multiple_scales_system:
         # Initialisation
         xO0    = [] # leading order solutions
         sub_xO = [] # Substitutions from xij to its solution
-        sub_B    = [] # Substitutions from the particular solution amplitude Bi to its expression
+        sub_B  = [] # Substitutions from the particular solution amplitude Bi to its expression
         
         # Compute the solutions
         for ix in range(self.ndof):
@@ -966,8 +966,8 @@ class Multiple_scales_system:
                                       .simplify().subs(sub_re_im).subs(self.sub.sub_phi).doit().expand() )
                     
                     # Derive the modulation equations at each order
-                    faO[ix]   .append( solve(sec_im[ix][io], self.coord.a[ix]   .diff(self.tS[io]))[0]                  )
-                    fbetaO[ix].append( solve(sec_re[ix][io], self.coord.beta[ix].diff(self.tS[io]))[0]*self.coord.a[ix] )
+                    faO[ix]   .append( solve(sec_im[ix][io].subs(self.sub.sub_B), self.coord.a[ix]   .diff(self.tS[io]))[0]                  )
+                    fbetaO[ix].append( solve(sec_re[ix][io].subs(self.sub.sub_B), self.coord.beta[ix].diff(self.tS[io]))[0]*self.coord.a[ix] )
                     
                     # Reconstituted modulation equations
                     fa[ix]    += self.eps**io * faO[ix][io]

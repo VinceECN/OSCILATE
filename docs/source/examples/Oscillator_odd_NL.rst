@@ -63,3 +63,44 @@ The script below allows to
    :language: python
    :linenos:
 
+Plot outputs
+^^^^^^^^^^^^
+The plot outputs shown below are generated from the code above. 
+
+Frequency response curve
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+The two figures below display the amplitude and phase responses (blue) of the :math:`1^{\text{st}}` harmonic of the nonlinear oscillator as a function of the excitation frequency and the associated bifurcation curves (red), delimiting unstable from stable zones. The backbone curve is shown in grey and the linear frequency in black.
+
+.. figure:: /_static/examples/Oscillator_odd_NL/FRC_a.svg
+   :alt: Frequency response curve - amplitude
+   :width: 80%
+   :align: center
+
+   Frequency response curve of the nonlinear oscillator (amplitude).
+
+.. figure:: /_static/examples/Oscillator_odd_NL/FRC_beta.svg
+   :alt: Frequency response curve - phase
+   :width: 80%
+   :align: center
+
+   Frequency response curve of the nonlinear oscillator (phase).
+
+Amplitude response curve
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+The two figures below display the amplitude and phase responses (blue) of the :math:`1^{\text{st}}` harmonic of the Duffing oscillator as a function of the excitation amplitude.
+
+.. figure:: /_static/examples/Oscillator_odd_NL/ARC_a.svg
+   :alt: Amplitude response curve - amplitude
+   :width: 80%
+   :align: center
+
+   Amplitude response curve of the nonlinear oscillator (amplitude).
+
+.. figure:: /_static/examples/Oscillator_odd_NL/ARC_beta.svg
+   :alt: Amplitude response curve - phase
+   :width: 80%
+   :align: center
+
+   Amplitude-response curve of the nonlinear oscillator (phase).
