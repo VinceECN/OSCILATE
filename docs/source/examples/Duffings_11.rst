@@ -6,7 +6,7 @@ MMS example on coupled Duffing oscillators in 1:1 internal resonance subject to 
 System description
 ^^^^^^^^^^^^^^^^^^
 
-.. figure:: /_static/Duffing_oscillators_11.svg
+.. figure:: /_static/examples/Duffings_11.svg
    :alt: Nonlinear system.
    :width: 90%
    :align: center

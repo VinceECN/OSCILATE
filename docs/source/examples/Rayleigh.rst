@@ -7,7 +7,7 @@ This configuration was studied by Nayfeh and Mook :cite:`nayfehNonlinearOscillat
 System description
 ^^^^^^^^^^^^^^^^^^
 
-.. figure:: /_static/Rayleigh_oscillator.svg
+.. figure:: /_static/examples/Rayleigh.svg
    :alt: Nonlinear system.
    :width: 70%
    :align: center

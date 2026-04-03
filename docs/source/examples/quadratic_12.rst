@@ -8,7 +8,7 @@ This configuration was studied by Nayfeh and Mook :cite:`nayfehNonlinearOscillat
 System description
 ^^^^^^^^^^^^^^^^^^
 
-.. figure:: /_static/Quadratic_oscillators_12.svg
+.. figure:: /_static/examples/quadratic_12.svg
    :alt: Nonlinear system.
    :width: 90%
    :align: center

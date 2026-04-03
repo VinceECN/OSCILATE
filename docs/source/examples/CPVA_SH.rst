@@ -8,14 +8,14 @@ This configuration was studied in V. Mahé et al. :cite:`maheSubharmonicCentrifu
 System description
 ^^^^^^^^^^^^^^^^^^
 
-.. figure:: /_static/CPVA_modes.svg
+.. figure:: /_static/examples/CPVA_modes.svg
    :alt: Nonlinear system.
    :width: 80%
    :align: center
 
    Illustration of the modes of a CPVA made of a rotor and 2 pendulums. The rotor is in grey, the pendulums in black, they path in blue, and their position on that path in red. Their rotation with respect to the rotor is not represented here. The direction of the rotor's motino with respect to the pendulums' is shown through the black arrow. 
 
-.. figure:: /_static/CPVA_modal_oscillators.svg
+.. figure:: /_static/examples/CPVA_modal_oscillators.svg
    :alt: Nonlinear system.
    :width: 70%
    :align: center

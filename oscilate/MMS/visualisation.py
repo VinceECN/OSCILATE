@@ -41,18 +41,25 @@ def plot_FRC(FRC, **kwargs):
     omega_bif = FRC.get("omega_bif", [np.full_like(a, np.nan)])
     phase_bif = FRC.get("phase_bif", [np.full_like(a, np.nan)])
     
+    # Backbone for zero amplitude
+    if isinstance(omega_bbc, np.ndarray):
+        omega_bbc_0 = omega_bbc[0]
+    elif isinstance(omega_bbc, float) or isinstance(omega_bbc, int):
+        omega_bbc_0 = omega_bbc
+
     # Extract the keyword arguments
     fig_param  = kwargs.get("fig_param", dict())
     amp_name   = kwargs.get("amp_name", "amplitude")
     phase_name = kwargs.get("phase_name", "phase")
-    xlim       = kwargs.get("xlim", [coeff*omega_bbc[0] for coeff in (0.9, 1.1)])
+    xlim       = kwargs.get("xlim", [coeff*omega_bbc_0 for coeff in (0.9, 1.1)])
     if np.isnan(xlim).any():
         xlim = [None, None]
-        
+
     # FRC - amplitude 
     fig1, ax = plt.subplots(**fig_param)
-    ax.plot(omega_bbc, a, c="tab:grey", lw=0.7)
-    ax.axvline(omega_bbc[0], c="k")
+    if isinstance(omega_bbc, np.ndarray): 
+        ax.plot(omega_bbc, a, c="tab:grey", lw=0.7)
+    ax.axvline(omega_bbc_0, c="k")
     [ax.plot(omegai, a, c="tab:blue") for omegai in omega]
     [ax.plot(omegai, a, c="tab:red", lw=0.7) for omegai in omega_bif]
     
@@ -60,17 +67,20 @@ def plot_FRC(FRC, **kwargs):
     ax.set_xlabel(r"$\omega$")
     ax.set_ylabel(r"${}$".format(amp_name))
     ax.margins(y=0)
+
+    if not isinstance(omega_bbc, np.ndarray):
+        ax.set_ylim(0, 1.2*np.max(a))
     
     # FRC - phase
     fig2, ax = plt.subplots(**fig_param)
-    ax.axvline(omega_bbc[0], c="k")
-    ax.axhline(np.pi/2, c="k", lw=0.7)
-    [ax.plot(omegai, phasei, c="tab:blue") for (omegai, phasei) in zip(omega, phase)]
-    [ax.plot(omegai, phasei, c="tab:red", lw=0.7) for (omegai, phasei) in zip(omega_bif, phase_bif)]
+    ax.axvline(omega_bbc_0, c="k")
+    ax.axhline(0.5, c="k", lw=0.7)
+    [ax.plot(omegai, phasei/np.pi, c="tab:blue") for (omegai, phasei) in zip(omega, phase)]
+    [ax.plot(omegai, phasei/np.pi, c="tab:red", lw=0.7) for (omegai, phasei) in zip(omega_bif, phase_bif)]
     
     ax.set_xlim(xlim)
     ax.set_xlabel(r"$\omega$")
-    ax.set_ylabel(r"${}$".format(phase_name))
+    ax.set_ylabel(r"${} \; [\pi]$".format(phase_name))
     
     # Return
     return fig1, fig2
@@ -114,12 +124,12 @@ def plot_ARC(ARC, **kwargs):
 
     # ARC - phase
     fig2, ax = plt.subplots(**fig_param)
-    ax.axhline(np.pi/2, c="k", lw=0.7)
-    ax.plot(F, phase, c="tab:blue")
+    ax.axhline(0.5, c="k", lw=0.7)
+    ax.plot(F, phase/np.pi, c="tab:blue")
     
     ax.set_xlim(xlim)
     ax.set_xlabel(r"$F$")
-    ax.set_ylabel(r"${}$".format(phase_name))
+    ax.set_ylabel(r"${} \; [\pi]$".format(phase_name))
     ax.margins(x=0)
     
     # Return

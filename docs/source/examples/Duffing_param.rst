@@ -7,7 +7,7 @@ This configuration was studied by Nayfeh and Mook :cite:`nayfehNonlinearOscillat
 System description
 ^^^^^^^^^^^^^^^^^^
 
-.. figure:: /_static/Duffing_oscillator_param.svg
+.. figure:: /_static/examples/Duffing_param.svg
    :alt: Nonlinear system.
    :width: 70%
    :align: center
@@ -61,11 +61,54 @@ The script below allows to
    :language: python
    :linenos:
 
+Plot outputs
+^^^^^^^^^^^^
+The plot outputs shown below are generated from the code above. 
+
+Frequency response curve
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+The two figures below display the amplitude and phase responses (blue) of the :math:`1^{\text{st}}` harmonic of the Duffing oscillator as a function of the excitation frequency and the associated bifurcation curves (red), delimiting unstable from stable zones. The backbone curve is shown in grey and the linear frequency in black.
+
+.. figure:: /_static/examples/Duffing_param_plots/FRC_a.svg
+   :alt: Frequency response curve - amplitude
+   :width: 80%
+   :align: center
+
+   Frequency response curve of the Duffing oscillator (amplitude).
+
+.. figure:: /_static/examples/Duffing_param_plots/FRC_beta.svg
+   :alt: Frequency response curve - phase
+   :width: 80%
+   :align: center
+
+   Frequency response curve of the Duffing oscillator (phase).
+
+Amplitude response curve
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+The two figures below display the amplitude and phase responses (blue) of the :math:`1^{\text{st}}` harmonic of the Duffing oscillator as a function of the excitation amplitude.
+
+.. figure:: /_static/examples/Duffing_param_plots/ARC_a.svg
+   :alt: Amplitude response curve - amplitude
+   :width: 80%
+   :align: center
+
+   Amplitude response curve of the Duffing oscillator (amplitude).
+
+.. figure:: /_static/examples/Duffing_param_plots/ARC_beta.svg
+   :alt: Amplitude response curve - phase
+   :width: 80%
+   :align: center
+
+   Amplitude-response curve of the Duffing oscillator (phase).
+
+
 Validation
 ^^^^^^^^^^
-The notations used in the above code are related to those in *Nonlinear Oscillations* as follows:
+The notations used in the above code are related to those in :cite:`nayfehNonlinearOscillations1995` as follows:
 
-.. table:: Link between notations from *Nonlinear Oscillations* and this document.
+.. table:: Link between notations from :cite:`nayfehNonlinearOscillations1995` and this document.
 
    ================================  =============================  ==================================
    Current Notation                  *Nonlinear Oscillations*       Description
@@ -85,7 +128,7 @@ The notations used in the above code are related to those in *Nonlinear Oscillat
    ================================  =============================  ==================================
 
 Note that the above table implies that the detuning :math:`\sigma` in *Nonlinear Oscillations*'s notations is half that of the current notation.
-Section 5.7.3 from *Nonlinear Oscillations* gives the following results
+Section 5.7.3 from *Nonlinear Oscillations* :cite:`nayfehNonlinearOscillations1995` gives the following results
 
 .. math::
     \begin{cases}

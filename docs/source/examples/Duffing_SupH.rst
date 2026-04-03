@@ -7,7 +7,7 @@ This configuration was studied by Nayfeh and Mook :cite:`nayfehNonlinearOscillat
 System description
 ^^^^^^^^^^^^^^^^^^
 
-.. figure:: /_static/Duffing_oscillator.svg
+.. figure:: /_static/examples/Duffing_direct.svg
    :alt: Nonlinear system.
    :width: 70%
    :align: center

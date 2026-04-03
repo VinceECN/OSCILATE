@@ -306,10 +306,12 @@ class Multiple_scales_system:
         self.forcing = self.forcing_MMS(dynamical_system)
         
         # Oscillators' frequencies (internal resonances and detuning)
-        self.omegas = dynamical_system.omegas
-        if ratio_omega_osc == None:
+        self.omegas          = dynamical_system.omegas
+        self.ratio_omega_osc = ratio_omega_osc
+        self.detunings       = detunings
+        if self.ratio_omega_osc == None:
             self.ratio_omega_osc = [None]*self.ndof
-        if detunings == 0:
+        if self.detunings == 0:
             self.detunings = [0]*self.ndof
         self.oscillators_frequencies()        
         
@@ -1189,3 +1191,4 @@ def rescale(expr, mms):
     """
     expr_rescaled = expr.subs(*mms.sub.sub_sigma).subs(mms.sub.sub_scaling_back).simplify()
     return expr_rescaled
+# %%

@@ -10,7 +10,7 @@ This configuration is very close from that studied by Nayfeh and Mook :cite:`nay
 System description
 ^^^^^^^^^^^^^^^^^^
 
-.. figure:: /_static/VdP_oscillator.svg
+.. figure:: /_static/examples/VdP.svg
    :alt: Nonlinear system.
    :width: 50%
    :align: center
@@ -61,3 +61,16 @@ The script below allows to
 .. literalinclude:: ../../../examples/Van_der_Pol.py
    :language: python
    :linenos:
+
+Plot outputs
+^^^^^^^^^^^^
+The plot output shown below is generated from the code above. 
+
+The figure below displays the phase portrait of the Van der Pol oscillator. Three different trajectories are shown: the limit cycle (black), an external one (red) and an internal one (blue). The limit cycle is stable, such that the trajectories are converging towards it.
+
+.. figure:: /_static/examples/VdP_plots/phase_portrait.svg
+   :alt: Phase portrait
+   :width: 80%
+   :align: center
+
+   Phase portrait of the Van der Pol oscillator.

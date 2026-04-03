@@ -6,7 +6,7 @@ MMS example of an oscillator with odd (cubic, quintic and septic) nonlinearities
 System description
 ^^^^^^^^^^^^^^^^^^
 
-.. figure:: /_static/Oscillator_odd_NL.svg
+.. figure:: /_static/examples/oscillator_odd_NL.svg
    :alt: Nonlinear system.
    :width: 70%
    :align: center
