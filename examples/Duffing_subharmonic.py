@@ -53,8 +53,8 @@ dic_numpy = dict(
     a      = (ss.coord.a[0], a0),
     )
 
-F_val     = 1
-omega_val = 1.05
+F_val     = 2
+omega_val = 3.15
 
 # Compute and plot the frequency-response curves (FRC)
 dic_FRC = dic_numpy | dict(F=(dyn.forcing.F, F_val)) # Parameters for the FRC

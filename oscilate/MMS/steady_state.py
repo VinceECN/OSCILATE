@@ -337,9 +337,9 @@ class Steady_state:
         dic_fbeta = fbeta_dof.collect(collect_sin_cos, evaluate=False)
     
         # Check the possibility to solve using standard procedure (quadratic sum) -> enforce the presence of 3 keys : {1, sin(phase), cos(phase)}
-        if ( (len(list(set(list(dic_fa.keys()) + list(dic_fbeta.keys())))) != 3) or # cos and sin terms both appear in the same expression 
+        if ( (len(list(list(dic_fa.keys()) + list(dic_fbeta.keys()))) > 4) or # cos and sin terms both appear in the same expression 
              (collect_sin_cos[0].args != collect_sin_cos[1].args) ): # Too many phases involved
-            print('    No implemented analytical solution')
+            print('    No analytical solution implemented for this problem')
             return
     
         # Compute the expression of sin/cos as a function of the amplitude
@@ -389,7 +389,8 @@ class Steady_state:
     
         print('   Computing the frequency response')
         sol_sigma = sfun.solve_poly2(Eq_sig, self.sigma)
-        sol_sigma = [sol_sigma_i.simplify() for sol_sigma_i in sol_sigma]
+        if sol_sigma != None:
+            sol_sigma = [sol_sigma_i.simplify() for sol_sigma_i in sol_sigma]
         
         self.sol.sigma = sol_sigma
     
@@ -440,9 +441,13 @@ class Steady_state:
         if set(Eq_F.collect(F, evaluate=False).keys()) in [set([1, F**2]), set([1, F, F**2])]:
             print('   Computing the response with respect to the forcing amplitude')
             sol_F = abs(sfun.solve_poly2(Eq_F, F)[1])
+        elif set(Eq_F.collect(F, evaluate=False).keys()) == set([1, F**2, F**4]):
+            print('   Computing the response with respect to the forcing amplitude')
+            sol_F = [sqrt(abs(F2)) for F2 in sfun.solve_poly2(Eq_F, F**2)]
         else:
             print('   Not computing the response with respect to the forcing amplitude as the equation to solve is not of 2nd degree')
             sol_F = None
+
         self.sol.F = sol_F    
     
     def solve_bbc(self, c=[], solve_dof=None):

@@ -111,11 +111,17 @@ def plot_ARC(ARC, **kwargs):
     fig_param  = kwargs.get("fig_param", dict())
     amp_name   = kwargs.get("amp_name", "amplitude")
     phase_name = kwargs.get("phase_name", "phase")
-    xlim       = kwargs.get("xlim", [0, np.max(F)])
+    if isinstance(F, np.ndarray):
+        xlim = kwargs.get("xlim", [0, np.nanmax(F)])
+    elif isinstance(F, list):
+        xlim = kwargs.get("xlim", [0, np.nanmax(np.hstack(F))])
 
     # ARC - amplitude 
     fig1, ax = plt.subplots(**fig_param)
-    ax.plot(F, a, c="tab:blue")
+    if isinstance(F, np.ndarray):
+        ax.plot(F, a, c="tab:blue")
+    elif isinstance(F, list):
+        [ax.plot(Fi, a, c="tab:blue") for Fi in F]
     
     ax.set_xlim(xlim)
     ax.set_xlabel(r"$F$")
@@ -125,7 +131,10 @@ def plot_ARC(ARC, **kwargs):
     # ARC - phase
     fig2, ax = plt.subplots(**fig_param)
     ax.axhline(0.5, c="k", lw=0.7)
-    ax.plot(F, phase/np.pi, c="tab:blue")
+    if isinstance(F, np.ndarray):
+        ax.plot(F, phase/np.pi, c="tab:blue")
+    elif isinstance(F, list):
+        [ax.plot(Fi, phasei/np.pi, c="tab:blue") for (Fi, phasei) in zip(F, phase)]
     
     ax.set_xlim(xlim)
     ax.set_xlabel(r"$F$")
@@ -173,7 +182,6 @@ def numpise_FRC(mms, ss, dyn, param, bbc=True, forced=True, bif=True):
         The frequency-response curves data.
     """
 
-    
     # Information
     print("Converting sympy FRC expressions to numpy")
 
@@ -187,10 +195,17 @@ def numpise_FRC(mms, ss, dyn, param, bbc=True, forced=True, bif=True):
         FRC["omega_bbc"] = numpise_omega_bbc(mms, ss, param)
     if forced:
         FRC["omega"] = numpise_omega_FRC(mms, ss, param)
-        FRC["phase"] = numpise_phase(mms, ss, dyn, param, FRC["omega"], F_val)
+        FRC["phase"] = []
+        for omegai in FRC["omega"]:
+            FRC["phase"].append(numpise_phase(mms, ss, dyn, param, omegai, F_val))
     if bif:
         FRC["omega_bif"] = numpise_omega_bif(mms, ss, param)
-        FRC["phase_bif"] = numpise_phase(mms, ss, dyn, param, FRC["omega_bif"], F_val)
+        if isinstance(FRC["omega_bif"], np.ndarray):
+            FRC["phase_bif"] = numpise_phase(mms, ss, dyn, param, FRC["omega_bif"], F_val)
+        elif isinstance(FRC["omega_bif"], list):
+            FRC["phase_bif"] = []
+            for omegai in FRC["omega_bif"]:
+                FRC["phase_bif"].append(numpise_phase(mms, ss, dyn, param, omegai, F_val))
 
     return FRC
 
@@ -233,7 +248,12 @@ def numpise_ARC(mms, ss, dyn, param):
 
     # Evaluation of the FRC
     ARC["F"]     = numpise_F_ARC(mms, ss, param)
-    ARC["phase"] = numpise_phase(mms, ss, dyn, param, omega_val, ARC["F"])[0]
+    if isinstance(ARC["F"], np.ndarray):
+        ARC["phase"] = numpise_phase(mms, ss, dyn, param, omega_val, ARC["F"])
+    elif isinstance(ARC["F"], list):
+        ARC["phase"] = []
+        for Fi in ARC["F"]:
+            ARC["phase"].append(numpise_phase(mms, ss, dyn, param, omega_val, Fi))
 
     return ARC
 
@@ -305,27 +325,21 @@ def numpise_phase(mms, ss, dyn, param, omega, F):
     dyn: Dynamical_system
     param: dict
         See :func:`~MMS.sympy_functions.sympy_to_numpy`.
-    omega: numpy.ndarray or list of numpy.ndarray
+    omega: numpy.ndarray
         The frequency array.
     F: numpy.ndarray
         The forcing amplitude array.
 
     Returns
     -------
-    phase: list of numpy.ndarray
+    phase: numpy.ndarray
         Numpised phase.
     """
     
-    if not isinstance(omega,list):
-        omega = [omega]
-        
-    phase = []
-    
-    for omegai in omega:
-        param_phase = param | dict(omega=(mms.omega, omegai), F=(dyn.forcing.F, F))
-        sin_phase = sfun.sympy_to_numpy( rescale(ss.sol.sin_phase[1], mms), param_phase )
-        cos_phase = sfun.sympy_to_numpy( rescale(ss.sol.cos_phase[1], mms), param_phase )
-        phase.append(np.arctan2(sin_phase, cos_phase))
+    param_phase = param | dict(omega=(mms.omega, omega), F=(dyn.forcing.F, F))
+    sin_phase = sfun.sympy_to_numpy( rescale(ss.sol.sin_phase[1], mms), param_phase)
+    cos_phase = sfun.sympy_to_numpy( rescale(ss.sol.cos_phase[1], mms), param_phase)
+    phase = np.arctan2(sin_phase, cos_phase)
 
     return phase
 
@@ -345,5 +359,8 @@ def numpise_F_ARC(mms, ss, param):
     F: numpy.ndarray
         Numpised forced response's forcing amplitude.
     """
-    F = sfun.sympy_to_numpy(rescale(mms.eps**mms.forcing.f_order * ss.sol.F, mms), param)
+    if not isinstance(ss.sol.F, list):
+        F = sfun.sympy_to_numpy(rescale(mms.eps**mms.forcing.f_order * ss.sol.F, mms), param)
+    else:
+        F = [sfun.sympy_to_numpy(rescale(mms.eps**mms.forcing.f_order * Fi, mms), param) for Fi in ss.sol.F]
     return F
