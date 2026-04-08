@@ -13,7 +13,7 @@ t            = symbols('t')
 x            = Function(r'x', real=True)(t)
 
 # Dynamical system
-Eq = x.diff(t,2) + omega0**2*x + gamma*x.diff(t)**3 + c*x.diff(t) 
+Eq = x.diff(t,2) + omega0**2*x + gamma*x.diff(t)**3 - c*x.diff(t) 
 fF = -2*x # Parametric forcing
 dyn = MMS.Dynamical_system(t, x, Eq, omega0, fF=fF, F=F)
 
@@ -48,16 +48,16 @@ ss.stability_analysis(coord="polar", eigenvalues=True)
 import numpy as np
 
 # Set parameters' numerical values
-a0 = np.linspace(1e-10, 0.6, 1000)
+a0 = np.linspace(1e-10, 2, 1000)
 
 dic_numpy = dict(
     omega0 = (omega0, 1),
-    c      = (c, 1e-2),
-    gamma  = (gamma, 0.2),
+    c      = (c, 1e-1),
+    gamma  = (gamma, 1e-1),
     a      = (ss.coord.a[0], a0),
     )
 
-F_val     = 3e-2
+F_val     = 1e-1
 omega_val = 2.02
 
 # Compute and plot the frequency-response curves (FRC)
