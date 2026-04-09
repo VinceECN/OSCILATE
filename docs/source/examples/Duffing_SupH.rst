@@ -59,3 +59,26 @@ The script below allows to
 .. literalinclude:: ../../../examples/Duffing_superharmonic.py
    :language: python
    :linenos:
+
+Plot outputs
+^^^^^^^^^^^^
+The plot outputs shown below are generated from the code above. 
+
+Frequency response curve
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+The two figures below display the amplitude and phase responses (blue) of the :math:`3^{\text{rd}}` harmonic of the Duffing oscillator as a function of the excitation frequency. The backbone curve is shown in grey and the linear frequency divided by 3 in black.
+
+.. figure:: /_static/examples/Duffing_supH_plots/FRC_a.svg
+   :alt: Frequency response curve - amplitude
+   :width: 80%
+   :align: center
+
+   Frequency response curve of the Duffing oscillator in superharmonic regime of order 3 (amplitude).
+
+.. figure:: /_static/examples/Duffing_supH_plots/FRC_beta.svg
+   :alt: Frequency response curve - phase
+   :width: 80%
+   :align: center
+
+   Frequency response curve of the Duffing oscillator in superharmonic regime of order 3 (phase).
