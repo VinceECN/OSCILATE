@@ -702,7 +702,7 @@ class Multiple_scales_system:
             
             # Homogeneous leading order solution 
             xO0_h_ix = (            self.coord.A[ix]*exp(I*self.omegas_O0[ix]*self.tS[0]) 
-                          + conjugate(self.coord.A[ix]*exp(I*self.omegas_O0[ix]*self.tS[0])) )
+                        + conjugate(self.coord.A[ix]*exp(I*self.omegas_O0[ix]*self.tS[0])) )
             
             # Particular leading order solution - if the equation is not homogeneous (due to hard forcing)
             if not self.EqO[ix][0] == self.xO[ix][0].diff(self.tS[0],2) + (self.omegas_O0[ix])**2 * self.xO[ix][0]:
@@ -737,7 +737,7 @@ class Multiple_scales_system:
         # Store the solutions
         self.sol.xO = [[xO0_dof] for xO0_dof in xO0]
         self.sub.sub_xO = sub_xO
-        self.sub.sub_B    = sub_B
+        self.sub.sub_B  = sub_B
         
     def secular_analysis(self):
         r"""
@@ -812,8 +812,8 @@ class Multiple_scales_system:
                 self.sol_higher_order(self.EqO_t0, self.xO_t0, io, ix)
             
         # Store the solutions
-        self.sol.sec  = sec      # Secular terms
-        self.sol.DA   = DA_sol   # Solutions that cancel the secular terms
+        self.sol.sec = sec      # Secular terms
+        self.sol.DA  = DA_sol   # Solutions that cancel the secular terms
     
     def sol_higher_order(self, EqO_t0, xO_t0, io, ix):
         r"""

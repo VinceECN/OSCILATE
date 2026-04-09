@@ -11,7 +11,7 @@ This sub-module defines the steady state system from the multiple scales one, an
 #%% Imports and initialisation
 from sympy import (Rational, symbols, Symbol, Matrix, Expr, solve, 
                    cos, sin, srepr, sympify, simplify, 
-                   zeros, det, trace, eye, sqrt)
+                   zeros, det, trace, eye, sqrt, pi)
 from sympy.simplify.fu import TR10
 from .. import sympy_functions as sfun
 from .mms import cartesian_to_polar
@@ -432,18 +432,21 @@ class Steady_state:
         # Equation on F
         Eq_F   = (((sin_phase*F).simplify()**2).expand() 
                + ( (cos_phase*F).simplify()**2).expand() 
-               -    self.forcing.F**2).subs(self.sub.sub_B)
+               -    F**2).subs(self.sub.sub_B)
         keys = Eq_F.expand().collect(F, evaluate=False)
         min_power = min(list(keys), key=lambda expr: sfun.get_exponent(expr, F))
         Eq_F = (Eq_F/min_power).expand()
         
         # Solve
         if set(Eq_F.collect(F, evaluate=False).keys()) in [set([1, F**2]), set([1, F, F**2])]:
-            print('   Computing the response with respect to the forcing amplitude')
+            print('   Computing the response with respect to the forcing amplitude - 2nd order polynomial in F')
             sol_F = abs(sfun.solve_poly2(Eq_F, F)[1])
         elif set(Eq_F.collect(F, evaluate=False).keys()) == set([1, F**2, F**4]):
-            print('   Computing the response with respect to the forcing amplitude')
+            print('   Computing the response with respect to the forcing amplitude - 2nd order polynomial in F**2')
             sol_F = [sqrt(abs(F2)) for F2 in sfun.solve_poly2(Eq_F, F**2)]
+        elif set(Eq_F.collect(F, evaluate=False).keys()) == set([1, F**2, F**4, F**6]):
+            print('   Computing the response with respect to the forcing amplitude - 3rd order polynomial in F**2')
+            sol_F = [sqrt(abs(F2)) for F2 in solve(Eq_F, F**2)]
         else:
             print('   Not computing the response with respect to the forcing amplitude as the equation to solve is not of 2nd degree')
             sol_F = None
@@ -485,6 +488,9 @@ class Steady_state:
         # Information
         print('Computing the backbone curve for oscillator {}'.format(solve_dof))
         
+        # Store the oscillator that is solved for
+        self.sol.solve_dof_bbc = solve_dof
+
         # Set every oscillator amplitude to 0 except the one to solve for
         self.substitution_solve_dof(solve_dof)
         
@@ -492,10 +498,15 @@ class Steady_state:
         if not isinstance(c, list): 
             c = [c]
         sub_free = [(self.forcing.F,0), *[(ci, 0) for ci in c]]
-        
-        # Establish the backbone curve equation
-        Eq_bbc = self.sol.fbeta[solve_dof].subs(self.sub.sub_solve).subs(self.sub.sub_B).subs(sub_free)
-        
+            
+        # Compute the bbc equation
+        if self.forcing.f_order != 0 and self.ratio_omegaMMS>=1: # using the free response
+            Eq_bbc = self.sol.fbeta[solve_dof].subs(self.sub.sub_solve).subs(self.sub.sub_B).subs(sub_free)
+        else:  # The backbone curve is affected by the forcing (superharmonic resonance)
+            Eq_F   = self.sol.fa[solve_dof].subs(self.sub.sub_solve).subs(self.sub.sub_B).subs(self.coord.beta[solve_dof], pi/2)
+            Fbbc   = abs(solve(Eq_F, self.forcing.F)[0])
+            Eq_bbc = self.sol.fbeta[solve_dof].subs(self.sub.sub_solve).subs(self.sub.sub_B).subs(self.forcing.F, Fbbc).subs(self.coord.beta[solve_dof], pi/2)
+
         # Compute the backbone curve
         self.sol.sigma_bbc = solve(Eq_bbc, self.sigma)[0].expand().collect(self.coord.a[solve_dof])
         self.sol.omega_bbc = self.omegaMMS + self.eps*self.sol.sigma_bbc

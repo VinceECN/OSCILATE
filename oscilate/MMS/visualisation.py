@@ -37,21 +37,16 @@ def plot_FRC(FRC, **kwargs):
     a         = FRC.get("a", np.full(10, np.nan))
     omega_bbc = FRC.get("omega_bbc", np.full_like(a, np.nan))
     omega     = FRC.get("omega", [np.full_like(a, np.nan)])
+    omegaMMS  = FRC.get("omegaMMS", np.nan)
     phase     = FRC.get("phase", [np.full_like(a, np.nan)])
     omega_bif = FRC.get("omega_bif", [np.full_like(a, np.nan)])
     phase_bif = FRC.get("phase_bif", [np.full_like(a, np.nan)])
     
-    # Backbone for zero amplitude
-    if isinstance(omega_bbc, np.ndarray):
-        omega_bbc_0 = omega_bbc[0]
-    elif isinstance(omega_bbc, float) or isinstance(omega_bbc, int):
-        omega_bbc_0 = omega_bbc
-
     # Extract the keyword arguments
     fig_param  = kwargs.get("fig_param", dict())
     amp_name   = kwargs.get("amp_name", "amplitude")
     phase_name = kwargs.get("phase_name", "phase")
-    xlim       = kwargs.get("xlim", [coeff*omega_bbc_0 for coeff in (0.9, 1.1)])
+    xlim       = kwargs.get("xlim", [coeff*omegaMMS for coeff in (0.9, 1.1)])
     if np.isnan(xlim).any():
         xlim = [None, None]
 
@@ -59,7 +54,7 @@ def plot_FRC(FRC, **kwargs):
     fig1, ax = plt.subplots(**fig_param)
     if isinstance(omega_bbc, np.ndarray): 
         ax.plot(omega_bbc, a, c="tab:grey", lw=0.7)
-    ax.axvline(omega_bbc_0, c="k")
+    ax.axvline(omegaMMS, c="k")
     [ax.plot(omegai, a, c="tab:blue") for omegai in omega]
     [ax.plot(omegai, a, c="tab:red", lw=0.7) for omegai in omega_bif]
     
@@ -73,7 +68,7 @@ def plot_FRC(FRC, **kwargs):
     
     # FRC - phase
     fig2, ax = plt.subplots(**fig_param)
-    ax.axvline(omega_bbc_0, c="k")
+    ax.axvline(omegaMMS, c="k")
     ax.axhline(0.5, c="k", lw=0.7)
     [ax.plot(omegai, phasei/np.pi, c="tab:blue") for (omegai, phasei) in zip(omega, phase)]
     [ax.plot(omegai, phasei/np.pi, c="tab:red", lw=0.7) for (omegai, phasei) in zip(omega_bif, phase_bif)]
@@ -114,7 +109,9 @@ def plot_ARC(ARC, **kwargs):
     if isinstance(F, np.ndarray):
         xlim = kwargs.get("xlim", [0, np.nanmax(F)])
     elif isinstance(F, list):
-        xlim = kwargs.get("xlim", [0, np.nanmax(np.hstack(F))])
+        F_test = np.hstack(F)
+        F_test = F_test[np.isfinite(F_test)]
+        xlim = kwargs.get("xlim", [0, np.max(F_test)])
 
     # ARC - amplitude 
     fig1, ax = plt.subplots(**fig_param)
@@ -189,6 +186,7 @@ def numpise_FRC(mms, ss, dyn, param, bbc=True, forced=True, bif=True):
     a     = param.get("a")[1]
     F_val = param.get("F")[1]
     FRC   = {"a": a}
+    FRC["omegaMMS"] = numpise_omegaMMS(mms, param)
 
     # Evaluation of the FRC
     if bbc:
@@ -256,6 +254,24 @@ def numpise_ARC(mms, ss, dyn, param):
             ARC["phase"].append(numpise_phase(mms, ss, dyn, param, omega_val, Fi))
 
     return ARC
+
+def numpise_omegaMMS(mms, param):
+    r"""
+    Numpise the frequency around which a solution is sought.
+
+    Parameters
+    ----------
+    mms: Multiple_scales_system
+    param: dict
+        See :func:`~MMS.sympy_functions.sympy_to_numpy`.
+
+    Returns
+    -------
+    omegaMMS: float
+        Numpised MMS frequency.
+    """
+    omegaMMS  = sfun.sympy_to_numpy(mms.omegaMMS, param)
+    return omegaMMS
 
 def numpise_omega_bbc(mms, ss, param):
     r"""

@@ -53,21 +53,13 @@ dic_numpy = dict(
     a      = (ss.coord.a[0], a0),
     )
 
-F_val     = 1
-omega_val = 1.05
+F_val     = .5
 
 # Compute and plot the frequency-response curves (FRC)
 dic_FRC = dic_numpy | dict(F=(dyn.forcing.F, F_val)) # Parameters for the FRC
 FRC     = MMS.visualisation.numpise_FRC(mms, ss, dyn, dic_FRC, bif=False)
 kwargs  = dict(phase_name=vlatex(ss.sol.cos_phase[0].args[0]),  # Plot parameters
                amp_name=vlatex(ss.coord.a[0]))
-MMS.visualisation.plot_FRC(FRC, **kwargs)
-
-# Compute and plot the amplitude-response curves (ARC)
-dic_ARC = dic_numpy | dict(omega=(mms.omega, omega_val)) # Parameters for the ARC
-ARC     = MMS.visualisation.numpise_ARC(mms, ss, dyn, dic_ARC)
-kwargs  = dict(phase_name=vlatex(ss.sol.cos_phase[0].args[0]), # Plot parameters
-               amp_name=vlatex(ss.coord.a[0]))
-MMS.visualisation.plot_ARC(ARC, **kwargs)
-
+figs = MMS.visualisation.plot_FRC(FRC, **kwargs)
+[fig.get_axes()[0].set_xlim(0.32, 0.38) for fig in figs ]
 # %%
