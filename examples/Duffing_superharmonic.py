@@ -29,7 +29,7 @@ param_scaled, sub_scaling = MMS.scale_parameters(param_to_scale, scaling, eps)
 mms = MMS.Multiple_scales_system(dyn, eps, Ne, omega_ref, sub_scaling, ratio_omegaMMS=ratio_omegaMMS)
 
 # Application of the MMS
-mms.apply_MMS(rewrite_polar="all")
+mms.apply_MMS(rewrite_polar=0)
 
 # Evaluation at steady state
 ss = MMS.Steady_state(mms)
@@ -44,22 +44,15 @@ ss.solve_forced(solve_dof=solve_dof)
 import numpy as np
 
 # Set parameters' numerical values
-a0 = np.linspace(1e-10, 1.2, 1000)
+param_FRC = [(omega0, 1),
+             (c, 1e-2),
+             (gamma, 0.2),
+             (ss.coord.a[0], np.linspace(1e-10, 1.2, 1000)),
+             (dyn.forcing.F, 0.5)]
 
-dic_numpy = dict(
-    omega0 = (omega0, 1),
-    c      = (c, 1e-2),
-    gamma  = (gamma, 0.2),
-    a      = (ss.coord.a[0], a0),
-    )
-
-F_val     = .5
-
-# Compute and plot the frequency-response curves (FRC)
-dic_FRC = dic_numpy | dict(F=(dyn.forcing.F, F_val)) # Parameters for the FRC
-FRC     = MMS.visualisation.numpise_FRC(mms, ss, dyn, dic_FRC, bif=False)
-kwargs  = dict(phase_name=vlatex(ss.sol.cos_phase[0].args[0]),  # Plot parameters
-               amp_name=vlatex(ss.coord.a[0]))
-figs = MMS.visualisation.plot_FRC(FRC, **kwargs)
+# Frequency response
+FRC = MMS.visualisation.Frequency_response_curve(mms, ss, dyn, param_FRC, bif=False)
+figs = FRC.plot(ss=ss)
 [fig.get_axes()[0].set_xlim(0.32, 0.38) for fig in figs ]
+
 # %%

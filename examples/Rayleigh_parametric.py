@@ -45,33 +45,20 @@ ss.stability_analysis(coord="polar", eigenvalues=True)
 
 # Plot the steady state results
 # -----------------------------
-import numpy as np
 
 # Set parameters' numerical values
-a0 = np.linspace(1e-10, 2, 1000)
+import numpy as np
+param = [(omega0, 1),
+         (c, 1e-1),
+         (gamma, 1e-1),
+         (ss.coord.a[0], np.linspace(1e-10, 2, 1000))]
 
-dic_numpy = dict(
-    omega0 = (omega0, 1),
-    c      = (c, 1e-1),
-    gamma  = (gamma, 1e-1),
-    a      = (ss.coord.a[0], a0),
-    )
+# Frequency response
+param_FRC = param + [(dyn.forcing.F, 1e-1)]
+FRC = MMS.visualisation.Frequency_response_curve(mms, ss, dyn, param_FRC, bif=False)
+FRC.plot(ss=ss)
 
-F_val     = 1e-1
-omega_val = 2.02
-
-# Compute and plot the frequency-response curves (FRC)
-dic_FRC = dic_numpy | dict(F=(dyn.forcing.F, F_val)) # Parameters for the FRC
-FRC     = MMS.visualisation.numpise_FRC(mms, ss, dyn, dic_FRC, bif=False)
-kwargs  = dict(phase_name=vlatex(ss.sol.cos_phase[0].args[0]),  # Plot parameters
-               amp_name=vlatex(ss.coord.a[0]))
-MMS.visualisation.plot_FRC(FRC, **kwargs)
-
-# Compute and plot the amplitude-response curves (ARC)
-dic_ARC = dic_numpy | dict(omega=(mms.omega, omega_val)) # Parameters for the ARC
-ARC     = MMS.visualisation.numpise_ARC(mms, ss, dyn, dic_ARC)
-kwargs  = dict(phase_name=vlatex(ss.sol.cos_phase[0].args[0]), # Plot parameters
-               amp_name=vlatex(ss.coord.a[0]))
-MMS.visualisation.plot_ARC(ARC, **kwargs)
-
-# %%
+# Amplitude response
+param_ARC = param + [(mms.omega, 2.02)]
+ARC = MMS.visualisation.Amplitude_response_curve(mms, ss, dyn, param_ARC)
+ARC.plot(ss=ss)
