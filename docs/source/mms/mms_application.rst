@@ -407,3 +407,9 @@ The MMS system then obtained represents a nonlinear autonomous system of :math:`
 Like the time scales-dependent modulation equations, they can be solved numerically or analytically, if analytical solutions exist. 
 
 These physical time-dependent modulation equations are also computed in :func:`modulation_equations`.
+
+Note that after reintroduction of the physical time, the leading order, homogeneous solution for oscillator :math:`i` takes the form 
+
+.. math::
+    x^{\textrm{h}}_{i,0}(t) = a_i(t) \cos\left( \frac{r_i}{r_{\textrm{MMS}}} \omega t - \beta_i(t)\right).
+

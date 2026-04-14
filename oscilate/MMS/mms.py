@@ -869,7 +869,6 @@ class Multiple_scales_system:
         self.coord.phi = [ Function(r'\phi_{}'.format(ix), real=True)               (*self.tS[1:]) for ix in range(self.ndof) ]
         self.sub.sub_A = [ ( self.coord.A[ix], Rational(1/2)*self.coord.a[ix]*exp(I*self.coord.phi[ix]) ) for ix in range(self.ndof)]
         
-    
     def autonomous_phases(self):
         r"""
         Define phase coordinates that render an autonomous system.
@@ -1078,6 +1077,138 @@ class Multiple_scales_system:
         harmonics = list(dict.fromkeys(harmonics))
         harmonics.sort()
         return harmonics
+    
+    def solve_transient(self, solve_dof=None, IC=dict()):
+        r"""
+        Solve the transient response of an oscillator.
+
+        Parameters
+        ----------
+        solve_dof: None or int, optional
+            The oscillator to solve for. 
+            If `None`, no oscillator is solved for.
+            Default is `None`.
+        IC: dict(), optional
+            See :func:`solve_slow_time`.
+            
+        Notes
+        -----
+        Find the transient solution for a given oscillator with the other oscillators' amplitude set to 0. Setting the other oscillators' amplitude to zero is done using the method :func:`substitution_solve_dof`.
+        """
+
+        # Conditions for not solving the forced response
+        if solve_dof==None:
+            return
+        
+        # Information
+        print('Computing the transient response for oscillator {}'.format(solve_dof))
+        
+        # Store the oscillator that is solved for
+        self.sol.solve_dof = solve_dof
+        
+        # Set the other oscillator's amplitudes to zero
+        self.substitution_solve_dof(solve_dof)
+
+        # Compute the slow time evolutions
+        self.solve_slow_time(IC=IC)
+
+        # Introduce an absolute phase
+        self.absolute_phase()
+
+        # Compute the instantaneous frequency
+        self.solve_instantaneous_frequency()
+
+        #Compute the oscillator's motion
+        self.solve_x_transient()
+
+    def substitution_solve_dof(self, solve_dof):
+        r"""
+        Set every oscillator amplitude to 0 except the one to solve for.
+
+        Notes
+        -----
+        If one wants to solve for :math:`a_i`, then the system is evaluated for :math:`a_j=0, \; \forall j \neq i`.
+        """
+        sub_solve = []
+        for ix in range(self.ndof):
+            if ix != solve_dof:
+                sub_solve.append( (self.coord.a[ix], 0) )
+                
+        self.sub.sub_solve = sub_solve   
+
+    def solve_slow_time(self, IC):
+        r"""
+        Compute the slow time evolution of the amplitude and phase of an oscillator.
+
+        Parameters
+        ----------
+        IC: dict(), optional
+            Initial conditions on :math:`a` and :math:`\beta`, given as a `dict` with keys `a` and `beta`.
+            The values associated to these keys are `dict` of the form :math:`\{\dot{a}(0), a_{\text{IC}} \}` and :math:`\{\dot{\beta}(0), \beta_{\text{IC}} \}`
+            Default is an empty `dict`, subsequently filled with some symbols for the :math:`a_{\text{IC}}` and :math:`\beta_{\text{IC}}`.
+        """
+
+        # Construct the equations to solve
+        Eqa    = self.coord.at[self.sol.solve_dof].diff(self.t)                             - self.sol.fa[self.sol.solve_dof]    # Equation on a
+        Eqbeta = self.coord.at[self.sol.solve_dof]*self.coord.betat[self.sol.solve_dof].diff(self.t) - self.sol.fbeta[self.sol.solve_dof] # Equation on beta
+
+        # Get the initial conditions
+        if not IC:
+            ai    = symbols(r"a_i", real=True, positive=True) # Initial amplitude
+            betai = symbols(r"\beta_i", real=True)            # Initial phase
+            IC["a"]    = {self.coord.at[self.sol.solve_dof].subs(self.t,0) : ai}         # Initial condition on a
+            IC["beta"] = {self.coord.betat[self.sol.solve_dof].subs(self.t,0) : betai}   # Initial condition on beta
+
+        # Solve the transient
+        a_sol    = dsolve(Eqa, self.coord.at[self.sol.solve_dof], ics=IC["a"]).rhs 
+        beta_sol = dsolve(Eqbeta, self.coord.betat[self.sol.solve_dof], ics=IC["beta"]).rhs.subs(self.coord.at[self.sol.solve_dof], a_sol).doit().expand().simplify()
+
+        # Store results
+        self.sol.IC   = IC
+        self.sol.a    = a_sol
+        self.sol.beta = beta_sol
+        self.sub.sub_solve += [(self.coord.a[self.sol.solve_dof], self.sol.a),
+                               (self.coord.beta[self.sol.solve_dof], self.sol.beta)]
+
+    def absolute_phase(self):
+        r"""
+        Introduce an absolute phase :math:`\psi` defined as (for oscillator :math:`i`)
+
+        .. math::
+            \psi = \frac{r_i}{r_{\textrm{MMS}}} \omega t - \beta_i,
+
+        such that the leading order, homogeneous solution for oscillator :math:`i` takes the form 
+
+        .. math::
+            x^{\textrm{h}}_{i,0}(t) = a_i(t) \cos(\psi).
+
+        Then, deduce the solution on :math:`\psi` from that on :math:`\beta`.
+        The introduction of that absolute phase is useful to write the time response in a more compact way, and to derive the instantaneous frequency of oscillation.
+        """
+
+        # Introduce psi and its relation with beta and omega
+        psi = Function(r"\psi", real=True, positive=True)(self.t) # Absolute phase
+        sub_psi = [(Rational(self.ratio_omega_osc[self.sol.solve_dof], self.ratio_omegaMMS)*self.omega*self.t, psi+self.coord.betat[self.sol.solve_dof])]                    # Substitution from the relative phase beta to the absolute one psi
+        psi_sol = (Rational(self.ratio_omega_osc[self.sol.solve_dof], self.ratio_omegaMMS)*self.omega*self.t - self.sol.beta).subs([self.sub.sub_omega]).expand().simplify() # From the beta solution to the psi one
+
+        # Store the results
+        self.coord.psi   = psi
+        self.sub.sub_psi = sub_psi
+        self.sol.psi     = psi_sol
+        self.sub.sub_solve.append( (self.coord.psi, self.sol.psi) )
+
+    def solve_instantaneous_frequency(self):
+        """
+        Compute the instantaneous frequency from the absolute phase through :math:`\omega_\text{NL} = \dot{\psi}`.
+        """
+        self.sol.omega = self.sol.psi.diff(self.t).simplify().factor() # Instantaneous oscillation frequency
+        self.sub.sub_solve.append( (self.omega, self.sol.omega) )
+
+    def solve_x_transient(self):
+        """
+        Compute the displacement :math:`x` associated to a transient trajectory.
+        """
+        self.sol.xT = self.sol.x[self.sol.solve_dof].subs(self.sub.sub_psi).simplify() # Adding .subs(self.sub.sub_solve) would result in too complex expressions
 
 def Chain_rule_dfdt(f, tS, eps):
     r"""

@@ -147,6 +147,7 @@ class Steady_state:
     eps:             Symbol
     forcing:         Forcing_SS
     ndof:            int
+    omega:           Symbol
     omegaMMS:        Expr
     omega_ref:       Symbol
     ratio_omegaMMS:  Union[int, Rational]
@@ -171,6 +172,7 @@ class Steady_state:
         self.omega_ref      = mms.omega_ref
         self.ratio_omegaMMS = mms.ratio_omegaMMS
         self.sigma          = mms.sigma
+        self.omega          = mms.omega
         self.omegaMMS       = mms.omegaMMS
         
         # Oscillators' internal resonances relations
@@ -513,6 +515,78 @@ class Steady_state:
         
         self.sub.sub_free = sub_free
 
+    def solve_LC(self, solve_dof=None):
+        r"""
+        Find the limit cycle (LC) of a given oscillator with the other oscillators' amplitude set to 0.
+        
+        Parameters
+        ----------
+        solve_dof: None or int, oprtional
+            The oscillator number to solve for. 
+            If `None`, no oscillator is solved for.
+            Default is `None`.
+        """
+
+        if solve_dof==None:
+            return
+        
+        # Information
+        print('Computing the limit cycle for oscillator {}'.format(solve_dof))
+        
+        # Store the oscillator that is solved for
+        self.sol.solve_dof_LC = solve_dof
+
+        # Set every oscillator amplitude to 0 except the one to solve for
+        self.substitution_solve_dof_LC(solve_dof)
+
+        # Phase solution
+        self.sol.betaLC = 0
+        self.sub.sub_solve_LC.append((self.coord.beta[self.sol.solve_dof_LC], self.sol.betaLC))
+
+        # Amplitude solution
+        self.solve_LC_amplitude()
+
+        # Frequency solution
+        self.solve_LC_frequency()
+
+        # Oscillator's motion
+        self.solve_LC_x()
+
+    def substitution_solve_dof_LC(self, solve_dof):
+        r"""
+        Set every oscillator amplitude to 0 except the one to solve for.
+
+        Notes
+        -----
+        If one wants to solve for :math:`a_i`, then the system is evaluated for :math:`a_j=0, \; \forall j \neq i`.
+        """
+        sub_solve = []
+        for ix in range(self.ndof):
+            if ix != solve_dof:
+                sub_solve.append( (self.coord.a[ix], 0) )
+                
+        self.sub.sub_solve_LC = sub_solve    
+
+    def solve_LC_amplitude(self):
+        """
+        Compute the amplitude of the homogeneous, leading order solution on the limit cycle.
+        """
+        self.sol.aLC   = solve(self.sol.fa[self.sol.solve_dof_LC], self.coord.a[self.sol.solve_dof_LC])[0] # Amplitude solution
+        self.sub.sub_solve_LC.append((self.coord.a[self.sol.solve_dof_LC], self.sol.aLC))
+
+    def solve_LC_frequency(self):
+        """
+        Compute the oscillation frequency on the limit cycle.
+        """
+        self.sol.sigmaLC = solve(self.sol.fbeta[self.sol.solve_dof_LC], self.sigma)[0].subs(self.coord.a[0], self.sol.aLC) # Detuning solution
+        self.sol.omegaLC = (self.omegaMMS + self.eps*self.sol.sigmaLC)       # Frequency solution
+        self.sub.sub_solve_LC.append((self.omega, self.sol.omegaLC))
+
+    def solve_LC_x(self):
+        """
+        Compute the displacement :math:`x` on the limit cycle.
+        """
+        self.sol.xLC = self.sol.x[0].subs(self.coord.beta[self.sol.solve_dof_LC], self.sol.betaLC).simplify() # Using .subs(self.sub.sub_solve_LC) would result in too long expressions
 
     def Jacobian_polar(self):
         r"""
