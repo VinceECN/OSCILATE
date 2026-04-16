@@ -163,6 +163,24 @@ class Sol_MMS:
     def __init__(self):
         pass
 
+
+class Sol_transient:
+    """
+    Solutions obtained when applying the MMS and solving for the transient response.
+    """             
+
+    # Class-level annotations for pyreverse
+    solve_dof   : int
+    IC          : dict
+    a           : Expr
+    beta        : Expr
+    psi         : Expr
+    omega       : Expr
+    x           : Expr
+    
+    def __init__(self):
+        pass
+
 class Multiple_scales_system:
     r"""
     The multiple scales system.
@@ -320,7 +338,8 @@ class Multiple_scales_system:
         self.polar_coordinates()
         
         # Solutions
-        self.sol = Sol_MMS()
+        self.sol           = Sol_MMS()
+        self.sol_transient = Sol_transient()
         
         # Compute the MMS equations
         self.compute_EqO(dynamical_system)
@@ -1104,7 +1123,7 @@ class Multiple_scales_system:
         print('Computing the transient response for oscillator {}'.format(solve_dof))
         
         # Store the oscillator that is solved for
-        self.sol.solve_dof = solve_dof
+        self.sol_transient.solve_dof = solve_dof
         
         # Set the other oscillator's amplitudes to zero
         self.substitution_solve_dof(solve_dof)
@@ -1149,26 +1168,27 @@ class Multiple_scales_system:
         """
 
         # Construct the equations to solve
-        Eqa    = self.coord.at[self.sol.solve_dof].diff(self.t)                             - self.sol.fa[self.sol.solve_dof]    # Equation on a
-        Eqbeta = self.coord.at[self.sol.solve_dof]*self.coord.betat[self.sol.solve_dof].diff(self.t) - self.sol.fbeta[self.sol.solve_dof] # Equation on beta
+        solve_dof = self.sol_transient.solve_dof
+        Eqa    = self.coord.at[solve_dof].diff(self.t)                             - self.sol.fa[solve_dof]    # Equation on a
+        Eqbeta = self.coord.at[solve_dof]*self.coord.betat[solve_dof].diff(self.t) - self.sol.fbeta[solve_dof] # Equation on beta
 
         # Get the initial conditions
         if not IC:
             ai    = symbols(r"a_i", real=True, positive=True) # Initial amplitude
             betai = symbols(r"\beta_i", real=True)            # Initial phase
-            IC["a"]    = {self.coord.at[self.sol.solve_dof].subs(self.t,0) : ai}         # Initial condition on a
-            IC["beta"] = {self.coord.betat[self.sol.solve_dof].subs(self.t,0) : betai}   # Initial condition on beta
+            IC["a"]    = {self.coord.at[solve_dof].subs(self.t,0) : ai}         # Initial condition on a
+            IC["beta"] = {self.coord.betat[solve_dof].subs(self.t,0) : betai}   # Initial condition on beta
 
         # Solve the transient
-        a_sol    = dsolve(Eqa, self.coord.at[self.sol.solve_dof], ics=IC["a"]).rhs 
-        beta_sol = dsolve(Eqbeta, self.coord.betat[self.sol.solve_dof], ics=IC["beta"]).rhs.subs(self.coord.at[self.sol.solve_dof], a_sol).doit().expand().simplify()
+        a_sol    = dsolve(Eqa, self.coord.at[solve_dof], ics=IC["a"]).rhs 
+        beta_sol = dsolve(Eqbeta, self.coord.betat[solve_dof], ics=IC["beta"]).rhs.subs(self.coord.at[solve_dof], a_sol).doit().expand().simplify()
 
         # Store results
-        self.sol.IC   = IC
-        self.sol.a    = a_sol
-        self.sol.beta = beta_sol
-        self.sub.sub_solve += [(self.coord.a[self.sol.solve_dof], self.sol.a),
-                               (self.coord.beta[self.sol.solve_dof], self.sol.beta)]
+        self.sol_transient.IC   = IC
+        self.sol_transient.a    = a_sol
+        self.sol_transient.beta = beta_sol
+        self.sub.sub_solve += [(self.coord.a[solve_dof], self.sol_transient.a),
+                               (self.coord.beta[solve_dof], self.sol_transient.beta)]
 
     def absolute_phase(self):
         r"""
@@ -1185,30 +1205,31 @@ class Multiple_scales_system:
         Then, deduce the solution on :math:`\psi` from that on :math:`\beta`.
         The introduction of that absolute phase is useful to write the time response in a more compact way, and to derive the instantaneous frequency of oscillation.
         """
+        solve_dof = self.sol_transient.solve_dof
 
         # Introduce psi and its relation with beta and omega
         psi = Function(r"\psi", real=True, positive=True)(self.t) # Absolute phase
-        sub_psi = [(Rational(self.ratio_omega_osc[self.sol.solve_dof], self.ratio_omegaMMS)*self.omega*self.t, psi+self.coord.betat[self.sol.solve_dof])]                    # Substitution from the relative phase beta to the absolute one psi
-        psi_sol = (Rational(self.ratio_omega_osc[self.sol.solve_dof], self.ratio_omegaMMS)*self.omega*self.t - self.sol.beta).subs([self.sub.sub_omega]).expand().simplify() # From the beta solution to the psi one
+        sub_psi = [(Rational(self.ratio_omega_osc[solve_dof], self.ratio_omegaMMS)*self.omega*self.t, psi+self.coord.betat[solve_dof])]                    # Substitution from the relative phase beta to the absolute one psi
+        psi_sol = (Rational(self.ratio_omega_osc[solve_dof], self.ratio_omegaMMS)*self.omega*self.t - self.sol_transient.beta).subs([self.sub.sub_omega]).expand().simplify() # From the beta solution to the psi one
 
         # Store the results
         self.coord.psi   = psi
         self.sub.sub_psi = sub_psi
-        self.sol.psi     = psi_sol
-        self.sub.sub_solve.append( (self.coord.psi, self.sol.psi) )
+        self.sol_transient.psi = psi_sol
+        self.sub.sub_solve.append( (self.coord.psi, self.sol_transient.psi) )
 
     def solve_instantaneous_frequency(self):
         """
         Compute the instantaneous frequency from the absolute phase through :math:`\omega_\text{NL} = \dot{\psi}`.
         """
-        self.sol.omega = self.sol.psi.diff(self.t).simplify().factor() # Instantaneous oscillation frequency
-        self.sub.sub_solve.append( (self.omega, self.sol.omega) )
+        self.sol_transient.omega = self.sol_transient.psi.diff(self.t).simplify().factor() # Instantaneous oscillation frequency
+        self.sub.sub_solve.append( (self.omega, self.sol_transient.omega) )
 
     def solve_x_transient(self):
         """
         Compute the displacement :math:`x` associated to a transient trajectory.
         """
-        self.sol.xT = self.sol.x[self.sol.solve_dof].subs(self.sub.sub_psi).simplify() # Adding .subs(self.sub.sub_solve) would result in too complex expressions
+        self.sol_transient.x = self.sol.x[self.sol_transient.solve_dof].subs(self.sub.sub_psi).simplify() # Adding .subs(self.sub.sub_solve) would result in too complex expressions
 
 def Chain_rule_dfdt(f, tS, eps):
     r"""
