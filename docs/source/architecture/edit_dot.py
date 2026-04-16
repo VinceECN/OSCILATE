@@ -7,19 +7,30 @@ OUTPUT = f"{INPUT[:-4]}_edited.dot" # name of the output file
 
 # Map: substring in node name → fillcolor
 COLOR_MAP = {
-    "dyn_sys.Forcing"          : "cyan",
-    "dyn_sys.Dynamical_system" : "lightblue",
-    "mms.Multiple_scales_system": "lightblue",
-    "mms.Coord_MMS"            : "lightgreen",
-    "mms.Forcing_MMS"          : "cyan",
-    "mms.Sol_MMS"              : "pink",
-    "mms.Substitutions_MMS"    : "orange",
-    "steady_state.Coord_SS"    : "lightgreen",
-    "steady_state.Forcing_SS"  : "cyan",
-    "steady_state.Sol_SS"      : "pink",
-    "steady_state.Stab_SS"     : "violet",
-    "steady_state.Steady_state": "lightblue",
-    "steady_state.Substitutions_SS": "orange",
+    # dyn_sys
+    "dyn_sys.Forcing"                       : "cyan",
+    "dyn_sys.Dynamical_system"              : "lightblue",
+    # mms
+    "mms.Multiple_scales_system"            : "lightblue",
+    "mms.Coord_MMS"                         : "lightgreen",
+    "mms.Forcing_MMS"                       : "cyan",
+    "mms.Sol_MMS"                           : "pink",
+    "mms.Sol_transient"                     : "pink",
+    "mms.Substitutions_MMS"                 : "orange",
+    # steady_state
+    "steady_state.Coord_SS"                 : "lightgreen",
+    "steady_state.Forcing_SS"               : "cyan",
+    "steady_state.Sol_SS"                   : "pink",
+    "steady_state.Sol_bbc"                  : "pink",
+    "steady_state.Sol_forced"               : "pink",
+    "steady_state.Sol_LC"                   : "pink",
+    "steady_state.Stab_SS"                  : "violet",
+    "steady_state.Stability"                : "violet",
+    "steady_state.Steady_state"             : "lightblue",
+    "steady_state.Substitutions_SS"         : "orange",
+    # visualisation
+    "visualisation.Frequency_response_curve": "lightyellow",
+    "visualisation.Amplitude_response_curve": "lightyellow",
 }
 
 # Clusters: cluster name → list of substrings identifying member nodes
@@ -35,7 +46,11 @@ CLUSTERS = {
     ],
     "Solution Classes": [
         "mms.Sol_MMS",
+        "mms.Sol_transient",
         "steady_state.Sol_SS",
+        "steady_state.Sol_bbc",
+        "steady_state.Sol_forced",
+        "steady_state.Sol_LC",
     ],
     "Forcing Classes": [
         "dyn_sys.Forcing",
@@ -48,6 +63,11 @@ CLUSTERS = {
     ],
     "Stability Analysis": [
         "steady_state.Stab_SS",
+        "steady_state.Stability",
+    ],
+    "Visualisation Classes": [
+        "visualisation.Frequency_response_curve",
+        "visualisation.Amplitude_response_curve",
     ],
 }
 
@@ -57,20 +77,18 @@ with open(INPUT, "r", encoding="utf-8") as f:
     content = f.read()
 
 # 1. Fix graph name
-content = content.replace('digraph "classes_MMS_test2"', 'digraph "classes_MMS"')
+content = re.sub(r'digraph "[^"]*"', 'digraph "classes_MMS"', content)
 
 # 2. Inject global graph settings after opening brace
-global_settings = """
-rankdir=BT;
+global_settings = """rankdir=BT;
 splines="curved";
 nodesep=0.5;
 ranksep=0.75;
 charset="utf-8";
 fontname="Courier New";
 node [fontname="Courier New"];
-edge [fontname="Courier New", color="gray", fontcolor="green", fontsize=10];
-"""
-content = content.replace("rankdir=BT\ncharset=\"utf-8\"", global_settings.strip())
+edge [fontname="Courier New", color="gray", fontcolor="gray", fontsize=10];"""
+content = re.sub(r'rankdir=BT\s*\ncharset="utf-8"', global_settings, content)
 
 # 3. Add fillcolor and style="filled" to each node
 def patch_node(match):
@@ -99,17 +117,19 @@ content = re.sub(
     patch_edge,
     content
 )
-content = content.replace('fontcolor="green"', 'fontcolor="gray"')
 
 # 5. Inject subgraph clusters before closing brace
 clusters_dot = ""
 for i, (label, members) in enumerate(CLUSTERS.items()):
     cluster_name = label.lower().replace(" ", "_")
-    nodes = "\n    ".join(
-        f'"{n}"' for node_id in members
-        for n in re.findall(r'"([^"]+)"', content)
-        if node_id in n
-    )
+    seen = set()
+    node_lines = []
+    for node_id in members:
+        for n in re.findall(r'"([^"]+)"', content):
+            if node_id in n and n not in seen:
+                seen.add(n)
+                node_lines.append(f'"{n}"')
+    nodes = "\n    ".join(node_lines)
     clusters_dot += f"""
   subgraph cluster_{cluster_name} {{
     label="{label}";
@@ -125,7 +145,7 @@ def truncate_methods(match):
     label = match.group(0)
     def shorten(m):
         method = m.group(0)
-        if len(method) > 50:  # adjust threshold as needed
+        if len(method) > 50:
             name = method.split('(')[0]
             return name + '(...)<br ALIGN="LEFT"/>'
         return method

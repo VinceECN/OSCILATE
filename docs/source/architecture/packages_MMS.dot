@@ -1,4 +1,4 @@
-digraph "packages_MMS_test2" {
+digraph "packages_MMS" {
 rankdir=BT
 charset="utf-8"
 "OSCILATE.oscilate.MMS" [color="black", label=<OSCILATE.oscilate.MMS>, shape="box", style="solid"];

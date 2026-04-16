@@ -1219,14 +1219,14 @@ class Multiple_scales_system:
         self.sub.sub_solve.append( (self.coord.psi, self.sol_transient.psi) )
 
     def solve_instantaneous_frequency(self):
-        """
+        r"""
         Compute the instantaneous frequency from the absolute phase through :math:`\omega_\text{NL} = \dot{\psi}`.
         """
         self.sol_transient.omega = self.sol_transient.psi.diff(self.t).simplify().factor() # Instantaneous oscillation frequency
         self.sub.sub_solve.append( (self.omega, self.sol_transient.omega) )
 
     def solve_x_transient(self):
-        """
+        r"""
         Compute the displacement :math:`x` associated to a transient trajectory.
         """
         self.sol_transient.x = self.sol.x[self.sol_transient.solve_dof].subs(self.sub.sub_psi).simplify() # Adding .subs(self.sub.sub_solve) would result in too complex expressions
