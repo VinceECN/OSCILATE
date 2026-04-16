@@ -10,7 +10,8 @@ This sub-module defines the dynamical system.
 
 #%% Imports and initialisation
 from sympy import sympify, Symbol, Function, Expr
-from typing import Union
+from typing import Union, TYPE_CHECKING
+
 
 #%% Classes and functions
 class Forcing:
@@ -26,8 +27,9 @@ class Forcing:
     """
 
     # Class-level annotations for pyreverse
-    F : Symbol
-    fF: list[Union[Expr, int]]
+    if TYPE_CHECKING:
+        F : Symbol
+        fF: list[Union[Expr, int]]
     
     def __init__(self, F, fF):
         self.F       = F
@@ -59,13 +61,14 @@ class Dynamical_system:
     """
 
     # Class-level annotations for pyreverse
-    Eq:      list[Expr]
-    forcing: Forcing
-    ndof:    int
-    omegas:  list[Symbol]
-    t:       Symbol
-    x:       list[Function]
-    
+    if TYPE_CHECKING:
+        Eq:      list[Expr]
+        forcing: Forcing
+        ndof:    int
+        omegas:  list[Symbol]
+        t:       Symbol
+        x:       list[Function]
+        
     def __init__(self, t, x, Eq, omegas, F = 0, fF = None):
         r"""
         Initialisation of the dynamical system.

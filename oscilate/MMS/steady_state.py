@@ -15,7 +15,7 @@ from sympy import (Rational, symbols, Symbol, Matrix, Expr, solve,
 from sympy.simplify.fu import TR10
 from .. import sympy_functions as sfun
 from .mms import cartesian_to_polar
-from typing import Union
+from typing import Union, TYPE_CHECKING
 
 #%% Classes and functions
 class Substitutions_SS:
@@ -24,16 +24,17 @@ class Substitutions_SS:
     """
 
     # Class-level annotations for pyreverse
-    sub_B               : list
-    sub_SS              : list[tuple]
-    sub_cart            : list[tuple[Expr]]
-    sub_free            : list[tuple]
-    sub_phase           : list[tuple[Expr]]
-    sub_polar           : list[tuple[Expr]]
-    sub_scaling_back    : list[tuple[Expr]]
-    sub_solve_forced    : list[tuple[Expr]]
-    sub_solve_bbc       : list[tuple[Expr]]
-    sub_solve_LC        : list[tuple[Expr]]
+    if TYPE_CHECKING:
+        sub_B               : list
+        sub_SS              : list[tuple]
+        sub_cart            : list[tuple[Expr]]
+        sub_free            : list[tuple]
+        sub_phase           : list[tuple[Expr]]
+        sub_polar           : list[tuple[Expr]]
+        sub_scaling_back    : list[tuple[Expr]]
+        sub_solve_forced    : list[tuple[Expr]]
+        sub_solve_bbc       : list[tuple[Expr]]
+        sub_solve_LC        : list[tuple[Expr]]
     
     def __init__(self, mms):
         
@@ -48,8 +49,9 @@ class Forcing_SS:
     """
 
     # Class-level annotations for pyreverse
-    F      : Symbol
-    f_order: int
+    if TYPE_CHECKING:
+        F      : Symbol
+        f_order: int
     
     def __init__(self, mms):
         self.F            = mms.forcing.F
@@ -60,10 +62,11 @@ class Coord_SS:
     The coordinates used in the steady state analysis.
     """      
     # Class-level annotations for pyreverse
-    a   : list[Symbol]
-    beta: list[Symbol]
-    p   : list[Symbol]
-    q   : list[Symbol]
+    if TYPE_CHECKING:
+        a   : list[Symbol]
+        beta: list[Symbol]
+        p   : list[Symbol]
+        q   : list[Symbol]
     
     def __init__(self):
         pass
@@ -74,14 +77,15 @@ class Sol_SS:
     """        
 
     # Class-level annotations for pyreverse       
-    fa          : list[Expr]
-    faO         : list[list[Expr]]
-    fbeta       : list[Expr]
-    fbetaO      : list[list[Expr]]
-    fp          : list[Expr]
-    fq          : list[Expr]
-    x           : list[Expr]
-    xO          : list[list[Expr]]
+    if TYPE_CHECKING:
+        fa          : list[Expr]
+        faO         : list[list[Expr]]
+        fbeta       : list[Expr]
+        fbetaO      : list[list[Expr]]
+        fp          : list[Expr]
+        fq          : list[Expr]
+        x           : list[Expr]
+        xO          : list[list[Expr]]
     
     def __init__(self, ss, mms):
         
@@ -99,16 +103,17 @@ class Sol_forced:
     Solutions obtained when evaluating the forced response of the system.
     """        
 
-    # Class-level annotations for pyreverse       
-    a2          : Union[list[Expr], None]
-    F           : Union[Expr, None]
-    fa          : Expr
-    fbeta       : Expr
-    cos_phase   : tuple[Expr]
-    sigma       : list[Expr]
-    sin_phase   : tuple[Expr]
-    solve_dof   : Union[int, None]
-    stab        : Stability
+    # Class-level annotations for pyreverse    
+    if TYPE_CHECKING:   
+        a2          : Union[list[Expr], None]
+        F           : Union[Expr, None]
+        fa          : Expr
+        fbeta       : Expr
+        cos_phase   : tuple[Expr]
+        sigma       : list[Expr]
+        sin_phase   : tuple[Expr]
+        solve_dof   : Union[int, None]
+        stab        : Stability
     
     def __init__(self):
         pass
@@ -118,13 +123,14 @@ class Sol_bbc:
     Solutions obtained when evaluating the backbone curve of the forced response.
     """        
 
-    # Class-level annotations for pyreverse       
-    beta      : Expr
-    omega     : Expr
-    sigma     : Expr
-    solve_dof : Union[int, None]
-    x         : Expr
-    xO        : list[Expr]
+    # Class-level annotations for pyreverse   
+    if TYPE_CHECKING:   
+        beta      : Expr
+        omega     : Expr
+        sigma     : Expr
+        solve_dof : Union[int, None]
+        x         : Expr
+        xO        : list[Expr]
 
     def __init__(self, ss, mms):
         
@@ -143,13 +149,14 @@ class Sol_LC:
     """        
 
     # Class-level annotations for pyreverse       
-    a         : Expr
-    beta      : Expr
-    omega     : Expr
-    sigma     : Expr
-    solve_dof : Union[int, None]
-    x         : Expr
-    xO        : list[Expr]
+    if TYPE_CHECKING:   
+        a         : Expr
+        beta      : Expr
+        omega     : Expr
+        sigma     : Expr
+        solve_dof : Union[int, None]
+        x         : Expr
+        xO        : list[Expr]
 
     def __init__(self, ss, mms):
         
@@ -168,27 +175,28 @@ class Stability:
     """                
 
     # Class-level annotations for pyreverse      
-    Jsol            : Matrix
-    Jsolc           : Matrix
-    analysis_coord  : str
-    bif_a           : list[Expr]
-    bif_sigma       : list[Expr]
-    blocks          : list[Matrix]
-    blocks_bif_a    : list[list[Expr]]
-    blocks_bif_sig  : list[list[Expr]]
-    blocks_det      : list[Expr]
-    blocks_eigvals  : list[list[Expr]]
-    blocks_tr       : list[Expr]
-    blocks_tr_a     : list[list[Expr]]
-    blocks_tr_sig   : list[list[Expr]]
-    det_Jsol        : Expr
-    det_Jsolc       : Expr
-    eigvals         : list[Expr]
-    tr_Jsol         : Expr
-    tr_Jsolc        : Expr
-    tr_a            : list[Expr]
-    tr_sigma        : list[Expr]
-    
+    if TYPE_CHECKING:   
+        Jsol            : Matrix
+        Jsolc           : Matrix
+        analysis_coord  : str
+        bif_a           : list[Expr]
+        bif_sigma       : list[Expr]
+        blocks          : list[Matrix]
+        blocks_bif_a    : list[list[Expr]]
+        blocks_bif_sig  : list[list[Expr]]
+        blocks_det      : list[Expr]
+        blocks_eigvals  : list[list[Expr]]
+        blocks_tr       : list[Expr]
+        blocks_tr_a     : list[list[Expr]]
+        blocks_tr_sig   : list[list[Expr]]
+        det_Jsol        : Expr
+        det_Jsolc       : Expr
+        eigvals         : list[Expr]
+        tr_Jsol         : Expr
+        tr_Jsolc        : Expr
+        tr_a            : list[Expr]
+        tr_sigma        : list[Expr]
+        
     def __init__(self):
         pass  
 
@@ -204,21 +212,22 @@ class Steady_state:
     """
 
     # Class-level annotations for pyreverse
-    coord:           Coord_SS
-    eps:             Symbol
-    forcing:         Forcing_SS
-    ndof:            int
-    omega:           Symbol
-    omegaMMS:        Expr
-    omega_ref:       Symbol
-    ratio_omegaMMS:  Union[int, Rational]
-    ratio_omega_osc: list[Union[int, Rational]]
-    sigma:           Symbol
-    sol_forced:      Sol_forced
-    sol_bbc:         Sol_bbc
-    sol_LC:          Sol_LC
-    sub:             Substitutions_SS
-    
+    if TYPE_CHECKING:   
+        coord:           Coord_SS
+        eps:             Symbol
+        forcing:         Forcing_SS
+        ndof:            int
+        omega:           Symbol
+        omegaMMS:        Expr
+        omega_ref:       Symbol
+        ratio_omegaMMS:  Union[int, Rational]
+        ratio_omega_osc: list[Union[int, Rational]]
+        sigma:           Symbol
+        sol_forced:      Sol_forced
+        sol_bbc:         Sol_bbc
+        sol_LC:          Sol_LC
+        sub:             Substitutions_SS
+        
     def __init__(self, mms):
         """
         Evaluate the MMS quantities at steady state. 

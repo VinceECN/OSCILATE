@@ -67,38 +67,4 @@ ARC = MMS.visualisation.Amplitude_response_curve(mms, ss, dyn, param_ARC)
 figs_ARC = ARC.plot(ss=ss)
 [fig.get_axes()[0].set_xlim(0, 0.04) for fig in figs_ARC]
 
-
-# import numpy as np
-# import matplotlib.pyplot as plt
-
-# # Set parameters' numerical values
-# a0 = np.linspace(1e-10, 2, 1000)
-
-# dic_numpy = dict(
-#     omega0 = (omega0, 1),
-#     c      = (c, 1e-2),
-#     gamma3 = (gamma3, 0.2),
-#     gamma5 = (gamma5, -0.3),
-#     gamma7 = (gamma7, 0.12),
-#     a      = (ss.coord.a[0], a0),
-#     )
-
-# F_val     = 1.4e-2
-# omega_val = 1.02
-
-# # Compute and plot the frequency-response curves (FRC)
-# dic_FRC = dic_numpy | dict(F=(dyn.forcing.F, F_val)) # Parameters for the FRC
-# FRC     = MMS.visualisation.numpise_FRC(mms, ss, dyn, dic_FRC)
-# kwargs  = dict(phase_name=vlatex(ss.sol.cos_phase[0].args[0]),  # Plot parameters
-#                amp_name=vlatex(ss.coord.a[0]))
-# MMS.visualisation.plot_FRC(FRC, **kwargs)
-
-# # Compute and plot the amplitude-response curves (ARC)
-# dic_ARC = dic_numpy | dict(omega=(mms.omega, omega_val)) # Parameters for the ARC
-# ARC     = MMS.visualisation.numpise_ARC(mms, ss, dyn, dic_ARC)
-# kwargs  = dict(phase_name=vlatex(ss.sol.cos_phase[0].args[0]), # Plot parameters
-#                amp_name=vlatex(ss.coord.a[0]))
-# figs_ARC = MMS.visualisation.plot_ARC(ARC, **kwargs)
-# [fig.get_axes()[0].set_xlim(0, 0.04) for fig in figs_ARC]
-
 # %%

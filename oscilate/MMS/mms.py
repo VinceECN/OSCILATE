@@ -15,7 +15,7 @@ from sympy import (exp, I, conjugate, re, im, Rational,
 from sympy.simplify.fu import TR5, TR8, TR10
 from .. import sympy_functions as sfun
 import itertools
-from typing import Union
+from typing import Union, TYPE_CHECKING
 
 #%% Classes and functions
 def scale_parameters(param, scaling, eps):
@@ -70,20 +70,21 @@ class Substitutions_MMS:
     """
 
     # Class-level annotations for pyreverse
-    sub_A: list[tuple[Expr]]
-    sub_B: list 
-    sub_beta: list[tuple[Expr]]
-    sub_omega: tuple[Expr]
-    sub_omegas: list[tuple[Expr]] 
-    sub_phi: list[tuple[Expr]] 
-    sub_scaling: list[tuple[Expr]] 
-    sub_scaling_back: list[tuple[Expr]] 
-    sub_sigma: tuple[Expr] 
-    sub_t: list[tuple[Expr]]  
-    sub_tS_to_t_func: list[tuple[Function]]   
-    sub_x: list[tuple[Expr]]   
-    sub_xO : list[tuple[Expr]]   
-    sub_xO_t: list[tuple[Expr]]   
+    if TYPE_CHECKING:
+        sub_A: list[tuple[Expr]]
+        sub_B: list 
+        sub_beta: list[tuple[Expr]]
+        sub_omega: tuple[Expr]
+        sub_omegas: list[tuple[Expr]] 
+        sub_phi: list[tuple[Expr]] 
+        sub_scaling: list[tuple[Expr]] 
+        sub_scaling_back: list[tuple[Expr]] 
+        sub_sigma: tuple[Expr] 
+        sub_t: list[tuple[Expr]]  
+        sub_tS_to_t_func: list[tuple[Function]]   
+        sub_x: list[tuple[Expr]]   
+        sub_xO : list[tuple[Expr]]   
+        sub_xO_t: list[tuple[Expr]]   
     
     def __init__(self, sub_t, sub_xO_t, sub_x, sub_scaling, sub_omega, sub_sigma): 
         self.sub_t            = sub_t
@@ -108,10 +109,11 @@ class Forcing_MMS:
     """
 
     # Class-level annotations for pyreverse
-    F           : Symbol
-    fF          : list[Union[Expr, int]]
-    f_order     : list[int]
-    forcing_term: list[Expr]
+    if TYPE_CHECKING:
+        F           : Symbol
+        fF          : list[Union[Expr, int]]
+        f_order     : list[int]
+        forcing_term: list[Expr]
     
     def __init__(self, F, f_order, fF, forcing_term):
         self.F       = F
@@ -125,13 +127,14 @@ class Coord_MMS:
     """      
 
     # Class-level annotations for pyreverse
-    A:     list[Symbol]
-    B:     list[Symbol]
-    a:     list[Symbol]
-    at:    list[Symbol]
-    beta:  list[Symbol]
-    betat: list[Symbol]
-    phi:   list[Symbol]
+    if TYPE_CHECKING:
+        A:     list[Symbol]
+        B:     list[Symbol]
+        a:     list[Symbol]
+        at:    list[Symbol]
+        beta:  list[Symbol]
+        betat: list[Symbol]
+        phi:   list[Symbol]
     
     def __init__(self, mms):
     
@@ -150,15 +153,16 @@ class Sol_MMS:
     """             
 
     # Class-level annotations for pyreverse
-    DA      : list[list[Expr]]
-    fa      : list[Expr]
-    faO     : list[list[Expr]]
-    fbeta   : list[Expr]
-    fbetaO  : list[list[Expr]]
-    sec     : list[list[Expr]]
-    x       : Union[list[str], list[Expr]]
-    xO      : list[list[Expr]]
-    xO_polar: list[list[Expr]]
+    if TYPE_CHECKING:
+        DA      : list[list[Expr]]
+        fa      : list[Expr]
+        faO     : list[list[Expr]]
+        fbeta   : list[Expr]
+        fbetaO  : list[list[Expr]]
+        sec     : list[list[Expr]]
+        x       : Union[list[str], list[Expr]]
+        xO      : list[list[Expr]]
+        xO_polar: list[list[Expr]]
     
     def __init__(self):
         pass
@@ -170,13 +174,14 @@ class Sol_transient:
     """             
 
     # Class-level annotations for pyreverse
-    solve_dof   : int
-    IC          : dict
-    a           : Expr
-    beta        : Expr
-    psi         : Expr
-    omega       : Expr
-    x           : Expr
+    if TYPE_CHECKING:
+        solve_dof   : int
+        IC          : dict
+        a           : Expr
+        beta        : Expr
+        psi         : Expr
+        omega       : Expr
+        x           : Expr
     
     def __init__(self):
         pass
@@ -255,29 +260,30 @@ class Multiple_scales_system:
     """
 
     # Class-level annotations for pyreverse
-    EqO:             list[list[Expr]]
-    EqO_t0:          list[list[Expr]]
-    Ne:              int
-    coord:           Coord_MMS
-    detunings:       list
-    eps:             Symbol
-    eps_pow_0:       int
-    forcing:         Forcing_MMS
-    ndof:            int
-    omega:           Symbol
-    omegaMMS:        Expr
-    omega_ref:       Symbol
-    omegas:          list[Symbol]
-    omegas_O0:       list[Expr]
-    ratio_omegaMMS:  Union[int, Rational]
-    ratio_omega_osc: list[Union[int, Rational]]
-    sigma:           Symbol
-    sol:             Sol_MMS
-    sub:             Substitutions_MMS
-    t:               Symbol
-    tS:              list[Symbol]
-    xO:              list[list[Function]]
-    xO_t0:           list[list[Function]]
+    if TYPE_CHECKING:
+        EqO:             list[list[Expr]]
+        EqO_t0:          list[list[Expr]]
+        Ne:              int
+        coord:           Coord_MMS
+        detunings:       list
+        eps:             Symbol
+        eps_pow_0:       int
+        forcing:         Forcing_MMS
+        ndof:            int
+        omega:           Symbol
+        omegaMMS:        Expr
+        omega_ref:       Symbol
+        omegas:          list[Symbol]
+        omegas_O0:       list[Expr]
+        ratio_omegaMMS:  Union[int, Rational]
+        ratio_omega_osc: list[Union[int, Rational]]
+        sigma:           Symbol
+        sol:             Sol_MMS
+        sub:             Substitutions_MMS
+        t:               Symbol
+        tS:              list[Symbol]
+        xO:              list[list[Function]]
+        xO_t0:           list[list[Function]]
     
     def __init__(self,
              dynamical_system, eps, Ne, omega_ref, sub_scaling,

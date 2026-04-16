@@ -14,6 +14,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from .mms import rescale
 from sympy.physics.vector.printing import vlatex
+from typing import Union, TYPE_CHECKING
+from numpy import ndarray
 
 #%% Classes and functions
 class Frequency_response_curve:
@@ -46,6 +48,17 @@ class Frequency_response_curve:
         Evaluate the bifurcation curves. 
         Default is `True`.
     """
+
+    # Class-level annotations for pyreverse
+    if TYPE_CHECKING:
+        a           : np.ndarray
+        omega       : list[ndarray]
+        omegaMMS    : float
+        omega_bbc   : np.ndarray
+        omega_bif   : list[ndarray]
+        param       : dict
+        phase       : list[ndarray]
+        phase_bif   : list[ndarray]
 
     def __init__(self, mms, ss, dyn, param, bbc=True, forced=True, bif=True):
         
@@ -177,6 +190,14 @@ class Amplitude_response_curve:
 
         2. The numerical value(s) taken by that parameter.
     """
+
+    # Class-level annotations for pyreverse
+    if TYPE_CHECKING:
+        F           : Union[list[ndarray], ndarray]
+        a           : np.ndarray
+        omegaMMS    : float
+        param       : dict
+        phase       : list[ndarray]
 
     def __init__(self, mms, ss, dyn, param):
         

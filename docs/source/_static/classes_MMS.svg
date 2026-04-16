@@ -41,22 +41,22 @@
 </g>
 <g id="clust7" class="cluster">
 <title>cluster_visualisation_classes</title>
-<polygon fill="none" stroke="black" points="974,-107 974,-337.5 1454,-337.5 1454,-107 974,-107"/>
+<polygon fill="none" stroke="black" points="933,-107 933,-337.5 1495,-337.5 1495,-107 933,-107"/>
 <text xml:space="preserve" text-anchor="middle" x="1214" y="-320.2" font-family="Courier New" font-size="14.00">Visualisation Classes</text>
 </g>
 <!-- OSCILATE.oscilate.MMS.visualisation.Amplitude_response_curve -->
 <g id="node1" class="node">
 <title>OSCILATE.oscilate.MMS.visualisation.Amplitude_response_curve</title>
-<polygon fill="lightyellow" stroke="black" points="982,-140.25 982,-279.75 1196,-279.75 1196,-140.25 982,-140.25"/>
-<text xml:space="preserve" text-anchor="start" x="990" y="-262.45" font-family="Courier New" font-size="14.00">Amplitude_response_curve</text>
-<polyline fill="none" stroke="black" points="982,-255.25 1196,-255.25"/>
-<text xml:space="preserve" text-anchor="start" x="1039.5" y="-237.95" font-family="Courier New" font-size="14.00">F</text>
-<text xml:space="preserve" text-anchor="start" x="1039.5" y="-221.45" font-family="Courier New" font-size="14.00">a</text>
-<text xml:space="preserve" text-anchor="start" x="1039.5" y="-204.95" font-family="Courier New" font-size="14.00">omegaMMS</text>
-<text xml:space="preserve" text-anchor="start" x="1039.5" y="-188.45" font-family="Courier New" font-size="14.00">param : dict</text>
-<text xml:space="preserve" text-anchor="start" x="1039.5" y="-171.95" font-family="Courier New" font-size="14.00">phase : list</text>
-<polyline fill="none" stroke="black" points="982,-164.75 1196,-164.75"/>
-<text xml:space="preserve" text-anchor="start" x="1064.25" y="-147.45" font-family="Courier New" font-size="14.00">plot()</text>
+<polygon fill="lightyellow" stroke="black" points="940.88,-140.25 940.88,-279.75 1229.12,-279.75 1229.12,-140.25 940.88,-140.25"/>
+<text xml:space="preserve" text-anchor="start" x="986" y="-262.45" font-family="Courier New" font-size="14.00">Amplitude_response_curve</text>
+<polyline fill="none" stroke="black" points="940.88,-255.25 1229.12,-255.25"/>
+<text xml:space="preserve" text-anchor="start" x="948.88" y="-237.95" font-family="Courier New" font-size="14.00">F : Union[list[ndarray], ndarray]</text>
+<text xml:space="preserve" text-anchor="start" x="948.88" y="-221.45" font-family="Courier New" font-size="14.00">a : ndarray</text>
+<text xml:space="preserve" text-anchor="start" x="948.88" y="-204.95" font-family="Courier New" font-size="14.00">omegaMMS : float</text>
+<text xml:space="preserve" text-anchor="start" x="948.88" y="-188.45" font-family="Courier New" font-size="14.00">param : dict</text>
+<text xml:space="preserve" text-anchor="start" x="948.88" y="-171.95" font-family="Courier New" font-size="14.00">phase : list[ndarray]</text>
+<polyline fill="none" stroke="black" points="940.88,-164.75 1229.12,-164.75"/>
+<text xml:space="preserve" text-anchor="start" x="1060.25" y="-147.45" font-family="Courier New" font-size="14.00">plot()</text>
 </g>
 <!-- OSCILATE.oscilate.MMS.mms.Coord_MMS -->
 <g id="node2" class="node">
@@ -277,19 +277,19 @@
 <!-- OSCILATE.oscilate.MMS.visualisation.Frequency_response_curve -->
 <g id="node8" class="node">
 <title>OSCILATE.oscilate.MMS.visualisation.Frequency_response_curve</title>
-<polygon fill="lightyellow" stroke="black" points="1232,-115.5 1232,-304.5 1446,-304.5 1446,-115.5 1232,-115.5"/>
-<text xml:space="preserve" text-anchor="start" x="1240" y="-287.2" font-family="Courier New" font-size="14.00">Frequency_response_curve</text>
-<polyline fill="none" stroke="black" points="1232,-280 1446,-280"/>
-<text xml:space="preserve" text-anchor="start" x="1273" y="-262.7" font-family="Courier New" font-size="14.00">a</text>
-<text xml:space="preserve" text-anchor="start" x="1273" y="-246.2" font-family="Courier New" font-size="14.00">omega</text>
-<text xml:space="preserve" text-anchor="start" x="1273" y="-229.7" font-family="Courier New" font-size="14.00">omegaMMS</text>
-<text xml:space="preserve" text-anchor="start" x="1273" y="-213.2" font-family="Courier New" font-size="14.00">omega_bbc</text>
-<text xml:space="preserve" text-anchor="start" x="1273" y="-196.7" font-family="Courier New" font-size="14.00">omega_bif</text>
-<text xml:space="preserve" text-anchor="start" x="1273" y="-180.2" font-family="Courier New" font-size="14.00">param : dict</text>
-<text xml:space="preserve" text-anchor="start" x="1273" y="-163.7" font-family="Courier New" font-size="14.00">phase : list</text>
-<text xml:space="preserve" text-anchor="start" x="1273" y="-147.2" font-family="Courier New" font-size="14.00">phase_bif : list</text>
-<polyline fill="none" stroke="black" points="1232,-140 1446,-140"/>
-<text xml:space="preserve" text-anchor="start" x="1314.25" y="-122.7" font-family="Courier New" font-size="14.00">plot()</text>
+<polygon fill="lightyellow" stroke="black" points="1264.88,-115.5 1264.88,-304.5 1487.12,-304.5 1487.12,-115.5 1264.88,-115.5"/>
+<text xml:space="preserve" text-anchor="start" x="1277" y="-287.2" font-family="Courier New" font-size="14.00">Frequency_response_curve</text>
+<polyline fill="none" stroke="black" points="1264.88,-280 1487.12,-280"/>
+<text xml:space="preserve" text-anchor="start" x="1272.88" y="-262.7" font-family="Courier New" font-size="14.00">a : ndarray</text>
+<text xml:space="preserve" text-anchor="start" x="1272.88" y="-246.2" font-family="Courier New" font-size="14.00">omega : list[ndarray]</text>
+<text xml:space="preserve" text-anchor="start" x="1272.88" y="-229.7" font-family="Courier New" font-size="14.00">omegaMMS : float</text>
+<text xml:space="preserve" text-anchor="start" x="1272.88" y="-213.2" font-family="Courier New" font-size="14.00">omega_bbc : ndarray</text>
+<text xml:space="preserve" text-anchor="start" x="1272.88" y="-196.7" font-family="Courier New" font-size="14.00">omega_bif : list[ndarray]</text>
+<text xml:space="preserve" text-anchor="start" x="1272.88" y="-180.2" font-family="Courier New" font-size="14.00">param : dict</text>
+<text xml:space="preserve" text-anchor="start" x="1272.88" y="-163.7" font-family="Courier New" font-size="14.00">phase : list[ndarray]</text>
+<text xml:space="preserve" text-anchor="start" x="1272.88" y="-147.2" font-family="Courier New" font-size="14.00">phase_bif : list[ndarray]</text>
+<polyline fill="none" stroke="black" points="1264.88,-140 1487.12,-140"/>
+<text xml:space="preserve" text-anchor="start" x="1351.25" y="-122.7" font-family="Courier New" font-size="14.00">plot()</text>
 </g>
 <!-- OSCILATE.oscilate.MMS.steady_state.Sol_LC -->
 <g id="node10" class="node">
