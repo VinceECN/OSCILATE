@@ -98,6 +98,6 @@ ss.solve_bbc(solve_dof=solve_dof, c=param_scaled[-2])
 
 # Stability analysis 
 kwargs_stab = dict(coord="cartesian", eigenvalues=True, bifurcation_curves=True, analyse_blocks=True, kwargs_bif=dict(var_a=True, var_sig=True, solver=solve))
-ss.stability_analysis(**kwargs_stab)
+ss.stability_analysis_forced(**kwargs_stab)
 
 # %%

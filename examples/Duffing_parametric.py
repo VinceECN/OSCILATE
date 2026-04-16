@@ -41,7 +41,7 @@ ss.solve_bbc(solve_dof=solve_dof, c=param_scaled[-1])
 ss.solve_forced(solve_dof=solve_dof)
 
 # Stability analysis
-ss.stability_analysis(coord="polar", eigenvalues=True)
+ss.stability_analysis_forced(coord="polar", eigenvalues=True)
 
 # Plot the steady state results
 # -----------------------------
@@ -63,3 +63,5 @@ param_ARC = param + [(mms.omega, 2.05)]
 ARC = MMS.visualisation.Amplitude_response_curve(mms, ss, dyn, param_ARC)
 ARC.plot(ss=ss)
 
+
+# %%

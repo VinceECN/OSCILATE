@@ -42,7 +42,7 @@ ss.solve_bbc(solve_dof=solve_dof, c=param_scaled[-2:])
 ss.solve_forced(solve_dof=solve_dof)
 
 # Stability analysis of the 1dof solution
-ss.stability_analysis(coord="cartesian", eigenvalues=False, rewrite_polar=True)
+ss.stability_analysis_forced(coord="cartesian", eigenvalues=False, rewrite_polar=True)
 
 # Computation of the coupled free solution
 print("Manual computation of the coupled free solution")
@@ -55,6 +55,5 @@ sub_cos2Dbeta = [(cos(2*Dbeta), chi)]
 fbeta_free    = [fbetai.subs(ss.sub.sub_free + sub_phase + sub_cos2Dbeta) for fbetai in ss.sol.fbeta]
 a02_sol       = solve(fbeta_free[0], ss.coord.a[0]**2)[1]
 sig_bbc       = solve(fbeta_free[1].subs(ss.coord.a[0]**2, a02_sol), mms.sigma)[0].subs(chi**2,1)
-
 
 # %%

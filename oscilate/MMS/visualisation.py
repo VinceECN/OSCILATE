@@ -55,7 +55,7 @@ class Frequency_response_curve:
         # Construct a dictionary of substitutions
         param_dic = {}
         for ii in range(len(param)):
-            if param[ii][0] == ss.coord.a[ss.sol.solve_dof]:
+            if param[ii][0] == ss.coord.a[ss.sol_forced.solve_dof]:
                 param_dic["a"] = param[ii]
             elif param[ii][0] == dyn.forcing.F:
                 param_dic["F"] = param[ii]
@@ -115,8 +115,8 @@ class Frequency_response_curve:
         fig_param  = kwargs.get("fig_param", dict())
         if "ss" in kwargs.keys():
             ss = kwargs.get("ss")
-            amp_name   = kwargs.get("amp_name", vlatex(ss.coord.a[ss.sol.solve_dof]))
-            phase_name = kwargs.get("phase_name", vlatex(ss.sol.cos_phase[0].args[0]))
+            amp_name   = kwargs.get("amp_name", vlatex(ss.coord.a[ss.sol_forced.solve_dof]))
+            phase_name = kwargs.get("phase_name", vlatex(ss.sol_forced.cos_phase[0].args[0]))
         else:
             amp_name   = kwargs.get("amp_name", "amplitude")
             phase_name = kwargs.get("phase_name", "phase")
@@ -186,7 +186,7 @@ class Amplitude_response_curve:
         # Construct a dictionary of substitutions
         param_dic = {}
         for ii in range(len(param)):
-            if param[ii][0] == ss.coord.a[ss.sol.solve_dof]:
+            if param[ii][0] == ss.coord.a[ss.sol_forced.solve_dof]:
                 param_dic["a"] = param[ii]
             elif param[ii][0] == mms.omega:
                 param_dic["omega"] = param[ii]
@@ -234,8 +234,8 @@ class Amplitude_response_curve:
         fig_param  = kwargs.get("fig_param", dict())
         if "ss" in kwargs.keys():
             ss = kwargs.get("ss")
-            amp_name   = kwargs.get("amp_name", vlatex(ss.coord.a[ss.sol.solve_dof]))
-            phase_name = kwargs.get("phase_name", vlatex(ss.sol.cos_phase[0].args[0]))
+            amp_name   = kwargs.get("amp_name", vlatex(ss.coord.a[ss.sol_forced.solve_dof]))
+            phase_name = kwargs.get("phase_name", vlatex(ss.sol_forced.cos_phase[0].args[0]))
         else:
             amp_name   = kwargs.get("amp_name", "amplitude")
             phase_name = kwargs.get("phase_name", "phase")
@@ -309,7 +309,7 @@ def numpise_omega_bbc(mms, ss, param):
     omega_bbc: numpy.ndarray
         Numpised backbone curve's frequency.
     """
-    omega_bbc  = sfun.sympy_to_numpy(rescale(ss.sol.omega_bbc, mms), param)
+    omega_bbc  = sfun.sympy_to_numpy(rescale(ss.sol_bbc.omega, mms), param)
     return omega_bbc
 
 def numpise_omega_FRC(mms, ss, param):
@@ -328,7 +328,7 @@ def numpise_omega_FRC(mms, ss, param):
     omega: numpy.ndarray
         Numpised forced response's frequency.
     """
-    omega = [np.real(sfun.sympy_to_numpy(mms.omegaMMS + rescale(mms.eps*sigmai, mms), param)) for sigmai in ss.sol.sigma]
+    omega = [np.real(sfun.sympy_to_numpy(mms.omegaMMS + rescale(mms.eps*sigmai, mms), param)) for sigmai in ss.sol_forced.sigma]
     return omega
 
 def numpise_omega_bif(mms, ss, param):
@@ -347,7 +347,7 @@ def numpise_omega_bif(mms, ss, param):
     omega_bif: list of numpy.ndarray
         Numpised bifurcation curves' frequency.
     """
-    omega_bif = [np.real(sfun.sympy_to_numpy(mms.omegaMMS + rescale(mms.eps*sigmai, mms), param)) for sigmai in ss.stab.bif_sigma]
+    omega_bif = [np.real(sfun.sympy_to_numpy(mms.omegaMMS + rescale(mms.eps*sigmai, mms), param)) for sigmai in ss.sol_forced.stab.bif_sigma]
     return omega_bif
 
 def numpise_phase(mms, ss, dyn, param, omega, F):
@@ -373,8 +373,8 @@ def numpise_phase(mms, ss, dyn, param, omega, F):
     """
     
     param_phase = param | dict(omega=(mms.omega, omega), F=(dyn.forcing.F, F))
-    sin_phase = sfun.sympy_to_numpy( rescale(ss.sol.sin_phase[1], mms), param_phase)
-    cos_phase = sfun.sympy_to_numpy( rescale(ss.sol.cos_phase[1], mms), param_phase)
+    sin_phase = sfun.sympy_to_numpy( rescale(ss.sol_forced.sin_phase[1], mms), param_phase)
+    cos_phase = sfun.sympy_to_numpy( rescale(ss.sol_forced.cos_phase[1], mms), param_phase)
     phase = np.arctan2(sin_phase, cos_phase)
 
     return phase
@@ -395,8 +395,8 @@ def numpise_F_ARC(mms, ss, param):
     F: numpy.ndarray
         Numpised forced response's forcing amplitude.
     """
-    if not isinstance(ss.sol.F, list):
-        F = sfun.sympy_to_numpy(rescale(mms.eps**mms.forcing.f_order * ss.sol.F, mms), param)
+    if not isinstance(ss.sol_forced.F, list):
+        F = sfun.sympy_to_numpy(rescale(mms.eps**mms.forcing.f_order * ss.sol_forced.F, mms), param)
     else:
-        F = [sfun.sympy_to_numpy(rescale(mms.eps**mms.forcing.f_order * Fi, mms), param) for Fi in ss.sol.F]
+        F = [sfun.sympy_to_numpy(rescale(mms.eps**mms.forcing.f_order * Fi, mms), param) for Fi in ss.sol_forced.F]
     return F

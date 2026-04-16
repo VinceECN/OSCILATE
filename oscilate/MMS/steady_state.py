@@ -31,7 +31,9 @@ class Substitutions_SS:
     sub_phase           : list[tuple[Expr]]
     sub_polar           : list[tuple[Expr]]
     sub_scaling_back    : list[tuple[Expr]]
-    sub_solve           : list[tuple[Expr]]
+    sub_solve_forced    : list[tuple[Expr]]
+    sub_solve_bbc       : list[tuple[Expr]]
+    sub_solve_LC        : list[tuple[Expr]]
     
     def __init__(self, mms):
         
@@ -65,27 +67,19 @@ class Coord_SS:
     
     def __init__(self):
         pass
-    
+
 class Sol_SS:
     """
     Solutions obtained when evaluating at steady state.
     """        
 
     # Class-level annotations for pyreverse       
-    F           : Union[Expr, None]
-    cos_phase   : tuple[Expr]
     fa          : list[Expr]
     faO         : list[list[Expr]]
     fbeta       : list[Expr]
     fbetaO      : list[list[Expr]]
     fp          : list[Expr]
     fq          : list[Expr]
-    omega_bbc   : Expr
-    sigma       : list[Expr]
-    sigma_bbc   : Expr
-    sin_phase   : tuple[Expr]
-    sol_a2      : Union[list[Expr], None]
-    solve_dof   : Union[int, None]
     x           : list[Expr]
     xO          : list[list[Expr]]
     
@@ -100,8 +94,75 @@ class Sol_SS:
             else:
                 self.x.append( "all solution orders were not rewritten in polar form" )
 
+class Sol_forced:
+    """
+    Solutions obtained when evaluating the forced response of the system.
+    """        
 
-class Stab_SS:
+    # Class-level annotations for pyreverse       
+    a2          : Union[list[Expr], None]
+    F           : Union[Expr, None]
+    fa          : Expr
+    fbeta       : Expr
+    cos_phase   : tuple[Expr]
+    sigma       : list[Expr]
+    sin_phase   : tuple[Expr]
+    solve_dof   : Union[int, None]
+    stab        : Stability
+    
+    def __init__(self):
+        pass
+
+class Sol_bbc:
+    """
+    Solutions obtained when evaluating the backbone curve of the forced response.
+    """        
+
+    # Class-level annotations for pyreverse       
+    beta      : Expr
+    omega     : Expr
+    sigma     : Expr
+    solve_dof : Union[int, None]
+    x         : Expr
+    xO        : list[Expr]
+
+    def __init__(self, ss, mms):
+        
+        self.xO = []
+        self.x  = []
+        for ix in range(ss.ndof):
+            self.xO.append( [xio.subs(ss.sub.sub_SS) for xio in mms.sol.xO_polar[ix]] )
+            if not isinstance(mms.sol.x[ix], str):
+                self.x.append( mms.sol.x[ix].subs(ss.sub.sub_SS) )
+            else:
+                self.x.append( "all solution orders were not rewritten in polar form" )
+
+class Sol_LC:
+    """
+    Solutions obtained when evaluating the limit cycle (LC) of the system.
+    """        
+
+    # Class-level annotations for pyreverse       
+    a         : Expr
+    beta      : Expr
+    omega     : Expr
+    sigma     : Expr
+    solve_dof : Union[int, None]
+    x         : Expr
+    xO        : list[Expr]
+
+    def __init__(self, ss, mms):
+        
+        self.xO = []
+        self.x  = []
+        for ix in range(ss.ndof):
+            self.xO.append( [xio.subs(ss.sub.sub_SS) for xio in mms.sol.xO_polar[ix]] )
+            if not isinstance(mms.sol.x[ix], str):
+                self.x.append( mms.sol.x[ix].subs(ss.sub.sub_SS) )
+            else:
+                self.x.append( "all solution orders were not rewritten in polar form" )
+
+class Stability:
     """
     Stability analysis parameters and outputs.
     """                
@@ -153,8 +214,9 @@ class Steady_state:
     ratio_omegaMMS:  Union[int, Rational]
     ratio_omega_osc: list[Union[int, Rational]]
     sigma:           Symbol
-    sol:             Sol_SS
-    stab:            Stab_SS
+    sol_forced:      Sol_forced
+    sol_bbc:         Sol_bbc
+    sol_LC:          Sol_LC
     sub:             Substitutions_SS
     
     def __init__(self, mms):
@@ -192,11 +254,11 @@ class Steady_state:
         self.polar_coordinates_SS(mms)
         
         # Solutions
-        self.sol = Sol_SS(self, mms)
-        
-        # Stability
-        self.stab = Stab_SS()
-        
+        self.sol        = Sol_SS(self, mms)
+        self.sol_forced = Sol_forced()
+        self.sol_bbc    = Sol_bbc(self, mms)
+        self.sol_LC     = Sol_LC(self, mms)
+                
         # Evolution equations at steady state
         self.modulation_equations_SS(mms)
         
@@ -239,6 +301,21 @@ class Steady_state:
         if 't_1' in srepr(fa) or 't_1' in srepr(fbeta):
             print("The modulation equations do not form an autonomous system")
 
+    def substitution_solve_dof(self, solve_dof):
+        r"""
+        Set every oscillator amplitude to 0 except the one to solve for.
+
+        Notes
+        -----
+        If one wants to solve for :math:`a_i`, then the system is evaluated for :math:`a_j=0, \; \forall j \neq i`.
+        """
+        sub_solve = []
+        for ix in range(self.ndof):
+            if ix != solve_dof:
+                sub_solve.append( (self.coord.a[ix], 0) )
+                
+        return sub_solve    
+
     def solve_forced(self, solve_dof=None):
         r"""
         Solve the forced response of an oscillator.
@@ -276,10 +353,10 @@ class Steady_state:
         print('Computing the forced response for oscillator {}'.format(solve_dof))
         
         # Store the oscillator that is solved for
-        self.sol.solve_dof = solve_dof
+        self.sol_forced.solve_dof = solve_dof
         
         # Set the other oscillator's amplitudes to zero
-        self.substitution_solve_dof(solve_dof)
+        self.sub.sub_solve_forced = self.substitution_solve_dof(solve_dof)
         
         # Phase response
         self.solve_phase()
@@ -292,22 +369,7 @@ class Steady_state:
         
         # Amplitude (forcing) respose
         self.solve_F()
-        
-    def substitution_solve_dof(self, solve_dof):
-        r"""
-        Set every oscillator amplitude to 0 except the one to solve for.
-
-        Notes
-        -----
-        If one wants to solve for :math:`a_i`, then the system is evaluated for :math:`a_j=0, \; \forall j \neq i`.
-        """
-        sub_solve = []
-        for ix in range(self.ndof):
-            if ix != solve_dof:
-                sub_solve.append( (self.coord.a[ix], 0) )
                 
-        self.sub.sub_solve = sub_solve    
-        
     def solve_phase(self):
         r"""
         Find solutions for the oscillator's phase :math:`\beta_i`. 
@@ -315,12 +377,12 @@ class Steady_state:
         """
         
         # Evaluate the modulation equations for a single oscillator responding
-        fa_dof    = self.sol.fa[self.sol.solve_dof]   .expand().subs(self.sub.sub_solve)
-        fbeta_dof = self.sol.fbeta[self.sol.solve_dof].expand().subs(self.sub.sub_solve)
+        fa_dof    = self.sol.fa[self.sol_forced.solve_dof]   .expand().subs(self.sub.sub_solve_forced)
+        fbeta_dof = self.sol.fbeta[self.sol_forced.solve_dof].expand().subs(self.sub.sub_solve_forced)
         
         # Collect sin and cos terms in the modulation equations
         collect_sin_cos = list(fa_dof.atoms(cos, sin)) + list(fbeta_dof.atoms(cos, sin))
-        collect_sin_cos = [item for item in collect_sin_cos if item.has(self.coord.beta[self.sol.solve_dof])]
+        collect_sin_cos = [item for item in collect_sin_cos if item.has(self.coord.beta[self.sol_forced.solve_dof])]
     
         def sort_key(expr):
             """
@@ -369,13 +431,15 @@ class Steady_state:
                 sin_phase = sympify(0)
         
         else:
-            print("   oscillator {} is not forced".format(self.sol.solve_dof))
+            print("   oscillator {} is not forced".format(self.sol_forced.solve_dof))
             return
     
         # Store the solutions
-        self.sol.sin_phase = (collect_sin_cos[0], sin_phase)
-        self.sol.cos_phase = (collect_sin_cos[1], cos_phase)
-        self.sub.sub_phase = [self.sol.sin_phase, self.sol.cos_phase]
+        self.sol_forced.fa    = fa_dof
+        self.sol_forced.fbeta = fbeta_dof
+        self.sol_forced.sin_phase = (collect_sin_cos[0], sin_phase)
+        self.sol_forced.cos_phase = (collect_sin_cos[1], cos_phase)
+        self.sub.sub_phase        = [self.sol_forced.sin_phase, self.sol_forced.cos_phase]
     
     def solve_sigma(self):
         r"""
@@ -384,17 +448,21 @@ class Steady_state:
         It is recalled that :math:`\omega = \omega_{\textrm{MMS}} + \epsilon \sigma`. 
         """
         
-        sin_phase = self.sol.sin_phase[1]
-        cos_phase = self.sol.cos_phase[1]
+        sin_phase = self.sol_forced.sin_phase[1]
+        cos_phase = self.sol_forced.cos_phase[1]
         
+        # Equation on sigma
         Eq_sig = (sin_phase**2).expand() + (cos_phase**2).expand() - 1
     
+        # Solve
         print('   Computing the frequency response')
         sol_sigma = sfun.solve_poly2(Eq_sig, self.sigma)
         if sol_sigma != None:
             sol_sigma = [sol_sigma_i.simplify() for sol_sigma_i in sol_sigma]
         
-        self.sol.sigma = sol_sigma
+        # Store the solution
+        self.sol_forced.Eq_sig = Eq_sig
+        self.sol_forced.sigma  = sol_sigma
     
     def solve_a(self):
         r"""
@@ -402,9 +470,9 @@ class Steady_state:
         For readability, the output actually returned is :math:`a_i^2(\sigma, F)`. 
         """
         
-        sin_phase = self.sol.sin_phase[1]
-        cos_phase = self.sol.cos_phase[1]
-        a         = self.coord.a[self.sol.solve_dof]
+        sin_phase = self.sol_forced.sin_phase[1]
+        cos_phase = self.sol_forced.cos_phase[1]
+        a         = self.coord.a[self.sol_forced.solve_dof]
         
         # Equation on a
         Eq_a = (sin_phase**2).expand() + (cos_phase**2).expand() - 1
@@ -420,15 +488,18 @@ class Steady_state:
         else:
             print("   Not computing the response with respect to the oscillator's amplitude as the equation to solve is not of 2nd degree")
             sol_a2 = None
-        self.sol.sol_a2 = sol_a2
+        
+        # Store the solutions
+        self.sol_forced.Eq_a = Eq_a
+        self.sol_forced.a2   = sol_a2
     
     def solve_F(self):
         r"""
         Solve the forced response in terms of the forcing amplitude :math:`F`. Returns :math:`F(a_i)`
         """
         
-        sin_phase = self.sol.sin_phase[1]
-        cos_phase = self.sol.cos_phase[1]
+        sin_phase = self.sol_forced.sin_phase[1]
+        cos_phase = self.sol_forced.cos_phase[1]
         F         = self.forcing.F
         
         # Equation on F
@@ -453,7 +524,9 @@ class Steady_state:
             print('   Not computing the response with respect to the forcing amplitude as the equation to solve is not of 2nd degree')
             sol_F = None
 
-        self.sol.F = sol_F    
+        # Store the solutions
+        self.sol_forced.Eq_F = Eq_F
+        self.sol_forced.F    = sol_F    
     
     def solve_bbc(self, c=[], solve_dof=None):
         r"""
@@ -491,10 +564,14 @@ class Steady_state:
         print('Computing the backbone curve for oscillator {}'.format(solve_dof))
         
         # Store the oscillator that is solved for
-        self.sol.solve_dof_bbc = solve_dof
+        self.sol_bbc.solve_dof = solve_dof
 
         # Set every oscillator amplitude to 0 except the one to solve for
-        self.substitution_solve_dof(solve_dof)
+        self.sub.sub_solve_bbc = self.substitution_solve_dof(solve_dof)
+
+        # Phase solution
+        self.sol_bbc.beta = pi/2
+        self.sub.sub_solve_bbc.append((self.coord.beta[solve_dof], self.sol_bbc.beta))
         
         # Substitutions for the free response
         if not isinstance(c, list): 
@@ -503,17 +580,38 @@ class Steady_state:
             
         # Compute the bbc equation
         if self.forcing.f_order != 0 and self.ratio_omegaMMS>=1: # using the free response
-            Eq_bbc = self.sol.fbeta[solve_dof].subs(self.sub.sub_solve).subs(self.sub.sub_B).subs(sub_free)
-        else:  # The backbone curve is affected by the forcing (superharmonic resonance)
-            Eq_F   = self.sol.fa[solve_dof].subs(self.sub.sub_solve).subs(self.sub.sub_B).subs(self.coord.beta[solve_dof], pi/2)
-            Fbbc   = abs(solve(Eq_F, self.forcing.F)[0])
-            Eq_bbc = self.sol.fbeta[solve_dof].subs(self.sub.sub_solve).subs(self.sub.sub_B).subs(self.forcing.F, Fbbc).subs(self.coord.beta[solve_dof], pi/2)
+            self.sub.sub_solve_bbc += self.sub.sub_B + sub_free
+            Eq_bbc = self.sol.fbeta[solve_dof].subs(self.sub.sub_solve_bbc)
+        else:  # The backbone curve can be affected by the forcing (superharmonic resonance)
+            self.sub.sub_solve_bbc += self.sub.sub_B 
+            Eq_F   = self.sol.fa[solve_dof].subs(self.sub.sub_solve_bbc)
+            sol_Fbbc = solve(Eq_F, self.forcing.F)
+            if sol_Fbbc:
+                Fbbc   = abs(sol_Fbbc[0])
+                self.sub.sub_solve_bbc += [(self.forcing.F, Fbbc)]
+            else:
+                self.sub.sub_solve_bbc += sub_free
+            Eq_bbc = self.sol.fbeta[solve_dof].subs(self.sub.sub_solve_bbc)
 
         # Compute the backbone curve
-        self.sol.sigma_bbc = solve(Eq_bbc, self.sigma)[0].expand().collect(self.coord.a[solve_dof])
-        self.sol.omega_bbc = self.omegaMMS + self.eps*self.sol.sigma_bbc
+        self.sol_bbc.sigma = solve(Eq_bbc, self.sigma)[0].expand().collect(self.coord.a[solve_dof])
+        self.sol_bbc.omega = self.omegaMMS + self.eps*self.sol_bbc.sigma
         
+        # Store additional information
         self.sub.sub_free = sub_free
+        self.sol_bbc.Eq_sig = Eq_bbc
+
+        # Oscillator's motion
+        self.solve_bbc_x()
+        
+    def solve_bbc_x(self):
+        """
+        Compute the displacement :math:`x` on the backbone curve.
+        """
+        self.sol_bbc.xO = [xio.subs(self.coord.beta[self.sol_bbc.solve_dof], self.sol_bbc.beta).simplify() for xio in self.sol.xO[self.sol_bbc.solve_dof]] 
+        if not isinstance(self.sol.x[self.sol_bbc.solve_dof], str):
+            self.sol_bbc.x  = self.sol.x[self.sol_bbc.solve_dof].subs(self.coord.beta[self.sol_bbc.solve_dof], self.sol_bbc.beta).simplify() 
+
 
     def solve_LC(self, solve_dof=None):
         r"""
@@ -534,14 +632,14 @@ class Steady_state:
         print('Computing the limit cycle for oscillator {}'.format(solve_dof))
         
         # Store the oscillator that is solved for
-        self.sol.solve_dof_LC = solve_dof
+        self.sol_LC.solve_dof = solve_dof
 
         # Set every oscillator amplitude to 0 except the one to solve for
-        self.substitution_solve_dof_LC(solve_dof)
+        self.sub.sub_solve_LC = self.substitution_solve_dof(solve_dof)
 
         # Phase solution
-        self.sol.betaLC = 0
-        self.sub.sub_solve_LC.append((self.coord.beta[self.sol.solve_dof_LC], self.sol.betaLC))
+        self.sol_LC.beta = 0
+        self.sub.sub_solve_LC.append((self.coord.beta[solve_dof], self.sol_LC.beta))
 
         # Amplitude solution
         self.solve_LC_amplitude()
@@ -552,41 +650,28 @@ class Steady_state:
         # Oscillator's motion
         self.solve_LC_x()
 
-    def substitution_solve_dof_LC(self, solve_dof):
-        r"""
-        Set every oscillator amplitude to 0 except the one to solve for.
-
-        Notes
-        -----
-        If one wants to solve for :math:`a_i`, then the system is evaluated for :math:`a_j=0, \; \forall j \neq i`.
-        """
-        sub_solve = []
-        for ix in range(self.ndof):
-            if ix != solve_dof:
-                sub_solve.append( (self.coord.a[ix], 0) )
-                
-        self.sub.sub_solve_LC = sub_solve    
-
     def solve_LC_amplitude(self):
         """
         Compute the amplitude of the homogeneous, leading order solution on the limit cycle.
         """
-        self.sol.aLC   = solve(self.sol.fa[self.sol.solve_dof_LC], self.coord.a[self.sol.solve_dof_LC])[0] # Amplitude solution
-        self.sub.sub_solve_LC.append((self.coord.a[self.sol.solve_dof_LC], self.sol.aLC))
+        self.sol_LC.a   = solve(self.sol.fa[self.sol_LC.solve_dof], self.coord.a[self.sol_LC.solve_dof])[0] # Amplitude solution
+        self.sub.sub_solve_LC.append((self.coord.a[self.sol_LC.solve_dof], self.sol_LC.a))
 
     def solve_LC_frequency(self):
         """
         Compute the oscillation frequency on the limit cycle.
         """
-        self.sol.sigmaLC = solve(self.sol.fbeta[self.sol.solve_dof_LC], self.sigma)[0].subs(self.coord.a[0], self.sol.aLC) # Detuning solution
-        self.sol.omegaLC = (self.omegaMMS + self.eps*self.sol.sigmaLC)       # Frequency solution
-        self.sub.sub_solve_LC.append((self.omega, self.sol.omegaLC))
+        self.sol_LC.sigma = solve(self.sol.fbeta[self.sol_LC.solve_dof], self.sigma)[0].subs(self.coord.a[0], self.sol_LC.a) # Detuning solution
+        self.sol_LC.omega = (self.omegaMMS + self.eps*self.sol_LC.sigma) # Frequency solution
+        self.sub.sub_solve_LC.append((self.omega, self.sol_LC.omega))
 
     def solve_LC_x(self):
         """
         Compute the displacement :math:`x` on the limit cycle.
         """
-        self.sol.xLC = self.sol.x[0].subs(self.coord.beta[self.sol.solve_dof_LC], self.sol.betaLC).simplify() # Using .subs(self.sub.sub_solve_LC) would result in too long expressions
+        self.sol_LC.xO = [xio.subs(self.coord.beta[self.sol_LC.solve_dof], self.sol_LC.beta).simplify() for xio in self.sol.xO[self.sol_LC.solve_dof]] 
+        if not isinstance(self.sol.x[self.sol_LC.solve_dof], str):
+            self.sol_LC.x  = self.sol.x[self.sol_LC.solve_dof].subs(self.coord.beta[self.sol_LC.solve_dof], self.sol_LC.beta).simplify() # Using .subs(self.sub.sub_solve_LC) would result in too long expressions
 
     def Jacobian_polar(self):
         r"""
@@ -705,7 +790,6 @@ class Steady_state:
             
             # Check if the a and beta have all been substituted
             substitution_OK = self.check_cartesian_substitutions(a, beta, fp, fq)
-            
         
         if not substitution_OK:
             print("   The substitution from polar to cartesian coordinates is incomplete")
@@ -822,9 +906,9 @@ class Steady_state:
         
         return J
 
-    def stability_analysis(self, coord="cartesian", rewrite_polar=False, eigenvalues=False, bifurcation_curves=False, trace_curves=False, analyse_blocks=False, kwargs_bif=dict()):
+    def stability_analysis_forced(self, coord="cartesian", rewrite_polar=False, eigenvalues=False, bifurcation_curves=False, trace_curves=False, analyse_blocks=False, kwargs_bif=dict()):
         r"""
-        Evaluate the stability of a steady state solution. 
+        Evaluate the stability of a steady state, forced solution. 
         See :ref:`stability` for a detailed description of the dynamical system.
 
         Parameters
@@ -852,28 +936,29 @@ class Steady_state:
         kwargs_bif: dict, optional
             Passed to :func:`bifurcation_curves`
             Default is `dict()`.
-
-        
         """
         
         # Check if a solution has been computed
-        if not "sigma" in self.sol.__dict__.keys():
+        if not "sigma" in self.sol_forced.__dict__.keys():
             print("There is no solution to evaluate the stability of.")
             return
         
         # Information
-        print("Evaluating the stability of the solution of oscillator {}".format(self.sol.solve_dof))
+        print("Evaluating the stability of the solution of oscillator {}".format(self.sol_forced.solve_dof))
         
+        # Create a Stability instance
+        self.sol_forced.stab = Stability()
+
         # Introduce the cartesian coordinates and modulation equations
         if coord == "cartesian":
             print("   Rewritting the system in cartesian coordinates")
 
-            self.stab.analysis_coord = "cartesian"
+            self.sol_forced.stab.analysis_coord = "cartesian"
             self.cartesian_coordinates()
             self.modulation_equations_cartesian()
 
         else:
-            self.stab.analysis_coord = "polar"
+            self.sol_forced.stab.analysis_coord = "polar"
         
         # Compute the Jacobian
         print("   Computing the Jacobian")
@@ -885,21 +970,21 @@ class Steady_state:
         # Set every oscillator amplitude to 0 except the one solved for
         if coord=="cartesian":
             for ix in range(self.ndof):
-                if ix != self.sol.solve_dof:
-                    self.sub.sub_solve.extend( [(self.coord.p[ix], 0), (self.coord.q[ix], 0)] )
+                if ix != self.sol_forced.solve_dof:
+                    self.sub.sub_solve_forced.extend( [(self.coord.p[ix], 0), (self.coord.q[ix], 0)] )
          
         # Use the steady state solutions to perform substitutions
-        self.sub.sub_solve.extend( [(self.forcing.F*self.sol.sin_phase[0], self.forcing.F*self.sol.sin_phase[1]),
-                                    (self.forcing.F*self.sol.cos_phase[0], self.forcing.F*self.sol.cos_phase[1])] )
+        self.sub.sub_solve_forced.extend( [(self.forcing.F*self.sol_forced.sin_phase[0], self.forcing.F*self.sol_forced.sin_phase[1]),
+                                    (self.forcing.F*self.sol_forced.cos_phase[0], self.forcing.F*self.sol_forced.cos_phase[1])] )
         
         if coord=="cartesian": 
-            if self.forcing.F in self.sol.fp[self.sol.solve_dof].atoms(Symbol): 
-                self.sub.sub_solve.append( (self.forcing.F, solve(self.sol.fp[self.sol.solve_dof].subs(self.sub.sub_solve), self.forcing.F)[0]) )
+            if self.forcing.F in self.sol.fp[self.sol_forced.solve_dof].atoms(Symbol): 
+                self.sub.sub_solve_forced.append( (self.forcing.F, solve(self.sol.fp[self.sol_forced.solve_dof].subs(self.sub.sub_solve_forced), self.forcing.F)[0]) )
             else:
-                self.sub.sub_solve.append( (self.forcing.F, solve(self.sol.fq[self.sol.solve_dof].subs(self.sub.sub_solve), self.forcing.F)[0]) )
+                self.sub.sub_solve_forced.append( (self.forcing.F, solve(self.sol.fq[self.sol_forced.solve_dof].subs(self.sub.sub_solve_forced), self.forcing.F)[0]) )
         
         # Evaluate the Jacobian on the solution
-        Jsol = simplify(J.subs(self.sub.sub_solve)) 
+        Jsol = simplify(J.subs(self.sub.sub_solve_forced)) 
         
         # Analyse the Jacobian
         tr_Jsol  = trace(Jsol).simplify()
@@ -908,9 +993,9 @@ class Steady_state:
         # Rewrite the results in polar form if cartesian coordinates were used (time consuming)
         if coord=="cartesian": 
             # Save cartesian results
-            self.stab.Jsolc     = Jsol
-            self.stab.tr_Jsolc  = tr_Jsol
-            self.stab.det_Jsolc = det_Jsol
+            self.sol_forced.stab.Jsolc     = Jsol
+            self.sol_forced.stab.tr_Jsolc  = tr_Jsol
+            self.sol_forced.stab.det_Jsolc = det_Jsol
             
             # Write the results in polar form
             if rewrite_polar:
@@ -920,63 +1005,63 @@ class Steady_state:
                 det_Jsol = cartesian_to_polar(det_Jsol, self.sub.sub_polar, sub_phase=self.sub.sub_phase)
 
         # Store results
-        self.stab.Jsol     = Jsol
-        self.stab.tr_Jsol  = tr_Jsol
-        self.stab.det_Jsol = det_Jsol
+        self.sol_forced.stab.Jsol     = Jsol
+        self.sol_forced.stab.tr_Jsol  = tr_Jsol
+        self.sol_forced.stab.det_Jsol = det_Jsol
         
         # Compute eigenvalues and bifurcation curves from the analysis of Jsol
         if not analyse_blocks:
             if eigenvalues:
-                self.stab.eigvals = self.eigenvalues(Jsol)
+                self.sol_forced.stab.eigvals = self.eigenvalues(Jsol)
             if bifurcation_curves:
-                self.stab.bif_a, self.stab.bif_sigma = self.bifurcation_curves(det_Jsol, **kwargs_bif)
+                self.sol_forced.stab.bif_a, self.sol_forced.stab.bif_sigma = self.bifurcation_curves(det_Jsol, **kwargs_bif)
             if trace_curves:
-                self.stab.tr_a, self.stab.tr_sigma = self.trace_curves(tr_Jsol, **kwargs_bif)
+                self.sol_forced.stab.tr_a, self.sol_forced.stab.tr_sigma = self.trace_curves(tr_Jsol, **kwargs_bif)
 
         # Analyse the blocks of Jsol
         if analyse_blocks:
             print("   Block analysis")
 
             if coord == "cartesian":
-                Jsol = self.stab.Jsolc
+                Jsol = self.sol_forced.stab.Jsolc
 
             if sfun.is_block_diagonal(Jsol, 2):
-                self.stab.blocks         = []
-                self.stab.blocks_det     = []
-                self.stab.blocks_tr      = []
-                self.stab.blocks_eigvals = []
-                self.stab.blocks_bif_a   = []
-                self.stab.blocks_bif_sig = []
-                self.stab.blocks_tr_a    = []
-                self.stab.blocks_tr_sig  = []
+                self.sol_forced.stab.blocks         = []
+                self.sol_forced.stab.blocks_det     = []
+                self.sol_forced.stab.blocks_tr      = []
+                self.sol_forced.stab.blocks_eigvals = []
+                self.sol_forced.stab.blocks_bif_a   = []
+                self.sol_forced.stab.blocks_bif_sig = []
+                self.sol_forced.stab.blocks_tr_a    = []
+                self.sol_forced.stab.blocks_tr_sig  = []
 
                 for idx in range(0, Jsol.rows, 2):
                     A = Jsol[idx:idx+2, idx:idx+2] 
-                    self.stab.blocks.append(A)
+                    self.sol_forced.stab.blocks.append(A)
                     detA = det(A)
                     trA  = trace(A) 
                     if coord=="cartesian":
                         detA = cartesian_to_polar(detA, self.sub.sub_polar, sub_phase=self.sub.sub_phase).factor()
                         trA  = cartesian_to_polar(trA, self.sub.sub_polar, sub_phase=self.sub.sub_phase).factor()
                     
-                    self.stab.blocks_det.append(detA)
-                    self.stab.blocks_tr.append(trA)
+                    self.sol_forced.stab.blocks_det.append(detA)
+                    self.sol_forced.stab.blocks_tr.append(trA)
 
                     if eigenvalues:
                         eigvalsA = self.eigenvalues(A, detA=detA, trA=trA)
                         if coord=="cartesian":
                             eigvalsA = [cartesian_to_polar(eigval, self.sub.sub_polar, sub_phase=self.sub.sub_phase) for eigval in eigvalsA]
-                        self.stab.blocks_eigvals.append(eigvalsA)
+                        self.sol_forced.stab.blocks_eigvals.append(eigvalsA)
 
                     if bifurcation_curves:
                         bif_aA, bif_sigA = self.bifurcation_curves(detA, **kwargs_bif)
-                        self.stab.blocks_bif_a.append(bif_aA)
-                        self.stab.blocks_bif_sig.append(bif_sigA)
+                        self.sol_forced.stab.blocks_bif_a.append(bif_aA)
+                        self.sol_forced.stab.blocks_bif_sig.append(bif_sigA)
 
                     if trace_curves:
                         tr_aA, tr_sigA = self.bifurcation_curves(trA, **kwargs_bif)
-                        self.stab.blocks_tr_a.append(tr_aA)
-                        self.stab.blocks_tr_sig.append(tr_sigA)
+                        self.sol_forced.stab.blocks_tr_a.append(tr_aA)
+                        self.sol_forced.stab.blocks_tr_sig.append(tr_sigA)
 
             else:
                 print("Trying to perform a block analysis while the Jacobian is not block-diagonal")
@@ -1015,7 +1100,7 @@ class Steady_state:
         
         return eigvals
             
-    def bifurcation_curves(self, detJ, var_a=False, var_sig=True, solver=sfun.solve_poly2):
+    def bifurcation_curves(self, detJ, sol_type="forced", var_a=False, var_sig=True, solver=sfun.solve_poly2):
         r"""
         Compute bifurcation curves, defined by the simple bifurcation points of the slow time system obtained for any forcing frequency and amplitude. 
 
@@ -1023,6 +1108,9 @@ class Steady_state:
         ----------
         detJ: sympy.Expr
             The determinant of the matrix.
+        sol_type: str, optional
+            The solution type, among {"forced", "bbc", "LC"}
+            Default is forced.
         var_a: bool, optional
             Consider the :math:`i^{\textrm{th}}` oscillator's amplitude :math:`a_i` as the variable and find the bifurcation curve as an expression for :math:`a_i`.
             `detJ` is rarely a quadratic polynomial in :math:`a_i`, so this can rarely be computed easily.
@@ -1051,8 +1139,18 @@ class Steady_state:
         
         print("   Computing bifurcation curves")
 
+        # Get the solution to evaluate the stability of
+        if sol_type=="forced": 
+            sol = self.sol_forced
+        elif sol_type=="bbc":
+            sol = self.sol_bbc
+        elif sol_type=="LC":
+            sol = self.sol_LC
+        else:
+            "Wrong solution type"
+
         # Check if a stability analysis was performed
-        if not "Jsol" in self.stab.__dict__.keys():
+        if not "Jsol" in sol.stab.__dict__.keys():
             print("There was no stability analysis performed.")
             return
 
@@ -1066,8 +1164,8 @@ class Steady_state:
                           "Try other substitutions manually or compute the Jacobian's determinant using block partitions if possible")
 
         # Compute the bifurcation curves from the determinant of the Jacobian
-        if var_a and sfun.check_solvability(detJ, self.coord.a[self.sol.solve_dof]**2):
-            bif_a = solver(detJ, self.coord.a[self.sol.solve_dof]**2)
+        if var_a and sfun.check_solvability(detJ, self.coord.a[sol.solve_dof]**2):
+            bif_a = solver(detJ, self.coord.a[self.sol_forced.solve_dof]**2)
         else:
             bif_a = []
 
@@ -1079,7 +1177,7 @@ class Steady_state:
         # Return
         return bif_a, bif_sig
     
-    def trace_curves(self, trJ, var_a=False, var_sig=True, solver=sfun.solve_poly2):
+    def trace_curves(self, trJ, sol_type="forced", var_a=False, var_sig=True, solver=sfun.solve_poly2):
         r"""
         Compute curves capturing the variations of the trace of the Jacobian. For 2 by 2 Jacobians, a negative trace with a positive determinant indicates a stable response.
 
@@ -1087,6 +1185,9 @@ class Steady_state:
         ----------
         trJ: sympy.Expr
             The trace of the matrix.
+        sol_type: str, optional
+            The solution type, among {"forced", "bbc", "LC"}
+            Default is forced.
         var_a: bool, optional
             Consider the :math:`i^{\textrm{th}}` oscillator's amplitude :math:`a_i` as the variable and find the trace curve as an expression for :math:`a_i`.
             Default is `False`.
@@ -1109,8 +1210,18 @@ class Steady_state:
         
         print("   Computing trace curves")
 
+        # Get the solution to evaluate the stability of
+        if sol_type=="forced": 
+            sol = self.sol_forced
+        elif sol_type=="bbc":
+            sol = self.sol_bbc
+        elif sol_type=="LC":
+            sol = self.sol_LC
+        else:
+            "Wrong solution type"
+
         # Check if a stability analysis was performed
-        if not "Jsol" in self.stab.__dict__.keys():
+        if not "Jsol" in sol.stab.__dict__.keys():
             print("There was no stability analysis performed.")
             return
 
@@ -1124,8 +1235,8 @@ class Steady_state:
                           "Try other substitutions manually or compute the Jacobian's  trace using block partitions if possible")
 
         # Add curves related to the trace of the Jacobian if it is not a constant
-        if var_a and self.coord.a[self.sol.solve_dof] in trJ.atoms(Symbol):
-            tr_a   += solver(trJ, self.coord.a[self.sol.solve_dof]**2)
+        if var_a and self.coord.a[sol.solve_dof] in trJ.atoms(Symbol):
+            tr_a   += solver(trJ, self.coord.a[sol.solve_dof]**2)
         else:
             tr_a = []
         
