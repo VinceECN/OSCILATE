@@ -622,7 +622,7 @@ class Steady_state:
             self.sol_bbc.x  = self.sol.x[self.sol_bbc.solve_dof].subs(self.coord.beta[self.sol_bbc.solve_dof], self.sol_bbc.beta).simplify() 
 
 
-    def solve_LC(self, solve_dof=None):
+    def solve_LC(self, solve_dof=None, betai=0):
         r"""
         Find the limit cycle (LC) of a given oscillator with the other oscillators' amplitude set to 0.
         
@@ -632,6 +632,9 @@ class Steady_state:
             The oscillator number to solve for. 
             If `None`, no oscillator is solved for.
             Default is `None`.
+        betai: int or Expr, optional
+            The initial phase.
+            Default is 0.
         """
 
         if solve_dof==None:
@@ -647,7 +650,7 @@ class Steady_state:
         self.sub.sub_solve_LC = self.substitution_solve_dof(solve_dof)
 
         # Phase solution
-        self.sol_LC.beta = 0
+        self.sol_LC.beta = sympify(betai)
         self.sub.sub_solve_LC.append((self.coord.beta[solve_dof], self.sol_LC.beta))
 
         # Amplitude solution

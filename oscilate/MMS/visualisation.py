@@ -295,6 +295,256 @@ class Amplitude_response_curve:
         
         # Return
         return fig1, fig2
+    
+class Transient_response:
+    """
+    Evaluate the transient response for given numerical parameters. 
+    This transforms the sympy expressions to numpy arrays.
+    They can then be plotted in the phase portrait and as time signals.
+
+    Parameters
+    ----------
+    mms : Multiple_scales_system
+        The MMS object.
+    param : list[tuple]
+        A list whose values are tuples with 2 elements:
+
+        1. The sympy symbol of a parameter,
+
+        2. The numerical value(s) taken by that parameter.
+    """
+
+    # Class-level annotations for pyreverse
+    if TYPE_CHECKING:
+        a           : np.ndarray
+        dxdt        : np.ndarray
+        param       : dict
+        psi         : np.ndarray
+        solve_dof   : int
+        t           : np.ndarray
+        x           : np.ndarray
+
+    def __init__(self, mms, param):
+        
+        # Information
+        print("Converting sympy transient response expressions to numpy")
+
+        # Construct a dictionary of substitutions
+        param_dic = {}
+        for ii in range(len(param)):
+            if param[ii][0] == mms.t:
+                param_dic["t"] = param[ii]
+            elif param[ii][0] in mms.sol_transient.IC["a"].values():
+                param_dic["ai"] = param[ii]
+            elif param[ii][0] in mms.sol_transient.IC["a"].values():
+                param_dic["betai"] = param[ii]
+            else:
+                param_dic[f"param_{ii}"] = param[ii]
+
+        # Compute the slow time solutions
+        a, psi, dadt, dpsidt = numpise_transient_slow_time(mms, param_dic)
+
+        slow_sol           = dict()
+        slow_sol["a"]      = (mms.coord.at[mms.sol_transient.solve_dof], a)
+        slow_sol["psi"]    = (mms.coord.psi, psi)
+        slow_sol["dadt"]   = (mms.coord.at[mms.sol_transient.solve_dof].diff(mms.t), dadt)
+        slow_sol["dpsidt"] = (mms.coord.psi.diff(mms.t), dpsidt)
+
+        # Compute the time signals
+        x, dxdt = numpise_transient_trajectory(mms, param_dic | slow_sol)
+
+        # Store the results
+        self.param = param_dic
+        self.t     = param_dic["t"]
+        self.a     = a
+        self.psi   = psi
+        self.x     = x
+        self.dxdt  = dxdt
+        self.solve_dof = mms.sol_transient.solve_dof
+
+    def plot_PP(self, c="tab:blue", **kwargs):
+        r"""
+        Plots the transient trajectory in the phase portrait.
+
+        Parameters
+        ----------
+        c : str, optional
+            The color of the line.
+
+        Returns
+        -------
+        fig : Figure
+            The phase portrait plot.
+        """
+
+        # Extract the keyword arguments
+        fig_param  = kwargs.get("fig_param", dict())
+        
+        # Trajectory plot
+        fig, ax = plt.subplots(**fig_param)
+        ax.plot(self.x, self.dxdt, c=c)
+        ax.plot(self.x[0], self.dxdt[0], marker="o", mfc=c, mec="none", ms=4)
+        
+        # Labels
+        ax.set_xlabel(r"$x_{}$".format(self.solve_dof))
+        ax.set_ylabel(r"$\dot{{x}}_{}$".format(self.solve_dof))
+
+        # Return
+        return fig
+    
+    def plot_time(self, c="tab:blue", **kwargs):
+        r"""
+        Plots the transient time response.
+
+        Parameters
+        ----------
+        c : str, optional
+            The color of the line.
+
+        Returns
+        -------
+        fig : Figure
+            The time plot.
+        """
+
+        # Extract the keyword arguments
+        fig_param  = kwargs.get("fig_param", dict())
+        
+        # Time plot
+        fig, ax = plt.subplots(**fig_param)
+        ax.plot(self.t, self.x, c=c)
+        
+        # Labels
+        ax.set_xlabel(r"$t$")
+        ax.set_ylabel(r"$x_{}$".format(self.solve_dof))
+
+        # Return
+        return fig
+    
+
+class Limit_cycle:
+    """
+    Evaluate the limit cycle for given numerical parameters. 
+    This transforms the sympy expressions to numpy arrays.
+    They can then be plotted in the phase portrait and as time signals.
+
+    Parameters
+    ----------
+    mms : Multiple_scales_system
+        The MMS object.
+    ss : Steady_state
+        The SS object.
+    param : list[tuple]
+        A list whose values are tuples with 2 elements:
+
+        1. The sympy symbol of a parameter,
+
+        2. The numerical value(s) taken by that parameter.
+    Npts: int, optional
+        Number of time points.
+        Default is 1000.
+    """
+
+    # Class-level annotations for pyreverse
+    if TYPE_CHECKING:
+        a           : float
+        beta        : float
+        dxdt        : np.ndarray
+        param       : dict
+        solve_dof   : int
+        t           : np.ndarray
+        x           : np.ndarray
+
+    def __init__(self, mms, ss, param, Npts=1000):
+        
+        # Information
+        print("Converting sympy transient response expressions to numpy")
+
+        # Construct a dictionary of substitutions
+        param_dic = {}
+        for ii in range(len(param)):
+            param_dic[f"param_{ii}"] = param[ii]
+
+        # Compute the LC amplitude, phase and frequency.
+        a, beta, omega = numpise_LC(mms, ss, param_dic)
+        LC_sol          = dict()
+        LC_sol["a"]     = (ss.coord.a[ss.sol_LC.solve_dof], a)
+        LC_sol["beta"]  = (ss.coord.beta[ss.sol_LC.solve_dof], beta)
+        LC_sol["omega"] = (ss.omega, omega)
+
+        # Compute the time signals
+        param_dic["t"] = (mms.t, np.linspace(0, 2*np.pi/omega, Npts))
+        x, dxdt = numpise_LC_trajectory(mms, ss, param_dic | LC_sol)
+
+        # Store the results
+        self.param = param_dic
+        self.t     = param_dic["t"][1]
+        self.a     = a
+        self.beta  = beta
+        self.x     = x
+        self.dxdt  = dxdt
+        self.solve_dof = ss.sol_LC.solve_dof
+
+    def plot_PP(self, c="tab:blue", lw=2, **kwargs):
+        r"""
+        Plots the transient trajectory in the phase portrait.
+
+        Parameters
+        ----------
+        c : str, optional
+            The color of the line.
+        lw : float, optional
+            The linewidth
+            Default is 2.
+
+        Returns
+        -------
+        fig : Figure
+            The phase portrait plot.
+        """
+
+        # Extract the keyword arguments
+        fig_param  = kwargs.get("fig_param", dict())
+        
+        # Trajectory plot
+        fig, ax = plt.subplots(**fig_param)
+        ax.plot(self.x, self.dxdt, c=c, lw=lw, zorder=10)
+        
+        # Labels
+        ax.set_xlabel(r"$x_{}$".format(self.solve_dof))
+        ax.set_ylabel(r"$\dot{{x}}_{}$".format(self.solve_dof))
+
+        # Return
+        return fig
+    
+    def plot_time(self, c="tab:blue", **kwargs):
+        r"""
+        Plots the transient time response.
+
+        Parameters
+        ----------
+        c : str, optional
+            The color of the line.
+
+        Returns
+        -------
+        fig : Figure
+            The time plot.
+        """
+
+        # Extract the keyword arguments
+        fig_param  = kwargs.get("fig_param", dict())
+        
+        # Time plot
+        fig, ax = plt.subplots(**fig_param)
+        ax.plot(self.t, self.x, c=c)
+        
+        # Labels
+        ax.set_xlabel(r"$t$")
+        ax.set_ylabel(r"$x_{}$".format(self.solve_dof))
+
+        # Return
+        return fig
 
 def numpise_omegaMMS(mms, param):
     r"""
@@ -421,3 +671,106 @@ def numpise_F_ARC(mms, ss, param):
     else:
         F = [sfun.sympy_to_numpy(rescale(mms.eps**mms.forcing.f_order * Fi, mms), param) for Fi in ss.sol_forced.F]
     return F
+
+def numpise_transient_slow_time(mms, param):
+    r"""
+    Numpise the slow time transient response.
+
+    Parameters
+    ----------
+    mms: Multiple_scales_system
+    param: dict
+        See :func:`~MMS.sympy_functions.sympy_to_numpy`.
+
+    Returns
+    -------
+    a: numpy.ndarray
+        Numpised transient amplitude.
+    psi: numpy.ndarray
+        Numpised transient absolute phase.
+    dadt: numpy.ndarray
+        Numpised time derivative of the transient amplitude.
+    dpsidt: numpy.ndarray
+        Numpised time derivative of the transient absolute phase.
+    """
+
+    a      = sfun.sympy_to_numpy(rescale(mms.sol_transient.a, mms), param)
+    psi    = sfun.sympy_to_numpy(rescale(mms.sol_transient.psi, mms), param)
+    dadt   = sfun.sympy_to_numpy(rescale(mms.sol_transient.a.diff(mms.t), mms), param)
+    dpsidt = sfun.sympy_to_numpy(rescale(mms.sol_transient.psi.diff(mms.t), mms), param)
+
+    return a, psi, dadt, dpsidt
+
+def numpise_transient_trajectory(mms, param):
+    r"""
+    Numpise the transient oscillator's trajectory
+
+    Parameters
+    ----------
+    mms: Multiple_scales_system
+    param: dict
+        See :func:`~MMS.sympy_functions.sympy_to_numpy`.
+
+    Returns
+    -------
+    x: numpy.ndarray
+        Numpised transient motion.
+    dxdt: numpy.ndarray
+        Numpised transient velocity.
+    """
+
+    x    = sfun.sympy_to_numpy(rescale(mms.sol_transient.x, mms), param)
+    dxdt = sfun.sympy_to_numpy(rescale(mms.sol_transient.x.diff(mms.t), mms), param)
+
+    return x, dxdt
+
+def numpise_LC(mms, ss, param):
+    r"""
+    Numpise the limit cycle solution.
+
+    Parameters
+    ----------
+    mms: Multiple_scales_system
+    ss: Steady_state_system
+    param: dict
+        See :func:`~MMS.sympy_functions.sympy_to_numpy`.
+
+    Returns
+    -------
+    a: float
+        Numpised LC amplitude.
+    beta: float
+        Numpised LC initial phase.
+    omega: float
+        Numpised LC frequency.
+    """
+
+    a     = sfun.sympy_to_numpy(rescale(ss.sol_LC.a, mms), param)
+    beta  = sfun.sympy_to_numpy(rescale(ss.sol_LC.beta, mms), param)
+    omega = sfun.sympy_to_numpy(rescale(ss.sol_LC.omega, mms), param)
+
+    return a, beta, omega
+
+def numpise_LC_trajectory(mms, ss, param):
+    r"""
+    Numpise the oscillator's LC trajectory
+
+    Parameters
+    ----------
+    mms: Multiple_scales_system
+    ss: Steady_state_system
+    param: dict
+        See :func:`~MMS.sympy_functions.sympy_to_numpy`.
+
+    Returns
+    -------
+    x: numpy.ndarray
+        Numpised LC motion.
+    dxdt: numpy.ndarray
+        Numpised LC velocity.
+    """
+
+    x    = sfun.sympy_to_numpy(rescale(ss.sol_LC.x, mms), param)
+    dxdt = sfun.sympy_to_numpy(rescale(ss.sol_LC.x.diff(mms.t), mms), param)
+
+    return x, dxdt
