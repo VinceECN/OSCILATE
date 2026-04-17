@@ -918,7 +918,7 @@ class Steady_state:
         
         return J
 
-    def stability_analysis_forced(self, coord="cartesian", rewrite_polar=False, eigenvalues=False, bifurcation_curves=False, trace_curves=False, analyse_blocks=False, kwargs_bif=dict()):
+    def stability_analysis_forced(self, coord="cartesian", rewrite_polar=True, eigenvalues=False, bifurcation_curves=False, trace_curves=False, analyse_blocks=False, kwargs_bif=dict()):
         r"""
         Evaluate the stability of a steady state, forced solution. 
         See :ref:`stability` for a detailed description of the dynamical system.
@@ -932,8 +932,8 @@ class Steady_state:
             Default is ``"cartesian"``.
         rewrite_polar: bool, optional
             Rewrite the Jacobian's determinant and trace in polar coordinates (if computed using cartesian ones).
-            This is time consuming and the current back substitutions from cartesian to polar coordinates are not always sufficient.
-            Default is `False`.
+            This can be time consuming and the current back substitutions from cartesian to polar coordinates are not always sufficient.
+            Default is `True`.
         eigenvalues: bool, optional
             Compute the eigenvalues of the Jacobian.
             Default is `False`.
