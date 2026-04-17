@@ -31,6 +31,8 @@ COLOR_MAP = {
     # visualisation
     "visualisation.Frequency_response_curve": "lightyellow",
     "visualisation.Amplitude_response_curve": "lightyellow",
+    "visualisation.Transient_response"      : "lightyellow",
+    "visualisation.Limit_cycle"             : "lightyellow",
 }
 
 # Clusters: cluster name → list of substrings identifying member nodes
@@ -68,6 +70,8 @@ CLUSTERS = {
     "Visualisation Classes": [
         "visualisation.Frequency_response_curve",
         "visualisation.Amplitude_response_curve",
+        "visualisation.Transient_response",
+        "visualisation.Limit_cycle",             
     ],
 }
 
