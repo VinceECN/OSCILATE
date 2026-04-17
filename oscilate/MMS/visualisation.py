@@ -355,7 +355,7 @@ class Transient_response:
 
         # Store the results
         self.param = param_dic
-        self.t     = param_dic["t"]
+        self.t     = param_dic["t"][1]
         self.a     = a
         self.psi   = psi
         self.x     = x

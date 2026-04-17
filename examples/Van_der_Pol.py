@@ -66,20 +66,26 @@ LC = MMS.visualisation.Limit_cycle(mms, ss, param)
 fig = LC.plot_PP(c="k")
 ax = fig.get_axes()[0]
 
-# Transient response - lower trajectory
+# Transient response - internal trajectory
 param_IC = [(list(mms.sol_transient.IC["a"].values())[0], 0.5),
             (list(mms.sol_transient.IC["beta"].values())[0], 0)]
 param_transient = param + [(mms.t, np.linspace(0, 60, 10000))] + param_IC
-TR_lo = MMS.visualisation.Transient_response(mms, param_transient)
-ax.plot(TR_lo.x, TR_lo.dxdt, c="tab:blue")
-ax.plot(TR_lo.x[0], TR_lo.dxdt[0], marker="o", mfc="tab:blue", mec="none", ms=4)
+TR_in = MMS.visualisation.Transient_response(mms, param_transient)
+ax.plot(TR_in.x, TR_in.dxdt, c="tab:blue")
+ax.plot(TR_in.x[0], TR_in.dxdt[0], marker="o", mfc="tab:blue", mec="none", ms=4)
 
-# Transient response - lower trajectory
+# Transient response - external trajectory
 param_IC = [(list(mms.sol_transient.IC["a"].values())[0], 3.5),
             (list(mms.sol_transient.IC["beta"].values())[0], 0)]
 param_transient = param + [(mms.t, np.linspace(0, 60, 10000))] + param_IC
-TR_up = MMS.visualisation.Transient_response(mms, param_transient)
-ax.plot(TR_up.x, TR_up.dxdt, c="tab:red")
-ax.plot(TR_up.x[0], TR_up.dxdt[0], marker="o", mfc="tab:red", mec="none", ms=4)
+TR_ex = MMS.visualisation.Transient_response(mms, param_transient)
+ax.plot(TR_ex.x, TR_ex.dxdt, c="tab:red")
+ax.plot(TR_ex.x[0], TR_ex.dxdt[0], marker="o", mfc="tab:red", mec="none", ms=4)
+
+# Time signal (internal trajectory and LC)
+figt = TR_in.plot_time()
+axt = figt.get_axes()[0]
+axt.axhline(LC.a, c="k", lw=0.5)
+axt.axhline(-LC.a, c="k", lw=0.5)
 
 # %%

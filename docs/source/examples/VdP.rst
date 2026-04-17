@@ -64,8 +64,11 @@ The script below allows to
 
 Plot outputs
 ^^^^^^^^^^^^
-The plot output shown below is generated from the code above. 
+The plot outputs shown below are generated from the code above. 
 
+
+Phase portrait
+~~~~~~~~~~~~~~
 The figure below displays the phase portrait of the Van der Pol oscillator. Three different trajectories are shown: the limit cycle (black), an external one (red) and an internal one (blue). The limit cycle is stable, such that the trajectories are converging towards it.
 
 .. figure:: /_static/examples/VdP_plots/phase_portrait.svg
@@ -74,3 +77,14 @@ The figure below displays the phase portrait of the Van der Pol oscillator. Thre
    :align: center
 
    Phase portrait of the Van der Pol oscillator.
+
+Transient time signal
+~~~~~~~~~~~~~~~~~~~~~
+The figure below displays the time signal associated to the transient, internal trajectory shown in the phase portrait of the Van der Pol oscillator. The horizontal black lines are associated to the amplitude on the limit cycle.  
+
+.. figure:: /_static/examples/VdP_plots/time_signal.svg
+   :alt: Time signal
+   :width: 80%
+   :align: center
+
+   Transient response of the Van der Pol oscillator.
