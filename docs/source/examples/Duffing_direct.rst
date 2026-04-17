@@ -63,8 +63,8 @@ The script below allows to
   in the Interactive Window.
 
 - Evaluate the MMS results at steady state. The solutions are stored in ``ss.sol`` (e.g., ``ss.sol.fa``, ``ss.sol.fbeta``).
-- Compute the forced response and the backbone curve. These results are also stored in ``ss.sol`` (e.g., ``ss.sol.sigma``, ``ss.sol.F``, ``ss.sol.omega_bbc``).
-- Evaluate the stability of the computed forced solution. The stability results are stored in ``ss.stab`` (e.g., ``ss.stab.eigvals``, ``ss.stab.bif_a``).
+- Compute the forced response and the backbone curve. These results are stored in ``ss.sol_forced`` and ``ss.sol_bbc`` (e.g., ``ss.sol_forced.sigma``, ``ss.sol_forced.F``, ``ss.sol_bbc.omega``).
+- Evaluate the stability of the computed forced solution. The stability results are stored in ``ss.sol_forced.stab`` (e.g., ``ss.sol_forced.stab.eigvals``, ``ss.sol_forced.stab.bif_a``).
 - Evaluate the steady-state results for given numerical values of the parameters and plot the results.
 
 .. literalinclude:: ../../../examples/Duffing_direct.py

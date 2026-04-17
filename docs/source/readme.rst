@@ -108,6 +108,8 @@ Examples
 
 - Subharmonic response of 2 coupled centrifugal pendulum modes
 
+- Van der Pol oscillator
+
 .. _outputs_section:
 
 Outputs

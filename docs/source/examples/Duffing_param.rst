@@ -148,5 +148,5 @@ In the current notations, this is equivalent to
     \lambda_{1,2}            & = \epsilon \dfrac{1}{2} \dfrac{ \left(- \omega_{0} \tilde{c} \pm \sqrt{\omega_{0}^{2} \tilde{c}^{2} + 3 \omega_{0} \sigma \tilde{\gamma} a_{0}^{2} - \frac{9}{4} \tilde{\gamma}^{2} a_{0}^{4}}\right)}{ \omega_{0}},
     \end{cases}
 
-which are the outputs for ``ss.sol.x[0][0].simplify()``, ``ss.sol.faO[0][1]``, ``ss.sol.fbetaO[0][1]`` and ``ss.stab.eigvals``, respectively. 
+which are the outputs for ``ss.sol.x[0][0].simplify()``, ``ss.sol.faO[0][1]``, ``ss.sol.fbetaO[0][1]`` and ``ss.sol_forced.stab.eigvals``, respectively. 
 Note the :math:`\epsilon` factor for the eigenvalues. It is related to the eigenvalues being computed from the reconstituted modulation equations rather than just the :math:`1^{\textrm{st}}` order slow time modulation equations.
