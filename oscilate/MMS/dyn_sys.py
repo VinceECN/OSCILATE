@@ -9,7 +9,7 @@ This sub-module defines the dynamical system.
 """
 
 #%% Imports and initialisation
-from sympy import sympify, Symbol, Function, Expr
+from sympy import sympify, Symbol, Function, Expr, I
 from typing import Union, TYPE_CHECKING
 
 
@@ -63,11 +63,15 @@ class Dynamical_system:
     # Class-level annotations for pyreverse
     if TYPE_CHECKING:
         Eq:      list[Expr]
+        Eqz:     list[Expr]
         forcing: Forcing
+        form:    Union[str, list[str]]
         ndof:    int
         omegas:  list[Symbol]
+        sub_z:   list[tuple]
         t:       Symbol
         x:       list[Function]
+        z:       list[Function]
         
     def __init__(self, t, x, Eq, omegas, F = 0, fF = None):
         r"""
@@ -103,4 +107,52 @@ class Dynamical_system:
             if isinstance(coeff, int):
                 fF[ix] = sympify(coeff)
         self.forcing = Forcing(F, fF)
+
+        # System form
+        self.form = "oscillator"
         
+    def complex_form(self):
+        r"""
+        Rewrite the dynamical system in complex form, resulting in a system of complex 1st order coupled ODEs from the initial real 2nd order ODEs. 
+        See :ref:`dyn_sys` for details.
+        """
+
+        # Create the complex coordinates
+        self.complex_coordinates()
+            
+        # Rewrite the equations in complex form
+        self.Eqz = []
+        for Eqi, omegai in zip(self.Eq, self.omegas):
+            self.Eqz.append( (-I/(2*omegai) * Eqi.subs(self.sub_z)).simplify() )
+
+        # Rewrite the forcing terms
+        self.forcing.fFz= []
+        for fFi, omegai in zip(self.forcing.fF, self.omegas):
+            self.forcing.fFz.append( (-I/(2*omegai) * fFi.subs(self.sub_z)).simplify() )
+        
+        # System form
+        self.form = [self.form, "complex"]
+
+    def complex_coordinates(self):
+        r"""
+        Introduce the complex coordinates, denoted :math:`z_i` for oscillator :math:`i`, and defined as
+        
+        .. math::
+            \begin{cases}
+            x_i(t)       & = z_i(t) + \bar{z}_i(t), \\
+            \dot{x}_i(t) & = \textrm{j} \omega_{i} (z_i(t) - \bar{z}_i(t)),
+            \end{cases}
+
+        where :math:`\bar{\bullet}` denotes the transpose. 
+        """
+
+        # Create the complex coordinates
+        self.z     = [] # Complex coordinates
+        self.sub_z = [] # Substitutions from x (real coordinates) to z
+        for ix, (xi, omegai) in enumerate(zip(self.x, self.omegas)):
+            zi = Function(r'z_{}'.format(ix), complex=True)(self.t)
+            self.z.append(zi)
+            self.sub_z += [(xi.diff(self.t, 2), 2*I*omegai*zi.diff(self.t) + omegai**2*(zi - zi.conjugate())),
+                           (xi.diff(self.t)   , I*omegai*(zi - zi.conjugate())),
+                           (xi                , zi + zi.conjugate())] 
+            
