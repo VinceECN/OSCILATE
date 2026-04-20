@@ -31,7 +31,7 @@ scaling        = (1 , 1     )
 param_scaled, sub_scaling = MMS.scale_parameters(param_to_scale, scaling, eps)
 
 kwargs_mms = dict(ratio_omegaMMS=ratio_omegaMMS, ratio_omega_osc=[1], detunings=detunings)
-mms = MMS.Multiple_scales_system(dyn, eps, Ne, omega_ref, sub_scaling, **kwargs_mms)
+mms = MMS.Multiple_scales_oscillator(dyn, eps, Ne, omega_ref, sub_scaling, **kwargs_mms)
 
 # Application of the MMS
 mms.apply_MMS(rewrite_polar="all")

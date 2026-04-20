@@ -28,7 +28,7 @@ param_to_scale = (gamma0, gamma1, gamma01, F , c0, c1)
 scaling        = (1     , 1     , 1      , Ne, Ne, Ne)
 param_scaled, sub_scaling = MMS.scale_parameters(param_to_scale, scaling, eps)
 
-mms = MMS.Multiple_scales_system(dyn, eps, Ne, omega_ref, sub_scaling, ratio_omegaMMS=ratio_omegaMMS)
+mms = MMS.Multiple_scales_oscillator(dyn, eps, Ne, omega_ref, sub_scaling, ratio_omegaMMS=ratio_omegaMMS)
 
 # Application of the MMS
 mms.apply_MMS()
