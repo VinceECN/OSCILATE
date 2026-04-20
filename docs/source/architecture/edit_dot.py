@@ -17,6 +17,8 @@ COLOR_MAP = {
     "mms.Sol_MMS"                           : "pink",
     "mms.Sol_transient"                     : "pink",
     "mms.Substitutions_MMS"                 : "orange",
+    # mms_oscillator
+    "mms_oscillator.Multiple_scales_oscillator": "lightskyblue",
     # steady_state
     "steady_state.Coord_SS"                 : "lightgreen",
     "steady_state.Forcing_SS"               : "cyan",
@@ -41,6 +43,9 @@ CLUSTERS = {
         "dyn_sys.Dynamical_system",
         "mms.Multiple_scales_system",
         "steady_state.Steady_state",
+    ],
+    "MMS forms Classes": [
+        "mms_oscillator.Multiple_scales_oscillator",
     ],
     "Coordinates Classes": [
         "mms.Coord_MMS",

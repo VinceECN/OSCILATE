@@ -10,15 +10,13 @@ It also carries out the MMS derivations, still in oscillator form.
 """
 
 #%% Imports and initialisation
-from sympy import (exp, I, conjugate, re, im, Rational, 
-                   symbols, Symbol, Function, Expr, sympify, simplify, 
-                   solve, dsolve, cos, sin, tan, sympify, Mod)
-from sympy.simplify.fu import TR5, TR8, TR10
+from sympy import (exp, I, conjugate, Rational, 
+                   symbols, Symbol, Function, Expr, sympify, 
+                   solve, dsolve, sympify)
 from .. import sympy_functions as sfun
 from .mms import (Multiple_scales_system, Forcing_MMS, 
                   Chain_rule_dfdt, Chain_rule_d2fdt2)
-import itertools
-from typing import Union, TYPE_CHECKING
+from typing import TYPE_CHECKING
 
 #%% Classes and functions
 class Multiple_scales_oscillator(Multiple_scales_system):
@@ -26,6 +24,14 @@ class Multiple_scales_oscillator(Multiple_scales_system):
     The multiple scales system in oscillator form, i.e. 2nd order differential equations.
     See the parent class :class:`Multiple_scales_system` for a description of the input parameters.
     """
+
+    # Class-level annotations for pyreverse
+    if TYPE_CHECKING:
+        EqO:    list[list[Expr]]
+        EqO_t0: list[list[Expr]]
+        forcing: Forcing_MMS
+        xO:     list[list[Function]]
+        xO_t0:  list[list[Function]]
 
     def __init__(self,
              dynamical_system, eps, Ne, omega_ref, sub_scaling,

@@ -9,11 +9,10 @@ This sub-module defines the multiple scales system from the dynamical one, and t
 """
 
 #%% Imports and initialisation
-from sympy import (exp, I, conjugate, re, im, Rational, 
+from sympy import (exp, I, re, im, Rational, 
                    symbols, Symbol, Function, Expr, sympify, simplify, 
                    solve, dsolve, cos, sin, tan, sympify, Mod)
 from sympy.simplify.fu import TR5, TR8, TR10
-from .. import sympy_functions as sfun
 import itertools
 from typing import Union, TYPE_CHECKING
 
@@ -257,14 +256,11 @@ class Multiple_scales_system:
 
     # Class-level annotations for pyreverse
     if TYPE_CHECKING:
-        EqO:             list[list[Expr]]
-        EqO_t0:          list[list[Expr]]
         Ne:              int
         coord:           Coord_MMS
         detunings:       list
         eps:             Symbol
         eps_pow_0:       int
-        forcing:         Forcing_MMS
         ndof:            int
         omega:           Symbol
         omegaMMS:        Expr
@@ -275,11 +271,10 @@ class Multiple_scales_system:
         ratio_omega_osc: list[Union[int, Rational]]
         sigma:           Symbol
         sol:             Sol_MMS
+        sol_transient:   Sol_transient
         sub:             Substitutions_MMS
         t:               Symbol
         tS:              list[Symbol]
-        xO:              list[list[Function]]
-        xO_t0:           list[list[Function]]
     
     def __init__(self,
              dynamical_system, eps, Ne, omega_ref, sub_scaling,
