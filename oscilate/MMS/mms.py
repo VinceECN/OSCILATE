@@ -460,17 +460,18 @@ class Multiple_scales_system:
         
         Notes
         -----
-        Derive the modulation equations of the polar coordinates system (defined in :func:`polar_coordinates` and :func:`autonomous_phases`) from the secular conditions. For oscillator :math:`i`, these are defined as
+        Derive the modulation equations of the polar coordinates system (defined in :func:`polar_coordinates` and :func:`autonomous_phases`) from the secular conditions. 
+        For oscillator :math:`i` and at order :math:`j`, these are defined as
         
         .. math::
             \begin{cases}
-            \dfrac{\textrm{d} a_i}{\textrm{d} t}         & = f_{a_i}(\boldsymbol{a}, \boldsymbol{\beta}), \\
-            a_i \dfrac{\textrm{d} \beta_i}{\textrm{d} t} & = f_{\beta_i}(\boldsymbol{a}, \boldsymbol{\beta}),
+            \textrm{D}_{j} a_i        & = f_{a_i}^{(j)}(\boldsymbol{a}, \boldsymbol{\beta}), \\
+            a_i \textrm{D}_{j}\beta_i & = f_{\beta_i}^{(j)}(\boldsymbol{a}, \boldsymbol{\beta}),
             \end{cases}
         
         where :math:`\boldsymbol{a}` and :math:`\boldsymbol{\beta}` are vectors containing the polar amplitudes and phases.
 
-        The aim here is to compute all the :math:`f_{a_i}` and :math:`f_{\beta_i}`.
+        The aim here is to compute all the :math:`f_{a_i}^{(j)}` and :math:`f_{\beta_i}^{(j)}`.
         This is done by:
         
         #. Introducing polar coordinates in the secular terms
@@ -492,12 +493,8 @@ class Multiple_scales_system:
         
         faO    = [[] for dummy in range(self.ndof)] # Defined as      Di(a) = faO[i](a,beta)
         fbetaO = [[] for dummy in range(self.ndof)] # Defined as a*Di(beta) = fbetaO[i](a,beta)
-        fa     = [0 for dummy in range(self.ndof)]  # Defined as      da/dt = fa(a,beta)
-        fbeta  = [0 for dummy in range(self.ndof)]  # Defined as a*dbeta/dt = fbeta(a,beta)
         
         for io in range(0, self.Ne+1):
-            
-            # print("    Evolution equations at order {}".format(io))
             
             for ix in range(self.ndof):
 
@@ -530,15 +527,9 @@ class Multiple_scales_system:
                     faO[ix]   .append( solve(sec_im[ix][io].subs(self.sub.sub_B), self.coord.a[ix]   .diff(self.tS[io]))[0]                  )
                     fbetaO[ix].append( solve(sec_re[ix][io].subs(self.sub.sub_B), self.coord.beta[ix].diff(self.tS[io]))[0]*self.coord.a[ix] )
                     
-                    # Reconstituted modulation equations
-                    fa[ix]    += self.eps**io * faO[ix][io]
-                    fbeta[ix] += self.eps**io * fbetaO[ix][io]
-        
         # Store the results
         self.sol.faO    = faO
         self.sol.fbetaO = fbetaO
-        self.sol.fa     = fa    # Modified in reconstitution() to account for physical time variables
-        self.sol.fbeta  = fbeta # Modified in reconstitution() to account for physical time variables
                     
     def reconstitution(self):
         r"""
@@ -546,6 +537,14 @@ class Multiple_scales_system:
 
         .. math::
             \dfrac{\textrm{d}(\bullet)}{\textrm{d}t} = \sum_{i=0}^{N_e} \epsilon^{i} \mathrm{D}_i (\bullet) + \mathcal{O}(\epsilon^{N_e+1}).
+
+        For oscillator :math:`i`, this results in the reconstituted modulation equations
+
+        .. math::
+            \begin{cases}
+            \dfrac{\textrm{d} a_i}{\textrm{d} t}         & = f_{a_i}(\boldsymbol{a}, \boldsymbol{\beta}), \\
+            a_i \dfrac{\textrm{d} \beta_i}{\textrm{d} t} & = f_{\beta_i}(\boldsymbol{a}, \boldsymbol{\beta}),
+            \end{cases}
 
         Note that some MMS approaches do not apply this reconstitution step.
         """
@@ -557,9 +556,16 @@ class Multiple_scales_system:
         # Substitutions from functions of the tS (time scales) to t (physical time)
         self.sub.sub_tS_to_t_func = sum([[(a, at), (beta, betat)] for (a, at, beta, betat) in zip(*list(map(self.coord.__dict__.get, ["a","at","beta","betat"])))], [])
 
-        # Rewrite the previsouly obtained 
-        self.sol.fa    = [ fa.subs(self.sub.sub_tS_to_t_func) for fa in self.sol.fa ]
-        self.sol.fbeta = [ fbeta.subs(self.sub.sub_tS_to_t_func) for fbeta in self.sol.fbeta ]
+        # Reconstitute the modulation equations
+        fa    = [0 for dummy in range(self.ndof)]  # Defined as      da/dt = fa(a,beta)
+        fbeta = [0 for dummy in range(self.ndof)]  # Defined as a*dbeta/dt = fbeta(a,beta)
+        for ix in range(self.ndof):
+            for io in range(self.Ne+1):
+                fa[ix]    += self.eps**io * self.sol.faO[ix][io]
+                fbeta[ix] += self.eps**io * self.sol.fbetaO[ix][io]
+            
+        self.sol.fa    = [ fai.subs(self.sub.sub_tS_to_t_func) for fai in fa ]
+        self.sol.fbeta = [ fbetai.subs(self.sub.sub_tS_to_t_func) for fbetai in fbeta ]
 
     def sol_x_polar(self, rewrite_polar=0):
         r"""

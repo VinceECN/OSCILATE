@@ -40,7 +40,6 @@ class Multiple_scales_oscillator(Multiple_scales_system):
         """
         Transform the dynamical system introducing asymptotic series of the oscillators' coordinates. 
         """
-        
 
         # Initialise the parent class
         super().__init__(dynamical_system, eps, Ne, omega_ref, sub_scaling, ratio_omegaMMS=ratio_omegaMMS, eps_pow_0=eps_pow_0, ratio_omega_osc=ratio_omega_osc, detunings=detunings)
@@ -61,7 +60,7 @@ class Multiple_scales_oscillator(Multiple_scales_system):
         
     def asymptotic_series(self, dynamical_system, eps_pow_0=0):
         r"""
-        Define the asymptotic series.
+        Define the asymptotic series on the oscillators' coordinates x.
 
         Notes
         -----
@@ -261,7 +260,7 @@ class Multiple_scales_oscillator(Multiple_scales_system):
 
         #. :func:`secular_analysis`: The leading order solutions are introduced in the equations and the secular terms at each order are identified. 
            Cancelling those secular terms is a condition for bounded solutions. 
-           It leads to a system of modulation equations governing the slow time evolution of the complex amplitude of the homogeneous leading order solutions. 
+           It leads to a system of complex modulation equations governing the slow time evolution of the complex amplitude of the homogeneous leading order solutions. 
            Each equation takes the form 
            
            .. math::
@@ -427,8 +426,8 @@ class Multiple_scales_oscillator(Multiple_scales_system):
         
         for ix in range(self.ndof):
             DA_sol    .append([ 0 ]) # dAi/dt0 = 0 
-            sub_DA_sol.append([ (self.coord.A[ix].diff(self.tS[0]), 0)] )
-            sec       .append([ 0])
+            sub_DA_sol.append([ (self.coord.A[ix].diff(self.tS[0]), 0) ] )
+            sec       .append([ 0 ])
         
         E = symbols('E') # Symbol to substitue exponentials and use collect() in the following
         
