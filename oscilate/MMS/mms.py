@@ -603,7 +603,7 @@ class Multiple_scales_system:
         
         # Rewrite the solutions
         xO_polar = []
-        x          = [0 for dummy in range(self.ndof)]
+        x        = [0 for dummy in range(self.ndof)]
         for ix in range(self.ndof):
             xO_polar.append([])
             for io in rewrite_polar:

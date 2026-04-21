@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-Started on Tue Feb 15 17:25:59 2022
+Created on Mon Apr 20 19:41:59 2026
 
 @author: Vincent MAHE
 
 Analyse systems of coupled nonlinear equations using the Method of Multiple Scales (MMS).
-This sub-module defines the multiple scales system from the dynamical one with an oscillator form.
-It also carries out the MMS derivations, still in oscillator form.
+This sub-module defines the multiple scales system from the dynamical one with a complex form.
+It also carries out the MMS derivations, still in complex form, and ends up transforming back to the oscillator form.
 """
 
 #%% Imports and initialisation
@@ -14,14 +14,13 @@ from sympy import (exp, I, conjugate, Rational,
                    symbols, Symbol, Function, Expr, sympify, 
                    solve, dsolve, sympify)
 from .. import sympy_functions as sfun
-from .mms import (Multiple_scales_system, Forcing_MMS, 
-                  Chain_rule_dfdt, Chain_rule_d2fdt2)
+from .mms import Multiple_scales_system, Forcing_MMS, Chain_rule_dfdt
 from typing import TYPE_CHECKING
 
 #%% Classes and functions
-class Multiple_scales_oscillator(Multiple_scales_system):
+class Multiple_scales_complex(Multiple_scales_system):
     r"""
-    The multiple scales system in oscillator form, i.e. 2nd order differential equations.
+    The multiple scales system in complex form, i.e. 1st order complex differential equations.
     See the parent class :class:`Multiple_scales_system` for a description of the input parameters.
     """
 
@@ -32,13 +31,15 @@ class Multiple_scales_oscillator(Multiple_scales_system):
         forcing: Forcing_MMS
         xO:     list[list[Function]]
         xO_t0:  list[list[Function]]
+        zO:     list[list[Function]]
+        zO_t0:  list[list[Function]]
 
     def __init__(self,
              dynamical_system, eps, Ne, omega_ref, sub_scaling,
              ratio_omegaMMS = 1, eps_pow_0 = 0, ratio_omega_osc = None, detunings = 0
              ):
         """
-        Transform the dynamical system introducing asymptotic series of the oscillators' coordinates. 
+        Transform the dynamical system introducing asymptotic series of the oscillators' complex coordinates. 
         """
 
         # Initialise the parent class
@@ -46,11 +47,16 @@ class Multiple_scales_oscillator(Multiple_scales_system):
         
         # Information
         print('   Oscillator form (2nd order differential equations)')
+
+        # Check that the dynamical system is in the appropriate form
+        if not "complex" in dynamical_system.form:
+            print("The dynamical system is not written in complex form")
+            return
         
-        # Asymptotic series of x
-        self.xO, sub_xO_t, sub_x = self.asymptotic_series(dynamical_system, eps_pow_0=self.eps_pow_0)
-        self.sub.sub_xO_t = sub_xO_t
-        self.sub.sub_x    = sub_x
+        # Asymptotic series of z
+        self.zO, sub_zO_t, sub_z = self.asymptotic_series(dynamical_system, eps_pow_0=self.eps_pow_0)
+        self.sub.sub_zO_t = sub_zO_t
+        self.sub.sub_z    = sub_z
 
         # Forcing
         self.forcing = self.forcing_MMS(dynamical_system)
@@ -60,59 +66,58 @@ class Multiple_scales_oscillator(Multiple_scales_system):
         
     def asymptotic_series(self, dynamical_system, eps_pow_0=0):
         r"""
-        Define the asymptotic series on the oscillators' coordinates x.
+        Define the asymptotic series on the complex oscillators' coordinates z.
 
         Notes
         -----
-        The series expansion for oscillator :math:`i` (and for a leading order term :math:`\epsilon^0 = 1`) takes the form (see :ref:`mms`)
+        The series expansion for the complex coordinate of oscillator :math:`i` (and for a leading order term :math:`\epsilon^0 = 1`) takes the form (see :ref:`mms`)
 
         .. math::
-            x_i(t) = x_{i,0}(t) + \epsilon x_{i,1}(t) + \epsilon^2 x_{i,2}(t) + \cdots + \epsilon^{N_e} x_{i,N_e}(t) + \mathcal{O}(\epsilon^{N_e+1}).
+            z_i(t) = z_{i,0}(t) + \epsilon z_{i,1}(t) + \epsilon^2 z_{i,2}(t) + \cdots + \epsilon^{N_e} z_{i,N_e}(t) + \mathcal{O}(\epsilon^{N_e+1}).
 
         On top of introducing the terms of the asymptotic series, this function prepares substitutions from
 
-        1. dof :math:`x_i(t)` to temporary :math:`t`-dependent asymptotic terms :math:`x_{i,j}(t)`, such that
+        1. dof :math:`z_i(t)` to temporary :math:`t`-dependent asymptotic terms :math:`z_{i,j}(t)`, such that
 
            .. math::
-            x_i(t) = x_{i,0}(t) + \epsilon x_{i,1}(t) + \epsilon^2 x_{i,2}(t) + \cdots + \epsilon^{N_e} x_{i,N_e}(t), 
+            z_i(t) = z_{i,0}(t) + \epsilon z_{i,1}(t) + \epsilon^2 z_{i,2}(t) + \cdots + \epsilon^{N_e} z_{i,N_e}(t), 
 
-        2. Temporary :math:`x_{i,j}(t)` to the time scales-dependent terms :math:`x_{i,j}(\boldsymbol{t})`, such that
+        2. Temporary :math:`z_{i,j}(t)` to the time scales-dependent terms :math:`z_{i,j}(\boldsymbol{t})`, such that
          
            .. math::
-            x_i(\boldsymbol{t}) = x_{i,0}(\boldsymbol{t}) + \epsilon x_{i,1}(\boldsymbol{t}) + \epsilon^2 x_{i,2}(\boldsymbol{t}) + \cdots + \epsilon^{N_e} x_{i,N_e}(\boldsymbol{t}). 
+            z_i(\boldsymbol{t}) = z_{i,0}(\boldsymbol{t}) + \epsilon z_{i,1}(\boldsymbol{t}) + \epsilon^2 z_{i,2}(\boldsymbol{t}) + \cdots + \epsilon^{N_e} z_{i,N_e}(\boldsymbol{t}). 
         """
         
         # Initialisation
-        xO         = [] # Terms x00, x01, ..., x10, x11, ... of the asymptotic series of the xi
-        sub_xO_t   = [] # Substitutions from xO(t) to xO(*tS)
-        x_expanded   = [] # x in terms of xO(t)
-        sub_x        = [] # Substitutions from x to xO(t)
+        zO         = [] # Terms z00, z01, ..., z10, z11, ... of the asymptotic series of the zi
+        sub_zO_t   = [] # Substitutions from zO(t) to zO(*tS)
+        z_expanded   = [] # z in terms of zO(t)
+        sub_z        = [] # Substitutions from z to zO(t)
         
         for ix in range(self.ndof):
             
             # Initialisations 
-            xO.append([])      # A list that will contain the different expansion orders of the current x
-            xO_t = []          # Temporary xO(t) -> depend on the physical time t
-            x_expanded.append(0) # Initialise the current x to 0
+            zO.append([])      # A list that will contain the different expansion orders of the current z
+            zO_t = []          # Temporary zO(t) -> depend on the physical time t
+            z_expanded.append(0) # Initialise the current z to 0
             
             for io in range(self.Ne+1):
             
                 # Define time-dependent asymptotic terms
-                xO_t.append(Function(r'x_{{{},{}}}'.format(ix,io), real=True)(self.t))
-                x_expanded[ix] += self.eps**(io+eps_pow_0) * xO_t[io]
+                zO_t.append(Function(r'z_{{{},{}}}'.format(ix,io), complex=True)(self.t))
+                z_expanded[ix] += self.eps**(io+eps_pow_0) * zO_t[io]
                 
                 # Define time scales-dependent asymptotic terms
-                xO[ix].append(Function(xO_t[io].name, real=True)(*self.tS))
+                zO[ix].append(Function(zO_t[io].name, complex=True)(*self.tS))
                 
-                # Substitutions from xO(t) and its time derivatives to xO(*tS) and its time scales derivatives
-                sub_xO_t.extend( [(xO_t[io].diff(self.t,2), Chain_rule_d2fdt2(xO[ix][io], self.tS, self.eps)), 
-                                  (xO_t[io].diff(self.t,1), Chain_rule_dfdt  (xO[ix][io], self.tS, self.eps)), 
-                                  (xO_t[io]               , xO[ix][io])] )
+                # Substitutions from zO(t) and its time derivatives to zO(*tS) and its time scales derivatives
+                sub_zO_t.extend( [(zO_t[io].diff(self.t,1), Chain_rule_dfdt  (zO[ix][io], self.tS, self.eps)), 
+                                  (zO_t[io]               , zO[ix][io])] )
             
-            # Substitutions from x to xO(t)
-            sub_x.append((dynamical_system.x[ix], x_expanded[ix]))
+            # Substitutions from z to zO(t)
+            sub_z.append((dynamical_system.z[ix], z_expanded[ix]))
         
-        return xO, sub_xO_t, sub_x
+        return zO, sub_zO_t, sub_z
         
     def forcing_MMS(self, dynamical_system):
         r"""
@@ -128,13 +133,25 @@ class Multiple_scales_oscillator(Multiple_scales_system):
         The initial forcing terms are 
         
         .. math::
-            f_{F,i}(\boldsymbol{x}(t), \dot{\boldsymbol{x}}(t), \ddot{\boldsymbol{x}}(t)) F \cos(\omega t), \quad i=1,...,N.
+            f_{F,i}(\boldsymbol{x}(t), \dot{\boldsymbol{x}}(t), \ddot{\boldsymbol{x}}(t)) F \cos(\omega t), \quad i=1,...,N,
+
+        and after the complex transformation
+
+        The initial forcing terms are 
+        
+        .. math::
+            f_{F_z,i}(\boldsymbol{z}(t), \dot{\boldsymbol{z}}(t)) F \cos(\omega t), \quad i=1,...,N,
+
+        where 
+
+        .. math::
+            f_{F_z,i}(\boldsymbol{z}(t), \dot{\boldsymbol{z}}(t)) = - \frac{\mathrm{j}}{2 \omega_i} f_{F,i}(\boldsymbol{x}(\boldsymbol{z}(t)), \dot{\boldsymbol{\boldsymbol{z}(t)}}(t), \ddot{\boldsymbol{\boldsymbol{z}(t), \dot{\boldsymbol{z}}(t)}}(t))
         
         Rewritting them involves
 
-        1. Replacing the :math:`x_i(t)` by their series expansions written in terms of time scales,
+        1. Replacing the :math:`z_i(t)` by their series expansions written in terms of time scales,
         
-        2. Scaling the forcing and the parameters in :math:`f_{F,i}` if any,
+        2. Scaling the forcing and the parameters in :math:`f_{F_z,i}` if any,
         
         3. Truncating terms whose order is larger than the largest order retained in the MMS,
         
@@ -171,12 +188,12 @@ class Multiple_scales_oscillator(Multiple_scales_system):
             
         # Get the forcing term for each oscillator
         forcing_term = []
-        fF           = []
-        sub_t, sub_x, sub_xO_t = list(map(self.sub.__dict__.get,["sub_t", "sub_x", "sub_xO_t"]))
+        fF          = []
+        sub_t, sub_z, sub_zO_t = list(map(self.sub.__dict__.get,["sub_t", "sub_z", "sub_zO_t"]))
 
         for ix in range(self.ndof):
-            fF.append( (dynamical_system.forcing.fF[ix].subs(self.sub.sub_scaling)
-                        .subs(sub_x).doit().subs(sub_xO_t).expand().subs(sub_t).doit())
+            fF.append( (dynamical_system.forcing.fFz[ix].subs(self.sub.sub_scaling)
+                        .subs(sub_z).doit().subs(sub_zO_t).expand().subs(sub_t).doit())
                         .series(self.eps, n=self.eps_pow_0+self.Ne+1).removeO())
             
             forcing_term.append( (fF[ix] * Rational(1,2)*F*self.eps**f_order)
@@ -191,11 +208,11 @@ class Multiple_scales_oscillator(Multiple_scales_system):
     
     def compute_EqO(self, dynamical_system):
         r"""
-        Compute the system of equations for each oscillator at each order of :math:`\epsilon`. This system is described in :ref:`mms`.
+        Compute the system of complex equations for each oscillator at each order of :math:`\epsilon`. This system is described in :ref:`mms`.
 
         The output `EqO` is a list of lists:
 
-        - The :math:`1^{\text{st}}` level lists are associated to the equations for each oscillator,
+        - The :math:`1^{\text{st}}` level lists are associated to the equations in complex form for each oscillator,
         
         - The :math:`2^{\text{nd}}` level lists are associated to the orders of :math:`\epsilon` from the lowest to the highest order.
 
@@ -206,12 +223,12 @@ class Multiple_scales_oscillator(Multiple_scales_system):
         """
     
         # Equations with every epsilon appearing
-        sub_t, sub_x, sub_xO_t, sub_scaling, sub_omegas = list(map(self.sub.__dict__.get,["sub_t", "sub_x", "sub_xO_t", "sub_scaling", "sub_omegas"]))
+        sub_t, sub_z, sub_zO_t, sub_scaling, sub_omegas = list(map(self.sub.__dict__.get,["sub_t", "sub_z", "sub_zO_t", "sub_scaling", "sub_omegas"]))
     
         Eq_eps = []
         for ix in range(self.ndof):
-            Eq_eps.append( ((dynamical_system.Eq[ix].expand().subs(sub_omegas).doit().subs(sub_scaling).doit()
-                             .subs(sub_x).doit().subs(sub_xO_t).doit().expand().subs(sub_t).doit())
+            Eq_eps.append( ((dynamical_system.Eqz[ix].expand().subs(sub_omegas).doit().subs(sub_scaling).doit()
+                             .subs(sub_z).doit().subs(sub_zO_t).doit().expand().subs(sub_t).doit())
                           .series(self.eps, n=self.eps_pow_0+self.Ne+1).removeO() 
                           - self.forcing.forcing_term[ix]).expand())
             
@@ -241,7 +258,7 @@ class Multiple_scales_oscillator(Multiple_scales_system):
         
     def apply_MMS(self, rewrite_polar=0):
         r"""
-        Apply the MMS. 
+        Apply the MMS in complex form. 
 
         Parameters
         ----------
@@ -254,9 +271,9 @@ class Multiple_scales_oscillator(Multiple_scales_system):
         The application of the MMS is operated by successively calling the following methods.
 
         #. :func:`system_t0`: An equivalent system is written in terms of the fast time scale :math:`t_0`. 
-           This introduces the temporary unknowns :math:`\tilde{x}_{i,j}(t_0)` and allows the use of :func:`~sympy.solvers.ode.dsolve`.
+           This introduces the temporary unknowns :math:`\tilde{z}_{i,j}(t_0)` and allows the use of :func:`~sympy.solvers.ode.dsolve`.
 
-        #. :func:`sol_order_0`: Leading order solutions :math:`x_{i,0}(\boldsymbol{t})` are defined.
+        #. :func:`sol_order_0`: Leading order solutions :math:`z_{i,0}(\boldsymbol{t})` are defined.
 
         #. :func:`secular_analysis`: The leading order solutions are introduced in the equations and the secular terms at each order are identified. 
            Cancelling those secular terms is a condition for bounded solutions. 
@@ -266,9 +283,7 @@ class Multiple_scales_oscillator(Multiple_scales_system):
            .. math::
             \textrm{D}_{j} A_i(\boldsymbol{t}_s) = f_{A_i}^{(j)}(\boldsymbol{A}, t_1).
 
-           After cancelling the secular terms the higher order equations are solved successively to express the higher order solutions :math:`x_{i,j}(\boldsymbol{t}),\; j>0` in terms of the leading order ones.
-
-        #. :func:`autonomous_phases`: The phase coordinates are changed from :math:`\phi_i(\boldsymbol{t}_s)` to :math:`\beta_i(\boldsymbol{t}_s)` to cancel the slow time :math:`t_1` in the secular terms. This will be used afterwards to obtain an autonomous system.
+           After cancelling the secular terms the higher order equations are solved successively to express the higher order solutions :math:`z_{i,j}(\boldsymbol{t}),\; j>0` in terms of the leading order ones.
 
         #. :func:`_apply_MMS_shared`: The functions that are shared among various MMS forms (oscillator and complex). This calls
 
@@ -311,6 +326,9 @@ class Multiple_scales_oscillator(Multiple_scales_system):
         # Change phase coordinate and derive the modulation equations
         self._apply_MMS_shared() 
         
+        # Compute the x solutions at each order
+        self.sol_xO()
+
         # Write the x solutions in terms of polar coordinates
         self.sol_x_polar(rewrite_polar=rewrite_polar)
 
@@ -322,22 +340,20 @@ class Multiple_scales_oscillator(Multiple_scales_system):
         Notes
         -----
         This is a trick to use :func:`~sympy.solvers.ode.dsolve`, which only accepts functions of 1 variable, to solve higher order equations. 
-        The higher order equations are rewritten in terms of temporary coordinates :math:`\tilde{x}_{i,j}(t_0)` in place of :math:`x_{i,j}(\boldsymbol{t})`, with :math:`i,j` denoting the oscillator number and :math:`\epsilon` order, respectively. 
+        The higher order equations are rewritten in terms of temporary coordinates :math:`\tilde{z}_{i,j}(t_0)` in place of :math:`z_{i,j}(\boldsymbol{t})`, with :math:`i,j` denoting the oscillator number and :math:`\epsilon` order, respectively. 
         This is equivalent to temporary considering that :math:`\boldsymbol{A}(\boldsymbol{t}_s)` does not depend on the slow times, which is of no consequence as there are no slow time derivatives appearing in the higher order equations at this stage. 
         Indeed, they were either substituted using the complex modulation equations, or they disappeared when eliminating the secular terms. 
-        
         """
         
-        xO_t0  = [] # t0-dependent variables xij(t0). Higher time scales dependency is ignored.
+        zO_t0  = [] # t0-dependent variables zij(t0). Higher time scales dependency is ignored.
         EqO_t0 = [] # Equations at each order with only t0 as an explicit variable. Leads to a harmonic oscillator at each order with a t0-periodic forcing coming from lower order solutions.
         
         for ix in range(self.ndof):
-            xO_t0 .append([ Function(r'\tilde{x_'+'{{{},{}}}'.format(ix,io)+'}', real=True)(self.tS[0]) for io in range(0, 1+self.Ne) ]) 
-            EqO_t0.append([ self.EqO[ix][0].subs(self.xO[ix][0], xO_t0[ix][0]).doit() ])
+            zO_t0 .append([ Function(r'\tilde{z_'+'{{{},{}}}'.format(ix,io)+'}', complex=True)(self.tS[0]) for io in range(0, 1+self.Ne) ]) 
+            EqO_t0.append([ self.EqO[ix][0].subs(self.zO[ix][0], zO_t0[ix][0]).doit() ])
             
         self.EqO_t0 = EqO_t0
-        self.xO_t0  = xO_t0
-        
+        self.zO_t0  = zO_t0
         
     def sol_order_0(self):
         r"""
@@ -348,14 +364,14 @@ class Multiple_scales_oscillator(Multiple_scales_system):
         For oscillator :math:`i`, the homogeneous solution takes the general form
         
         .. math::
-            x_{i,0}^{\textrm{h}}(\boldsymbol{t}) = A_i(\boldsymbol{t}_s) e^{\textrm{j} \omega_{i,0} t_0} + cc,
+            z_{i,0}^{\textrm{h}}(\boldsymbol{t}) = A_i(\boldsymbol{t}_s) e^{\textrm{j} \omega_{i,0} t_0},
         
         where :math:`A_i(\boldsymbol{t}_s)` is an unknown complex amplitude.
         
         If the oscillator is subject to hard forcing (i.e. forcing appears at leading order), then the particular solution
         
         .. math::
-            x_{i,0}^{\textrm{p}}(t_0, t_1) = B_i e^{\textrm{j} \omega t} + cc = B_i e^{\textrm{j} (\omega_{\textrm{MMS}} t_0 + \sigma t_1)} + cc
+            z_{i,0}^{\textrm{p}}(t_0, t_1) = B_i e^{\textrm{j} \omega t} + cc = B_i e^{\textrm{j} (\omega_{\textrm{MMS}} t_0 + \sigma t_1)} + cc
         
         is also taken into account. :math:`B_i` is a time-independent function of the forcing parameters.
         """
@@ -364,50 +380,49 @@ class Multiple_scales_oscillator(Multiple_scales_system):
         print('Definition of leading order multiple scales solutions')
         
         # Initialisation
-        xO0    = [] # leading order solutions
-        sub_xO = [] # Substitutions from xij to its solution
+        zO0    = [] # leading order solutions
+        sub_zO = [] # Substitutions from zij to its solution
         sub_B  = [] # Substitutions from the particular solution amplitude Bi to its expression
         
         # Compute the solutions
         for ix in range(self.ndof):
             
             # Homogeneous leading order solution 
-            xO0_h_ix = (            self.coord.A[ix]*exp(I*self.omegas_O0[ix]*self.tS[0]) 
-                        + conjugate(self.coord.A[ix]*exp(I*self.omegas_O0[ix]*self.tS[0])) )
+            zO0_h_ix = self.coord.A[ix] * exp(I*self.omegas_O0[ix]*self.tS[0])
             
             # Particular leading order solution - if the equation is not homogeneous (due to hard forcing)
-            if not self.EqO[ix][0] == self.xO[ix][0].diff(self.tS[0],2) + (self.omegas_O0[ix])**2 * self.xO[ix][0]:
-                hint="nth_linear_constant_coeff_undetermined_coefficients"
+            if not self.EqO[ix][0] == self.zO[ix][0].diff(self.tS[0]) - I*self.omegas_O0[ix]*self.zO[ix][0]: 
+                hint="default"
                 
                 # General solution, containing both homogeneous and particular solutions
-                xO0_sol_general = ( dsolve(self.EqO_t0[ix][0], self.xO_t0[ix][0], hint=hint) ).rhs
+                zO0_sol_general = ( dsolve(self.EqO_t0[ix][0], self.zO_t0[ix][0], hint=hint) ).rhs
                 
                 # Cancel the homogeneous solutions
-                C      = list(xO0_sol_general.atoms(Symbol).difference(self.EqO[ix][0].atoms(Symbol)))
+                C      = list(zO0_sol_general.atoms(Symbol).difference(self.EqO[ix][0].atoms(Symbol)))
                 sub_IC = [(Ci, 0) for Ci in C]
-                xO0_p_ix = xO0_sol_general.subs(sub_IC).doit()
+                zO0_p_ix = zO0_sol_general.subs(sub_IC).doit()
                 
                 # Get the real amplitude of the particular solution
-                exp_keys = list(xO0_p_ix.atoms(exp))
+                exp_keys = list(zO0_p_ix.atoms(exp))
                 if exp_keys:
-                    sub_B.append( (self.coord.B[ix], xO0_p_ix.coeff(exp_keys[0])) )
+                    sub_B.append( (self.coord.B[ix], zO0_p_ix.coeff(exp_keys[0])) )
                 else:
                     print("Static hard forcing is currently not handled")
                 
                 # Rewrite the particular solution in terms of B for the sake of readability and computational efficiency
-                xO0_p_ix = (          self.coord.B[ix]*exp(I*self.omega*self.t).subs([self.sub.sub_omega]).expand().subs(self.sub.sub_t).expand() + 
-                            conjugate(self.coord.B[ix]*exp(I*self.omega*self.t).subs([self.sub.sub_omega]).expand().subs(self.sub.sub_t).expand()))
+                zO0_p_ix = (          self.coord.B[ix] * exp(I*self.omega*self.t) .subs([self.sub.sub_omega]).expand().subs(self.sub.sub_t).expand() + 
+                            conjugate(self.coord.B[ix] * exp(I*self.omega*self.t) .subs([self.sub.sub_omega]).expand().subs(self.sub.sub_t).expand()))
                     
             else:
-                xO0_p_ix = sympify(0)
+                zO0_p_ix = sympify(0)
                 
             # Total leading order solution
-            xO0.append( xO0_h_ix + xO0_p_ix ) 
-            sub_xO.append( ( self.xO[ix][0], xO0[ix] ) )
+            zO0.append( zO0_h_ix + zO0_p_ix ) 
+            sub_zO.append( ( self.zO[ix][0], zO0[ix] ) )
         
         # Store the solutions
-        self.sol.xO = [[xO0_dof] for xO0_dof in xO0]
-        self.sub.sub_xO = sub_xO
+        self.sol.zO = [[zO0_dof] for zO0_dof in zO0]
+        self.sub.sub_zO = sub_zO
         self.sub.sub_B  = sub_B
         
     def secular_analysis(self):
@@ -419,7 +434,7 @@ class Multiple_scales_oscillator(Multiple_scales_system):
         
         2. Derive nonsecular MMS equations, i.e. MMS equations with the secular terms cancelled,
         
-        3. Use the nonsecular equations to express the higher order solutions :math:`x_{i,j}(\boldsymbol{t}),\; j>0` in terms of the :math:`\boldsymbol{A}(\boldsymbol{t}_s)`.
+        3. Use the nonsecular equations to express the higher order complex solutions :math:`z_{i,j}(\boldsymbol{t}),\; j>0` in terms of themath:`\boldsymbol{A}(\boldsymbol{t}_s)`.
         """
         
         # Information
@@ -427,7 +442,7 @@ class Multiple_scales_oscillator(Multiple_scales_system):
         
         # Initialisations - secular analysis
         DA_sol     = [] # Solutions Di(Aj) cancelling the secular terms for each oscillator j, in terms of Aj 
-        sub_DA_sol = [] # Substitutions from DiAj to its solution 
+        sub_DA_sol = [] # Substitutions from Di(Aj) to its solution 
         sec        = [] # The ith secular term in the equations of the jth oscillator is written only in terms of Di(Aj) and Aj (i.e. Dk(Aj) with k<i are substituted for their solution)
         
         for ix in range(self.ndof):
@@ -442,11 +457,11 @@ class Multiple_scales_oscillator(Multiple_scales_system):
             
             print('   Analysing the secular terms at order {}'.format(io))
             
-            # Substitutions from x(t0, t1, ...) to x(t0) at order io to use sy.dsolve() in the following
-            sub_xO_t0 = [ (self.xO[ix][io], self.xO_t0[ix][io]) for ix in range(self.ndof) ]
+            # Substitutions from z(t0, t1, ...) to z(t0) at order io to use sy.dsolve() in the following
+            sub_zO_t0 = [ (self.zO[ix][io], self.zO_t0[ix][io]) for ix in range(self.ndof) ]
             
             # Substitute the solutions at previous orders in the MMS equations and make it t0-dependent. Contains the secular terms.
-            EqO_t0_sec = [ self.EqO[ix][io].subs(self.sub.sub_xO).subs(sub_xO_t0).doit() for ix in range(self.ndof) ] 
+            EqO_t0_sec = [ self.EqO[ix][io].subs(self.sub.sub_zO).subs(sub_zO_t0).doit() for ix in range(self.ndof) ] 
             
             # Find the secular terms and deduce the D(A) that cancel them
             dicE = [] 
@@ -461,7 +476,7 @@ class Multiple_scales_oscillator(Multiple_scales_system):
                 # Identify the secular term
                 dicE_ix = EqO_t0_sec[ix].expand().subs(sub_exp).doit().expand().collect(E, evaluate=False)
                 if E in dicE_ix.keys():
-                    sec_ix  = dicE_ix[E]
+                    sec_ix  = dicE_ix[E] * I # Multiply by I so the real/imag parts match those of the oscillator form
                 else:
                     sec_ix = sympify(0)
                 dicE.append(dicE_ix)
@@ -473,29 +488,29 @@ class Multiple_scales_oscillator(Multiple_scales_system):
                 # Store the current secular term
                 sec[ix].append(sec_ix)
                 
-            # Substitute the expression of the just computed DA in EqO_t0_sec to obtain nonsecular equations governing xO_t0 at the current order
+            # Substitute the expression of the just computed DA in EqO_t0_sec to obtain nonsecular equations governing zO_t0 at the current order
             for ix in range(self.ndof):
                 self.EqO_t0[ix].append(EqO_t0_sec[ix].subs(sub_DA_sol[ix]).doit().simplify())
             
-            # Compute the x solution at order io in terms of the amplitudes A
+            # Compute the z solution at order io in terms of the amplitudes A
             print('   Computing the higher order solutions at order {}'.format(io))
             for ix in range(self.ndof): 
-                self.sol_higher_order(self.EqO_t0, self.xO_t0, io, ix)
+                self.sol_higher_order(self.EqO_t0, self.zO_t0, io, ix)
             
         # Store the solutions
         self.sol.sec = sec      # Secular terms
         self.sol.DA  = DA_sol   # Solutions that cancel the secular terms
     
-    def sol_higher_order(self, EqO_t0, xO_t0, io, ix):
+    def sol_higher_order(self, EqO_t0, zO_t0, io, ix):
         r"""
-        Compute the higher order solutions :math:`x_{i,j}(\boldsymbol{t}_s),\; j>0`.
+        Compute the higher order complex solutions :math:`z_{i,j}(\boldsymbol{t}_s),\; j>0`.
 
         Parameters
         ----------
         EqO_t0 : list of list of sympy.Expr
             The MMS equations at each order and for each oscillator written with :math:`t_0` as the only independent variable. 
-        xO_t0 : list of list of sympy.Function
-            Oscillators' response at each order written in terms of :math:`t_0` only, :math:`\tilde{x}_{i,j}(t_0)`.
+        zO_t0 : list of list of sympy.Function
+            Oscillators' response at each order written in terms of :math:`t_0` only, :math:`\tilde{z}_{i,j}(t_0)`.
         io : int
             The order of :math:`\epsilon`.
         ix : int
@@ -503,24 +518,33 @@ class Multiple_scales_oscillator(Multiple_scales_system):
         """
         
         # Hint for dsolve()
-        if not EqO_t0[ix][io] == xO_t0[ix][io].diff(self.tS[0],2) + (self.omegas_O0[ix])**2 * xO_t0[ix][io]:
+        if not EqO_t0[ix][io] == zO_t0[ix][io].diff(self.tS[0]) - I*self.omegas_O0[ix] * zO_t0[ix][io]: 
             hint="nth_linear_constant_coeff_undetermined_coefficients"
         else:
             hint="default"
         
         # General solution, containing both homogeneous and particular solutions
-        xO_sol_general = ( dsolve(EqO_t0[ix][io], xO_t0[ix][io], hint=hint) ).rhs
+        zO_sol_general = ( dsolve(EqO_t0[ix][io], zO_t0[ix][io], hint=hint) ).rhs
         
-        # Cancel the homogeneous solutions
-        C      = list(xO_sol_general.atoms(Symbol).difference(EqO_t0[ix][-1].atoms(Symbol)))
+        # Cancel the homogeneous solutions to prevent initial-conditions leakage to higher orders
+        C      = list(zO_sol_general.atoms(Symbol).difference(EqO_t0[ix][-1].atoms(Symbol)))
         sub_IC = [(Ci, 0) for Ci in C]
         
         # Append the solution for dof ix at order io
-        self.sol.xO[ix].append(xO_sol_general.subs(sub_IC).doit())
+        self.sol.zO[ix].append(zO_sol_general.subs(sub_IC).doit())
         
-        # Update the list of substitutions from the x to their expression
-        self.sub.sub_xO.append( (self.xO[ix][io], self.sol.xO[ix][io]) )
+        # Update the list of substitutions from the z to their expression
+        self.sub.sub_zO.append( (self.zO[ix][io], self.sol.zO[ix][io]) )
         
-        
+    def sol_xO(self):
+        r"""
+        Compute the x solutions at each order from the z ones.
+        """
+
+        self.sol.xO = []
+        for ix in range(self.ndof):
+            self.sol.xO.append([])
+            for io in range(self.Ne+1):
+                self.sol.xO[ix].append( self.sol.zO[ix][io] + self.sol.zO[ix][io].conjugate() )
     
     
