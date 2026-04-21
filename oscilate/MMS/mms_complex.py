@@ -336,6 +336,9 @@ class Multiple_scales_complex(Multiple_scales_system):
         # Write the x solutions in terms of polar coordinates
         self.sol_x_polar(rewrite_polar=rewrite_polar)
 
+        # Extract the harmonics from the oscillators' response
+        self.sol_x_harmonics()
+
 
     def system_t0(self):
         r"""

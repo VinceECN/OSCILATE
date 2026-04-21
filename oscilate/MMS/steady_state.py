@@ -14,7 +14,7 @@ from sympy import (Rational, symbols, Symbol, Matrix, Expr, solve,
                    zeros, det, trace, eye, sqrt, pi)
 from sympy.simplify.fu import TR10
 from .. import sympy_functions as sfun
-from .mms import cartesian_to_polar
+from .mms import cartesian_to_polar, Sol_harmonics
 from typing import Union, TYPE_CHECKING
 
 #%% Classes and functions
@@ -85,18 +85,22 @@ class Sol_SS:
         fp          : list[Expr]
         fq          : list[Expr]
         x           : list[Expr]
+        x_harmonics : list[Sol_harmonics] 
         xO          : list[list[Expr]]
     
     def __init__(self, ss, mms):
         
         self.xO = []
         self.x  = []
+        self.x_harmonics = []
         for ix in range(ss.ndof):
             self.xO.append( [xio.subs(ss.sub.sub_SS) for xio in mms.sol.xO_polar[ix]] )
             if not isinstance(mms.sol.x[ix], str):
                 self.x.append( mms.sol.x[ix].subs(ss.sub.sub_SS) )
+                self.x_harmonics.append( Sol_harmonics(self.x[-1], mms.omega, mms.t) )
             else:
                 self.x.append( "all solution orders were not rewritten in polar form" )
+                self.x_harmonics.append( None )
 
 class Sol_forced:
     """
@@ -125,23 +129,28 @@ class Sol_bbc:
 
     # Class-level annotations for pyreverse   
     if TYPE_CHECKING:   
-        beta      : Expr
-        omega     : Expr
-        sigma     : Expr
-        solve_dof : Union[int, None]
-        x         : Expr
-        xO        : list[Expr]
+        beta        : Expr
+        omega       : Expr
+        sigma       : Expr
+        solve_dof   : Union[int, None]
+        x           : Expr
+        x_harmonics : list[Sol_harmonics] 
+        xO          : list[Expr]
 
     def __init__(self, ss, mms):
         
         self.xO = []
         self.x  = []
+        self.x_harmonics = []
+
         for ix in range(ss.ndof):
             self.xO.append( [xio.subs(ss.sub.sub_SS) for xio in mms.sol.xO_polar[ix]] )
             if not isinstance(mms.sol.x[ix], str):
                 self.x.append( mms.sol.x[ix].subs(ss.sub.sub_SS) )
+                self.x_harmonics.append( Sol_harmonics(self.x[-1], mms.omega, mms.t) )
             else:
                 self.x.append( "all solution orders were not rewritten in polar form" )
+                self.x_harmonics.append( None )
 
 class Sol_LC:
     """
@@ -150,24 +159,29 @@ class Sol_LC:
 
     # Class-level annotations for pyreverse       
     if TYPE_CHECKING:   
-        a         : Expr
-        beta      : Expr
-        omega     : Expr
-        sigma     : Expr
-        solve_dof : Union[int, None]
-        x         : Expr
-        xO        : list[Expr]
+        a           : Expr
+        beta        : Expr
+        omega       : Expr
+        sigma       : Expr
+        solve_dof   : Union[int, None]
+        x           : Expr
+        x_harmonics : list[Sol_harmonics] 
+        xO          : list[Expr]
 
     def __init__(self, ss, mms):
         
         self.xO = []
         self.x  = []
+        self.x_harmonics = []
+
         for ix in range(ss.ndof):
             self.xO.append( [xio.subs(ss.sub.sub_SS) for xio in mms.sol.xO_polar[ix]] )
             if not isinstance(mms.sol.x[ix], str):
                 self.x.append( mms.sol.x[ix].subs(ss.sub.sub_SS) )
+                self.x_harmonics.append( Sol_harmonics(self.x[-1], mms.omega, mms.t) )
             else:
                 self.x.append( "all solution orders were not rewritten in polar form" )
+                self.x_harmonics.append( None )
 
 class Stability:
     """
@@ -227,6 +241,7 @@ class Steady_state:
         sol_bbc:         Sol_bbc
         sol_LC:          Sol_LC
         sub:             Substitutions_SS
+        t:               Symbol
         
     def __init__(self, mms):
         """
@@ -245,6 +260,9 @@ class Steady_state:
         self.sigma          = mms.sigma
         self.omega          = mms.omega
         self.omegaMMS       = mms.omegaMMS
+
+        # Time
+        self.t = mms.t
         
         # Oscillators' internal resonances relations
         self.ratio_omega_osc = mms.ratio_omega_osc
@@ -612,14 +630,20 @@ class Steady_state:
 
         # Oscillator's motion
         self.solve_bbc_x()
+
+        # Oscillator's harmonics
+        self.sol_bbc.x_harmonics = Sol_harmonics(self.sol_bbc.x, self.omega, self.t)
         
     def solve_bbc_x(self):
         """
         Compute the displacement :math:`x` on the backbone curve.
         """
+        harmonics = self.sol_bbc.x_harmonics[self.sol_bbc.solve_dof].harmonics
+        collect_h = [sin(h*self.omega*self.t) for h in harmonics] + [cos(h*self.omega*self.t) for h in harmonics]
+
         self.sol_bbc.xO = [xio.subs(self.coord.beta[self.sol_bbc.solve_dof], self.sol_bbc.beta).subs(self.sub.sub_free).simplify() for xio in self.sol.xO[self.sol_bbc.solve_dof]] 
         if not isinstance(self.sol.x[self.sol_bbc.solve_dof], str):
-            self.sol_bbc.x  = self.sol.x[self.sol_bbc.solve_dof].subs(self.coord.beta[self.sol_bbc.solve_dof], self.sol_bbc.beta).subs(self.sub.sub_free).simplify() 
+            self.sol_bbc.x  = self.sol.x[self.sol_bbc.solve_dof].subs(self.coord.beta[self.sol_bbc.solve_dof], self.sol_bbc.beta).subs(self.sub.sub_free).simplify().expand().collect(collect_h)
 
     def solve_LC(self, solve_dof=None, betai=0):
         r"""
@@ -680,9 +704,12 @@ class Steady_state:
         """
         Compute the displacement :math:`x` on the limit cycle.
         """
+        harmonics = self.sol_LC.x_harmonics[self.sol_LC.solve_dof].harmonics
+        collect_h = [sin(h*self.omega*self.t) for h in harmonics] + [cos(h*self.omega*self.t) for h in harmonics]
+
         self.sol_LC.xO = [xio.subs(self.coord.beta[self.sol_LC.solve_dof], self.sol_LC.beta).simplify() for xio in self.sol.xO[self.sol_LC.solve_dof]] 
         if not isinstance(self.sol.x[self.sol_LC.solve_dof], str):
-            self.sol_LC.x  = self.sol.x[self.sol_LC.solve_dof].subs(self.coord.beta[self.sol_LC.solve_dof], self.sol_LC.beta).simplify() # Using .subs(self.sub.sub_solve_LC) would result in too long expressions
+            self.sol_LC.x  = self.sol.x[self.sol_LC.solve_dof].subs(self.coord.beta[self.sol_LC.solve_dof], self.sol_LC.beta).simplify().expand().collect(collect_h) # Using .subs(self.sub.sub_solve_LC) would result in too long expressions
 
     def Jacobian_polar(self):
         r"""

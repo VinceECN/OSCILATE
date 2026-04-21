@@ -9,9 +9,9 @@ This sub-module defines the multiple scales system from the dynamical one, and t
 """
 
 #%% Imports and initialisation
-from sympy import (exp, I, re, im, Rational, 
+from sympy import (exp, I, re, im, Rational, sqrt,
                    symbols, Symbol, Function, Expr, sympify, simplify, 
-                   solve, dsolve, cos, sin, tan, sympify, Mod)
+                   solve, dsolve, cos, sin, tan, atan, sympify, Mod)
 from sympy.simplify.fu import TR5, TR8, TR10
 import itertools
 from typing import Union, TYPE_CHECKING
@@ -180,6 +180,46 @@ class Sol_transient:
     
     def __init__(self):
         pass
+
+class Sol_harmonics:
+    """
+    Harmonic decomposition of the solution.
+
+    Parameters
+    ----------
+    x: Expr
+        The x(t) solution of an oscillator
+    """
+
+    # Class-level annotations for pyreverse
+    if TYPE_CHECKING:
+        harmonics     : list[int]
+        fourier_coeff : list[tuple[Expr]]
+        ah            : list[Expr]
+        betah         : list[Expr]
+
+    def __init__(self, x, omega, t):
+
+        # Initialisation
+        harmonics = get_harmonics(x, omega, t)
+        collect_h = [sin(h*omega*t) for h in harmonics] + [cos(h*omega*t) for h in harmonics]
+        fourier_coeff = []
+        ah    = []
+        betah = []
+
+        # Harmonics extraction
+        dic_h = x.collect(collect_h, evaluate=False)
+        keys = dic_h.keys()
+        for h in harmonics:
+            fourier_coeff.append( (x.coeff(cos(h*omega*t)), x.coeff(sin(h*omega*t))) )
+            ah.append( sqrt(fourier_coeff[-1][0]**2 + fourier_coeff[-1][1]**2).simplify() )
+            betah.append( atan(fourier_coeff[-1][1]/fourier_coeff[-1][0]).simplify() )
+
+        # Store the results
+        self.harmonics      = harmonics
+        self.fourier_coeff  = fourier_coeff
+        self.ah             = ah
+        self.betah          = betah
 
 class Multiple_scales_system:
     r"""
@@ -599,7 +639,7 @@ class Multiple_scales_system:
         
         # Prepare the collection of sin and cos terms
         harmonics = self.find_harmonics()
-        collect_omega = [sin(h*self.omega*self.t) for h in harmonics] + [cos(h*self.omega*self.t) for h in harmonics]
+        collect_h = [sin(h*self.omega*self.t) for h in harmonics] + [cos(h*self.omega*self.t) for h in harmonics]
         
         # Rewrite the solutions
         xO_polar = []
@@ -613,17 +653,16 @@ class Multiple_scales_system:
                                       .rewrite(cos).simplify()) 
                                       .subs(self.sub.sub_tS_to_t_func).subs(sub_t_back).subs(sub_sigma).simplify()) 
                                       .expand()
-                                      .collect(collect_omega)
+                                      .collect(collect_h)
                                       )
             if rewrite_polar == range(self.Ne+1): # Construct the full response if relevant
                 x[ix] = sum([self.eps**(io+self.eps_pow_0) * xO_polar[ix][io] for io in range(self.Ne+1)])
-                x[ix] = x[ix].expand().collect(collect_omega) # Factor by the cos and sin terms
+                x[ix] = x[ix].expand().collect(collect_h) # Factor by the cos and sin terms
             else:
                 x[ix] = "all solution orders were not rewritten in polar form"
         # Store
         self.sol.xO_polar  = xO_polar
         self.sol.x         = x
-        self.sol.harmonics = harmonics
 
     
     def find_harmonics(self):
@@ -647,6 +686,22 @@ class Multiple_scales_system:
         harmonics.sort()
         return harmonics
     
+    def sol_x_harmonics(self):
+        r"""
+        Extract the harmonics caracteristics from the x solution.
+        """
+
+        # Initialisation        
+        self.sol.x_harmonics = []
+
+        # Harmonics extraction
+        for ix in range(self.ndof):
+            
+            if self.sol.x[ix] != "all solution orders were not rewritten in polar form":
+                self.sol.x_harmonics.append( Sol_harmonics(self.sol.x[ix], self.omega, self.t) )
+            else:
+                self.sol.x_harmonics.append( None )
+
     def solve_transient(self, solve_dof=None, IC=dict()):
         r"""
         Solve the transient response of an oscillator.
@@ -874,6 +929,38 @@ def cartesian_to_polar(y, sub_polar, sub_phase=None):
             sub_tan   = [(tan(phase/2), sin(phase)/(cos(phase)+1))]
             yp = TR8((TR5(y.subs(sub_polar)).expand())).subs(sub_phase).simplify().subs(sub_tan).subs(sub_phase).expand().simplify()
     return yp
+
+def get_harmonics(x, omega, t):
+    """
+    Extract the harmonic numbers from x(t).
+
+    Parameters
+    ----------
+    x : Expr
+        A periodic signal.
+    omega : Symbol
+        Oscillation frequency.
+    t : Symbol
+        Time.
+
+    Returns
+    -------
+    harmonics: list
+        The harmonics contained in x.
+    """
+    
+    trig_terms = x.atoms(cos, sin)
+
+    harmonics = set()
+    for term in trig_terms:
+        arg = term.args[0]  # argument of cos or sin
+    
+        # coefficient in front of omega*t
+        coeff = arg.coeff(omega * t)
+        if coeff != 0:
+            harmonics.add(coeff)
+
+    return harmonics
 
 def rescale(expr, mms):
     r"""
