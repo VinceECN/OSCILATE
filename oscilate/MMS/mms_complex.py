@@ -329,6 +329,10 @@ class Multiple_scales_complex(Multiple_scales_system):
         # Compute the x solutions at each order
         self.sol_xO()
 
+        # Compute the z solution from each order solution zO
+        self.sol_z_complex()
+        self.sol_z_polar()
+
         # Write the x solutions in terms of polar coordinates
         self.sol_x_polar(rewrite_polar=rewrite_polar)
 
@@ -547,4 +551,35 @@ class Multiple_scales_complex(Multiple_scales_system):
             for io in range(self.Ne+1):
                 self.sol.xO[ix].append( self.sol.zO[ix][io] + self.sol.zO[ix][io].conjugate() )
     
+    def sol_z_complex(self):
+        r"""
+        Compute the z solution from the zO solutions at each order.
+        Keep it in terms of the complex coordinates A.
+        """
+
+        self.sol.z_complex = []
+        for ix in range(self.ndof):
+            z_ix = sum([self.eps**(io+self.eps_pow_0) * self.sol.zO[ix][io] for io in range(self.Ne+1)])
+            self.sol.z_complex.append( z_ix.collect(exp(I*self.omegas_O0[ix]*self.tS[0])) )
+
+    def sol_z_polar(self):
+        r"""
+        Compute the z solution from the zO solutions at each order and introduce the polar coordinates
+        """
+
+        # Prepare substitutions
+        sub_t_back = [ (item[1], item[0]) for item in self.sub.sub_t]
+        sub_sigma  = [ (self.eps*self.sigma, self.omega-self.omegaMMS)]
+
+        # Compute the solutions in polar form
+        self.sol.z = []
+        for ix in range(self.ndof):
+            z_ix = (sum([self.eps**(io+self.eps_pow_0) * self.sol.zO[ix][io] for io in range(self.Ne+1)])
+                    .subs(self.sub.sub_A).doit().expand()
+                    .subs(self.sub.sub_phi).doit()
+                    .subs(self.sub.sub_tS_to_t_func)
+                    .subs(sub_t_back).subs(sub_sigma)
+                    .simplify().expand() ) 
+            self.sol.z.append( z_ix.collect(exp(I*self.omega*self.t)) )
+
     

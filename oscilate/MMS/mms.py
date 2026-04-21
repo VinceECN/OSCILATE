@@ -621,8 +621,9 @@ class Multiple_scales_system:
             else:
                 x[ix] = "all solution orders were not rewritten in polar form"
         # Store
-        self.sol.xO_polar = xO_polar
-        self.sol.x        = x
+        self.sol.xO_polar  = xO_polar
+        self.sol.x         = x
+        self.sol.harmonics = harmonics
 
     
     def find_harmonics(self):

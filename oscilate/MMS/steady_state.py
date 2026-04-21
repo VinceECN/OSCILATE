@@ -617,10 +617,9 @@ class Steady_state:
         """
         Compute the displacement :math:`x` on the backbone curve.
         """
-        self.sol_bbc.xO = [xio.subs(self.coord.beta[self.sol_bbc.solve_dof], self.sol_bbc.beta).simplify() for xio in self.sol.xO[self.sol_bbc.solve_dof]] 
+        self.sol_bbc.xO = [xio.subs(self.coord.beta[self.sol_bbc.solve_dof], self.sol_bbc.beta).subs(self.sub.sub_free).simplify() for xio in self.sol.xO[self.sol_bbc.solve_dof]] 
         if not isinstance(self.sol.x[self.sol_bbc.solve_dof], str):
-            self.sol_bbc.x  = self.sol.x[self.sol_bbc.solve_dof].subs(self.coord.beta[self.sol_bbc.solve_dof], self.sol_bbc.beta).simplify() 
-
+            self.sol_bbc.x  = self.sol.x[self.sol_bbc.solve_dof].subs(self.coord.beta[self.sol_bbc.solve_dof], self.sol_bbc.beta).subs(self.sub.sub_free).simplify() 
 
     def solve_LC(self, solve_dof=None, betai=0):
         r"""
