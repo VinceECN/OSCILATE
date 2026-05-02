@@ -15,10 +15,12 @@ COLOR_MAP = {
     "mms.Coord_MMS"                         : "lightgreen",
     "mms.Forcing_MMS"                       : "cyan",
     "mms.Sol_MMS"                           : "pink",
+    "mms.Sol_harmonics"                     : "pink",
     "mms.Sol_transient"                     : "pink",
     "mms.Substitutions_MMS"                 : "orange",
-    # mms_oscillator
+    # mms_forms
     "mms_oscillator.Multiple_scales_oscillator": "lightskyblue",
+    "mms_complex.Multiple_scales_complex"      : "lightskyblue",
     # steady_state
     "steady_state.Coord_SS"                 : "lightgreen",
     "steady_state.Forcing_SS"               : "cyan",
@@ -31,6 +33,7 @@ COLOR_MAP = {
     "steady_state.Steady_state"             : "lightblue",
     "steady_state.Substitutions_SS"         : "orange",
     # visualisation
+    "visualisation.Backbone_curve"          : "lightyellow",
     "visualisation.Frequency_response_curve": "lightyellow",
     "visualisation.Amplitude_response_curve": "lightyellow",
     "visualisation.Transient_response"      : "lightyellow",
@@ -46,6 +49,7 @@ CLUSTERS = {
     ],
     "MMS forms Classes": [
         "mms_oscillator.Multiple_scales_oscillator",
+        "mms_complex.Multiple_scales_complex",
     ],
     "Coordinates Classes": [
         "mms.Coord_MMS",
@@ -58,6 +62,7 @@ CLUSTERS = {
         "steady_state.Sol_bbc",
         "steady_state.Sol_forced",
         "steady_state.Sol_LC",
+        "mms.Sol_harmonics",
     ],
     "Forcing Classes": [
         "dyn_sys.Forcing",
@@ -73,6 +78,7 @@ CLUSTERS = {
         "steady_state.Stability",
     ],
     "Visualisation Classes": [
+        "visualisation.Backbone_curve",             
         "visualisation.Frequency_response_curve",
         "visualisation.Amplitude_response_curve",
         "visualisation.Transient_response",

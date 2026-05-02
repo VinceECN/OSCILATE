@@ -156,9 +156,11 @@ class Sol_MMS:
         fbetaO      : list[list[Expr]]
         orders_polar: list[int]
         sec         : list[list[Expr]]
-        x           : list[list[Expr]]
+        x           : list[Expr]
         xO          : list[list[Expr]]
         xO_polar    : list[list[Expr]]
+        z           : list[Expr]
+        zO          : list[list[Expr]]
     
     def __init__(self):
         pass
