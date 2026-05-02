@@ -14,6 +14,7 @@ These are 1 dof systems
    examples/Duffing_SupH
    examples/Duffing_SubH
    examples/Oscillator_odd_NL
+   examples/Duffing_direct_complex
 
 while these involve coupled oscillators
 

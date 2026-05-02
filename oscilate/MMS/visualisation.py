@@ -43,7 +43,7 @@ class Backbone_curve:
     if TYPE_CHECKING:
         a           : np.ndarray
         omegaMMS    : float
-        omega_bbc   : np.ndarray
+        omega       : np.ndarray
         param       : dict
 
     def __init__(self, mms, ss, dyn, param):
@@ -54,7 +54,7 @@ class Backbone_curve:
         # Construct a dictionary of substitutions
         param_dic = {}
         for ii in range(len(param)):
-            if param[ii][0] == ss.coord.a[ss.sol_forced.solve_dof]:
+            if param[ii][0] == ss.coord.a[ss.sol_bbc.solve_dof]:
                 param_dic["a"] = param[ii]
             elif param[ii][0] == dyn.forcing.F:
                 param_dic["F"] = param[ii]
@@ -67,9 +67,9 @@ class Backbone_curve:
         self.omegaMMS = numpise_omegaMMS(mms, param_dic)
 
         # Evaluation of the bbc
-        self.omega_bbc = numpise_omega_bbc(mms, ss, param_dic)
+        self.omega = numpise_omega_bbc(mms, ss, param_dic)
         if ss.sol_bbc.xmax != None:
-            self.xmax_bbc = numpise_xmax_bbc(mms, ss, param_dic)
+            self.xmax = numpise_xmax_bbc(mms, ss, param_dic)
     
     def plot(self, **kwargs):
         r"""
@@ -87,10 +87,9 @@ class Backbone_curve:
         """
 
         # Extract the bbc data
-        a         = self.__dict__.get("a",          np.full(10, np.nan))
-        xmax      = self.__dict__.get("xmax",       np.full(10, np.nan))
-        omega_bbc = self.__dict__.get("omega_bbc",  np.full_like(a, np.nan))
-        omegaMMS  = self.__dict__.get("omegaMMS",   np.nan)
+        a        = self.__dict__.get("a",        np.full(10, np.nan))
+        omega    = self.__dict__.get("omega",    np.full_like(a, np.nan))
+        omegaMMS = self.__dict__.get("omegaMMS", np.nan)
         
         # Extract the keyword arguments
         fig_param  = kwargs.get("fig_param", dict())
@@ -106,7 +105,7 @@ class Backbone_curve:
 
         # Backbone curve 
         fig, ax = plt.subplots(**fig_param)
-        ax.plot(omega_bbc, a, c="tab:grey", lw=0.7)
+        ax.plot(omega, a, c="tab:grey", lw=0.7)
         ax.axvline(omegaMMS, c="k")
         
         ax.set_xlim(xlim)
@@ -217,8 +216,8 @@ class Frequency_response_curve:
 
         # Extract the backbone curve data if any
         if bbc != None:
-            a_bbc     = bbc.__dict__.get("a"        ,  np.full_like(a, np.nan))
-            omega_bbc = bbc.__dict__.get("omega_bbc",  np.full_like(a, np.nan))
+            a_bbc     = bbc.__dict__.get("a"    ,  np.full_like(a, np.nan))
+            omega_bbc = bbc.__dict__.get("omega",  np.full_like(a, np.nan))
             if not isinstance(omega_bbc, np.ndarray):
                 omega_bbc = np.full_like(a_bbc, omega_bbc)
         
