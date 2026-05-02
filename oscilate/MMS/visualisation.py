@@ -682,7 +682,7 @@ def numpise_omega_bbc(mms, ss, param):
 
 def numpise_xmax_bbc(mms, ss, param):
     r"""
-    Numpise the peak oscillator's amplitude :math:`\x_{\textrm{max}}` on the backbone curve.
+    Numpise the peak oscillator's amplitude :math:`x_{\textrm{max}}` on the backbone curve.
 
     Parameters
     ----------
