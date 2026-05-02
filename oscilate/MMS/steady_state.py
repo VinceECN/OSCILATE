@@ -84,6 +84,7 @@ class Sol_SS:
         fbetaO      : list[list[Expr]]
         fp          : list[Expr]
         fq          : list[Expr]
+        orders_polar: list[int]
         x           : list[Expr]
         x_harmonics : list[Sol_harmonics] 
         xO          : list[list[Expr]]
@@ -93,14 +94,12 @@ class Sol_SS:
         self.xO = []
         self.x  = []
         self.x_harmonics = []
+        self.orders_polar = mms.sol.orders_polar
+
         for ix in range(ss.ndof):
             self.xO.append( [xio.subs(ss.sub.sub_SS) for xio in mms.sol.xO_polar[ix]] )
-            if not isinstance(mms.sol.x[ix], str):
-                self.x.append( mms.sol.x[ix].subs(ss.sub.sub_SS) )
-                self.x_harmonics.append( Sol_harmonics(self.x[-1], mms.omega, mms.t) )
-            else:
-                self.x.append( "all solution orders were not rewritten in polar form" )
-                self.x_harmonics.append( None )
+            self.x.append( mms.sol.x[ix].subs(ss.sub.sub_SS) )
+            self.x_harmonics.append( Sol_harmonics(self.x[-1], mms.omega, mms.t) )
 
 class Sol_forced:
     """
@@ -124,13 +123,14 @@ class Sol_forced:
 
 class Sol_bbc:
     """
-    Solutions obtained when evaluating the backbone curve of the forced response.
+    Solutions obtained when evaluating the backbone curve of the response.
     """        
 
     # Class-level annotations for pyreverse   
     if TYPE_CHECKING:   
         beta        : Expr
         omega       : Expr
+        orders_polar: list[int]
         sigma       : Expr
         solve_dof   : Union[int, None]
         x           : Expr
@@ -142,15 +142,13 @@ class Sol_bbc:
         self.xO = []
         self.x  = []
         self.x_harmonics = []
+        self.orders_polar = mms.sol.orders_polar
 
         for ix in range(ss.ndof):
             self.xO.append( [xio.subs(ss.sub.sub_SS) for xio in mms.sol.xO_polar[ix]] )
-            if not isinstance(mms.sol.x[ix], str):
-                self.x.append( mms.sol.x[ix].subs(ss.sub.sub_SS) )
-                self.x_harmonics.append( Sol_harmonics(self.x[-1], mms.omega, mms.t) )
-            else:
-                self.x.append( "all solution orders were not rewritten in polar form" )
-                self.x_harmonics.append( None )
+            self.x.append( mms.sol.x[ix].subs(ss.sub.sub_SS) )
+            self.x_harmonics.append( Sol_harmonics(self.x[-1], mms.omega, mms.t) )
+            
 
 class Sol_LC:
     """
@@ -162,6 +160,7 @@ class Sol_LC:
         a           : Expr
         beta        : Expr
         omega       : Expr
+        orders_polar: list[int]
         sigma       : Expr
         solve_dof   : Union[int, None]
         x           : Expr
@@ -173,15 +172,12 @@ class Sol_LC:
         self.xO = []
         self.x  = []
         self.x_harmonics = []
+        self.orders_polar = mms.sol.orders_polar
 
         for ix in range(ss.ndof):
             self.xO.append( [xio.subs(ss.sub.sub_SS) for xio in mms.sol.xO_polar[ix]] )
-            if not isinstance(mms.sol.x[ix], str):
-                self.x.append( mms.sol.x[ix].subs(ss.sub.sub_SS) )
-                self.x_harmonics.append( Sol_harmonics(self.x[-1], mms.omega, mms.t) )
-            else:
-                self.x.append( "all solution orders were not rewritten in polar form" )
-                self.x_harmonics.append( None )
+            self.x.append( mms.sol.x[ix].subs(ss.sub.sub_SS) )
+            self.x_harmonics.append( Sol_harmonics(self.x[-1], mms.omega, mms.t) )
 
 class Stability:
     """

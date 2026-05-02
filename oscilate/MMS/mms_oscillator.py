@@ -239,13 +239,13 @@ class Multiple_scales_oscillator(Multiple_scales_system):
             
         self.EqO = EqO
         
-    def apply_MMS(self, rewrite_polar=0):
+    def apply_MMS(self, orders_polar=0):
         r"""
         Apply the MMS. 
 
         Parameters
         ----------
-        rewrite_polar : str, int or list of int, optional
+        orders_polar : str, int or list of int, optional
             The orders at which the solutions will be rewritten in polar form.
             See :func:`sol_x_polar`.
         
@@ -312,7 +312,7 @@ class Multiple_scales_oscillator(Multiple_scales_system):
         self._apply_MMS_shared() 
         
         # Write the x solutions in terms of polar coordinates
-        self.sol_x_polar(rewrite_polar=rewrite_polar)
+        self.sol_x_polar(orders_polar=orders_polar)
 
 
     def system_t0(self):

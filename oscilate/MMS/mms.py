@@ -149,15 +149,16 @@ class Sol_MMS:
 
     # Class-level annotations for pyreverse
     if TYPE_CHECKING:
-        DA      : list[list[Expr]]
-        fa      : list[Expr]
-        faO     : list[list[Expr]]
-        fbeta   : list[Expr]
-        fbetaO  : list[list[Expr]]
-        sec     : list[list[Expr]]
-        x       : Union[list[str], list[Expr]]
-        xO      : list[list[Expr]]
-        xO_polar: list[list[Expr]]
+        DA          : list[list[Expr]]
+        fa          : list[Expr]
+        faO         : list[list[Expr]]
+        fbeta       : list[Expr]
+        fbetaO      : list[list[Expr]]
+        orders_polar: list[int]
+        sec         : list[list[Expr]]
+        x           : list[list[Expr]]
+        xO          : list[list[Expr]]
+        xO_polar    : list[list[Expr]]
     
     def __init__(self):
         pass
@@ -607,13 +608,13 @@ class Multiple_scales_system:
         self.sol.fa    = [ fai.subs(self.sub.sub_tS_to_t_func) for fai in fa ]
         self.sol.fbeta = [ fbetai.subs(self.sub.sub_tS_to_t_func) for fbetai in fbeta ]
 
-    def sol_x_polar(self, rewrite_polar=0):
+    def sol_x_polar(self, orders_polar=0):
         r"""
         Write the solutions using the polar coordinates and :math:`\cos` and :math:`\sin` functions.
 
         Parameters
         ----------
-        rewrite_polar : str or int or list of int, optional
+        orders_polar : str or int or list of int, optional
             The orders at which the solutions will be rewritten in polar form.
             If ``"all"``, then all solution orders will be rewritten.
             If `int`, then only a single order will be rewritten.
@@ -625,11 +626,11 @@ class Multiple_scales_system:
         print("Rewritting the solutions in polar form")
         
         # Orders to rewrite
-        if rewrite_polar=="all":
-            rewrite_polar = range(self.Ne+1)
-        elif not isinstance(rewrite_polar, list):
-            rewrite_polar = [rewrite_polar]
-        if max(rewrite_polar)>self.Ne:
+        if orders_polar=="all":
+            orders_polar = range(self.Ne+1)
+        elif not isinstance(orders_polar, list):
+            orders_polar = [orders_polar]
+        if max(orders_polar)>self.Ne:
             print("Trying to rewrite a solution order that exceeds the maximum order computed.")
             return
 
@@ -642,28 +643,30 @@ class Multiple_scales_system:
         collect_h = [sin(h*self.omega*self.t) for h in harmonics] + [cos(h*self.omega*self.t) for h in harmonics]
         
         # Rewrite the solutions
-        xO_polar = []
+        xO_polar = [[sympify(0)] * (self.Ne + 1) for dof in range(self.ndof)]
         x        = [0 for dummy in range(self.ndof)]
         for ix in range(self.ndof):
             xO_polar.append([])
-            for io in rewrite_polar:
-                xO_polar[ix].append( TR10(TR8((self.sol.xO[ix][io]
+            for io in orders_polar:
+                xO_polar[ix][io] = ( TR10(TR8((self.sol.xO[ix][io]
                                         .subs(self.sub.sub_A).doit().expand()
                                         .subs(self.sub.sub_phi).doit()) 
                                       .rewrite(cos).simplify()) 
                                       .subs(self.sub.sub_tS_to_t_func).subs(sub_t_back).subs(sub_sigma).simplify()) 
                                       .expand()
                                       .collect(collect_h)
-                                      )
-            if rewrite_polar == range(self.Ne+1): # Construct the full response if relevant
-                x[ix] = sum([self.eps**(io+self.eps_pow_0) * xO_polar[ix][io] for io in range(self.Ne+1)])
-                x[ix] = x[ix].expand().collect(collect_h) # Factor by the cos and sin terms
-            else:
-                x[ix] = "all solution orders were not rewritten in polar form"
+                                   )
+                                      
+            x[ix] = sum([self.eps**(io+self.eps_pow_0) * xO_polar[ix][io] for io in range(self.Ne+1)])
+            x[ix] = x[ix].expand().collect(collect_h) # Factor by the cos and sin terms
+            
+            if orders_polar != range(self.Ne+1):
+                print("All solution orders were not rewritten in polar form")
+
         # Store
         self.sol.xO_polar  = xO_polar
         self.sol.x         = x
-
+        self.sol.orders_polar = orders_polar
     
     def find_harmonics(self):
         """
