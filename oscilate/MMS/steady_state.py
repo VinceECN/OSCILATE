@@ -135,6 +135,7 @@ class Sol_bbc:
         solve_dof   : Union[int, None]
         x           : Expr
         x_harmonics : list[Sol_harmonics] 
+        xmax        : Expr
         xO          : list[Expr]
 
     def __init__(self, ss, mms):
@@ -165,6 +166,7 @@ class Sol_LC:
         solve_dof   : Union[int, None]
         x           : Expr
         x_harmonics : list[Sol_harmonics] 
+        xmax        : Expr
         xO          : list[Expr]
 
     def __init__(self, ss, mms):
@@ -706,6 +708,9 @@ class Steady_state:
 
         # Oscillator's motion
         self.solve_LC_x()
+
+        # Oscillator's harmonics
+        self.sol_LC.x_harmonics = Sol_harmonics(self.sol_LC.x, self.omega, self.t)
 
         # Oscillator's peak amplitude
         self.solve_LC_xmax()
