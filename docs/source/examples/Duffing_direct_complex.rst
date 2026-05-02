@@ -46,10 +46,10 @@ or equivalently
    \dot{z} & = \frac{1}{2} (x + \frac{\textrm{j}}{\omega_0} \dot{x}),
    \end{cases}
 
-resulting in the complex first order dynamical system (on :math:`z`)
+resulting in the complex first order dynamical system (on :math:`z(t)`)
 
 .. math::
-   \dot{z}_{0} = i \omega_{0} z_{0} + \frac{i \gamma \left(z_{0} + \overline{z_{0}}\right)^{3}}{2 \omega_{0}} - \frac{c z_{0}}{2} + \frac{c \overline{z_{0}}}{2}.
+   \dot{z} = i \omega z + \frac{i \gamma \left(z + \overline{z}\right)^{3}}{2 \omega} - \frac{c z}{2} + \frac{c \overline{z}}{2}.
 
 A direct response is sought so the frequency (either backbone curve frequency or forcing frequency) is close from the oscillator's, such that
 
