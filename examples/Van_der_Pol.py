@@ -34,7 +34,7 @@ kwargs_mms = dict(ratio_omegaMMS=ratio_omegaMMS, ratio_omega_osc=[1], detunings=
 mms = MMS.Multiple_scales_oscillator(dyn, eps, Ne, omega_ref, sub_scaling, **kwargs_mms)
 
 # Application of the MMS
-mms.apply_MMS(rewrite_polar="all")
+mms.apply_MMS(orders_polar="all")
 
 # Transient analysis
 solve_dof = 0

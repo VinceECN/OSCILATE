@@ -661,7 +661,7 @@ class Steady_state:
         """
 
         if self.sol_bbc.x != None:
-            tmax = pi/2 * self.ratio_omega_osc[self.sol_bbc.solve_dof] / (self.ratio_omegaMMS*self.omega)
+            tmax = pi/2 * self.ratio_omegaMMS / (self.ratio_omega_osc[self.sol_bbc.solve_dof]*self.omega)
 
             self.sol_bbc.xmax = self.sol_bbc.x.subs(self.t, tmax)
         else:
@@ -753,7 +753,7 @@ class Steady_state:
         """
 
         if self.sol_LC.x != None:
-            tmax = pi/2 * self.ratio_omega_osc[self.sol_LC.solve_dof] / (self.ratio_omegaMMS*self.omega)
+            tmax = pi/2 * self.ratio_omegaMMS / (self.ratio_omega_osc[self.sol_LC.solve_dof]*self.omega)
 
             self.sol_LC.xmax = self.sol_LC.x.subs(self.t, tmax)
         else:

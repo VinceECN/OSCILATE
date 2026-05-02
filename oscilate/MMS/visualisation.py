@@ -49,7 +49,7 @@ class Backbone_curve:
     def __init__(self, mms, ss, dyn, param):
         
         # Information
-        print("Converting sympy FRC expressions to numpy")
+        print("Converting sympy BBC expressions to numpy")
 
         # Construct a dictionary of substitutions
         param_dic = {}
@@ -219,6 +219,8 @@ class Frequency_response_curve:
         if bbc != None:
             a_bbc     = bbc.__dict__.get("a"        ,  np.full_like(a, np.nan))
             omega_bbc = bbc.__dict__.get("omega_bbc",  np.full_like(a, np.nan))
+            if not isinstance(omega_bbc, np.ndarray):
+                omega_bbc = np.full_like(a_bbc, omega_bbc)
         
         # Extract the keyword arguments
         fig_param  = kwargs.get("fig_param", dict())
