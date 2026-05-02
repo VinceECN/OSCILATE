@@ -18,10 +18,108 @@ from typing import Union, TYPE_CHECKING
 from numpy import ndarray
 
 #%% Classes and functions
+class Backbone_curve:
+    """
+    Evaluate the backbone curve for given numerical parameters. This transforms the sympy expressions to numpy arrays. They can then be plotted.
+
+    Parameters
+    ----------
+    mms : Multiple_scales_system
+        The MMS object.
+    ss : Steady_state
+        The MMS results evaluated at steady state.
+    dyn : Dynamical_system
+        The initial dynamical system.
+    param : list[tuple]
+        A list whose values are tuples with 2 elements:
+
+        1. The sympy symbol of a parameter,
+
+        2. The numerical value(s) taken by that parameter.
+    
+    """
+
+    # Class-level annotations for pyreverse
+    if TYPE_CHECKING:
+        a           : np.ndarray
+        omegaMMS    : float
+        omega_bbc   : np.ndarray
+        param       : dict
+
+    def __init__(self, mms, ss, dyn, param):
+        
+        # Information
+        print("Converting sympy FRC expressions to numpy")
+
+        # Construct a dictionary of substitutions
+        param_dic = {}
+        for ii in range(len(param)):
+            if param[ii][0] == ss.coord.a[ss.sol_forced.solve_dof]:
+                param_dic["a"] = param[ii]
+            elif param[ii][0] == dyn.forcing.F:
+                param_dic["F"] = param[ii]
+            else:
+                param_dic[f"param_{ii}"] = param[ii]
+                
+        # Initialisation
+        self.a        = param_dic["a"][1]
+        self.param    = param_dic
+        self.omegaMMS = numpise_omegaMMS(mms, param_dic)
+
+        # Evaluation of the bbc
+        self.omega_bbc = numpise_omega_bbc(mms, ss, param_dic)
+        if ss.sol_bbc.xmax != None:
+            self.xmax_bbc = numpise_xmax_bbc(mms, ss, param_dic)
+    
+    def plot(self, **kwargs):
+        r"""
+        Plots the backbone curve.
+
+        Parameters
+        ----------
+        ss : Steady_state, optional
+            Steady state object. Used to name the axis labels.
+        
+        Returns
+        -------
+        fig : Figure
+            The amplitude plot :math:`a(\omega)`.
+        """
+
+        # Extract the bbc data
+        a         = self.__dict__.get("a",          np.full(10, np.nan))
+        xmax      = self.__dict__.get("xmax",       np.full(10, np.nan))
+        omega_bbc = self.__dict__.get("omega_bbc",  np.full_like(a, np.nan))
+        omegaMMS  = self.__dict__.get("omegaMMS",   np.nan)
+        
+        # Extract the keyword arguments
+        fig_param  = kwargs.get("fig_param", dict())
+        if "ss" in kwargs.keys():
+            ss = kwargs.get("ss")
+            amp_name   = kwargs.get("amp_name", vlatex(ss.coord.a[ss.sol_forced.solve_dof]))
+        else:
+            amp_name   = kwargs.get("amp_name", "amplitude")
+
+        xlim = kwargs.get("xlim", [coeff*omegaMMS for coeff in (0.9, 1.1)])
+        if np.isnan(xlim).any():
+            xlim = [None, None]
+
+        # Backbone curve 
+        fig, ax = plt.subplots(**fig_param)
+        ax.plot(omega_bbc, a, c="tab:grey", lw=0.7)
+        ax.axvline(omegaMMS, c="k")
+        
+        ax.set_xlim(xlim)
+        ax.set_xlabel(r"$\omega_{\textrm{nl}}$")
+        ax.set_ylabel(r"${}$".format(amp_name))
+        ax.margins(y=0)
+
+        # Return
+        return fig
+
 class Frequency_response_curve:
     """
-    Evaluate the frequency response curves (FRC) and bifurcation curves (if computed) for given numerical parameters. This transforms the sympy expressions to numpy arrays.
-    They can then be plotted.
+    Evaluate the frequency response curves (FRC) and bifurcation curves (if computed) for given numerical parameters. This transforms the sympy expressions to numpy arrays. They can then be plotted.
 
     Parameters
     ----------
@@ -38,12 +136,6 @@ class Frequency_response_curve:
 
         2. The numerical value(s) taken by that parameter.
 
-    bbc : bool, optional
-        Evaluate the backbone curve. 
-        Default is `True`.
-    forced : bool, optional
-        Evaluate the forced response. 
-        Default is `True`.
     bif : bool, optional
         Evaluate the bifurcation curves. 
         Default is `True`.
@@ -54,13 +146,12 @@ class Frequency_response_curve:
         a           : np.ndarray
         omega       : list[ndarray]
         omegaMMS    : float
-        omega_bbc   : np.ndarray
         omega_bif   : list[ndarray]
         param       : dict
         phase       : list[ndarray]
         phase_bif   : list[ndarray]
 
-    def __init__(self, mms, ss, dyn, param, bbc=True, forced=True, bif=True):
+    def __init__(self, mms, ss, dyn, param, bif=True):
         
         # Information
         print("Converting sympy FRC expressions to numpy")
@@ -81,13 +172,11 @@ class Frequency_response_curve:
         self.omegaMMS = numpise_omegaMMS(mms, param_dic)
 
         # Evaluation of the FRC
-        if bbc:
-            self.omega_bbc = numpise_omega_bbc(mms, ss, param_dic)
-        if forced:
-            self.omega = numpise_omega_FRC(mms, ss, param_dic)
-            self.phase = []
-            for omegai in self.omega:
-                self.phase.append(numpise_phase(mms, ss, dyn, param_dic, omegai, self.param["F"][1]))
+        self.omega = numpise_omega_FRC(mms, ss, param_dic)
+        self.phase = []
+        for omegai in self.omega:
+            self.phase.append(numpise_phase(mms, ss, dyn, param_dic, omegai, self.param["F"][1]))
+
         if bif:
             self.omega_bif = numpise_omega_bif(mms, ss, param_dic)
             if isinstance(self.omega_bif, np.ndarray):
@@ -97,13 +186,16 @@ class Frequency_response_curve:
                 for omegai in self.omega_bif:
                     self.phase_bif.append(numpise_phase(mms, ss, dyn, param_dic, omegai, self.param["F"][1]))
     
-    def plot(self, **kwargs):
+    def plot(self, bbc=None, **kwargs):
         r"""
         Plots the frequency response curves (FRC), both frequency-amplitude and frequency-phase.
-        Also includes the stability information if given.
+        Also includes the stability information if computed, and the backbone curve if given.
 
         Parameters
         ----------
+        bbc : Backbone_curve, optional
+            The evaluated backbone curve. 
+            Default is None.
         ss : Steady_state, optional
             Steady state object. Used to name the axis labels.
         
@@ -117,12 +209,16 @@ class Frequency_response_curve:
 
         # Extract the FRC data
         a         = self.__dict__.get("a",          np.full(10, np.nan))
-        omega_bbc = self.__dict__.get("omega_bbc",  np.full_like(a, np.nan))
         omega     = self.__dict__.get("omega",      [np.full_like(a, np.nan)])
         omegaMMS  = self.__dict__.get("omegaMMS",   np.nan)
         phase     = self.__dict__.get("phase",      [np.full_like(a, np.nan)])
         omega_bif = self.__dict__.get("omega_bif",  [np.full_like(a, np.nan)])
         phase_bif = self.__dict__.get("phase_bif",  [np.full_like(a, np.nan)])
+
+        # Extract the backbone curve data if any
+        if bbc != None:
+            a_bbc     = bbc.__dict__.get("a"        ,  np.full_like(a, np.nan))
+            omega_bbc = bbc.__dict__.get("omega_bbc",  np.full_like(a, np.nan))
         
         # Extract the keyword arguments
         fig_param  = kwargs.get("fig_param", dict())
@@ -140,8 +236,8 @@ class Frequency_response_curve:
 
         # FRC - amplitude 
         fig1, ax = plt.subplots(**fig_param)
-        if isinstance(omega_bbc, np.ndarray): 
-            ax.plot(omega_bbc, a, c="tab:grey", lw=0.7)
+        if bbc != None: 
+            ax.plot(omega_bbc, a_bbc, c="tab:grey", lw=0.7)
         ax.axvline(omegaMMS, c="k")
         [ax.plot(omegai, a, c="tab:blue") for omegai in omega]
         [ax.plot(omegai, a, c="tab:red", lw=0.7) for omegai in omega_bif]
@@ -151,7 +247,7 @@ class Frequency_response_curve:
         ax.set_ylabel(r"${}$".format(amp_name))
         ax.margins(y=0)
 
-        if not isinstance(omega_bbc, np.ndarray):
+        if bbc == None:
             ax.set_ylim(0, 1.2*np.max(a))
         
         # FRC - phase
@@ -582,6 +678,25 @@ def numpise_omega_bbc(mms, ss, param):
     """
     omega_bbc  = sfun.sympy_to_numpy(rescale(ss.sol_bbc.omega, mms), param)
     return omega_bbc
+
+def numpise_xmax_bbc(mms, ss, param):
+    r"""
+    Numpise the peak oscillator's amplitude :math:`\x_{\textrm{max}}` on the backbone curve.
+
+    Parameters
+    ----------
+    mms: Multiple_scales_system
+    ss: Steady_state
+    param: dict
+        See :func:`~MMS.sympy_functions.sympy_to_numpy`.
+
+    Returns
+    -------
+    xmax_bbc: numpy.ndarray
+        Numpised peak amplitude on the backbone curve.
+    """
+    xmax_bbc  = sfun.sympy_to_numpy(rescale(ss.sol_bbc.xmax, mms), param)
+    return xmax_bbc
 
 def numpise_omega_FRC(mms, ss, param):
     r"""

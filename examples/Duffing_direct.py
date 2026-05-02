@@ -54,8 +54,9 @@ param = [(omega0, 1),
 
 # Frequency response
 param_FRC = param + [(dyn.forcing.F, 1e-2)]
+BBC = MMS.visualisation.Backbone_curve(mms, ss, dyn, param_FRC)
 FRC = MMS.visualisation.Frequency_response_curve(mms, ss, dyn, param_FRC)
-FRC.plot(ss=ss)
+FRC.plot(ss=ss, bbc=BBC)
 
 # Amplitude response
 param_ARC = param + [(mms.omega, 1.05)]

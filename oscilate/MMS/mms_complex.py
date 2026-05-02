@@ -46,7 +46,7 @@ class Multiple_scales_complex(Multiple_scales_system):
         super().__init__(dynamical_system, eps, Ne, omega_ref, sub_scaling, ratio_omegaMMS=ratio_omegaMMS, eps_pow_0=eps_pow_0, ratio_omega_osc=ratio_omega_osc, detunings=detunings)
         
         # Information
-        print('   Oscillator form (2nd order differential equations)')
+        print('   Complex form (1st order complex differential equations)')
 
         # Check that the dynamical system is in the appropriate form
         if not "complex" in dynamical_system.form:

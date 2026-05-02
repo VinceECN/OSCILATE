@@ -634,6 +634,9 @@ class Steady_state:
         # Oscillator's harmonics
         self.sol_bbc.x_harmonics = Sol_harmonics(self.sol_bbc.x, self.omega, self.t)
         
+        # Oscillator's peak amplitude
+        self.solve_bbc_xmax()
+
     def solve_bbc_x(self):
         """
         Compute the displacement :math:`x` on the backbone curve.
@@ -644,6 +647,29 @@ class Steady_state:
         self.sol_bbc.xO = [xio.subs(self.coord.beta[self.sol_bbc.solve_dof], self.sol_bbc.beta).subs(self.sub.sub_free).simplify() for xio in self.sol.xO[self.sol_bbc.solve_dof]] 
         if not isinstance(self.sol.x[self.sol_bbc.solve_dof], str):
             self.sol_bbc.x  = self.sol.x[self.sol_bbc.solve_dof].subs(self.coord.beta[self.sol_bbc.solve_dof], self.sol_bbc.beta).subs(self.sub.sub_free).simplify().expand().collect(collect_h)
+        else:
+            self.sol_bbc.x = None
+
+    def solve_bbc_xmax(self):
+        r"""
+        Compute the maximum displacement :math:`x_{\textrm{max}}`, associated to the backbone curve.
+        The choice of the time :math:`t_{\textrm{max}}` associated to :math:`x_{\textrm{max}}` is based on the fact that the leading order solution for oscillator :math:`i`, given by
+
+        .. math::
+            x^{\textrm{h}}_{i,0}(t) = a_i \cos\left( \frac{r_i}{r_{\textrm{MMS}}} \omega t - \beta_i\right),
+ 
+        dominates, such that
+
+        .. math::
+            t_{\textrm{max}} = \frac{\pi}{2} \frac{r_{\textrm{MMS}}}{r_i \omega}.
+        """
+
+        if self.sol_bbc.x != None:
+            tmax = pi/2 * self.ratio_omega_osc[self.sol_bbc.solve_dof] / (self.ratio_omegaMMS*self.omega)
+
+            self.sol_bbc.xmax = self.sol_bbc.x.subs(self.t, tmax)
+        else:
+            self.sol_bbc.xmax = None
 
     def solve_LC(self, solve_dof=None, betai=0):
         r"""
@@ -685,6 +711,9 @@ class Steady_state:
         # Oscillator's motion
         self.solve_LC_x()
 
+        # Oscillator's peak amplitude
+        self.solve_LC_xmax()
+
     def solve_LC_amplitude(self):
         """
         Compute the amplitude of the homogeneous, leading order solution on the limit cycle.
@@ -710,6 +739,29 @@ class Steady_state:
         self.sol_LC.xO = [xio.subs(self.coord.beta[self.sol_LC.solve_dof], self.sol_LC.beta).simplify() for xio in self.sol.xO[self.sol_LC.solve_dof]] 
         if not isinstance(self.sol.x[self.sol_LC.solve_dof], str):
             self.sol_LC.x  = self.sol.x[self.sol_LC.solve_dof].subs(self.coord.beta[self.sol_LC.solve_dof], self.sol_LC.beta).simplify().expand().collect(collect_h) # Using .subs(self.sub.sub_solve_LC) would result in too long expressions
+        else:
+            self.sol_LC.x = None
+
+    def solve_LC_xmax(self):
+        r"""
+        Compute the maximum displacement :math:`x_{\textrm{max}}` associated to the limit cycle.
+        The choice of the time :math:`t_{\textrm{max}}` associated to :math:`x_{\textrm{max}}` is based on the fact that the leading order solution for oscillator :math:`i`, given by
+
+        .. math::
+            x^{\textrm{h}}_{i,0}(t) = a_i \cos\left( \frac{r_i}{r_{\textrm{MMS}}} \omega t - \beta_i\right),
+ 
+        dominates, such that
+
+        .. math::
+            t_{\textrm{max}} = \frac{\pi}{2} \frac{r_{\textrm{MMS}}}{r_i \omega}.
+        """
+
+        if self.sol_LC.x != None:
+            tmax = pi/2 * self.ratio_omega_osc[self.sol_LC.solve_dof] / (self.ratio_omegaMMS*self.omega)
+
+            self.sol_LC.xmax = self.sol_LC.x.subs(self.t, tmax)
+        else:
+            self.sol_LC.xmax = None
 
     def Jacobian_polar(self):
         r"""
