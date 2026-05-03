@@ -43,7 +43,7 @@ or equivalently
 .. math::
    \begin{cases}
    z       & = \frac{1}{2} (x - \frac{\textrm{j}}{\omega_0} \dot{x}), \\
-   \dot{z} & = \frac{1}{2} (x + \frac{\textrm{j}}{\omega_0} \dot{x}),
+   \bar{z} & = \frac{1}{2} (x + \frac{\textrm{j}}{\omega_0} \dot{x}),
    \end{cases}
 
 resulting in the complex first order dynamical system (on :math:`z(t)`)

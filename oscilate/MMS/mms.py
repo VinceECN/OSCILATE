@@ -325,7 +325,8 @@ class Multiple_scales_system:
              detunings = 0
              ):
         """
-        Transform the dynamical system introducing multiple time scales and frequency relations. For a complete transformation, asymptotic series must also be introduced. This is done in the children classes :class:`~oscilate.MMS.mms_oscillator.Multiple_scales_oscillator` and :class:`~oscilate.MMS.mms_complex.Multiple_scales_complex`, which make use of an oscillator or complex form of the equations, respectively.
+        Transform the dynamical system introducing multiple time scales and frequency relations. 
+        For a complete transformation, asymptotic series must also be introduced. This is done in the children classes :class:`~oscilate.MMS.mms_oscillator.Multiple_scales_oscillator` and :class:`~oscilate.MMS.mms_complex.Multiple_scales_complex`, which make use of an oscillator or complex form of the equations, respectively.
         """
         
         # Information
@@ -439,11 +440,11 @@ class Multiple_scales_system:
                 self.omegas_O0.append( self.omegas[ix] )
         
         
-    def _apply_MMS_shared(self):
+    def apply_MMS_shared(self):
         r"""
         Apply the MMS. 
         This method contains the operations that are common to the oscillator and complex form. These include a change of phase variables to make the system autonomous, a separation of solvability conditions into real and imaginary parts, and their reconstitution, resulting in the modulation equations.
-        See :func:`~oscilate.MMS.mms_oscillator.apply_func` for details.
+        See :meth:`~oscilate.MMS.mms_oscillator.Multiple_scales_oscillator.apply_func` or :meth:`~oscilate.MMS.mms_complex.Multiple_scales_complex.apply_func` for details.
         """
         
         # Change the phase coordinates for autonomous purposes
@@ -503,7 +504,7 @@ class Multiple_scales_system:
         
         Notes
         -----
-        Derive the modulation equations of the polar coordinates system (defined in :func:`polar_coordinates` and :func:`autonomous_phases`) from the secular conditions. 
+        Derive the modulation equations of the polar coordinates system (defined in :meth:`~oscilate.MMS.mms.Multiple_scales_system.polar_coordinates` and :meth:`~oscilate.MMS.mms.Multiple_scales_system.autonomous_phases`) from the secular conditions. 
         For oscillator :math:`i` and at order :math:`j`, these are defined as
         
         .. math::
@@ -718,11 +719,11 @@ class Multiple_scales_system:
             If `None`, no oscillator is solved for.
             Default is `None`.
         IC: dict(), optional
-            See :func:`solve_slow_time`.
+            See :meth:`~oscilate.MMS.mms.Multiple_scales_system.solve_slow_time`.
             
         Notes
         -----
-        Find the transient solution for a given oscillator with the other oscillators' amplitude set to 0. Setting the other oscillators' amplitude to zero is done using the method :func:`substitution_solve_dof`.
+        Find the transient solution for a given oscillator with the other oscillators' amplitude set to 0. Setting the other oscillators' amplitude to zero is done using the method :meth:`~oscilate.MMS.mms.Multiple_scales_system.substitution_solve_dof`.
         """
 
         # Conditions for not solving the forced response

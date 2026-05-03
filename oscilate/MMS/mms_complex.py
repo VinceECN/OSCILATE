@@ -21,7 +21,7 @@ from typing import TYPE_CHECKING
 class Multiple_scales_complex(Multiple_scales_system):
     r"""
     The multiple scales system in complex form, i.e. 1st order complex differential equations.
-    See the parent class :class:`Multiple_scales_system` for a description of the input parameters.
+    See the parent class :class:`~oscilate.MMS.mms.Multiple_scales_system` for a description of the input parameters.
     """
 
     # Class-level annotations for pyreverse
@@ -264,18 +264,18 @@ class Multiple_scales_complex(Multiple_scales_system):
         ----------
         orders_polar : str, int or list of int, optional
             The orders at which the solutions will be rewritten in polar form.
-            See :func:`sol_x_polar`.
+            See :meth:`~oscilate.MMS.mms.Multiple_scales_system.sol_x_polar`.
         
         Notes
         -----
         The application of the MMS is operated by successively calling the following methods.
 
-        #. :func:`system_t0`: An equivalent system is written in terms of the fast time scale :math:`t_0`. 
+        #. :meth:`~oscilate.MMS.mms_complex.Multiple_scales_complex.system_t0`: An equivalent system is written in terms of the fast time scale :math:`t_0`. 
            This introduces the temporary unknowns :math:`\tilde{z}_{i,j}(t_0)` and allows the use of :func:`~sympy.solvers.ode.dsolve`.
 
-        #. :func:`sol_order_0`: Leading order solutions :math:`z_{i,0}(\boldsymbol{t})` are defined.
+        #. :meth:`~oscilate.MMS.mms_complex.Multiple_scales_complex.sol_order_0`: Leading order solutions :math:`z_{i,0}(\boldsymbol{t})` are defined.
 
-        #. :func:`secular_analysis`: The leading order solutions are introduced in the equations and the secular terms at each order are identified. 
+        #. :meth:`~oscilate.MMS.mms_complex.Multiple_scales_complex.secular_analysis`: The leading order solutions are introduced in the equations and the secular terms at each order are identified. 
            Cancelling those secular terms is a condition for bounded solutions. 
            It leads to a system of complex modulation equations governing the slow time evolution of the complex amplitude of the homogeneous leading order solutions. 
            Each equation takes the form 
@@ -285,11 +285,11 @@ class Multiple_scales_complex(Multiple_scales_system):
 
            After cancelling the secular terms the higher order equations are solved successively to express the higher order solutions :math:`z_{i,j}(\boldsymbol{t}),\; j>0` in terms of the leading order ones.
 
-        #. :func:`_apply_MMS_shared`: The functions that are shared among various MMS forms (oscillator and complex). This calls
+        #. :meth:`~oscilate.MMS.mms.Multiple_scales_system.apply_MMS_shared`: The functions that are shared among various MMS forms (oscillator and complex). This calls
 
-            #. :func:`autonomous_phases`: The phase coordinates are changed from :math:`\phi_i(\boldsymbol{t}_s)` to :math:`\beta_i(\boldsymbol{t}_s)` to cancel the slow time :math:`t_1` in the secular terms. This will be used afterwards to obtain an autonomous system.
+            #. :meth:`~oscilate.MMS.mms.Multiple_scales_system.autonomous_phases`: The phase coordinates are changed from :math:`\phi_i(\boldsymbol{t}_s)` to :math:`\beta_i(\boldsymbol{t}_s)` to cancel the slow time :math:`t_1` in the secular terms. This will be used afterwards to obtain an autonomous system.
 
-            #. :func:`modulation_equations`: The secular conditions are split into real and imaginary parts, polar coordinates are used and the autonomous phases are introduced,
+            #. :meth:`~oscilate.MMS.mms.Multiple_scales_system.modulation_equations`: The secular conditions are split into real and imaginary parts, polar coordinates are used and the autonomous phases are introduced,
             resulting in an autonomous system of modulation equations on polar coordinates. 
             Equations come by two, one representing the amplitude modulation while the other represents the phase's, such that
             
@@ -301,7 +301,7 @@ class Multiple_scales_complex(Multiple_scales_system):
 
             This is the key result of the MMS. 
 
-            #. :func:`reconstitution`: The modulations on each time scale are now combined to reintroduce the physical time, resulting in a system of the form
+            #. :meth:`~oscilate.MMS.mms.Multiple_scales_system.reconstitution`: The modulations on each time scale are now combined to reintroduce the physical time, resulting in a system of the form
 
             .. math::
                 \begin{cases}
@@ -311,7 +311,7 @@ class Multiple_scales_complex(Multiple_scales_system):
 
             This is known as the reconstitution method.
 
-        #. :func:`sol_x_polar`: The leading and higher order solutions are rewritten in terms of polar coordinates using :math:`\cos` and :math:`\sin` functions.
+        #. :meth:`~oscilate.MMS.mms.Multiple_scales_system.sol_x_polar`: The leading and higher order solutions are rewritten in terms of polar coordinates using :math:`\cos` and :math:`\sin` functions.
         """
         
         # Write a temporary equivalent system depending only on t0
@@ -324,7 +324,7 @@ class Multiple_scales_complex(Multiple_scales_system):
         self.secular_analysis()
 
         # Change phase coordinate and derive the modulation equations
-        self._apply_MMS_shared() 
+        self.apply_MMS_shared() 
         
         # Compute the x solutions at each order
         self.sol_xO()

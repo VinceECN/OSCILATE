@@ -358,15 +358,15 @@ class Steady_state:
 
         To do so, one must choose an oscillator to chose for, say oscillator :math:`i`. Then, the following methods are called: 
         
-        #. :func:`substitution_solve_dof`: Set the other oscillators' amplitude to 0, i.e. :math:`a_j = 0 \; \forall j \neq i`.
+        #. :meth:`~oscilate.MMS.steady_state.Steady_state.substitution_solve_dof`: Set the other oscillators' amplitude to 0, i.e. :math:`a_j = 0 \; \forall j \neq i`.
 
-        #. :func:`solve_phase`: express the oscillator's phase :math:`\beta_i` as a function of its amplitude :math:`a_i`. 
+        #. :meth:`~oscilate.MMS.steady_state.Steady_state.solve_phase`: express the oscillator's phase :math:`\beta_i` as a function of its amplitude :math:`a_i`. 
 
-        #. :func:`solve_sigma`: find the expression of :math:`\sigma(a_i)`.
+        #. :meth:`~oscilate.MMS.steady_state.Steady_state.solve_sigma`: find the expression of :math:`\sigma(a_i)`.
 
-        #. :func:`solve_a`: find the expression of :math:`a_i (\sigma, F)`.
+        #. :meth:`~oscilate.MMS.steady_state.Steady_state.solve_a`: find the expression of :math:`a_i (\sigma, F)`.
                 
-        #. :func:`solve_F`: find the expression of :math:`F(a_i)`.
+        #. :meth:`~oscilate.MMS.steady_state.Steady_state.solve_F`: find the expression of :math:`F(a_i)`.
 
         """
         
@@ -766,7 +766,7 @@ class Steady_state:
 
     def Jacobian_polar(self):
         r"""
-        Compute the Jacobian of the modulation equations systems expressed in polar coordinates (see :func:`stability_analysis`).
+        Compute the Jacobian of the modulation equations systems expressed in polar coordinates (see :meth:`~oscilate.MMS.steady_state.Steady_state.stability_analysis_forced`).
         
         Returns
         -------
@@ -846,7 +846,7 @@ class Steady_state:
 
         Notes
         -----
-        Write the modulation equations using the cartesian coordinates (defined in :func:`cartesian_coordinates`). 
+        Write the modulation equations using the cartesian coordinates (defined in :meth:`~oscilate.MMS.steady_state.Steady_state.cartesian_coordinates`). 
         For oscillator :math:`i`, this results in
         
         .. math::
@@ -978,7 +978,7 @@ class Steady_state:
     
     def Jacobian_cartesian(self):
         r"""
-        Compute the Jacobian of the modulation equations systems expressed in cartesian coordinates (see :func:`stability_analysis`).
+        Compute the Jacobian of the modulation equations systems expressed in cartesian coordinates (see :meth:`~oscilate.MMS.steady_state.Steady_state.stability_analysis_forced`).
         
         Returns
         -------
@@ -1025,7 +1025,7 @@ class Steady_state:
         analyse_blocks: bool, optional
             Analyse the diagonal blocks of the Jacobian rather than the Jacobian itself. This is relevant if the Jacobian is block-diagonal.
         kwargs_bif: dict, optional
-            Passed to :func:`bifurcation_curves`
+            Passed to :meth:`~oscilate.MMS.steady_state.Steady_state.bifurcation_curves`
             Default is `dict()`.
         """
         

@@ -58,3 +58,11 @@ bibtex_reference_style  = 'label'
 
 # Types
 autodoc_typehints = "none"  # This hides type hints from the function signature
+
+# Define standalone files
+exclude_patterns = [
+    'mms/dyn_sys.rst',
+    'mms/mms_application.rst',
+    'mms/steady_state.rst',
+    'mms/stability.rst',
+]
