@@ -77,7 +77,7 @@ The script below allows to
 - Construct the dynamical system in oscillator and complex forms
 - Apply the MMS to the system up to order :math:`N_e=5` using the oscillator and complex forms
 - Evaluate the MMS results at steady state
-- Compute the backbone curve
+- Compute the backbone curve and the associated mapping from the normal coordinate's amplitude to the displacement (initial) coordinate. These results are in accordance with those from the normal form theory :cite:`defigueiredostabileNormalFormAnalysis2025`. 
 
 .. literalinclude:: ../../../examples/Duffing_direct_complex.py
    :language: python
