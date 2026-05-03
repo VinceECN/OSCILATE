@@ -607,6 +607,10 @@ class Multiple_scales_system:
         if max(orders_polar)>self.Ne:
             print("Trying to rewrite a solution order that exceeds the maximum order computed.")
             return
+        
+        # Test if all solution orders are rewritten
+        if orders_polar != list(range(self.Ne+1)):
+            print("All solution orders were not rewritten in polar form")
 
         # Prepare substitutions
         sub_t_back = [ (item[1], item[0]) for item in self.sub.sub_t]
@@ -634,9 +638,6 @@ class Multiple_scales_system:
             x[ix] = sum([self.eps**(io+self.eps_pow_0) * xO_polar[ix][io] for io in range(self.Ne+1)])
             x[ix] = x[ix].expand().collect(collect_h) # Factor by the cos and sin terms
             
-            if orders_polar != range(self.Ne+1):
-                print("All solution orders were not rewritten in polar form")
-
         # Store
         self.sol.xO_polar  = xO_polar
         self.sol.x         = x
@@ -673,11 +674,7 @@ class Multiple_scales_system:
 
         # Harmonics extraction
         for ix in range(self.ndof):
-            
-            if self.sol.x[ix] != "all solution orders were not rewritten in polar form":
-                self.sol.x_harmonics.append( Sol_harmonics(self.sol.x[ix], self.omega, self.t) )
-            else:
-                self.sol.x_harmonics.append( None )
+            self.sol.x_harmonics.append( Sol_harmonics(self.sol.x[ix], self.omega, self.t) )
 
     def solve_transient(self, solve_dof=None, IC=dict()):
         r"""
