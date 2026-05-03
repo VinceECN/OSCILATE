@@ -693,11 +693,11 @@ def numpise_xmax_bbc(mms, ss, param):
 
     Returns
     -------
-    xmax_bbc: numpy.ndarray
+    xmax: numpy.ndarray
         Numpised peak amplitude on the backbone curve.
     """
-    xmax_bbc  = sfun.sympy_to_numpy(rescale(ss.sol_bbc.xmax, mms), param)
-    return xmax_bbc
+    xmax  = sfun.sympy_to_numpy(rescale(ss.sol_bbc.xmax, mms), param)
+    return xmax
 
 def numpise_omega_FRC(mms, ss, param):
     r"""

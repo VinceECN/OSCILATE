@@ -12,7 +12,8 @@ COLOR_MAP = {
     "dyn_sys.Dynamical_system"              : "lightblue",
     # mms
     "mms.Multiple_scales_system"            : "lightblue",
-    "mms.Coord_MMS"                         : "lightgreen",
+    "mms.Coord_MMS_oscillator"              : "lightgreen",
+    "mms.Coord_MMS_complex"                 : "lightgreen",
     "mms.Forcing_MMS"                       : "cyan",
     "mms.Sol_MMS"                           : "pink",
     "mms.Sol_harmonics"                     : "pink",
@@ -52,7 +53,8 @@ CLUSTERS = {
         "mms_complex.Multiple_scales_complex",
     ],
     "Coordinates Classes": [
-        "mms.Coord_MMS",
+        "mms_oscillator.Coord_MMS_oscillator",
+        "mms_complex.Coord_MMS_complex",
         "steady_state.Coord_SS",
     ],
     "Solution Classes": [

@@ -10,7 +10,7 @@ It also carries out the MMS derivations, still in complex form, and ends up tran
 """
 
 #%% Imports and initialisation
-from sympy import (exp, I, conjugate, Rational, 
+from sympy import (exp, I, Rational, 
                    symbols, Symbol, Function, Expr, sympify, 
                    solve, dsolve, sympify)
 from .. import sympy_functions as sfun
@@ -18,6 +18,30 @@ from .mms import Multiple_scales_system, Forcing_MMS, Chain_rule_dfdt
 from typing import TYPE_CHECKING
 
 #%% Classes and functions
+class Coord_MMS_complex:
+    """
+    The coordinates used in the MMS.
+    """      
+
+    # Class-level annotations for pyreverse
+    if TYPE_CHECKING:
+        A:     list[Symbol]
+        B:     list[list[Symbol]]
+        a:     list[Symbol]
+        at:    list[Symbol]
+        beta:  list[Symbol]
+        betat: list[Symbol]
+        phi:   list[Symbol]
+    
+    def __init__(self, mms):
+    
+        self.A = [] # Complex amplitudes of the homogeneous leading order solutions
+        self.B = [] # Real amplitudes of the particular leading order solutions (nonzero only if the forcing is hard)
+        
+        for ix in range(mms.ndof):
+            self.A.append( Function(r'A_{}'.format(ix), complex=True)(*mms.tS[1:]) ) 
+            self.B.append( [Symbol(r'B_{{{},{}}}'.format(ix, pm), real=True) for pm in ["+","-"]] ) 
+
 class Multiple_scales_complex(Multiple_scales_system):
     r"""
     The multiple scales system in complex form, i.e. 1st order complex differential equations.
@@ -26,13 +50,14 @@ class Multiple_scales_complex(Multiple_scales_system):
 
     # Class-level annotations for pyreverse
     if TYPE_CHECKING:
-        EqO:    list[list[Expr]]
-        EqO_t0: list[list[Expr]]
-        forcing: Forcing_MMS
-        xO:     list[list[Function]]
-        xO_t0:  list[list[Function]]
-        zO:     list[list[Function]]
-        zO_t0:  list[list[Function]]
+        coord   : Coord_MMS_complex
+        EqO     : list[list[Expr]]
+        EqO_t0  : list[list[Expr]]
+        forcing : Forcing_MMS
+        xO      : list[list[Function]]
+        xO_t0   : list[list[Function]]
+        zO      : list[list[Function]]
+        zO_t0   : list[list[Function]]
 
     def __init__(self,
              dynamical_system, eps, Ne, omega_ref, sub_scaling,
@@ -52,6 +77,10 @@ class Multiple_scales_complex(Multiple_scales_system):
         if not "complex" in dynamical_system.form:
             print("The dynamical system is not written in complex form")
             return
+        
+        # Coordinates
+        self.coord = Coord_MMS_complex(self)
+        self.polar_coordinates()
         
         # Asymptotic series of z
         self.zO, sub_zO_t, sub_z = self.asymptotic_series(dynamical_system, eps_pow_0=self.eps_pow_0)
@@ -91,8 +120,8 @@ class Multiple_scales_complex(Multiple_scales_system):
         # Initialisation
         zO         = [] # Terms z00, z01, ..., z10, z11, ... of the asymptotic series of the zi
         sub_zO_t   = [] # Substitutions from zO(t) to zO(*tS)
-        z_expanded   = [] # z in terms of zO(t)
-        sub_z        = [] # Substitutions from z to zO(t)
+        z_expanded = [] # z in terms of zO(t)
+        sub_z      = [] # Substitutions from z to zO(t)
         
         for ix in range(self.ndof):
             
@@ -378,9 +407,9 @@ class Multiple_scales_complex(Multiple_scales_system):
         If the oscillator is subject to hard forcing (i.e. forcing appears at leading order), then the particular solution
         
         .. math::
-            z_{i,0}^{\textrm{p}}(t_0, t_1) = B_i e^{\textrm{j} \omega t} + cc = B_i e^{\textrm{j} (\omega_{\textrm{MMS}} t_0 + \sigma t_1)} + cc
+            z_{i,0}^{\textrm{p}}(t_0, t_1) = B_{i,+} e^{\textrm{j} \omega t} + B_{i,-} e^{-\textrm{j} \omega t} = B_{i,+} e^{\textrm{j} (\omega_{\textrm{MMS}} t_0 + \sigma t_1)} + B_{i,-} e^{-\textrm{j} (\omega_{\textrm{MMS}} t_0 + \sigma t_1)}
         
-        is also taken into account. :math:`B_i` is a time-independent function of the forcing parameters.
+        is also taken into account. :math:`B_{i, \pm}` are time-independent functions of the forcing parameters.
         """
         
         # Information
@@ -389,7 +418,7 @@ class Multiple_scales_complex(Multiple_scales_system):
         # Initialisation
         zO0    = [] # leading order solutions
         sub_zO = [] # Substitutions from zij to its solution
-        sub_B  = [] # Substitutions from the particular solution amplitude Bi to its expression
+        sub_B  = [] # Substitutions from the particular solution amplitude Bi+/- to their expression
         
         # Compute the solutions
         for ix in range(self.ndof):
@@ -412,13 +441,14 @@ class Multiple_scales_complex(Multiple_scales_system):
                 # Get the real amplitude of the particular solution
                 exp_keys = list(zO0_p_ix.atoms(exp))
                 if exp_keys:
-                    sub_B.append( (self.coord.B[ix], zO0_p_ix.coeff(exp_keys[0])) )
+                    sub_B.append( (self.coord.B[ix][1], zO0_p_ix.coeff(exp_keys[0])) ) # exp(-I omega0 t0) solution
+                    sub_B.append( (self.coord.B[ix][0], zO0_p_ix.coeff(exp_keys[1])) ) # exp(-I omega0 t0) solution
                 else:
                     print("Static hard forcing is currently not handled")
                 
                 # Rewrite the particular solution in terms of B for the sake of readability and computational efficiency
-                zO0_p_ix = (          self.coord.B[ix] * exp(I*self.omega*self.t) .subs([self.sub.sub_omega]).expand().subs(self.sub.sub_t).expand() + 
-                            conjugate(self.coord.B[ix] * exp(I*self.omega*self.t) .subs([self.sub.sub_omega]).expand().subs(self.sub.sub_t).expand()))
+                zO0_p_ix = ( self.coord.B[ix][0] * exp(I*self.omega*self.t)  .subs([self.sub.sub_omega]).expand().subs(self.sub.sub_t).expand() + 
+                             self.coord.B[ix][1] * exp(-I*self.omega*self.t) .subs([self.sub.sub_omega]).expand().subs(self.sub.sub_t).expand())
                     
             else:
                 zO0_p_ix = sympify(0)

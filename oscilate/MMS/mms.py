@@ -118,30 +118,6 @@ class Forcing_MMS:
         self.fF      = fF
         self.forcing_term = forcing_term
         
-class Coord_MMS:
-    """
-    The coordinates used in the MMS.
-    """      
-
-    # Class-level annotations for pyreverse
-    if TYPE_CHECKING:
-        A:     list[Symbol]
-        B:     list[Symbol]
-        a:     list[Symbol]
-        at:    list[Symbol]
-        beta:  list[Symbol]
-        betat: list[Symbol]
-        phi:   list[Symbol]
-    
-    def __init__(self, mms):
-    
-        self.A = [] # Complex amplitudes of the homogeneous leading order solutions
-        self.B = [] # Real amplitudes of the particular leading order solutions (nonzero only if the forcing is hard)
-        
-        for ix in range(mms.ndof):
-            self.A.append( Function(r'A_{}'.format(ix), complex=True)(*mms.tS[1:]) ) 
-            self.B.append( symbols(r'B_{}'.format(ix), real=True) ) 
-
 class Sol_MMS:
     """
     Solutions obtained when applying the MMS.
@@ -300,7 +276,6 @@ class Multiple_scales_system:
     # Class-level annotations for pyreverse
     if TYPE_CHECKING:
         Ne:              int
-        coord:           Coord_MMS
         detunings:       list
         eps:             Symbol
         eps_pow_0:       int
@@ -367,10 +342,6 @@ class Multiple_scales_system:
         if self.detunings == 0:
             self.detunings = [0]*self.ndof
         self.oscillators_frequencies()        
-        
-        # Coordinates
-        self.coord = Coord_MMS(self)
-        self.polar_coordinates()
         
         # Solutions
         self.sol           = Sol_MMS()

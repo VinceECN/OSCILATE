@@ -146,8 +146,8 @@ class Sol_bbc:
         self.orders_polar = mms.sol.orders_polar
 
         for ix in range(ss.ndof):
-            self.xO.append( [xio.subs(ss.sub.sub_SS) for xio in mms.sol.xO_polar[ix]] )
-            self.x.append( mms.sol.x[ix].subs(ss.sub.sub_SS) )
+            self.xO.append( [xio.subs(mms.sub.sub_B).subs(ss.sub.sub_SS) for xio in mms.sol.xO_polar[ix]] )
+            self.x.append( mms.sol.x[ix].subs(mms.sub.sub_B).subs(ss.sub.sub_SS) )
             self.x_harmonics.append( Sol_harmonics(self.x[-1], mms.omega, mms.t) )
             
 
@@ -177,8 +177,8 @@ class Sol_LC:
         self.orders_polar = mms.sol.orders_polar
 
         for ix in range(ss.ndof):
-            self.xO.append( [xio.subs(ss.sub.sub_SS) for xio in mms.sol.xO_polar[ix]] )
-            self.x.append( mms.sol.x[ix].subs(ss.sub.sub_SS) )
+            self.xO.append( [xio.subs(mms.sub.sub_B).subs(ss.sub.sub_SS) for xio in mms.sol.xO_polar[ix]] )
+            self.x.append( mms.sol.x[ix].subs(mms.sub.sub_B).subs(ss.sub.sub_SS) )
             self.x_harmonics.append( Sol_harmonics(self.x[-1], mms.omega, mms.t) )
 
 class Stability:
@@ -643,10 +643,7 @@ class Steady_state:
         collect_h = [sin(h*self.omega*self.t) for h in harmonics] + [cos(h*self.omega*self.t) for h in harmonics]
 
         self.sol_bbc.xO = [xio.subs(self.coord.beta[self.sol_bbc.solve_dof], self.sol_bbc.beta).subs(self.sub.sub_free).simplify() for xio in self.sol.xO[self.sol_bbc.solve_dof]] 
-        if not isinstance(self.sol.x[self.sol_bbc.solve_dof], str):
-            self.sol_bbc.x  = self.sol.x[self.sol_bbc.solve_dof].subs(self.coord.beta[self.sol_bbc.solve_dof], self.sol_bbc.beta).subs(self.sub.sub_free).simplify().expand().collect(collect_h)
-        else:
-            self.sol_bbc.x = None
+        self.sol_bbc.x  = self.sol_bbc.x[self.sol_bbc.solve_dof].subs(self.coord.beta[self.sol_bbc.solve_dof], self.sol_bbc.beta).subs(self.sub.sub_free).simplify().expand().collect(collect_h)
 
     def solve_bbc_xmax(self):
         r"""
@@ -662,12 +659,8 @@ class Steady_state:
             t_{\textrm{max}} = \frac{\pi}{2} \frac{r_{\textrm{MMS}}}{r_i \omega}.
         """
 
-        if self.sol_bbc.x != None:
-            tmax = pi/2 * self.ratio_omegaMMS / (self.ratio_omega_osc[self.sol_bbc.solve_dof]*self.omega)
-
-            self.sol_bbc.xmax = self.sol_bbc.x.subs(self.t, tmax)
-        else:
-            self.sol_bbc.xmax = None
+        tmax = pi/2 * self.ratio_omegaMMS / (self.ratio_omega_osc[self.sol_bbc.solve_dof]*self.omega)
+        self.sol_bbc.xmax = self.sol_bbc.x.subs(self.t, tmax)
 
     def solve_LC(self, solve_dof=None, betai=0):
         r"""
@@ -738,10 +731,7 @@ class Steady_state:
         collect_h = [sin(h*self.omega*self.t) for h in harmonics] + [cos(h*self.omega*self.t) for h in harmonics]
 
         self.sol_LC.xO = [xio.subs(self.coord.beta[self.sol_LC.solve_dof], self.sol_LC.beta).simplify() for xio in self.sol.xO[self.sol_LC.solve_dof]] 
-        if not isinstance(self.sol.x[self.sol_LC.solve_dof], str):
-            self.sol_LC.x  = self.sol.x[self.sol_LC.solve_dof].subs(self.coord.beta[self.sol_LC.solve_dof], self.sol_LC.beta).simplify().expand().collect(collect_h) # Using .subs(self.sub.sub_solve_LC) would result in too long expressions
-        else:
-            self.sol_LC.x = None
+        self.sol_LC.x  = self.sol_LC.x[self.sol_LC.solve_dof].subs(self.coord.beta[self.sol_LC.solve_dof], self.sol_LC.beta).simplify().expand().collect(collect_h) # Using .subs(self.sub.sub_solve_LC) would result in too long expressions
 
     def solve_LC_xmax(self):
         r"""
@@ -757,12 +747,8 @@ class Steady_state:
             t_{\textrm{max}} = \frac{\pi}{2} \frac{r_{\textrm{MMS}}}{r_i \omega}.
         """
 
-        if self.sol_LC.x != None:
-            tmax = pi/2 * self.ratio_omegaMMS / (self.ratio_omega_osc[self.sol_LC.solve_dof]*self.omega)
-
-            self.sol_LC.xmax = self.sol_LC.x.subs(self.t, tmax)
-        else:
-            self.sol_LC.xmax = None
+        tmax = pi/2 * self.ratio_omegaMMS / (self.ratio_omega_osc[self.sol_LC.solve_dof]*self.omega)
+        self.sol_LC.xmax = self.sol_LC.x.subs(self.t, tmax)
 
     def Jacobian_polar(self):
         r"""

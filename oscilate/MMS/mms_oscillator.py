@@ -19,6 +19,30 @@ from .mms import (Multiple_scales_system, Forcing_MMS,
 from typing import TYPE_CHECKING
 
 #%% Classes and functions
+class Coord_MMS_oscillator:
+    """
+    The coordinates used in the MMS.
+    """      
+
+    # Class-level annotations for pyreverse
+    if TYPE_CHECKING:
+        A:     list[Symbol]
+        B:     list[Symbol]
+        a:     list[Symbol]
+        at:    list[Symbol]
+        beta:  list[Symbol]
+        betat: list[Symbol]
+        phi:   list[Symbol]
+    
+    def __init__(self, mms):
+    
+        self.A = [] # Complex amplitudes of the homogeneous leading order solutions
+        self.B = [] # Real amplitudes of the particular leading order solutions (nonzero only if the forcing is hard)
+        
+        for ix in range(mms.ndof):
+            self.A.append( Function(r'A_{}'.format(ix), complex=True)(*mms.tS[1:]) ) 
+            self.B.append( symbols(r'B_{}'.format(ix), real=True) ) 
+
 class Multiple_scales_oscillator(Multiple_scales_system):
     r"""
     The multiple scales system in oscillator form, i.e. 2nd order differential equations.
@@ -27,11 +51,12 @@ class Multiple_scales_oscillator(Multiple_scales_system):
 
     # Class-level annotations for pyreverse
     if TYPE_CHECKING:
-        EqO:    list[list[Expr]]
-        EqO_t0: list[list[Expr]]
-        forcing: Forcing_MMS
-        xO:     list[list[Function]]
-        xO_t0:  list[list[Function]]
+        coord   : Coord_MMS_oscillator
+        EqO     : list[list[Expr]]
+        EqO_t0  : list[list[Expr]]
+        forcing : Forcing_MMS
+        xO      : list[list[Function]]
+        xO_t0   : list[list[Function]]
 
     def __init__(self,
              dynamical_system, eps, Ne, omega_ref, sub_scaling,
@@ -46,6 +71,10 @@ class Multiple_scales_oscillator(Multiple_scales_system):
         
         # Information
         print('   Oscillator form (2nd order differential equations)')
+
+        # Coordinates
+        self.coord = Coord_MMS_oscillator(self)
+        self.polar_coordinates()
         
         # Asymptotic series of x
         self.xO, sub_xO_t, sub_x = self.asymptotic_series(dynamical_system, eps_pow_0=self.eps_pow_0)
