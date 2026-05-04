@@ -650,7 +650,7 @@ secular terms are cancelled and the next higher order solutions are computed.</p
 <h4>Reconstruction of the oscillators’ motion<a class="headerlink" href="#reconstruction-of-the-oscillators-motion" title="Link to this heading"></a></h4>
 <p>The oscillators’ motion is simply reconstructed at each order from the definition of the complex coordinates. For oscillator <span class="math notranslate nohighlight">\(i\)</span> and at order <span class="math notranslate nohighlight">\(j\)</span>, this results in</p>
 <div class="math notranslate nohighlight">
-\[x_{i,j} = z_{i,j} + \bar{z}_{i,j}.\]</div>
+\[x_{i,j}(\boldsymbol{t}) = z_{i,j}(\boldsymbol{t}) + \bar{z}_{i,j}(\boldsymbol{t}).\]</div>
 <p>At this stage, the complex form approach branches back with the oscillator form one.</p>
 <p>The oscillators’ motion is retrieved using <a class="reference internal" href="modules.html#oscilate.MMS.mms_complex.Multiple_scales_complex.sol_xO" title="oscilate.MMS.mms_complex.Multiple_scales_complex.sol_xO"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sol_xO()</span></code></a>.</p>
 </section>
@@ -701,7 +701,7 @@ This yields an implicit solution for <span class="math notranslate nohighlight">
 <li><p>express every amplitude <span class="math notranslate nohighlight">\(a_j\)</span> in terms of a single one, <span class="math notranslate nohighlight">\(a_i\)</span>,</p></li>
 <li><p>end up with a polynomial of order 2 in <span class="math notranslate nohighlight">\(\sigma\)</span> and <span class="math notranslate nohighlight">\(F\)</span></p></li>
 </ol>
-<p>These difficulties become more pronounced when the system involves several oscillator, in which case the amplitudes and phases may only be <strong>computed numerically</strong>.</p>
+<p>These difficulties become more pronounced when the system involves several oscillators, in which case the amplitudes and phases may only be <strong>computed numerically</strong>.</p>
 <p>To facilitate the derivation of an analytical solution, it is possible to consider the <strong>backbone curve</strong> (bbc) of the forced solution rather than the forced solution itself.
 This bbc is computed in the absence of damping and forcing, therefore simplifying the system. Typically, this reduces the number of phase terms appearing.
 The solving procedure is then the same as that described previously.</p>
