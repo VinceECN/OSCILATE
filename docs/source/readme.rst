@@ -59,6 +59,8 @@ It is organised as follows:
    └───MMS
            dyn_sys.py
            mms.py
+           mms_oscillator.py
+           mms_complex.py
            steady_state.py
            visualisation.py
            __init__.py
