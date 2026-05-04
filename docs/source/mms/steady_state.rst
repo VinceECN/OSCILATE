@@ -57,7 +57,7 @@ The processus described above is not always feasible. The blocking points are ty
 
 (iii) end up with a polynomial of order 2 in :math:`\sigma` and :math:`F` 
 
-These difficulties become more pronounced when the system involves several oscillator, in which case the amplitudes and phases may only be **computed numerically**.
+These difficulties become more pronounced when the system involves several oscillators, in which case the amplitudes and phases may only be **computed numerically**.
 
 To facilitate the derivation of an analytical solution, it is possible to consider the **backbone curve** (bbc) of the forced solution rather than the forced solution itself. 
 This bbc is computed in the absence of damping and forcing, therefore simplifying the system. Typically, this reduces the number of phase terms appearing. 

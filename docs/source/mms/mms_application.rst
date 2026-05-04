@@ -575,7 +575,7 @@ Reconstruction of the oscillators' motion
 The oscillators' motion is simply reconstructed at each order from the definition of the complex coordinates. For oscillator :math:`i` and at order :math:`j`, this results in 
 
 .. math::
-    x_{i,j} = z_{i,j} + \bar{z}_{i,j}.
+    x_{i,j}(\boldsymbol{t}) = z_{i,j}(\boldsymbol{t}) + \bar{z}_{i,j}(\boldsymbol{t}).
 
 At this stage, the complex form approach branches back with the oscillator form one. 
 
