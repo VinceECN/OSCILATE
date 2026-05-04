@@ -26,10 +26,10 @@ param_to_scale = (gamma, F, c)
 scaling        = (1    , 0, 1)
 param_scaled, sub_scaling = MMS.scale_parameters(param_to_scale, scaling, eps)
 
-mms = MMS.Multiple_scales_system(dyn, eps, Ne, omega_ref, sub_scaling, ratio_omegaMMS=ratio_omegaMMS)
+mms = MMS.Multiple_scales_oscillator(dyn, eps, Ne, omega_ref, sub_scaling, ratio_omegaMMS=ratio_omegaMMS)
 
 # Application of the MMS
-mms.apply_MMS(rewrite_polar="all")
+mms.apply_MMS(orders_polar="all")
 
 # Evaluation at steady state
 ss = MMS.Steady_state(mms)
@@ -38,5 +38,26 @@ ss = MMS.Steady_state(mms)
 solve_dof = 0 # dof to solve for
 ss.solve_bbc(solve_dof=solve_dof, c=param_scaled[-1])
 ss.solve_forced(solve_dof=solve_dof)
+
+# Plot the steady state results
+# -----------------------------
+
+# Set parameters' numerical values
+import numpy as np
+param = [(omega0, 1),
+         (c, 1e-2),
+         (gamma, 0.2),
+         (ss.coord.a[0], np.linspace(1e-10, 1.2, 1000))]
+
+# Frequency response
+param_FRC = param + [(dyn.forcing.F, 2)]
+BBC = MMS.visualisation.Backbone_curve(mms, ss, dyn, param_FRC)
+FRC = MMS.visualisation.Frequency_response_curve(mms, ss, dyn, param_FRC, bif=False)
+FRC.plot(ss=ss, bbc=BBC)
+
+# Amplitude response
+param_ARC = param + [(mms.omega, 3.15)]
+ARC = MMS.visualisation.Amplitude_response_curve(mms, ss, dyn, param_ARC)
+ARC.plot(ss=ss)
 
 # %%

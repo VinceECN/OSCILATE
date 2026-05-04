@@ -26,7 +26,7 @@ param_to_scale = (gamma, F , c )
 scaling        = (1    , Ne, Ne)
 param_scaled, sub_scaling = MMS.scale_parameters(param_to_scale, scaling, eps)
 
-mms = MMS.Multiple_scales_system(dyn, eps, Ne, omega_ref, sub_scaling)
+mms = MMS.Multiple_scales_oscillator(dyn, eps, Ne, omega_ref, sub_scaling)
 
 # Application of the MMS
 mms.apply_MMS()
@@ -40,37 +40,27 @@ ss.solve_forced(solve_dof=solve_dof)
 ss.solve_bbc(solve_dof=solve_dof, c=param_scaled[-1])
 
 # Stability analysis
-ss.stability_analysis(coord="polar", eigenvalues=True, bifurcation_curves=True)
+ss.stability_analysis_forced(coord="polar", eigenvalues=True, bifurcation_curves=True)
 
 # Plot the steady state results
 # -----------------------------
-import numpy as np
 
 # Set parameters' numerical values
-a0 = np.linspace(1e-10, 1.2, 1000)
+import numpy as np
+param = [(omega0, 1),
+         (c, 1e-2),
+         (gamma, 0.2),
+         (ss.coord.a[0], np.linspace(1e-10, 1.2, 1000))]
 
-dic_numpy = dict(
-    omega0 = (omega0, 1),
-    c      = (c, 1e-2),
-    gamma  = (gamma, 0.2),
-    a      = (ss.coord.a[0], a0),
-    )
+# Frequency response
+param_FRC = param + [(dyn.forcing.F, 1e-2)]
+BBC = MMS.visualisation.Backbone_curve(mms, ss, dyn, param_FRC)
+FRC = MMS.visualisation.Frequency_response_curve(mms, ss, dyn, param_FRC)
+FRC.plot(ss=ss, bbc=BBC)
 
-F_val     = 1e-2
-omega_val = 1.05
-
-# Compute and plot the frequency-response curves (FRC)
-dic_FRC = dic_numpy | dict(F=(dyn.forcing.F, F_val)) # Parameters for the FRC
-FRC     = MMS.visualisation.numpise_FRC(mms, ss, dyn, dic_FRC)
-kwargs  = dict(phase_name=vlatex(ss.sol.cos_phase[0].args[0]),  # Plot parameters
-               amp_name=vlatex(ss.coord.a[0]))
-MMS.visualisation.plot_FRC(FRC, **kwargs)
-
-# Compute and plot the amplitude-response curves (ARC)
-dic_ARC = dic_numpy | dict(omega=(mms.omega, omega_val)) # Parameters for the ARC
-ARC     = MMS.visualisation.numpise_ARC(mms, ss, dyn, dic_ARC)
-kwargs  = dict(phase_name=vlatex(ss.sol.cos_phase[0].args[0]), # Plot parameters
-               amp_name=vlatex(ss.coord.a[0]))
-MMS.visualisation.plot_ARC(ARC, **kwargs)
+# Amplitude response
+param_ARC = param + [(mms.omega, 1.05)]
+ARC = MMS.visualisation.Amplitude_response_curve(mms, ss, dyn, param_ARC)
+ARC.plot(ss=ss)
 
 # %%

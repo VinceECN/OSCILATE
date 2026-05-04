@@ -1,14 +1,14 @@
-Example 4: Coupled quadratic oscillators in 1:2 internal resonance
-------------------------------------------------------------------
+Coupled quadratic oscillators in 1:2 internal resonance
+-------------------------------------------------------
 
 MMS example on coupled quadratic oscillators in 1:2 internal resonance subject to harmonic forcing. 
-This configuration was studied by Nayfeh and Mook in *Nonlinear Oscillations* (1995), sections 6.5 and 6.5.1.
+This configuration was studied by Nayfeh and Mook :cite:`nayfehNonlinearOscillations1995`, sections 6.5 and 6.5.1.
 
 
 System description
 ^^^^^^^^^^^^^^^^^^
 
-.. figure:: /_static/Quadratic_oscillators_12.svg
+.. figure:: /_static/examples/quadratic_12.svg
    :alt: Nonlinear system.
    :width: 90%
    :align: center
@@ -74,7 +74,7 @@ The script below allows to
 - Apply the MMS to the system,
 - Evaluate the MMS results at steady state,
 - Compute the backbone curve when only oscillator 0 responds,
-- Compute the coupled-mode forced response. 
+- Compute manually the coupled-mode forced response. 
 
 .. literalinclude:: ../../../examples/quadratic_12.py
    :language: python

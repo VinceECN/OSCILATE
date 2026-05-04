@@ -77,7 +77,7 @@ def solve_poly2(poly, x):
     # Check the solvability
     if not check_solvability(poly, x):
         print("The polynomial cannot be solved")
-        return False
+        return None
 
     # Polynomial terms
     dic_x = polynomial_terms(poly, x)

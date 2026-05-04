@@ -1,21 +1,21 @@
-Example 10: Subharmonic response of parametrically excited coupled centrifugal pendulums in 1:1 internal resonance
-------------------------------------------------------------------------------------------------------------------
+Subharmonic response of parametrically excited coupled centrifugal pendulums in 1:1 internal resonance
+------------------------------------------------------------------------------------------------------
 
 MMS example on two coupled centrifugal pendulums in 1:1 internal resonance subject to direct and parametric forcings, triggering a subharmonic response. 
 The pendulums are indirectly and weakly coupled through the rotor that supports them.
-This configuration was studied in V. Mahé et al., *Subharmonic centrifugal pendulum vibration absorbers allowing a rotational mobility*, MSSP (2022).
+This configuration was studied in V. Mahé et al. :cite:`maheSubharmonicCentrifugalPendulum2022`.
 
 System description
 ^^^^^^^^^^^^^^^^^^
 
-.. figure:: /_static/CPVA_modes.svg
+.. figure:: /_static/examples/CPVA_modes.svg
    :alt: Nonlinear system.
    :width: 80%
    :align: center
 
    Illustration of the modes of a CPVA made of a rotor and 2 pendulums. The rotor is in grey, the pendulums in black, they path in blue, and their position on that path in red. Their rotation with respect to the rotor is not represented here. The direction of the rotor's motino with respect to the pendulums' is shown through the black arrow. 
 
-.. figure:: /_static/CPVA_modal_oscillators.svg
+.. figure:: /_static/examples/CPVA_modal_oscillators.svg
    :alt: Nonlinear system.
    :width: 70%
    :align: center
@@ -74,7 +74,7 @@ where
   - :math:`T_1` is the forcing amplitude,
   - :math:`\omega` is the forcing frequency (often written :math:`n` as it is actually a forcing order).
 
-A response around :math:`n_p` is sought so the frequency is set to
+A subharmonic response of order 2 is sought, corresponding to oscillations near :math:`2 n_p`, so the frequency is set to
 
 .. math::
     \omega = n_p + \epsilon \sigma

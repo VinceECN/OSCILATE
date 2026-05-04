@@ -1,16 +1,16 @@
 .. _example_VdP:
 
-Example 6: Van der Pol oscillator
----------------------------------
+Van der Pol oscillator
+----------------------
 
 MMS example on a Van der Pol oscillator. 
-This configuration is very close from that studied by Nayfeh and Mook in *Nonlinear Oscillations* (1995), section 3.3.4.
+This configuration is very close from that studied by Nayfeh and Mook :cite:`nayfehNonlinearOscillations1995`, section 3.3.4.
 
 
 System description
 ^^^^^^^^^^^^^^^^^^
 
-.. figure:: /_static/VdP_oscillator.svg
+.. figure:: /_static/examples/VdP.svg
    :alt: Nonlinear system.
    :width: 50%
    :align: center
@@ -61,3 +61,30 @@ The script below allows to
 .. literalinclude:: ../../../examples/Van_der_Pol.py
    :language: python
    :linenos:
+
+Plot outputs
+^^^^^^^^^^^^
+The plot outputs shown below are generated from the code above. 
+
+
+Phase portrait
+~~~~~~~~~~~~~~
+The figure below displays the phase portrait of the Van der Pol oscillator. Three different trajectories are shown: the limit cycle (black), an external one (red) and an internal one (blue). The limit cycle is stable, such that the trajectories are converging towards it.
+
+.. figure:: /_static/examples/VdP_plots/phase_portrait.svg
+   :alt: Phase portrait
+   :width: 80%
+   :align: center
+
+   Phase portrait of the Van der Pol oscillator.
+
+Transient time signal
+~~~~~~~~~~~~~~~~~~~~~
+The figure below displays the time signal associated to the transient, internal trajectory shown in the phase portrait of the Van der Pol oscillator. The horizontal black lines are associated to the amplitude on the limit cycle.  
+
+.. figure:: /_static/examples/VdP_plots/time_signal.svg
+   :alt: Time signal
+   :width: 80%
+   :align: center
+
+   Transient response of the Van der Pol oscillator.

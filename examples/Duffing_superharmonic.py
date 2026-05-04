@@ -2,7 +2,7 @@
 
 #%% Imports and initialisation
 from sympy import symbols, Function, Rational
-from sympy.physics.vector.printing import init_vprinting
+from sympy.physics.vector.printing import init_vprinting, vlatex
 init_vprinting(use_latex=True, forecolor='White') # Initialise latex printing 
 from oscilate import MMS
 
@@ -26,10 +26,10 @@ param_to_scale = (gamma, F, c)
 scaling        = (1    , 0, 1)
 param_scaled, sub_scaling = MMS.scale_parameters(param_to_scale, scaling, eps)
 
-mms = MMS.Multiple_scales_system(dyn, eps, Ne, omega_ref, sub_scaling, ratio_omegaMMS=ratio_omegaMMS)
+mms = MMS.Multiple_scales_oscillator(dyn, eps, Ne, omega_ref, sub_scaling, ratio_omegaMMS=ratio_omegaMMS)
 
 # Application of the MMS
-mms.apply_MMS(rewrite_polar="all")
+mms.apply_MMS(orders_polar=0)
 
 # Evaluation at steady state
 ss = MMS.Steady_state(mms)
@@ -39,5 +39,21 @@ solve_dof = 0 # dof to solve for
 ss.solve_bbc(solve_dof=solve_dof, c=param_scaled[-1])
 ss.solve_forced(solve_dof=solve_dof)
 
+# Plot the steady state results
+# -----------------------------
+import numpy as np
+
+# Set parameters' numerical values
+param_FRC = [(omega0, 1),
+             (c, 1e-2),
+             (gamma, 0.2),
+             (ss.coord.a[0], np.linspace(1e-10, 1.2, 1000)),
+             (dyn.forcing.F, 0.5)]
+
+# Frequency response
+BBC = MMS.visualisation.Backbone_curve(mms, ss, dyn, param_FRC)
+FRC = MMS.visualisation.Frequency_response_curve(mms, ss, dyn, param_FRC, bif=False)
+figs = FRC.plot(ss=ss, bbc=BBC)
+[fig.get_axes()[0].set_xlim(0.32, 0.38) for fig in figs ]
 
 # %%

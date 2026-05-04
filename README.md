@@ -22,27 +22,42 @@ $\dot{(\bullet)} = \textrm{d}(\bullet)/\textrm{d}t$ denotes a time-derivative.
 The $f_i$ are functions which can contain:
 
 - **Weak linear terms** in $x_i$, $\dot{x}_i$, or $\ddot{x}_i$.
-- **Weak linear coupling terms** involving $x_j$, $\dot{x}_j$, or $\ddot{x}_j$ with $j \neq i$.
+- **Weak linear coupling terms** involving $x_j$, $\dot{x}_j$, or $\ddot{x}_j$, $j \neq i$.
 - **Weak nonlinear terms**. Taylor expansions are performed to approximate nonlinear terms as *polynomial nonlinearities*.
 - **Forcing terms**:
 
   - Can be hard (appearing at leading order) or weak (small).
   - Primarily *harmonic*, e.g., $F \cos(\omega t)$, where $F$ and $\omega$ are the forcing amplitude and frequency, respectively.
-  - Modulated by any function (constant, linear, or nonlinear) to model *parametric* forcing (e.g., $x_i(t) F \cos(\omega t)$).
+  - Modulated by any function (constant, linear, or nonlinear), for instance to model *parametric* forcing (e.g., $x_i(t) F \cos(\omega t)$).
 
 Internal resonance relations among oscillators can be specified in a second step by expressing the $\omega_i$ as a function of a reference frequency.
 Detuning can also be introduced during this step.
 
 # Overview
 
+The package associated to the **OSCILATE** project is called ``oscilate``. The package organisation is depicted below
 
-The package associated to the **OSCILATE** project is called ``oscilate``. 
+```
+oscilate
+│   sympy_functions.py
+│   __init__.py
+│   __version__.py
+│
+└───MMS
+        dyn_sys.py
+        mms.py
+        steady_state.py
+        visualisation.py
+        __init__.py
+```
+
 It contains two modules:
-- The `MMS` module is the MMS solver. It is divided into four sub-modules: 
+
+- The `MMS` module embeds the MMS solver. It is divided into six sub-modules: 
 
   - The `oscilate.MMS.dyn_sys` sub-module defines the dynamical system of interest,
 
-  - The `oscilate.MMS.mms` sub-module applies the MMS to the dynamical system,
+  - The `oscilate.MMS.mms`, `oscilate.MMS.mms_oscillator` and `oscilate.MMS.mms_complex` sub-modules apply the MMS to the dynamical system,
 
   - The `oscilate.MMS.steady_state` sub-module allows for a steady state analysis,
 
@@ -52,21 +67,25 @@ It contains two modules:
 
 
 ## Solver
-`MMS` contains 3 main classes:
+The `MMS` module contains 5 main classes:
 - `Dynamical_system` : the dynamical system considered
-- `Multiple_scales_system` : the system obtained after applying the MMS to the dynamical system
+- `Multiple_scales_system` : the system obtained after applying the MMS to the dynamical system. 
+- `Multiple_scales_oscillator` : a sub-class of `Multiple_scales_system` to treat the system's equations in oscillator form (classical approach)
+- `Multiple_scales_complex` : a sub-class of `Multiple_scales_system` to treat the system's equations in complex form (alternative approach)  
 - `Steady_state` : the MMS results evaluated at steady state and (if computed) the system's response and its stability. 
 
-These classes are described in details in the [documentation](https://vinceECN.github.io/OSCILATE/).
+These classes are described in details in the [documentation](https://vinceECN.github.io/OSCILATE/). A visual description of their interconnection with other classes is provided in the Main module architecture section.
 
 ## Examples
-Application examples are proposed in the [documentation](https://vinceECN.github.io/OSCILATE/). They include
-- The Duffing oscillator
-- Coupled Duffing oscillators
-- Coupled nonlinear oscillators with quadratic nonlinearities
-- Parametrically excited oscillators
-- Hard forcing of a Duffing oscillator
-- Subharmonic response of 2 coupled centrifugal pendulum modes
+Application examples are proposed in the [documentation](https://vinceECN.github.io/OSCILATE/). They include several examples on one and multi-degrees-of-freedom systems:
+- Computation of forced responses with respect to the excitation frequency and amplitude
+- Stability analysis of forced responses, possibly using a cartesian transform
+- Computation of the backbone curve
+- Direct responses
+- Parametric responses
+- Presence of internal resonances
+- Systems subject to hard forcing, leading to secondary resonances
+- Self-sustained oscillations of autonomous systems
 
 ## Outputs
 Results are returned as sympy expressions.
@@ -84,17 +103,15 @@ Sympy expressions can also be printed as unformatted $\LaTeX$ using
 print(vlatex(the_expr))
 ```
 
-Methods of `Steady_state` also allow to evaluate sympy results for given numerical values of system parameters and to plot them.
+In addition, symbolic results can be evaluated for given numerical parameters and plotted using the `visualisation` sub-module. 
 
 # Documentation
 
-A full documentation is available here: [Documentation](https://vinceECN.github.io/OSCILATE/)
+A full [Documentation](https://vinceECN.github.io/OSCILATE/) is available
 
 # Citation
-Please cite this package when using it, See the Citation section of the [Documentation](https://vinceECN.github.io/OSCILATE/) for details.
+Please cite this package when using it, see the Citation section of the [Documentation](https://vinceECN.github.io/OSCILATE/) for details.
 A regular entry and a LaTeX/BibTeX users entry are given.  
-
-A paper describing this work is currently in publication and will become the preferred citation once published. For now, please cite this repository.
 
 # Installation guide
 
@@ -108,9 +125,9 @@ If you encounter any issues, find a bug, or have suggestions for improvements, p
 - Propose a solution.
 - Contact me directly at [vincent.mahe@ec-nantes.fr].
 
-Your feedback is highly appreciated!
+Your feedback is highly appreciated.
 
-Vincent MAHE
+Vincent Mahé
 
 # License
 This project is licensed under the **Apache License 2.0** – see the LICENSE file for details.

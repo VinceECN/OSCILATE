@@ -1,13 +1,13 @@
-Example 8: Superharmonic response of a Duffing oscillator
----------------------------------------------------------
+Superharmonic response of a Duffing oscillator
+----------------------------------------------
 
 MMS example on a Duffing oscillator subject to hard forcing triggering a superharmonic response. 
-This configuration was studied by Nayfeh and Mook in *Nonlinear Oscillations* (1995), sections 4.1.2 and 4.1.3.
+This configuration was studied by Nayfeh and Mook :cite:`nayfehNonlinearOscillations1995`, sections 4.1.2 and 4.1.3.
 
 System description
 ^^^^^^^^^^^^^^^^^^
 
-.. figure:: /_static/Duffing_oscillator.svg
+.. figure:: /_static/examples/Duffing_direct.svg
    :alt: Nonlinear system.
    :width: 70%
    :align: center
@@ -59,3 +59,26 @@ The script below allows to
 .. literalinclude:: ../../../examples/Duffing_superharmonic.py
    :language: python
    :linenos:
+
+Plot outputs
+^^^^^^^^^^^^
+The plot outputs shown below are generated from the code above. 
+
+Frequency response curve
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+The two figures below display the amplitude and phase responses (blue) of the :math:`3^{\text{rd}}` harmonic of the Duffing oscillator as a function of the excitation frequency. The backbone curve is shown in grey and the linear frequency divided by 3 in black.
+
+.. figure:: /_static/examples/Duffing_supH_plots/FRC_a.svg
+   :alt: Frequency response curve - amplitude
+   :width: 80%
+   :align: center
+
+   Frequency response curve of the Duffing oscillator in superharmonic regime of order 3 (amplitude).
+
+.. figure:: /_static/examples/Duffing_supH_plots/FRC_beta.svg
+   :alt: Frequency response curve - phase
+   :width: 80%
+   :align: center
+
+   Frequency response curve of the Duffing oscillator in superharmonic regime of order 3 (phase).

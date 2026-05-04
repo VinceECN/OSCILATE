@@ -60,8 +60,8 @@ param_to_scale = (mu, alpha3, x4, b, T1)
 scaling        = (1 , 1,      1,  1, 1)
 param_scaled, sub_scaling = MMS.scale_parameters(param_to_scale, scaling, eps)
 
-mms = MMS.Multiple_scales_system(dyn, eps, Ne, omega_ref, sub_scaling,
-                                 ratio_omegaMMS=ratio_omegaMMS)
+mms = MMS.Multiple_scales_oscillator(dyn, eps, Ne, omega_ref, sub_scaling,
+                                     ratio_omegaMMS=ratio_omegaMMS)
 
 # Application of the MMS
 mms.apply_MMS()
@@ -97,7 +97,8 @@ ss.solve_forced(solve_dof=solve_dof)
 ss.solve_bbc(solve_dof=solve_dof, c=param_scaled[-2])
 
 # Stability analysis 
-kwargs_stab = dict(coord="cartesian", eigenvalues=True, bifurcation_curves=True, analyse_blocks=True, kwargs_bif=dict(var_a=True, var_sig=True, solver=solve))
-ss.stability_analysis(**kwargs_stab)
+kwargs_stab = dict(coord="cartesian", rewrite_polar=False, eigenvalues=True, bifurcation_curves=True, 
+                   analyse_blocks=True, kwargs_bif=dict(var_a=True, var_sig=True, solver=solve))
+ss.stability_analysis_forced(**kwargs_stab)
 
 # %%

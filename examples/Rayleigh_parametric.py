@@ -2,7 +2,7 @@
 
 #%% Imports and initialisation
 from sympy import symbols, Function
-from sympy.physics.vector.printing import init_vprinting
+from sympy.physics.vector.printing import init_vprinting, vlatex
 init_vprinting(use_latex=True, forecolor='White') # Initialise latex printing 
 from oscilate import MMS
 
@@ -13,7 +13,7 @@ t            = symbols('t')
 x            = Function(r'x', real=True)(t)
 
 # Dynamical system
-Eq = x.diff(t,2) + omega0**2*x + gamma*x.diff(t)**3 + c*x.diff(t) 
+Eq = x.diff(t,2) + omega0**2*x + gamma*x.diff(t)**3 - c*x.diff(t) 
 fF = -2*x # Parametric forcing
 dyn = MMS.Dynamical_system(t, x, Eq, omega0, fF=fF, F=F)
 
@@ -27,10 +27,10 @@ param_to_scale = (gamma, F , c )
 scaling        = (1    , Ne, Ne)
 param_scaled, sub_scaling = MMS.scale_parameters(param_to_scale, scaling, eps)
 
-mms = MMS.Multiple_scales_system(dyn, eps, Ne, omega_ref, sub_scaling, ratio_omegaMMS=ratio_omegaMMS)
+mms = MMS.Multiple_scales_oscillator(dyn, eps, Ne, omega_ref, sub_scaling, ratio_omegaMMS=ratio_omegaMMS)
 
 # Application of the MMS
-mms.apply_MMS(rewrite_polar="all")
+mms.apply_MMS(orders_polar="all")
 
 # Evaluation at steady state
 ss = MMS.Steady_state(mms)
@@ -41,6 +41,27 @@ ss.solve_bbc(solve_dof=solve_dof, c=param_scaled[-1])
 ss.solve_forced(solve_dof=solve_dof)
 
 # Stability analysis
-ss.stability_analysis(coord="polar", eigenvalues=True)
+ss.stability_analysis_forced(coord="polar", eigenvalues=True)
+
+# Plot the steady state results
+# -----------------------------
+
+# Set parameters' numerical values
+import numpy as np
+param = [(omega0, 1),
+         (c, 1e-1),
+         (gamma, 1e-1),
+         (ss.coord.a[0], np.linspace(1e-10, 2, 1000))]
+
+# Frequency response
+param_FRC = param + [(dyn.forcing.F, 1e-1)]
+BBC = MMS.visualisation.Backbone_curve(mms, ss, dyn, param_FRC)
+FRC = MMS.visualisation.Frequency_response_curve(mms, ss, dyn, param_FRC, bif=False)
+FRC.plot(ss=ss, bbc=BBC)
+
+# Amplitude response
+param_ARC = param + [(mms.omega, 2.02)]
+ARC = MMS.visualisation.Amplitude_response_curve(mms, ss, dyn, param_ARC)
+ARC.plot(ss=ss)
 
 # %%

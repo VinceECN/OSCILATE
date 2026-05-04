@@ -1,12 +1,12 @@
-Example 3: Coupled Duffings in 1:1 internal resonance
------------------------------------------------------
+Coupled Duffings in 1:1 internal resonance
+------------------------------------------
 
 MMS example on coupled Duffing oscillators in 1:1 internal resonance subject to harmonic forcing. 
 
 System description
 ^^^^^^^^^^^^^^^^^^
 
-.. figure:: /_static/Duffing_oscillators_11.svg
+.. figure:: /_static/examples/Duffings_11.svg
    :alt: Nonlinear system.
    :width: 90%
    :align: center
@@ -59,7 +59,7 @@ The script below allows to
 - Evaluate the MMS results at steady state,
 - Compute the backbone curve and forced response when only oscillator 1 responds,
 - Evaluate the stability of the forced solution,
-- Compute the coupled-mode backbone curve. 
+- Compute manually the coupled-mode backbone curve. 
 
 .. literalinclude:: ../../../examples/Duffing_11_direct.py
    :language: python
