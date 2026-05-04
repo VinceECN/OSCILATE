@@ -1,0 +1,105 @@
+Subharmonic response of a Duffing oscillator
+--------------------------------------------
+
+MMS example on a Duffing oscillator subject to hard forcing triggering a subharmonic response. 
+This configuration was studied by Nayfeh and Mook :cite:`nayfehNonlinearOscillations1995`, sections 4.1.2 and 4.1.4.
+
+System description
+^^^^^^^^^^^^^^^^^^
+
+.. figure:: /_static/examples/Duffing_direct.svg
+   :alt: Nonlinear system.
+   :width: 70%
+   :align: center
+
+   Illustration of a forced Duffing oscillator. Subharmonic oscillations (of order 3) are triggered provided :math:`F` is large and :math:`\omega_0 \approx 1/3 \omega`.
+
+The system's equation is
+
+.. math::
+    \ddot{x} + c \dot{x} + \gamma \dot{x}^{3} + \omega_{0}^{2} x = F \cos(\omega t),
+
+where 
+
+- :math:`x` is the oscillator's coordinate,
+- :math:`t` is the time,
+- :math:`\dot{(\bullet)} = \mathrm{d}(\bullet)/\mathrm{d}t` is a time derivative,
+- :math:`c` is the linear viscous damping coefficient,
+- :math:`\omega_0` is the oscillator's natural frequency,
+- :math:`\gamma` is the nonlinear coefficient,
+- :math:`F` is the forcing amplitude,
+- :math:`\omega` is the forcing frequency.
+
+A parametric response around 3 times the oscillator's frequency is sought so the frequency is set to
+
+.. math::
+    \omega = 3\omega_0 + \epsilon \sigma
+
+where
+
+- :math:`\epsilon` is a small parameter involved in the MMS,
+- :math:`\sigma` is the detuning.
+
+The parameters are then scaled to indicate how weak they are:
+
+- :math:`c = \epsilon \tilde{c}` indicates that damping is weak,
+- :math:`\gamma = \epsilon \tilde{\gamma}` indicates that nonlinear damping is weak.
+
+Note that the forcing is not scaled, i.e. :math:`F` appears at leading order. This is called hard forcing. 
+
+Code description
+^^^^^^^^^^^^^^^^
+The script below allows to
+
+- Construct the dynamical system.
+- Apply the MMS to the system,
+- Evaluate the MMS results at steady state,
+- Compute the forced response and the backbone curve,
+
+.. literalinclude:: ../../../examples/Duffing_subharmonic.py
+   :language: python
+   :linenos:
+
+
+Plot outputs
+^^^^^^^^^^^^
+The plot outputs shown below are generated from the code above. 
+
+Frequency response curve
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+The two figures below display the amplitude and phase responses (blue) of the :math:`1/3^{\text{rd}}` harmonic of the Duffing oscillator as a function of the excitation frequency. The backbone curve is shown in grey and the linear frequency multiplied by 3 in black.
+
+.. figure:: /_static/examples/Duffing_subH_plots/FRC_a.svg
+   :alt: Frequency response curve - amplitude
+   :width: 80%
+   :align: center
+
+   Frequency response curve of the Duffing oscillator in subharmonic regime of order 3 (amplitude).
+
+.. figure:: /_static/examples/Duffing_subH_plots/FRC_beta.svg
+   :alt: Frequency response curve - phase
+   :width: 80%
+   :align: center
+
+   Frequency response curve of the Duffing oscillator in subharmonic regime of order 3 (phase).
+
+Amplitude response curve
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+The two figures below display the amplitude and phase responses (blue) of the :math:`1/3^{\text{rd}}` harmonic of the Duffing oscillator as a function of the excitation amplitude.
+
+.. figure:: /_static/examples/Duffing_subH_plots/ARC_a.svg
+   :alt: Amplitude response curve - amplitude
+   :width: 80%
+   :align: center
+
+   Amplitude response curve of the Duffing oscillator in subharmonic regime of order 3 (amplitude).
+
+.. figure:: /_static/examples/Duffing_subH_plots/ARC_beta.svg
+   :alt: Amplitude response curve - phase
+   :width: 80%
+   :align: center
+
+   Amplitude-response curve of the Duffing oscillator in subharmonic regime of order 3 (phase).
+

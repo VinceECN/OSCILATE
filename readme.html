@@ -65,12 +65,13 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="mms.html">The Method of Multiple Scales</a></li>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="architecture.html">Main module architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Application examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sympy_basics.html">SymPy basics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="citation.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notice.html">Legal notices</a></li>
 </ul>
@@ -124,13 +125,13 @@
 The <span class="math notranslate nohighlight">\(f_i\)</span> are functions which can contain:</p>
 <ul class="simple">
 <li><p><strong>Weak linear terms</strong> in <span class="math notranslate nohighlight">\(x_i,\; \dot{x}_i\)</span>, or <span class="math notranslate nohighlight">\(\ddot{x}_i\)</span>.</p></li>
-<li><p><strong>Weak linear coupling terms</strong> involving <span class="math notranslate nohighlight">\(x_j,\; \dot{x}_j\)</span>, or <span class="math notranslate nohighlight">\(\ddot{x}_j\)</span> with <span class="math notranslate nohighlight">\(j \neq i\)</span>.</p></li>
+<li><p><strong>Weak linear coupling terms</strong> involving <span class="math notranslate nohighlight">\(x_j,\; \dot{x}_j\)</span>, or <span class="math notranslate nohighlight">\(\ddot{x}_j\)</span>, <span class="math notranslate nohighlight">\(j \neq i\)</span>.</p></li>
 <li><p><strong>Weak nonlinear terms</strong>. Taylor expansions are performed to approximate nonlinear terms as <em>polynomial nonlinearities</em>.</p></li>
 <li><p><strong>Forcing terms</strong>:</p>
 <ul>
 <li><p>Can be hard (appearing at leading order) or weak (small).</p></li>
 <li><p>Primarily <em>harmonic</em>, e.g., <span class="math notranslate nohighlight">\(F \cos(\omega t)\)</span>, where <span class="math notranslate nohighlight">\(F\)</span> and <span class="math notranslate nohighlight">\(\omega\)</span> are the forcing amplitude and frequency, respectively.</p></li>
-<li><p>Modulated by any function (constant, linear, or nonlinear) to model <em>parametric</em> forcing (e.g., <span class="math notranslate nohighlight">\(x_i(t) F \cos(\omega t)\)</span>).</p></li>
+<li><p>Modulated by any function (constant, linear, or nonlinear), for instance to model <em>parametric</em> forcing (e.g., <span class="math notranslate nohighlight">\(x_i(t) F \cos(\omega t)\)</span>).</p></li>
 </ul>
 </li>
 </ul>
@@ -150,43 +151,50 @@ It is organised as follows:</p>
 └───MMS
         dyn_sys.py
         mms.py
+        mms_oscillator.py
+        mms_complex.py
         steady_state.py
         visualisation.py
         __init__.py
 </pre></div>
 </div>
+<p>It contains two modules:</p>
 <ul class="simple">
-<li><p><code class="xref py py-mod docutils literal notranslate"><span class="pre">oscilate.MMS</span></code> module is the MMS solver. It is divided into four sub-modules:</p>
+<li><p>The <code class="xref py py-mod docutils literal notranslate"><span class="pre">oscilate.MMS</span></code> module is the MMS solver. It is divided into six sub-modules:</p>
 <ul>
-<li><p><a class="reference internal" href="modules.html#module-oscilate.MMS.dyn_sys" title="oscilate.MMS.dyn_sys"><code class="xref py py-mod docutils literal notranslate"><span class="pre">oscilate.MMS.dyn_sys</span></code></a> sub-module defines the dynamical system of interest,</p></li>
-<li><p><a class="reference internal" href="modules.html#module-oscilate.MMS.mms" title="oscilate.MMS.mms"><code class="xref py py-mod docutils literal notranslate"><span class="pre">oscilate.MMS.mms</span></code></a> sub-module applies the MMS to the dynamical system,</p></li>
-<li><p><a class="reference internal" href="modules.html#module-oscilate.MMS.steady_state" title="oscilate.MMS.steady_state"><code class="xref py py-mod docutils literal notranslate"><span class="pre">oscilate.MMS.steady_state</span></code></a> sub-module allows for a steady state analysis,</p></li>
-<li><p><a class="reference internal" href="modules.html#module-oscilate.MMS.visualisation" title="oscilate.MMS.visualisation"><code class="xref py py-mod docutils literal notranslate"><span class="pre">oscilate.MMS.visualisation</span></code></a> sub-module contains numerical evaluation and plotting functions,</p></li>
+<li><p>The <a class="reference internal" href="modules.html#module-oscilate.MMS.dyn_sys" title="oscilate.MMS.dyn_sys"><code class="xref py py-mod docutils literal notranslate"><span class="pre">oscilate.MMS.dyn_sys</span></code></a> sub-module defines the dynamical system of interest,</p></li>
+<li><p>The <a class="reference internal" href="modules.html#module-oscilate.MMS.mms" title="oscilate.MMS.mms"><code class="xref py py-mod docutils literal notranslate"><span class="pre">oscilate.MMS.mms</span></code></a>, <a class="reference internal" href="modules.html#module-oscilate.MMS.mms_oscillator" title="oscilate.MMS.mms_oscillator"><code class="xref py py-mod docutils literal notranslate"><span class="pre">oscilate.MMS.mms_oscillator</span></code></a> and <a class="reference internal" href="modules.html#module-oscilate.MMS.mms_complex" title="oscilate.MMS.mms_complex"><code class="xref py py-mod docutils literal notranslate"><span class="pre">oscilate.MMS.mms_complex</span></code></a> sub-modules apply the MMS to the dynamical system,</p></li>
+<li><p>The <a class="reference internal" href="modules.html#module-oscilate.MMS.steady_state" title="oscilate.MMS.steady_state"><code class="xref py py-mod docutils literal notranslate"><span class="pre">oscilate.MMS.steady_state</span></code></a> sub-module allows for a steady state analysis,</p></li>
+<li><p>The <a class="reference internal" href="modules.html#module-oscilate.MMS.visualisation" title="oscilate.MMS.visualisation"><code class="xref py py-mod docutils literal notranslate"><span class="pre">oscilate.MMS.visualisation</span></code></a> sub-module contains numerical evaluation and plotting functions,</p></li>
 </ul>
 </li>
 <li><p><a class="reference internal" href="modules.html#module-oscilate.sympy_functions" title="oscilate.sympy_functions"><code class="xref py py-mod docutils literal notranslate"><span class="pre">oscilate.sympy_functions</span></code></a> module contains additional functions that are not directly related to the MMS but which are used in <code class="xref py py-mod docutils literal notranslate"><span class="pre">oscilate.MMS</span></code>.</p></li>
 </ul>
 <section id="solver">
 <h3>Solver<a class="headerlink" href="#solver" title="Link to this heading"></a></h3>
-<p><code class="xref py py-mod docutils literal notranslate"><span class="pre">oscilate.MMS</span></code> embeds 3 main classes:</p>
+<p>The <code class="xref py py-mod docutils literal notranslate"><span class="pre">oscilate.MMS</span></code> module embeds 5 main classes:</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="modules.html#oscilate.MMS.dyn_sys.Dynamical_system" title="oscilate.MMS.dyn_sys.Dynamical_system"><code class="xref py py-class docutils literal notranslate"><span class="pre">oscilate.MMS.dyn_sys.Dynamical_system</span></code></a> : the dynamical system considered</p></li>
 <li><p><a class="reference internal" href="modules.html#oscilate.MMS.mms.Multiple_scales_system" title="oscilate.MMS.mms.Multiple_scales_system"><code class="xref py py-class docutils literal notranslate"><span class="pre">oscilate.MMS.mms.Multiple_scales_system</span></code></a> : the system obtained after applying the MMS to the dynamical system</p></li>
+<li><p><a class="reference internal" href="modules.html#oscilate.MMS.mms_oscillator.Multiple_scales_oscillator" title="oscilate.MMS.mms_oscillator.Multiple_scales_oscillator"><code class="xref py py-class docutils literal notranslate"><span class="pre">oscilate.MMS.mms_oscillator.Multiple_scales_oscillator</span></code></a> : a sub-class of <a class="reference internal" href="modules.html#oscilate.MMS.mms.Multiple_scales_system" title="oscilate.MMS.mms.Multiple_scales_system"><code class="xref py py-class docutils literal notranslate"><span class="pre">oscilate.MMS.mms.Multiple_scales_system</span></code></a> to treat the system’s equations in oscillator form (classical approach)</p></li>
+<li><p><a class="reference internal" href="modules.html#oscilate.MMS.mms_complex.Multiple_scales_complex" title="oscilate.MMS.mms_complex.Multiple_scales_complex"><code class="xref py py-class docutils literal notranslate"><span class="pre">oscilate.MMS.mms_complex.Multiple_scales_complex</span></code></a> : a sub-class of <a class="reference internal" href="modules.html#oscilate.MMS.mms.Multiple_scales_system" title="oscilate.MMS.mms.Multiple_scales_system"><code class="xref py py-class docutils literal notranslate"><span class="pre">oscilate.MMS.mms.Multiple_scales_system</span></code></a> to treat the system’s equations in complex form (alternative approach)</p></li>
 <li><p><a class="reference internal" href="modules.html#oscilate.MMS.steady_state.Steady_state" title="oscilate.MMS.steady_state.Steady_state"><code class="xref py py-class docutils literal notranslate"><span class="pre">oscilate.MMS.steady_state.Steady_state</span></code></a> : the MMS results evaluated at steady state and (if computed) the system’s response and its stability.</p></li>
 </ul>
 <p>These classes are described in details in the <a class="reference internal" href="modules.html"><span class="doc">Modules</span></a> section of the <a class="reference external" href="https://vinceECN.github.io/OSCILATE/">documentation</a>.
-A visual description of their connection with other classes is provided in <a class="reference internal" href="architecture.html"><span class="doc">Main module architecture</span></a>.</p>
+A visual description of their interconnection with other classes is provided in <a class="reference internal" href="architecture.html"><span class="doc">Main module architecture</span></a>.</p>
 </section>
 <section id="examples">
 <h3>Examples<a class="headerlink" href="#examples" title="Link to this heading"></a></h3>
-<p><a class="reference internal" href="examples.html"><span class="doc">Application examples</span></a> are proposed in the documentation. They include:</p>
+<p><a class="reference internal" href="examples.html"><span class="doc">Application examples</span></a> are proposed in the documentation. They include several examples on one and multi-degrees-of-freedom systems:</p>
 <ul class="simple">
-<li><p>The Duffing oscillator</p></li>
-<li><p>Coupled Duffing oscillators</p></li>
-<li><p>Coupled nonlinear oscillators with quadratic nonlinearities</p></li>
-<li><p>Parametrically excited oscillators</p></li>
-<li><p>Hard forcing of a Duffing oscillator</p></li>
-<li><p>Subharmonic response of 2 coupled centrifugal pendulum modes</p></li>
+<li><p>Computation of forced responses with respect to the excitation frequency and amplitude</p></li>
+<li><p>Stability analysis of forced responses, possibly using a cartesian transform</p></li>
+<li><p>Computation of the backbone curve</p></li>
+<li><p>Direct responses</p></li>
+<li><p>Parametric responses</p></li>
+<li><p>Presence of internal resonances</p></li>
+<li><p>Systems subject to hard forcing, leading to secondary resonances</p></li>
+<li><p>Self-sustained oscillations of autonomous systems</p></li>
 </ul>
 </section>
 <section id="outputs">
@@ -203,12 +211,12 @@ Here are possibilities:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">vlatex</span><span class="p">(</span><span class="n">the_expr</span><span class="p">))</span>
 </pre></div>
 </div>
-<p>Methods of <code class="xref py py-class docutils literal notranslate"><span class="pre">oscilate.mms.MMS.Steady_state</span></code> also allow to evaluate sympy results for given numerical values of system parameters and to plot them.</p>
+<p>In addition, symbolic results can be evaluated for given numerical parameters and plotted using the <a class="reference internal" href="modules.html#module-oscilate.MMS.visualisation" title="oscilate.MMS.visualisation"><code class="xref py py-mod docutils literal notranslate"><span class="pre">oscilate.MMS.visualisation</span></code></a> sub-module.</p>
 </section>
 </section>
 <section id="citation">
 <h2>Citation<a class="headerlink" href="#citation" title="Link to this heading"></a></h2>
-<p>Please cite this package when using it. See the <a class="reference internal" href="citation.html"><span class="doc">Citation</span></a> section for details.</p>
+<p>Please cite this package when using it. See the <a class="reference internal" href="citation.html"><span class="doc">Citation</span></a> section for details. A regular entry and a LaTeX/BibTeX users entry are given.</p>
 </section>
 <section id="installation-guide">
 <h2>Installation guide<a class="headerlink" href="#installation-guide" title="Link to this heading"></a></h2>
@@ -224,8 +232,8 @@ If you encounter any issues, find a bug, or have suggestions for improvements, p
 <li><p>Propose a solution,</p></li>
 <li><p>Contact me directly at [<a class="reference external" href="mailto:vincent&#46;mahe&#37;&#52;&#48;ec-nantes&#46;fr">vincent<span>&#46;</span>mahe<span>&#64;</span>ec-nantes<span>&#46;</span>fr</a>].</p></li>
 </ul>
-<p>Your feedback is highly appreciated!</p>
-<p>Vincent MAHE</p>
+<p>Your feedback is highly appreciated.</p>
+<p>Vincent Mahé</p>
 </section>
 <section id="license">
 <h2>License<a class="headerlink" href="#license" title="Link to this heading"></a></h2>

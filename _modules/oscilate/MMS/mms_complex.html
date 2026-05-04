@@ -1,0 +1,771 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>oscilate.MMS.mms_complex &mdash; OSCILATE 0.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=7026087e"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            OSCILATE
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../mms.html">The Method of Multiple Scales</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../architecture.html">Main module architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Application examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sympy_basics.html">SymPy basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../citation.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notice.html">Legal notices</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">OSCILATE</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">oscilate.MMS.mms_complex</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for oscilate.MMS.mms_complex</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Created on Mon Apr 20 19:41:59 2026</span>
+
+<span class="sd">@author: Vincent MAHE</span>
+
+<span class="sd">Analyse systems of coupled nonlinear equations using the Method of Multiple Scales (MMS).</span>
+<span class="sd">This sub-module defines the multiple scales system from the dynamical one with a complex form.</span>
+<span class="sd">It also carries out the MMS derivations, still in complex form, and ends up transforming back to the oscillator form.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1">#%% Imports and initialisation</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sympy</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span><span class="n">exp</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="n">Rational</span><span class="p">,</span> 
+                   <span class="n">symbols</span><span class="p">,</span> <span class="n">Symbol</span><span class="p">,</span> <span class="n">Function</span><span class="p">,</span> <span class="n">Expr</span><span class="p">,</span> <span class="n">sympify</span><span class="p">,</span> 
+                   <span class="n">solve</span><span class="p">,</span> <span class="n">dsolve</span><span class="p">,</span> <span class="n">sympify</span><span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..</span><span class="w"> </span><span class="kn">import</span> <span class="n">sympy_functions</span> <span class="k">as</span> <span class="n">sfun</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.mms</span><span class="w"> </span><span class="kn">import</span> <span class="n">Multiple_scales_system</span><span class="p">,</span> <span class="n">Forcing_MMS</span><span class="p">,</span> <span class="n">Chain_rule_dfdt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
+
+<span class="c1">#%% Classes and functions</span>
+<div class="viewcode-block" id="Coord_MMS_complex">
+<a class="viewcode-back" href="../../../modules.html#oscilate.MMS.mms_complex.Coord_MMS_complex">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Coord_MMS_complex</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The coordinates used in the MMS.</span>
+<span class="sd">    &quot;&quot;&quot;</span>      
+
+    <span class="c1"># Class-level annotations for pyreverse</span>
+    <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+        <span class="n">A</span><span class="p">:</span>     <span class="nb">list</span><span class="p">[</span><span class="n">Symbol</span><span class="p">]</span>
+        <span class="n">B</span><span class="p">:</span>     <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">Symbol</span><span class="p">]]</span>
+        <span class="n">a</span><span class="p">:</span>     <span class="nb">list</span><span class="p">[</span><span class="n">Symbol</span><span class="p">]</span>
+        <span class="n">at</span><span class="p">:</span>    <span class="nb">list</span><span class="p">[</span><span class="n">Symbol</span><span class="p">]</span>
+        <span class="n">beta</span><span class="p">:</span>  <span class="nb">list</span><span class="p">[</span><span class="n">Symbol</span><span class="p">]</span>
+        <span class="n">betat</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Symbol</span><span class="p">]</span>
+        <span class="n">phi</span><span class="p">:</span>   <span class="nb">list</span><span class="p">[</span><span class="n">Symbol</span><span class="p">]</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mms</span><span class="p">):</span>
+    
+        <span class="bp">self</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># Complex amplitudes of the homogeneous leading order solutions</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">B</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># Real amplitudes of the particular leading order solutions (nonzero only if the forcing is hard)</span>
+        
+        <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mms</span><span class="o">.</span><span class="n">ndof</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">Function</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;A_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ix</span><span class="p">),</span> <span class="nb">complex</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="o">*</span><span class="n">mms</span><span class="o">.</span><span class="n">tS</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span> <span class="p">)</span> 
+            <span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="p">[</span><span class="n">Symbol</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;B_{{</span><span class="si">{}</span><span class="s1">,</span><span class="si">{}</span><span class="s1">}}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span> <span class="n">pm</span><span class="p">),</span> <span class="n">real</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">for</span> <span class="n">pm</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;+&quot;</span><span class="p">,</span><span class="s2">&quot;-&quot;</span><span class="p">]]</span> <span class="p">)</span> </div>
+
+
+<div class="viewcode-block" id="Multiple_scales_complex">
+<a class="viewcode-back" href="../../../modules.html#oscilate.MMS.mms_complex.Multiple_scales_complex">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Multiple_scales_complex</span><span class="p">(</span><span class="n">Multiple_scales_system</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The multiple scales system in complex form, i.e. 1st order complex differential equations.</span>
+<span class="sd">    See the parent class :class:`~oscilate.MMS.mms.Multiple_scales_system` for a description of the input parameters.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Class-level annotations for pyreverse</span>
+    <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+        <span class="n">coord</span>   <span class="p">:</span> <span class="n">Coord_MMS_complex</span>
+        <span class="n">EqO</span>     <span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">Expr</span><span class="p">]]</span>
+        <span class="n">EqO_t0</span>  <span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">Expr</span><span class="p">]]</span>
+        <span class="n">forcing</span> <span class="p">:</span> <span class="n">Forcing_MMS</span>
+        <span class="n">xO</span>      <span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">Function</span><span class="p">]]</span>
+        <span class="n">xO_t0</span>   <span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">Function</span><span class="p">]]</span>
+        <span class="n">zO</span>      <span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">Function</span><span class="p">]]</span>
+        <span class="n">zO_t0</span>   <span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">Function</span><span class="p">]]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+             <span class="n">dynamical_system</span><span class="p">,</span> <span class="n">eps</span><span class="p">,</span> <span class="n">Ne</span><span class="p">,</span> <span class="n">omega_ref</span><span class="p">,</span> <span class="n">sub_scaling</span><span class="p">,</span>
+             <span class="n">ratio_omegaMMS</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">eps_pow_0</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">ratio_omega_osc</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">detunings</span> <span class="o">=</span> <span class="mi">0</span>
+             <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transform the dynamical system introducing asymptotic series of the oscillators&#39; complex coordinates. </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Initialise the parent class</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">dynamical_system</span><span class="p">,</span> <span class="n">eps</span><span class="p">,</span> <span class="n">Ne</span><span class="p">,</span> <span class="n">omega_ref</span><span class="p">,</span> <span class="n">sub_scaling</span><span class="p">,</span> <span class="n">ratio_omegaMMS</span><span class="o">=</span><span class="n">ratio_omegaMMS</span><span class="p">,</span> <span class="n">eps_pow_0</span><span class="o">=</span><span class="n">eps_pow_0</span><span class="p">,</span> <span class="n">ratio_omega_osc</span><span class="o">=</span><span class="n">ratio_omega_osc</span><span class="p">,</span> <span class="n">detunings</span><span class="o">=</span><span class="n">detunings</span><span class="p">)</span>
+        
+        <span class="c1"># Information</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;   Complex form (1st order complex differential equations)&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Check that the dynamical system is in the appropriate form</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="s2">&quot;complex&quot;</span> <span class="ow">in</span> <span class="n">dynamical_system</span><span class="o">.</span><span class="n">form</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The dynamical system is not written in complex form&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+        
+        <span class="c1"># Coordinates</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">coord</span> <span class="o">=</span> <span class="n">Coord_MMS_complex</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">polar_coordinates</span><span class="p">()</span>
+        
+        <span class="c1"># Asymptotic series of z</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">zO</span><span class="p">,</span> <span class="n">sub_zO_t</span><span class="p">,</span> <span class="n">sub_z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">asymptotic_series</span><span class="p">(</span><span class="n">dynamical_system</span><span class="p">,</span> <span class="n">eps_pow_0</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">eps_pow_0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_zO_t</span> <span class="o">=</span> <span class="n">sub_zO_t</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_z</span>    <span class="o">=</span> <span class="n">sub_z</span>
+
+        <span class="c1"># Forcing</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">forcing</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forcing_MMS</span><span class="p">(</span><span class="n">dynamical_system</span><span class="p">)</span>
+        
+        <span class="c1"># Compute the MMS equations</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_EqO</span><span class="p">(</span><span class="n">dynamical_system</span><span class="p">)</span>
+        
+<div class="viewcode-block" id="Multiple_scales_complex.asymptotic_series">
+<a class="viewcode-back" href="../../../modules.html#oscilate.MMS.mms_complex.Multiple_scales_complex.asymptotic_series">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">asymptotic_series</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dynamical_system</span><span class="p">,</span> <span class="n">eps_pow_0</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Define the asymptotic series on the complex oscillators&#39; coordinates z.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        The series expansion for the complex coordinate of oscillator :math:`i` (and for a leading order term :math:`\epsilon^0 = 1`) takes the form (see :ref:`mms`)</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">            z_i(t) = z_{i,0}(t) + \epsilon z_{i,1}(t) + \epsilon^2 z_{i,2}(t) + \cdots + \epsilon^{N_e} z_{i,N_e}(t) + \mathcal{O}(\epsilon^{N_e+1}).</span>
+
+<span class="sd">        On top of introducing the terms of the asymptotic series, this function prepares substitutions from</span>
+
+<span class="sd">        1. dof :math:`z_i(t)` to temporary :math:`t`-dependent asymptotic terms :math:`z_{i,j}(t)`, such that</span>
+
+<span class="sd">           .. math::</span>
+<span class="sd">            z_i(t) = z_{i,0}(t) + \epsilon z_{i,1}(t) + \epsilon^2 z_{i,2}(t) + \cdots + \epsilon^{N_e} z_{i,N_e}(t), </span>
+
+<span class="sd">        2. Temporary :math:`z_{i,j}(t)` to the time scales-dependent terms :math:`z_{i,j}(\boldsymbol{t})`, such that</span>
+<span class="sd">         </span>
+<span class="sd">           .. math::</span>
+<span class="sd">            z_i(\boldsymbol{t}) = z_{i,0}(\boldsymbol{t}) + \epsilon z_{i,1}(\boldsymbol{t}) + \epsilon^2 z_{i,2}(\boldsymbol{t}) + \cdots + \epsilon^{N_e} z_{i,N_e}(\boldsymbol{t}). </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="c1"># Initialisation</span>
+        <span class="n">zO</span>         <span class="o">=</span> <span class="p">[]</span> <span class="c1"># Terms z00, z01, ..., z10, z11, ... of the asymptotic series of the zi</span>
+        <span class="n">sub_zO_t</span>   <span class="o">=</span> <span class="p">[]</span> <span class="c1"># Substitutions from zO(t) to zO(*tS)</span>
+        <span class="n">z_expanded</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># z in terms of zO(t)</span>
+        <span class="n">sub_z</span>      <span class="o">=</span> <span class="p">[]</span> <span class="c1"># Substitutions from z to zO(t)</span>
+        
+        <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">):</span>
+            
+            <span class="c1"># Initialisations </span>
+            <span class="n">zO</span><span class="o">.</span><span class="n">append</span><span class="p">([])</span>      <span class="c1"># A list that will contain the different expansion orders of the current z</span>
+            <span class="n">zO_t</span> <span class="o">=</span> <span class="p">[]</span>          <span class="c1"># Temporary zO(t) -&gt; depend on the physical time t</span>
+            <span class="n">z_expanded</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># Initialise the current z to 0</span>
+            
+            <span class="k">for</span> <span class="n">io</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Ne</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+            
+                <span class="c1"># Define time-dependent asymptotic terms</span>
+                <span class="n">zO_t</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Function</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;z_{{</span><span class="si">{}</span><span class="s1">,</span><span class="si">{}</span><span class="s1">}}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">io</span><span class="p">),</span> <span class="nb">complex</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">))</span>
+                <span class="n">z_expanded</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="o">**</span><span class="p">(</span><span class="n">io</span><span class="o">+</span><span class="n">eps_pow_0</span><span class="p">)</span> <span class="o">*</span> <span class="n">zO_t</span><span class="p">[</span><span class="n">io</span><span class="p">]</span>
+                
+                <span class="c1"># Define time scales-dependent asymptotic terms</span>
+                <span class="n">zO</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Function</span><span class="p">(</span><span class="n">zO_t</span><span class="p">[</span><span class="n">io</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="nb">complex</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">tS</span><span class="p">))</span>
+                
+                <span class="c1"># Substitutions from zO(t) and its time derivatives to zO(*tS) and its time scales derivatives</span>
+                <span class="n">sub_zO_t</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span> <span class="p">[(</span><span class="n">zO_t</span><span class="p">[</span><span class="n">io</span><span class="p">]</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">Chain_rule_dfdt</span>  <span class="p">(</span><span class="n">zO</span><span class="p">[</span><span class="n">ix</span><span class="p">][</span><span class="n">io</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">tS</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="p">)),</span> 
+                                  <span class="p">(</span><span class="n">zO_t</span><span class="p">[</span><span class="n">io</span><span class="p">]</span>               <span class="p">,</span> <span class="n">zO</span><span class="p">[</span><span class="n">ix</span><span class="p">][</span><span class="n">io</span><span class="p">])]</span> <span class="p">)</span>
+            
+            <span class="c1"># Substitutions from z to zO(t)</span>
+            <span class="n">sub_z</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">dynamical_system</span><span class="o">.</span><span class="n">z</span><span class="p">[</span><span class="n">ix</span><span class="p">],</span> <span class="n">z_expanded</span><span class="p">[</span><span class="n">ix</span><span class="p">]))</span>
+        
+        <span class="k">return</span> <span class="n">zO</span><span class="p">,</span> <span class="n">sub_zO_t</span><span class="p">,</span> <span class="n">sub_z</span></div>
+
+        
+<div class="viewcode-block" id="Multiple_scales_complex.forcing_MMS">
+<a class="viewcode-back" href="../../../modules.html#oscilate.MMS.mms_complex.Multiple_scales_complex.forcing_MMS">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">forcing_MMS</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dynamical_system</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Rewrite the forcing terms.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dynamical_system : Dynamical_system</span>
+<span class="sd">            The dynamical system.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        The initial forcing terms are </span>
+<span class="sd">        </span>
+<span class="sd">        .. math::</span>
+<span class="sd">            f_{F,i}(\boldsymbol{x}(t), \dot{\boldsymbol{x}}(t), \ddot{\boldsymbol{x}}(t)) F \cos(\omega t), \quad i=1,...,N,</span>
+
+<span class="sd">        and after the complex transformation</span>
+
+<span class="sd">        The initial forcing terms are </span>
+<span class="sd">        </span>
+<span class="sd">        .. math::</span>
+<span class="sd">            f_{F_z,i}(\boldsymbol{z}(t), \dot{\boldsymbol{z}}(t)) F \cos(\omega t), \quad i=1,...,N,</span>
+
+<span class="sd">        where </span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">            f_{F_z,i}(\boldsymbol{z}(t), \dot{\boldsymbol{z}}(t)) = - \frac{\mathrm{j}}{2 \omega_i} f_{F,i}(\boldsymbol{x}(\boldsymbol{z}(t)), \dot{\boldsymbol{\boldsymbol{z}(t)}}(t), \ddot{\boldsymbol{\boldsymbol{z}(t), \dot{\boldsymbol{z}}(t)}}(t))</span>
+<span class="sd">        </span>
+<span class="sd">        Rewritting them involves</span>
+
+<span class="sd">        1. Replacing the :math:`z_i(t)` by their series expansions written in terms of time scales,</span>
+<span class="sd">        </span>
+<span class="sd">        2. Scaling the forcing and the parameters in :math:`f_{F_z,i}` if any,</span>
+<span class="sd">        </span>
+<span class="sd">        3. Truncating terms whose order is larger than the largest order retained in the MMS,</span>
+<span class="sd">        </span>
+<span class="sd">        4. Rewrite :math:`\cos(\omega t)` as </span>
+<span class="sd">        </span>
+<span class="sd">           .. math::</span>
+<span class="sd">            \cos(\omega t) = \frac{1}{2} e^{\mathrm{j}(\omega_{\textrm{MMS}} + \epsilon \sigma)t} + cc = \frac{1}{2} e^{\mathrm{j}(\omega_{\textrm{MMS}}t_0 + \sigma t_1)} + cc.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="c1"># Get the expression of the forcing frequency</span>
+        <span class="n">omega</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_omega</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        
+        <span class="c1"># Get the forcing amplitude and order for the substitutions</span>
+        <span class="n">forcing</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_scaling</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">dynamical_system</span><span class="o">.</span><span class="n">forcing</span><span class="o">.</span><span class="n">F</span> <span class="ow">in</span> <span class="n">item</span><span class="p">:</span>
+                <span class="n">dic_F_MMS</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="p">,</span> <span class="n">evaluate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="n">scaling_coeff</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">dic_F_MMS</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">forcing</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">if</span> <span class="n">scaling_coeff</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">f_order</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">elif</span> <span class="n">scaling_coeff</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="p">:</span>
+                    <span class="n">f_order</span> <span class="o">=</span> <span class="mi">1</span> 
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">f_order</span> <span class="o">=</span> <span class="n">scaling_coeff</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                    
+                <span class="n">F</span>       <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">dic_F_MMS</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">forcing</span> <span class="o">=</span> <span class="kc">True</span>
+                
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">forcing</span><span class="p">:</span>
+            <span class="n">F</span>       <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">f_order</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps_pow_0</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">Ne</span>
+            
+        <span class="c1"># Get the forcing term for each oscillator</span>
+        <span class="n">forcing_term</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">fF</span>          <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">sub_t</span><span class="p">,</span> <span class="n">sub_z</span><span class="p">,</span> <span class="n">sub_zO_t</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">,[</span><span class="s2">&quot;sub_t&quot;</span><span class="p">,</span> <span class="s2">&quot;sub_z&quot;</span><span class="p">,</span> <span class="s2">&quot;sub_zO_t&quot;</span><span class="p">]))</span>
+
+        <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">):</span>
+            <span class="n">fF</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="p">(</span><span class="n">dynamical_system</span><span class="o">.</span><span class="n">forcing</span><span class="o">.</span><span class="n">fFz</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_scaling</span><span class="p">)</span>
+                        <span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">sub_z</span><span class="p">)</span><span class="o">.</span><span class="n">doit</span><span class="p">()</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">sub_zO_t</span><span class="p">)</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">sub_t</span><span class="p">)</span><span class="o">.</span><span class="n">doit</span><span class="p">())</span>
+                        <span class="o">.</span><span class="n">series</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">eps_pow_0</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">Ne</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">removeO</span><span class="p">())</span>
+            
+            <span class="n">forcing_term</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="p">(</span><span class="n">fF</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span> <span class="o">*</span> <span class="n">Rational</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">F</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="o">**</span><span class="n">f_order</span><span class="p">)</span>
+                                <span class="o">.</span><span class="n">series</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">eps_pow_0</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">Ne</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">removeO</span><span class="p">()</span> <span class="o">*</span> 
+                                <span class="p">(</span><span class="n">exp</span><span class="p">(</span> <span class="n">I</span><span class="o">*</span><span class="p">((</span><span class="n">omega</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">)</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">sub_t</span><span class="p">)</span><span class="o">.</span><span class="n">doit</span><span class="p">()))</span> <span class="o">+</span> 
+                                 <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">I</span><span class="o">*</span><span class="p">((</span><span class="n">omega</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">)</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">sub_t</span><span class="p">)</span><span class="o">.</span><span class="n">doit</span><span class="p">()))</span> <span class="p">)</span> 
+                                <span class="p">)</span>
+        
+        <span class="n">forcing</span> <span class="o">=</span> <span class="n">Forcing_MMS</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">f_order</span><span class="p">,</span> <span class="n">fF</span><span class="p">,</span> <span class="n">forcing_term</span><span class="p">)</span>
+    
+        <span class="k">return</span> <span class="n">forcing</span></div>
+
+    
+<div class="viewcode-block" id="Multiple_scales_complex.compute_EqO">
+<a class="viewcode-back" href="../../../modules.html#oscilate.MMS.mms_complex.Multiple_scales_complex.compute_EqO">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compute_EqO</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dynamical_system</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the system of complex equations for each oscillator at each order of :math:`\epsilon`. This system is described in :ref:`mms`.</span>
+
+<span class="sd">        The output `EqO` is a list of lists:</span>
+
+<span class="sd">        - The :math:`1^{\text{st}}` level lists are associated to the equations in complex form for each oscillator,</span>
+<span class="sd">        </span>
+<span class="sd">        - The :math:`2^{\text{nd}}` level lists are associated to the orders of :math:`\epsilon` from the lowest to the highest order.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dynamical_system : Dynamical_system</span>
+<span class="sd">            The dynamical system.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+    
+        <span class="c1"># Equations with every epsilon appearing</span>
+        <span class="n">sub_t</span><span class="p">,</span> <span class="n">sub_z</span><span class="p">,</span> <span class="n">sub_zO_t</span><span class="p">,</span> <span class="n">sub_scaling</span><span class="p">,</span> <span class="n">sub_omegas</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">,[</span><span class="s2">&quot;sub_t&quot;</span><span class="p">,</span> <span class="s2">&quot;sub_z&quot;</span><span class="p">,</span> <span class="s2">&quot;sub_zO_t&quot;</span><span class="p">,</span> <span class="s2">&quot;sub_scaling&quot;</span><span class="p">,</span> <span class="s2">&quot;sub_omegas&quot;</span><span class="p">]))</span>
+    
+        <span class="n">Eq_eps</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">):</span>
+            <span class="n">Eq_eps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="p">((</span><span class="n">dynamical_system</span><span class="o">.</span><span class="n">Eqz</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">sub_omegas</span><span class="p">)</span><span class="o">.</span><span class="n">doit</span><span class="p">()</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">sub_scaling</span><span class="p">)</span><span class="o">.</span><span class="n">doit</span><span class="p">()</span>
+                             <span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">sub_z</span><span class="p">)</span><span class="o">.</span><span class="n">doit</span><span class="p">()</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">sub_zO_t</span><span class="p">)</span><span class="o">.</span><span class="n">doit</span><span class="p">()</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">sub_t</span><span class="p">)</span><span class="o">.</span><span class="n">doit</span><span class="p">())</span>
+                          <span class="o">.</span><span class="n">series</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">eps_pow_0</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">Ne</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">removeO</span><span class="p">()</span> 
+                          <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">forcing</span><span class="o">.</span><span class="n">forcing_term</span><span class="p">[</span><span class="n">ix</span><span class="p">])</span><span class="o">.</span><span class="n">expand</span><span class="p">())</span>
+            
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps_pow_0</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span> <span class="c1"># Set the leading order to eps**0 = 1</span>
+                <span class="n">Eq_eps</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">Eq_eps</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="o">**</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eps_pow_0</span><span class="p">))</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span>
+                
+        <span class="c1"># MMS equations system</span>
+        <span class="n">EqO</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">):</span>
+            
+            <span class="c1"># Initialise a list of the equations at each order. Start with the lowest order</span>
+            <span class="n">EqOx</span> <span class="o">=</span> <span class="p">[</span><span class="n">Eq_eps</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">.</span><span class="n">series</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">removeO</span><span class="p">()]</span> 
+            
+            <span class="c1"># What has to be substracted to keep only the terms of order eps**io in equation at order io.</span>
+            <span class="n">retrieve_EqOx</span> <span class="o">=</span> <span class="n">EqOx</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> 
+            
+            <span class="c1"># Feed EqOx with higher orders of epsilon</span>
+            <span class="k">for</span> <span class="n">io</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ne</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+                <span class="n">EqOx</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="p">((</span><span class="n">Eq_eps</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">.</span><span class="n">series</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">io</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">removeO</span><span class="p">()</span> <span class="o">-</span> <span class="n">retrieve_EqOx</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="o">**</span><span class="n">io</span><span class="p">)</span><span class="o">.</span><span class="n">simplify</span><span class="p">()</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span> <span class="p">)</span>
+                
+                <span class="c1"># Update the terms that are to be substracted at order io+1</span>
+                <span class="n">retrieve_EqOx</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="o">**</span><span class="n">io</span> <span class="o">*</span> <span class="n">EqOx</span><span class="p">[</span><span class="n">io</span><span class="p">]</span>
+                
+            <span class="n">EqO</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">EqOx</span><span class="p">)</span>
+            
+        <span class="bp">self</span><span class="o">.</span><span class="n">EqO</span> <span class="o">=</span> <span class="n">EqO</span></div>
+
+        
+<div class="viewcode-block" id="Multiple_scales_complex.apply_MMS">
+<a class="viewcode-back" href="../../../modules.html#oscilate.MMS.mms_complex.Multiple_scales_complex.apply_MMS">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">apply_MMS</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">orders_polar</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Apply the MMS in complex form. </span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        orders_polar : str, int or list of int, optional</span>
+<span class="sd">            The orders at which the solutions will be rewritten in polar form.</span>
+<span class="sd">            See :meth:`~oscilate.MMS.mms.Multiple_scales_system.sol_x_polar`.</span>
+<span class="sd">        </span>
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        The application of the MMS is operated by successively calling the following methods.</span>
+
+<span class="sd">        #. :meth:`~oscilate.MMS.mms_complex.Multiple_scales_complex.system_t0`: An equivalent system is written in terms of the fast time scale :math:`t_0`. </span>
+<span class="sd">           This introduces the temporary unknowns :math:`\tilde{z}_{i,j}(t_0)` and allows the use of :func:`~sympy.solvers.ode.dsolve`.</span>
+
+<span class="sd">        #. :meth:`~oscilate.MMS.mms_complex.Multiple_scales_complex.sol_order_0`: Leading order solutions :math:`z_{i,0}(\boldsymbol{t})` are defined.</span>
+
+<span class="sd">        #. :meth:`~oscilate.MMS.mms_complex.Multiple_scales_complex.secular_analysis`: The leading order solutions are introduced in the equations and the secular terms at each order are identified. </span>
+<span class="sd">           Cancelling those secular terms is a condition for bounded solutions. </span>
+<span class="sd">           It leads to a system of complex modulation equations governing the slow time evolution of the complex amplitude of the homogeneous leading order solutions. </span>
+<span class="sd">           Each equation takes the form </span>
+<span class="sd">           </span>
+<span class="sd">           .. math::</span>
+<span class="sd">            \textrm{D}_{j} A_i(\boldsymbol{t}_s) = f_{A_i}^{(j)}(\boldsymbol{A}, t_1).</span>
+
+<span class="sd">           After cancelling the secular terms the higher order equations are solved successively to express the higher order solutions :math:`z_{i,j}(\boldsymbol{t}),\; j&gt;0` in terms of the leading order ones.</span>
+
+<span class="sd">        #. :meth:`~oscilate.MMS.mms.Multiple_scales_system.apply_MMS_shared`: The functions that are shared among various MMS forms (oscillator and complex). This calls</span>
+
+<span class="sd">            #. :meth:`~oscilate.MMS.mms.Multiple_scales_system.autonomous_phases`: The phase coordinates are changed from :math:`\phi_i(\boldsymbol{t}_s)` to :math:`\beta_i(\boldsymbol{t}_s)` to cancel the slow time :math:`t_1` in the secular terms. This will be used afterwards to obtain an autonomous system.</span>
+
+<span class="sd">            #. :meth:`~oscilate.MMS.mms.Multiple_scales_system.modulation_equations`: The secular conditions are split into real and imaginary parts, polar coordinates are used and the autonomous phases are introduced,</span>
+<span class="sd">            resulting in an autonomous system of modulation equations on polar coordinates. </span>
+<span class="sd">            Equations come by two, one representing the amplitude modulation while the other represents the phase&#39;s, such that</span>
+<span class="sd">            </span>
+<span class="sd">            .. math::</span>
+<span class="sd">                \begin{cases}</span>
+<span class="sd">                \textrm{D}_{j} a_i(\boldsymbol{t}_s) &amp; = f_{a_i}^{(j)}(\boldsymbol{a}, \boldsymbol{\beta}), \\</span>
+<span class="sd">                a_i \textrm{D}_{j} \beta_i(\boldsymbol{t}_s) &amp; = f_{\beta_i}^{(j)}(\boldsymbol{a}, \boldsymbol{\beta}).</span>
+<span class="sd">                \end{cases}</span>
+
+<span class="sd">            This is the key result of the MMS. </span>
+
+<span class="sd">            #. :meth:`~oscilate.MMS.mms.Multiple_scales_system.reconstitution`: The modulations on each time scale are now combined to reintroduce the physical time, resulting in a system of the form</span>
+
+<span class="sd">            .. math::</span>
+<span class="sd">                \begin{cases}</span>
+<span class="sd">                \dfrac{\textrm{d}}{dt} a_i(t) &amp; = f_{a_i}(\boldsymbol{a}, \boldsymbol{\beta}), \\</span>
+<span class="sd">                a_i \dfrac{\textrm{d}}{dt} \beta_i(t) &amp; = f_{\beta_i}(\boldsymbol{a}, \boldsymbol{\beta}).</span>
+<span class="sd">                \end{cases}</span>
+
+<span class="sd">            This is known as the reconstitution method.</span>
+
+<span class="sd">        #. :meth:`~oscilate.MMS.mms.Multiple_scales_system.sol_x_polar`: The leading and higher order solutions are rewritten in terms of polar coordinates using :math:`\cos` and :math:`\sin` functions.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="c1"># Write a temporary equivalent system depending only on t0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">system_t0</span><span class="p">()</span>
+        
+        <span class="c1"># Compute the solutions at order 0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sol_order_0</span><span class="p">()</span>
+
+        <span class="c1"># Analyse the secular terms</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">secular_analysis</span><span class="p">()</span>
+
+        <span class="c1"># Change phase coordinate and derive the modulation equations</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">apply_MMS_shared</span><span class="p">()</span> 
+        
+        <span class="c1"># Compute the x solutions at each order</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sol_xO</span><span class="p">()</span>
+
+        <span class="c1"># Compute the z solution from each order solution zO</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sol_z_complex</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sol_z_polar</span><span class="p">()</span>
+
+        <span class="c1"># Write the x solutions in terms of polar coordinates</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sol_x_polar</span><span class="p">(</span><span class="n">orders_polar</span><span class="o">=</span><span class="n">orders_polar</span><span class="p">)</span>
+
+        <span class="c1"># Extract the harmonics from the oscillators&#39; response</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sol_x_harmonics</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="Multiple_scales_complex.system_t0">
+<a class="viewcode-back" href="../../../modules.html#oscilate.MMS.mms_complex.Multiple_scales_complex.system_t0">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">system_t0</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Rewrite the system with the fast time scale as the only independent variable.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        This is a trick to use :func:`~sympy.solvers.ode.dsolve`, which only accepts functions of 1 variable, to solve higher order equations. </span>
+<span class="sd">        The higher order equations are rewritten in terms of temporary coordinates :math:`\tilde{z}_{i,j}(t_0)` in place of :math:`z_{i,j}(\boldsymbol{t})`, with :math:`i,j` denoting the oscillator number and :math:`\epsilon` order, respectively. </span>
+<span class="sd">        This is equivalent to temporary considering that :math:`\boldsymbol{A}(\boldsymbol{t}_s)` does not depend on the slow times, which is of no consequence as there are no slow time derivatives appearing in the higher order equations at this stage. </span>
+<span class="sd">        Indeed, they were either substituted using the complex modulation equations, or they disappeared when eliminating the secular terms. </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="n">zO_t0</span>  <span class="o">=</span> <span class="p">[]</span> <span class="c1"># t0-dependent variables zij(t0). Higher time scales dependency is ignored.</span>
+        <span class="n">EqO_t0</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># Equations at each order with only t0 as an explicit variable. Leads to a harmonic oscillator at each order with a t0-periodic forcing coming from lower order solutions.</span>
+        
+        <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">):</span>
+            <span class="n">zO_t0</span> <span class="o">.</span><span class="n">append</span><span class="p">([</span> <span class="n">Function</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\tilde{z_&#39;</span><span class="o">+</span><span class="s1">&#39;{{</span><span class="si">{}</span><span class="s1">,</span><span class="si">{}</span><span class="s1">}}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span><span class="n">io</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;}&#39;</span><span class="p">,</span> <span class="nb">complex</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">tS</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">io</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">Ne</span><span class="p">)</span> <span class="p">])</span> 
+            <span class="n">EqO_t0</span><span class="o">.</span><span class="n">append</span><span class="p">([</span> <span class="bp">self</span><span class="o">.</span><span class="n">EqO</span><span class="p">[</span><span class="n">ix</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">zO</span><span class="p">[</span><span class="n">ix</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">zO_t0</span><span class="p">[</span><span class="n">ix</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">doit</span><span class="p">()</span> <span class="p">])</span>
+            
+        <span class="bp">self</span><span class="o">.</span><span class="n">EqO_t0</span> <span class="o">=</span> <span class="n">EqO_t0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">zO_t0</span>  <span class="o">=</span> <span class="n">zO_t0</span></div>
+
+        
+<div class="viewcode-block" id="Multiple_scales_complex.sol_order_0">
+<a class="viewcode-back" href="../../../modules.html#oscilate.MMS.mms_complex.Multiple_scales_complex.sol_order_0">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sol_order_0</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the leading-order solutions for each oscillator. </span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        For oscillator :math:`i`, the homogeneous solution takes the general form</span>
+<span class="sd">        </span>
+<span class="sd">        .. math::</span>
+<span class="sd">            z_{i,0}^{\textrm{h}}(\boldsymbol{t}) = A_i(\boldsymbol{t}_s) e^{\textrm{j} \omega_{i,0} t_0},</span>
+<span class="sd">        </span>
+<span class="sd">        where :math:`A_i(\boldsymbol{t}_s)` is an unknown complex amplitude.</span>
+<span class="sd">        </span>
+<span class="sd">        If the oscillator is subject to hard forcing (i.e. forcing appears at leading order), then the particular solution</span>
+<span class="sd">        </span>
+<span class="sd">        .. math::</span>
+<span class="sd">            z_{i,0}^{\textrm{p}}(t_0, t_1) = B_{i,+} e^{\textrm{j} \omega t} + B_{i,-} e^{-\textrm{j} \omega t} = B_{i,+} e^{\textrm{j} (\omega_{\textrm{MMS}} t_0 + \sigma t_1)} + B_{i,-} e^{-\textrm{j} (\omega_{\textrm{MMS}} t_0 + \sigma t_1)}</span>
+<span class="sd">        </span>
+<span class="sd">        is also taken into account. :math:`B_{i, \pm}` are time-independent functions of the forcing parameters.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="c1"># Information</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Definition of leading order multiple scales solutions&#39;</span><span class="p">)</span>
+        
+        <span class="c1"># Initialisation</span>
+        <span class="n">zO0</span>    <span class="o">=</span> <span class="p">[]</span> <span class="c1"># leading order solutions</span>
+        <span class="n">sub_zO</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># Substitutions from zij to its solution</span>
+        <span class="n">sub_B</span>  <span class="o">=</span> <span class="p">[]</span> <span class="c1"># Substitutions from the particular solution amplitude Bi+/- to their expression</span>
+        
+        <span class="c1"># Compute the solutions</span>
+        <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">):</span>
+            
+            <span class="c1"># Homogeneous leading order solution </span>
+            <span class="n">zO0_h_ix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">A</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="n">I</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">omegas_O0</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">tS</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            
+            <span class="c1"># Particular leading order solution - if the equation is not homogeneous (due to hard forcing)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">EqO</span><span class="p">[</span><span class="n">ix</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">zO</span><span class="p">[</span><span class="n">ix</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tS</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">-</span> <span class="n">I</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">omegas_O0</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">zO</span><span class="p">[</span><span class="n">ix</span><span class="p">][</span><span class="mi">0</span><span class="p">]:</span> 
+                <span class="n">hint</span><span class="o">=</span><span class="s2">&quot;default&quot;</span>
+                
+                <span class="c1"># General solution, containing both homogeneous and particular solutions</span>
+                <span class="n">zO0_sol_general</span> <span class="o">=</span> <span class="p">(</span> <span class="n">dsolve</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">EqO_t0</span><span class="p">[</span><span class="n">ix</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">zO_t0</span><span class="p">[</span><span class="n">ix</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">hint</span><span class="o">=</span><span class="n">hint</span><span class="p">)</span> <span class="p">)</span><span class="o">.</span><span class="n">rhs</span>
+                
+                <span class="c1"># Cancel the homogeneous solutions</span>
+                <span class="n">C</span>      <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">zO0_sol_general</span><span class="o">.</span><span class="n">atoms</span><span class="p">(</span><span class="n">Symbol</span><span class="p">)</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">EqO</span><span class="p">[</span><span class="n">ix</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">atoms</span><span class="p">(</span><span class="n">Symbol</span><span class="p">)))</span>
+                <span class="n">sub_IC</span> <span class="o">=</span> <span class="p">[(</span><span class="n">Ci</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">Ci</span> <span class="ow">in</span> <span class="n">C</span><span class="p">]</span>
+                <span class="n">zO0_p_ix</span> <span class="o">=</span> <span class="n">zO0_sol_general</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">sub_IC</span><span class="p">)</span><span class="o">.</span><span class="n">doit</span><span class="p">()</span>
+                
+                <span class="c1"># Get the real amplitude of the particular solution</span>
+                <span class="n">exp_keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">zO0_p_ix</span><span class="o">.</span><span class="n">atoms</span><span class="p">(</span><span class="n">exp</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">exp_keys</span><span class="p">:</span>
+                    <span class="n">sub_B</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">B</span><span class="p">[</span><span class="n">ix</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">zO0_p_ix</span><span class="o">.</span><span class="n">coeff</span><span class="p">(</span><span class="n">exp_keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span> <span class="p">)</span> <span class="c1"># exp(-I omega0 t0) solution</span>
+                    <span class="n">sub_B</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">B</span><span class="p">[</span><span class="n">ix</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">zO0_p_ix</span><span class="o">.</span><span class="n">coeff</span><span class="p">(</span><span class="n">exp_keys</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span> <span class="p">)</span> <span class="c1"># exp(-I omega0 t0) solution</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Static hard forcing is currently not handled&quot;</span><span class="p">)</span>
+                
+                <span class="c1"># Rewrite the particular solution in terms of B for the sake of readability and computational efficiency</span>
+                <span class="n">zO0_p_ix</span> <span class="o">=</span> <span class="p">(</span> <span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">B</span><span class="p">[</span><span class="n">ix</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="n">I</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">omega</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">)</span>  <span class="o">.</span><span class="n">subs</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_omega</span><span class="p">])</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_t</span><span class="p">)</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span> <span class="o">+</span> 
+                             <span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">B</span><span class="p">[</span><span class="n">ix</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">I</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">omega</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">)</span> <span class="o">.</span><span class="n">subs</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_omega</span><span class="p">])</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_t</span><span class="p">)</span><span class="o">.</span><span class="n">expand</span><span class="p">())</span>
+                    
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">zO0_p_ix</span> <span class="o">=</span> <span class="n">sympify</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                
+            <span class="c1"># Total leading order solution</span>
+            <span class="n">zO0</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">zO0_h_ix</span> <span class="o">+</span> <span class="n">zO0_p_ix</span> <span class="p">)</span> 
+            <span class="n">sub_zO</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="p">(</span> <span class="bp">self</span><span class="o">.</span><span class="n">zO</span><span class="p">[</span><span class="n">ix</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">zO0</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span> <span class="p">)</span> <span class="p">)</span>
+        
+        <span class="c1"># Store the solutions</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">zO</span> <span class="o">=</span> <span class="p">[[</span><span class="n">zO0_dof</span><span class="p">]</span> <span class="k">for</span> <span class="n">zO0_dof</span> <span class="ow">in</span> <span class="n">zO0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_zO</span> <span class="o">=</span> <span class="n">sub_zO</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_B</span>  <span class="o">=</span> <span class="n">sub_B</span></div>
+
+        
+<div class="viewcode-block" id="Multiple_scales_complex.secular_analysis">
+<a class="viewcode-back" href="../../../modules.html#oscilate.MMS.mms_complex.Multiple_scales_complex.secular_analysis">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">secular_analysis</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Identify the secular terms in the MMS equations. </span>
+<span class="sd">        This allows to:</span>
+
+<span class="sd">        1. Compute the modulation equations of the complex amplitudes :math:`A_i(\boldsymbol{t}_s)`, coming from the elimination of the secular terms,</span>
+<span class="sd">        </span>
+<span class="sd">        2. Derive nonsecular MMS equations, i.e. MMS equations with the secular terms cancelled,</span>
+<span class="sd">        </span>
+<span class="sd">        3. Use the nonsecular equations to express the higher order complex solutions :math:`z_{i,j}(\boldsymbol{t}),\; j&gt;0` in terms of themath:`\boldsymbol{A}(\boldsymbol{t}_s)`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="c1"># Information</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Secular analysis&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># Initialisations - secular analysis</span>
+        <span class="n">DA_sol</span>     <span class="o">=</span> <span class="p">[]</span> <span class="c1"># Solutions Di(Aj) cancelling the secular terms for each oscillator j, in terms of Aj </span>
+        <span class="n">sub_DA_sol</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># Substitutions from Di(Aj) to its solution </span>
+        <span class="n">sec</span>        <span class="o">=</span> <span class="p">[]</span> <span class="c1"># The ith secular term in the equations of the jth oscillator is written only in terms of Di(Aj) and Aj (i.e. Dk(Aj) with k&lt;i are substituted for their solution)</span>
+        
+        <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">):</span>
+            <span class="n">DA_sol</span>    <span class="o">.</span><span class="n">append</span><span class="p">([</span> <span class="mi">0</span> <span class="p">])</span> <span class="c1"># dAi/dt0 = 0 </span>
+            <span class="n">sub_DA_sol</span><span class="o">.</span><span class="n">append</span><span class="p">([</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">A</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tS</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="mi">0</span><span class="p">)</span> <span class="p">]</span> <span class="p">)</span>
+            <span class="n">sec</span>       <span class="o">.</span><span class="n">append</span><span class="p">([</span> <span class="mi">0</span> <span class="p">])</span>
+        
+        <span class="n">E</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">)</span> <span class="c1"># Symbol to substitue exponentials and use collect() in the following</span>
+        
+        <span class="c1"># Computation of the secular terms, DA solutions, equations with the secular terms cancelled and x solutions in terms of A</span>
+        <span class="k">for</span> <span class="n">io</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">Ne</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+            
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;   Analysing the secular terms at order </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">io</span><span class="p">))</span>
+            
+            <span class="c1"># Substitutions from z(t0, t1, ...) to z(t0) at order io to use sy.dsolve() in the following</span>
+            <span class="n">sub_zO_t0</span> <span class="o">=</span> <span class="p">[</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">zO</span><span class="p">[</span><span class="n">ix</span><span class="p">][</span><span class="n">io</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">zO_t0</span><span class="p">[</span><span class="n">ix</span><span class="p">][</span><span class="n">io</span><span class="p">])</span> <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">)</span> <span class="p">]</span>
+            
+            <span class="c1"># Substitute the solutions at previous orders in the MMS equations and make it t0-dependent. Contains the secular terms.</span>
+            <span class="n">EqO_t0_sec</span> <span class="o">=</span> <span class="p">[</span> <span class="bp">self</span><span class="o">.</span><span class="n">EqO</span><span class="p">[</span><span class="n">ix</span><span class="p">][</span><span class="n">io</span><span class="p">]</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_zO</span><span class="p">)</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">sub_zO_t0</span><span class="p">)</span><span class="o">.</span><span class="n">doit</span><span class="p">()</span> <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">)</span> <span class="p">]</span> 
+            
+            <span class="c1"># Find the secular terms and deduce the D(A) that cancel them</span>
+            <span class="n">dicE</span> <span class="o">=</span> <span class="p">[]</span> 
+            <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">):</span>
+                
+                <span class="c1"># Define the exponential corresponding to secular terms</span>
+                <span class="n">sub_exp</span> <span class="o">=</span> <span class="p">[(</span><span class="n">exp</span><span class="p">(</span><span class="n">I</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">omegas_O0</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">tS</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">E</span><span class="p">)]</span> <span class="c1"># Substitute exp(I*omegas_O0*t0) by E to use sy.collect() in the following</span>
+                
+                <span class="c1"># Substitute the low order DA to get rid of all A derivatives except the current one</span>
+                <span class="n">EqO_t0_sec</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span> <span class="o">=</span> <span class="n">sfun</span><span class="o">.</span><span class="n">sub_deep</span><span class="p">(</span><span class="n">EqO_t0_sec</span><span class="p">[</span><span class="n">ix</span><span class="p">],</span> <span class="n">sub_DA_sol</span><span class="p">[</span><span class="n">ix</span><span class="p">])</span>
+                
+                <span class="c1"># Identify the secular term</span>
+                <span class="n">dicE_ix</span> <span class="o">=</span> <span class="n">EqO_t0_sec</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">sub_exp</span><span class="p">)</span><span class="o">.</span><span class="n">doit</span><span class="p">()</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="n">E</span><span class="p">,</span> <span class="n">evaluate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">E</span> <span class="ow">in</span> <span class="n">dicE_ix</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                    <span class="n">sec_ix</span>  <span class="o">=</span> <span class="n">dicE_ix</span><span class="p">[</span><span class="n">E</span><span class="p">]</span> <span class="o">*</span> <span class="n">I</span> <span class="c1"># Multiply by I so the real/imag parts match those of the oscillator form</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">sec_ix</span> <span class="o">=</span> <span class="n">sympify</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                <span class="n">dicE</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dicE_ix</span><span class="p">)</span>
+                
+                <span class="c1"># Solve D(A) such that the secular term is cancelled</span>
+                <span class="n">DA_sol</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">solve</span><span class="p">(</span><span class="n">sec_ix</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">A</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tS</span><span class="p">[</span><span class="n">io</span><span class="p">]))[</span><span class="mi">0</span><span class="p">]</span> <span class="p">)</span> <span class="c1"># Solution for the current D(A) cancelling the secular terms</span>
+                <span class="n">sub_DA_sol</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">A</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tS</span><span class="p">[</span><span class="n">io</span><span class="p">]),</span> <span class="n">DA_sol</span><span class="p">[</span><span class="n">ix</span><span class="p">][</span><span class="n">io</span><span class="p">]</span><span class="o">.</span><span class="n">expand</span><span class="p">())</span> <span class="p">)</span>
+            
+                <span class="c1"># Store the current secular term</span>
+                <span class="n">sec</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sec_ix</span><span class="p">)</span>
+                
+            <span class="c1"># Substitute the expression of the just computed DA in EqO_t0_sec to obtain nonsecular equations governing zO_t0 at the current order</span>
+            <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">EqO_t0</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">EqO_t0_sec</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">sub_DA_sol</span><span class="p">[</span><span class="n">ix</span><span class="p">])</span><span class="o">.</span><span class="n">doit</span><span class="p">()</span><span class="o">.</span><span class="n">simplify</span><span class="p">())</span>
+            
+            <span class="c1"># Compute the z solution at order io in terms of the amplitudes A</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;   Computing the higher order solutions at order </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">io</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">):</span> 
+                <span class="bp">self</span><span class="o">.</span><span class="n">sol_higher_order</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">EqO_t0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">zO_t0</span><span class="p">,</span> <span class="n">io</span><span class="p">,</span> <span class="n">ix</span><span class="p">)</span>
+            
+        <span class="c1"># Store the solutions</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">sec</span> <span class="o">=</span> <span class="n">sec</span>      <span class="c1"># Secular terms</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">DA</span>  <span class="o">=</span> <span class="n">DA_sol</span>   <span class="c1"># Solutions that cancel the secular terms</span></div>
+
+    
+<div class="viewcode-block" id="Multiple_scales_complex.sol_higher_order">
+<a class="viewcode-back" href="../../../modules.html#oscilate.MMS.mms_complex.Multiple_scales_complex.sol_higher_order">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sol_higher_order</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">EqO_t0</span><span class="p">,</span> <span class="n">zO_t0</span><span class="p">,</span> <span class="n">io</span><span class="p">,</span> <span class="n">ix</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the higher order complex solutions :math:`z_{i,j}(\boldsymbol{t}_s),\; j&gt;0`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        EqO_t0 : list of list of sympy.Expr</span>
+<span class="sd">            The MMS equations at each order and for each oscillator written with :math:`t_0` as the only independent variable. </span>
+<span class="sd">        zO_t0 : list of list of sympy.Function</span>
+<span class="sd">            Oscillators&#39; response at each order written in terms of :math:`t_0` only, :math:`\tilde{z}_{i,j}(t_0)`.</span>
+<span class="sd">        io : int</span>
+<span class="sd">            The order of :math:`\epsilon`.</span>
+<span class="sd">        ix : int</span>
+<span class="sd">            The dof number.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="c1"># Hint for dsolve()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">EqO_t0</span><span class="p">[</span><span class="n">ix</span><span class="p">][</span><span class="n">io</span><span class="p">]</span> <span class="o">==</span> <span class="n">zO_t0</span><span class="p">[</span><span class="n">ix</span><span class="p">][</span><span class="n">io</span><span class="p">]</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tS</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">-</span> <span class="n">I</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">omegas_O0</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span> <span class="o">*</span> <span class="n">zO_t0</span><span class="p">[</span><span class="n">ix</span><span class="p">][</span><span class="n">io</span><span class="p">]:</span> 
+            <span class="n">hint</span><span class="o">=</span><span class="s2">&quot;nth_linear_constant_coeff_undetermined_coefficients&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">hint</span><span class="o">=</span><span class="s2">&quot;default&quot;</span>
+        
+        <span class="c1"># General solution, containing both homogeneous and particular solutions</span>
+        <span class="n">zO_sol_general</span> <span class="o">=</span> <span class="p">(</span> <span class="n">dsolve</span><span class="p">(</span><span class="n">EqO_t0</span><span class="p">[</span><span class="n">ix</span><span class="p">][</span><span class="n">io</span><span class="p">],</span> <span class="n">zO_t0</span><span class="p">[</span><span class="n">ix</span><span class="p">][</span><span class="n">io</span><span class="p">],</span> <span class="n">hint</span><span class="o">=</span><span class="n">hint</span><span class="p">)</span> <span class="p">)</span><span class="o">.</span><span class="n">rhs</span>
+        
+        <span class="c1"># Cancel the homogeneous solutions to prevent initial-conditions leakage to higher orders</span>
+        <span class="n">C</span>      <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">zO_sol_general</span><span class="o">.</span><span class="n">atoms</span><span class="p">(</span><span class="n">Symbol</span><span class="p">)</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">EqO_t0</span><span class="p">[</span><span class="n">ix</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">atoms</span><span class="p">(</span><span class="n">Symbol</span><span class="p">)))</span>
+        <span class="n">sub_IC</span> <span class="o">=</span> <span class="p">[(</span><span class="n">Ci</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">Ci</span> <span class="ow">in</span> <span class="n">C</span><span class="p">]</span>
+        
+        <span class="c1"># Append the solution for dof ix at order io</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">zO</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">zO_sol_general</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">sub_IC</span><span class="p">)</span><span class="o">.</span><span class="n">doit</span><span class="p">())</span>
+        
+        <span class="c1"># Update the list of substitutions from the z to their expression</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_zO</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">zO</span><span class="p">[</span><span class="n">ix</span><span class="p">][</span><span class="n">io</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">zO</span><span class="p">[</span><span class="n">ix</span><span class="p">][</span><span class="n">io</span><span class="p">])</span> <span class="p">)</span></div>
+
+        
+<div class="viewcode-block" id="Multiple_scales_complex.sol_xO">
+<a class="viewcode-back" href="../../../modules.html#oscilate.MMS.mms_complex.Multiple_scales_complex.sol_xO">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sol_xO</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the x solutions at each order from the z ones.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">xO</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">xO</span><span class="o">.</span><span class="n">append</span><span class="p">([])</span>
+            <span class="k">for</span> <span class="n">io</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Ne</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">xO</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">zO</span><span class="p">[</span><span class="n">ix</span><span class="p">][</span><span class="n">io</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">zO</span><span class="p">[</span><span class="n">ix</span><span class="p">][</span><span class="n">io</span><span class="p">]</span><span class="o">.</span><span class="n">conjugate</span><span class="p">()</span> <span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="Multiple_scales_complex.sol_z_complex">
+<a class="viewcode-back" href="../../../modules.html#oscilate.MMS.mms_complex.Multiple_scales_complex.sol_z_complex">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sol_z_complex</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the z solution from the zO solutions at each order.</span>
+<span class="sd">        Keep it in terms of the complex coordinates A.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">z_complex</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">):</span>
+            <span class="n">z_ix</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="o">**</span><span class="p">(</span><span class="n">io</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">eps_pow_0</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">zO</span><span class="p">[</span><span class="n">ix</span><span class="p">][</span><span class="n">io</span><span class="p">]</span> <span class="k">for</span> <span class="n">io</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Ne</span><span class="o">+</span><span class="mi">1</span><span class="p">)])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">z_complex</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">z_ix</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="n">exp</span><span class="p">(</span><span class="n">I</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">omegas_O0</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">tS</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span> <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Multiple_scales_complex.sol_z_polar">
+<a class="viewcode-back" href="../../../modules.html#oscilate.MMS.mms_complex.Multiple_scales_complex.sol_z_polar">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sol_z_polar</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the z solution from the zO solutions at each order and introduce the polar coordinates</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Prepare substitutions</span>
+        <span class="n">sub_t_back</span> <span class="o">=</span> <span class="p">[</span> <span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_t</span><span class="p">]</span>
+        <span class="n">sub_sigma</span>  <span class="o">=</span> <span class="p">[</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">omega</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">omegaMMS</span><span class="p">)]</span>
+
+        <span class="c1"># Compute the solutions in polar form</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">):</span>
+            <span class="n">z_ix</span> <span class="o">=</span> <span class="p">(</span><span class="nb">sum</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="o">**</span><span class="p">(</span><span class="n">io</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">eps_pow_0</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">zO</span><span class="p">[</span><span class="n">ix</span><span class="p">][</span><span class="n">io</span><span class="p">]</span> <span class="k">for</span> <span class="n">io</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Ne</span><span class="o">+</span><span class="mi">1</span><span class="p">)])</span>
+                    <span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_A</span><span class="p">)</span><span class="o">.</span><span class="n">doit</span><span class="p">()</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span>
+                    <span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_phi</span><span class="p">)</span><span class="o">.</span><span class="n">doit</span><span class="p">()</span>
+                    <span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_tS_to_t_func</span><span class="p">)</span>
+                    <span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">sub_t_back</span><span class="p">)</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">sub_sigma</span><span class="p">)</span>
+                    <span class="o">.</span><span class="n">simplify</span><span class="p">()</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span> <span class="p">)</span> 
+            <span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">z</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">z_ix</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="n">exp</span><span class="p">(</span><span class="n">I</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">omega</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">))</span> <span class="p">)</span></div>
+</div>
+
+
+    
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Vincent MAHE.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

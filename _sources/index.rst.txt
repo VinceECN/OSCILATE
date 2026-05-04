@@ -11,12 +11,13 @@ Welcome to the documentation for **OSCILATE**, a Python project for solving syst
 
    readme
    mms
-   modules
    architecture
+   modules
    install
    examples
    sympy_basics
    citation
+   references
    license
    notice
    

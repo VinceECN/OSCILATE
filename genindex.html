@@ -46,12 +46,13 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="readme.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mms.html">The Method of Multiple Scales</a></li>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="architecture.html">Main module architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Application examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sympy_basics.html">SymPy basics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="citation.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notice.html">Legal notices</a></li>
 </ul>
@@ -92,6 +93,7 @@
  | <a href="#G"><strong>G</strong></a>
  | <a href="#I"><strong>I</strong></a>
  | <a href="#J"><strong>J</strong></a>
+ | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
  | <a href="#N"><strong>N</strong></a>
  | <a href="#O"><strong>O</strong></a>
@@ -104,14 +106,28 @@
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules.html#oscilate.MMS.mms.Multiple_scales_system.absolute_phase">absolute_phase() (oscilate.MMS.mms.Multiple_scales_system method)</a>
+</li>
       <li><a href="modules.html#oscilate.MMS.steady_state.Steady_state.additional_cartesian_substitutions">additional_cartesian_substitutions() (oscilate.MMS.steady_state.Steady_state method)</a>
 </li>
-      <li><a href="modules.html#oscilate.MMS.mms.Multiple_scales_system.apply_MMS">apply_MMS() (oscilate.MMS.mms.Multiple_scales_system method)</a>
+      <li><a href="modules.html#oscilate.MMS.visualisation.Amplitude_response_curve">Amplitude_response_curve (class in oscilate.MMS.visualisation)</a>
 </li>
+      <li><a href="modules.html#oscilate.MMS.mms_complex.Multiple_scales_complex.apply_MMS">apply_MMS() (oscilate.MMS.mms_complex.Multiple_scales_complex method)</a>
+
+      <ul>
+        <li><a href="modules.html#oscilate.MMS.mms_oscillator.Multiple_scales_oscillator.apply_MMS">(oscilate.MMS.mms_oscillator.Multiple_scales_oscillator method)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="modules.html#oscilate.MMS.mms.Multiple_scales_system.asymptotic_series">asymptotic_series() (oscilate.MMS.mms.Multiple_scales_system method)</a>
+      <li><a href="modules.html#oscilate.MMS.mms.Multiple_scales_system.apply_MMS_shared">apply_MMS_shared() (oscilate.MMS.mms.Multiple_scales_system method)</a>
 </li>
+      <li><a href="modules.html#oscilate.MMS.mms_complex.Multiple_scales_complex.asymptotic_series">asymptotic_series() (oscilate.MMS.mms_complex.Multiple_scales_complex method)</a>
+
+      <ul>
+        <li><a href="modules.html#oscilate.MMS.mms_oscillator.Multiple_scales_oscillator.asymptotic_series">(oscilate.MMS.mms_oscillator.Multiple_scales_oscillator method)</a>
+</li>
+      </ul></li>
       <li><a href="modules.html#oscilate.MMS.mms.Multiple_scales_system.autonomous_phases">autonomous_phases() (oscilate.MMS.mms.Multiple_scales_system method)</a>
 </li>
   </ul></td>
@@ -119,6 +135,10 @@
 
 <h2 id="B">B</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules.html#oscilate.MMS.visualisation.Backbone_curve">Backbone_curve (class in oscilate.MMS.visualisation)</a>
+</li>
+  </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="modules.html#oscilate.MMS.steady_state.Steady_state.bifurcation_curves">bifurcation_curves() (oscilate.MMS.steady_state.Steady_state method)</a>
 </li>
@@ -136,15 +156,25 @@
 </li>
       <li><a href="modules.html#oscilate.MMS.mms.Chain_rule_dfdt">Chain_rule_dfdt() (in module oscilate.MMS.mms)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="modules.html#oscilate.MMS.steady_state.Steady_state.check_cartesian_substitutions">check_cartesian_substitutions() (oscilate.MMS.steady_state.Steady_state method)</a>
 </li>
       <li><a href="modules.html#oscilate.sympy_functions.check_solvability">check_solvability() (in module oscilate.sympy_functions)</a>
 </li>
-      <li><a href="modules.html#oscilate.MMS.mms.Multiple_scales_system.compute_EqO">compute_EqO() (oscilate.MMS.mms.Multiple_scales_system method)</a>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules.html#oscilate.MMS.dyn_sys.Dynamical_system.complex_coordinates">complex_coordinates() (oscilate.MMS.dyn_sys.Dynamical_system method)</a>
 </li>
-      <li><a href="modules.html#oscilate.MMS.mms.Coord_MMS">Coord_MMS (class in oscilate.MMS.mms)</a>
+      <li><a href="modules.html#oscilate.MMS.dyn_sys.Dynamical_system.complex_form">complex_form() (oscilate.MMS.dyn_sys.Dynamical_system method)</a>
+</li>
+      <li><a href="modules.html#oscilate.MMS.mms_complex.Multiple_scales_complex.compute_EqO">compute_EqO() (oscilate.MMS.mms_complex.Multiple_scales_complex method)</a>
+
+      <ul>
+        <li><a href="modules.html#oscilate.MMS.mms_oscillator.Multiple_scales_oscillator.compute_EqO">(oscilate.MMS.mms_oscillator.Multiple_scales_oscillator method)</a>
+</li>
+      </ul></li>
+      <li><a href="modules.html#oscilate.MMS.mms_complex.Coord_MMS_complex">Coord_MMS_complex (class in oscilate.MMS.mms_complex)</a>
+</li>
+      <li><a href="modules.html#oscilate.MMS.mms_oscillator.Coord_MMS_oscillator">Coord_MMS_oscillator (class in oscilate.MMS.mms_oscillator)</a>
 </li>
       <li><a href="modules.html#oscilate.MMS.steady_state.Coord_SS">Coord_SS (class in oscilate.MMS.steady_state)</a>
 </li>
@@ -174,13 +204,19 @@
 </li>
       <li><a href="modules.html#oscilate.MMS.dyn_sys.Forcing">Forcing (class in oscilate.MMS.dyn_sys)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="modules.html#oscilate.MMS.mms.Forcing_MMS">Forcing_MMS (class in oscilate.MMS.mms)</a>
 </li>
-      <li><a href="modules.html#oscilate.MMS.mms.Multiple_scales_system.forcing_MMS">forcing_MMS() (oscilate.MMS.mms.Multiple_scales_system method)</a>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules.html#oscilate.MMS.mms_complex.Multiple_scales_complex.forcing_MMS">forcing_MMS() (oscilate.MMS.mms_complex.Multiple_scales_complex method)</a>
+
+      <ul>
+        <li><a href="modules.html#oscilate.MMS.mms_oscillator.Multiple_scales_oscillator.forcing_MMS">(oscilate.MMS.mms_oscillator.Multiple_scales_oscillator method)</a>
 </li>
+      </ul></li>
       <li><a href="modules.html#oscilate.MMS.steady_state.Forcing_SS">Forcing_SS (class in oscilate.MMS.steady_state)</a>
+</li>
+      <li><a href="modules.html#oscilate.MMS.visualisation.Frequency_response_curve">Frequency_response_curve (class in oscilate.MMS.visualisation)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -193,6 +229,8 @@
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="modules.html#oscilate.sympy_functions.get_exponent">get_exponent() (in module oscilate.sympy_functions)</a>
+</li>
+      <li><a href="modules.html#oscilate.MMS.mms.get_harmonics">get_harmonics() (in module oscilate.MMS.mms)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -217,6 +255,14 @@
   </ul></td>
 </tr></table>
 
+<h2 id="L">L</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules.html#oscilate.MMS.visualisation.Limit_cycle">Limit_cycle (class in oscilate.MMS.visualisation)</a>
+</li>
+  </ul></td>
+</tr></table>
+
 <h2 id="M">M</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -234,6 +280,10 @@
 </li>
         <li><a href="modules.html#module-oscilate.MMS.mms">oscilate.MMS.mms</a>
 </li>
+        <li><a href="modules.html#module-oscilate.MMS.mms_complex">oscilate.MMS.mms_complex</a>
+</li>
+        <li><a href="modules.html#module-oscilate.MMS.mms_oscillator">oscilate.MMS.mms_oscillator</a>
+</li>
         <li><a href="modules.html#module-oscilate.MMS.steady_state">oscilate.MMS.steady_state</a>
 </li>
         <li><a href="modules.html#module-oscilate.MMS.visualisation">oscilate.MMS.visualisation</a>
@@ -243,6 +293,10 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules.html#oscilate.MMS.mms_complex.Multiple_scales_complex">Multiple_scales_complex (class in oscilate.MMS.mms_complex)</a>
+</li>
+      <li><a href="modules.html#oscilate.MMS.mms_oscillator.Multiple_scales_oscillator">Multiple_scales_oscillator (class in oscilate.MMS.mms_oscillator)</a>
+</li>
       <li><a href="modules.html#oscilate.MMS.mms.Multiple_scales_system">Multiple_scales_system (class in oscilate.MMS.mms)</a>
 </li>
   </ul></td>
@@ -251,21 +305,29 @@
 <h2 id="N">N</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="modules.html#oscilate.MMS.visualisation.numpise_ARC">numpise_ARC() (in module oscilate.MMS.visualisation)</a>
-</li>
       <li><a href="modules.html#oscilate.MMS.visualisation.numpise_F_ARC">numpise_F_ARC() (in module oscilate.MMS.visualisation)</a>
 </li>
-      <li><a href="modules.html#oscilate.MMS.visualisation.numpise_FRC">numpise_FRC() (in module oscilate.MMS.visualisation)</a>
+      <li><a href="modules.html#oscilate.MMS.visualisation.numpise_LC">numpise_LC() (in module oscilate.MMS.visualisation)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules.html#oscilate.MMS.visualisation.numpise_LC_trajectory">numpise_LC_trajectory() (in module oscilate.MMS.visualisation)</a>
+</li>
       <li><a href="modules.html#oscilate.MMS.visualisation.numpise_omega_bbc">numpise_omega_bbc() (in module oscilate.MMS.visualisation)</a>
 </li>
       <li><a href="modules.html#oscilate.MMS.visualisation.numpise_omega_bif">numpise_omega_bif() (in module oscilate.MMS.visualisation)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="modules.html#oscilate.MMS.visualisation.numpise_omega_FRC">numpise_omega_FRC() (in module oscilate.MMS.visualisation)</a>
 </li>
+      <li><a href="modules.html#oscilate.MMS.visualisation.numpise_omegaMMS">numpise_omegaMMS() (in module oscilate.MMS.visualisation)</a>
+</li>
       <li><a href="modules.html#oscilate.MMS.visualisation.numpise_phase">numpise_phase() (in module oscilate.MMS.visualisation)</a>
+</li>
+      <li><a href="modules.html#oscilate.MMS.visualisation.numpise_transient_slow_time">numpise_transient_slow_time() (in module oscilate.MMS.visualisation)</a>
+</li>
+      <li><a href="modules.html#oscilate.MMS.visualisation.numpise_transient_trajectory">numpise_transient_trajectory() (in module oscilate.MMS.visualisation)</a>
+</li>
+      <li><a href="modules.html#oscilate.MMS.visualisation.numpise_xmax_bbc">numpise_xmax_bbc() (in module oscilate.MMS.visualisation)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -288,14 +350,28 @@
 </li>
       </ul></li>
       <li>
+    oscilate.MMS.mms_complex
+
+      <ul>
+        <li><a href="modules.html#module-oscilate.MMS.mms_complex">module</a>
+</li>
+      </ul></li>
+      <li>
+    oscilate.MMS.mms_oscillator
+
+      <ul>
+        <li><a href="modules.html#module-oscilate.MMS.mms_oscillator">module</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
     oscilate.MMS.steady_state
 
       <ul>
         <li><a href="modules.html#module-oscilate.MMS.steady_state">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     oscilate.MMS.visualisation
 
@@ -318,12 +394,28 @@
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="modules.html#oscilate.MMS.visualisation.plot_ARC">plot_ARC() (in module oscilate.MMS.visualisation)</a>
+      <li><a href="modules.html#oscilate.MMS.visualisation.Amplitude_response_curve.plot">plot() (oscilate.MMS.visualisation.Amplitude_response_curve method)</a>
+
+      <ul>
+        <li><a href="modules.html#oscilate.MMS.visualisation.Backbone_curve.plot">(oscilate.MMS.visualisation.Backbone_curve method)</a>
 </li>
-      <li><a href="modules.html#oscilate.MMS.visualisation.plot_FRC">plot_FRC() (in module oscilate.MMS.visualisation)</a>
+        <li><a href="modules.html#oscilate.MMS.visualisation.Frequency_response_curve.plot">(oscilate.MMS.visualisation.Frequency_response_curve method)</a>
 </li>
+      </ul></li>
+      <li><a href="modules.html#oscilate.MMS.visualisation.Limit_cycle.plot_PP">plot_PP() (oscilate.MMS.visualisation.Limit_cycle method)</a>
+
+      <ul>
+        <li><a href="modules.html#oscilate.MMS.visualisation.Transient_response.plot_PP">(oscilate.MMS.visualisation.Transient_response method)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules.html#oscilate.MMS.visualisation.Limit_cycle.plot_time">plot_time() (oscilate.MMS.visualisation.Limit_cycle method)</a>
+
+      <ul>
+        <li><a href="modules.html#oscilate.MMS.visualisation.Transient_response.plot_time">(oscilate.MMS.visualisation.Transient_response method)</a>
+</li>
+      </ul></li>
       <li><a href="modules.html#oscilate.MMS.mms.Multiple_scales_system.polar_coordinates">polar_coordinates() (oscilate.MMS.mms.Multiple_scales_system method)</a>
 </li>
       <li><a href="modules.html#oscilate.MMS.steady_state.Steady_state.polar_coordinates_SS">polar_coordinates_SS() (oscilate.MMS.steady_state.Steady_state method)</a>
@@ -350,52 +442,112 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="modules.html#oscilate.MMS.mms.scale_parameters">scale_parameters() (in module oscilate.MMS.mms)</a>
 </li>
-      <li><a href="modules.html#oscilate.MMS.mms.Multiple_scales_system.secular_analysis">secular_analysis() (oscilate.MMS.mms.Multiple_scales_system method)</a>
+      <li><a href="modules.html#oscilate.MMS.mms_complex.Multiple_scales_complex.secular_analysis">secular_analysis() (oscilate.MMS.mms_complex.Multiple_scales_complex method)</a>
+
+      <ul>
+        <li><a href="modules.html#oscilate.MMS.mms_oscillator.Multiple_scales_oscillator.secular_analysis">(oscilate.MMS.mms_oscillator.Multiple_scales_oscillator method)</a>
 </li>
-      <li><a href="modules.html#oscilate.MMS.mms.Multiple_scales_system.sol_higher_order">sol_higher_order() (oscilate.MMS.mms.Multiple_scales_system method)</a>
+      </ul></li>
+      <li><a href="modules.html#oscilate.MMS.steady_state.Sol_bbc">Sol_bbc (class in oscilate.MMS.steady_state)</a>
+</li>
+      <li><a href="modules.html#oscilate.MMS.steady_state.Sol_forced">Sol_forced (class in oscilate.MMS.steady_state)</a>
+</li>
+      <li><a href="modules.html#oscilate.MMS.mms.Sol_harmonics">Sol_harmonics (class in oscilate.MMS.mms)</a>
+</li>
+      <li><a href="modules.html#oscilate.MMS.mms_complex.Multiple_scales_complex.sol_higher_order">sol_higher_order() (oscilate.MMS.mms_complex.Multiple_scales_complex method)</a>
+
+      <ul>
+        <li><a href="modules.html#oscilate.MMS.mms_oscillator.Multiple_scales_oscillator.sol_higher_order">(oscilate.MMS.mms_oscillator.Multiple_scales_oscillator method)</a>
+</li>
+      </ul></li>
+      <li><a href="modules.html#oscilate.MMS.steady_state.Sol_LC">Sol_LC (class in oscilate.MMS.steady_state)</a>
 </li>
       <li><a href="modules.html#oscilate.MMS.mms.Sol_MMS">Sol_MMS (class in oscilate.MMS.mms)</a>
 </li>
-      <li><a href="modules.html#oscilate.MMS.mms.Multiple_scales_system.sol_order_0">sol_order_0() (oscilate.MMS.mms.Multiple_scales_system method)</a>
+      <li><a href="modules.html#oscilate.MMS.mms_complex.Multiple_scales_complex.sol_order_0">sol_order_0() (oscilate.MMS.mms_complex.Multiple_scales_complex method)</a>
+
+      <ul>
+        <li><a href="modules.html#oscilate.MMS.mms_oscillator.Multiple_scales_oscillator.sol_order_0">(oscilate.MMS.mms_oscillator.Multiple_scales_oscillator method)</a>
 </li>
+      </ul></li>
       <li><a href="modules.html#oscilate.MMS.steady_state.Sol_SS">Sol_SS (class in oscilate.MMS.steady_state)</a>
 </li>
+      <li><a href="modules.html#oscilate.MMS.mms.Sol_transient">Sol_transient (class in oscilate.MMS.mms)</a>
+</li>
+      <li><a href="modules.html#oscilate.MMS.mms.Multiple_scales_system.sol_x_harmonics">sol_x_harmonics() (oscilate.MMS.mms.Multiple_scales_system method)</a>
+</li>
       <li><a href="modules.html#oscilate.MMS.mms.Multiple_scales_system.sol_x_polar">sol_x_polar() (oscilate.MMS.mms.Multiple_scales_system method)</a>
+</li>
+      <li><a href="modules.html#oscilate.MMS.mms_complex.Multiple_scales_complex.sol_xO">sol_xO() (oscilate.MMS.mms_complex.Multiple_scales_complex method)</a>
+</li>
+      <li><a href="modules.html#oscilate.MMS.mms_complex.Multiple_scales_complex.sol_z_complex">sol_z_complex() (oscilate.MMS.mms_complex.Multiple_scales_complex method)</a>
+</li>
+      <li><a href="modules.html#oscilate.MMS.mms_complex.Multiple_scales_complex.sol_z_polar">sol_z_polar() (oscilate.MMS.mms_complex.Multiple_scales_complex method)</a>
 </li>
       <li><a href="modules.html#oscilate.MMS.steady_state.Steady_state.solve_a">solve_a() (oscilate.MMS.steady_state.Steady_state method)</a>
 </li>
       <li><a href="modules.html#oscilate.MMS.steady_state.Steady_state.solve_bbc">solve_bbc() (oscilate.MMS.steady_state.Steady_state method)</a>
 </li>
-      <li><a href="modules.html#oscilate.MMS.steady_state.Steady_state.solve_F">solve_F() (oscilate.MMS.steady_state.Steady_state method)</a>
+      <li><a href="modules.html#oscilate.MMS.steady_state.Steady_state.solve_bbc_x">solve_bbc_x() (oscilate.MMS.steady_state.Steady_state method)</a>
 </li>
-      <li><a href="modules.html#oscilate.MMS.steady_state.Steady_state.solve_forced">solve_forced() (oscilate.MMS.steady_state.Steady_state method)</a>
+      <li><a href="modules.html#oscilate.MMS.steady_state.Steady_state.solve_bbc_xmax">solve_bbc_xmax() (oscilate.MMS.steady_state.Steady_state method)</a>
+</li>
+      <li><a href="modules.html#oscilate.MMS.steady_state.Steady_state.solve_F">solve_F() (oscilate.MMS.steady_state.Steady_state method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules.html#oscilate.MMS.steady_state.Steady_state.solve_forced">solve_forced() (oscilate.MMS.steady_state.Steady_state method)</a>
+</li>
+      <li><a href="modules.html#oscilate.MMS.mms.Multiple_scales_system.solve_instantaneous_frequency">solve_instantaneous_frequency() (oscilate.MMS.mms.Multiple_scales_system method)</a>
+</li>
+      <li><a href="modules.html#oscilate.MMS.steady_state.Steady_state.solve_LC">solve_LC() (oscilate.MMS.steady_state.Steady_state method)</a>
+</li>
+      <li><a href="modules.html#oscilate.MMS.steady_state.Steady_state.solve_LC_amplitude">solve_LC_amplitude() (oscilate.MMS.steady_state.Steady_state method)</a>
+</li>
+      <li><a href="modules.html#oscilate.MMS.steady_state.Steady_state.solve_LC_frequency">solve_LC_frequency() (oscilate.MMS.steady_state.Steady_state method)</a>
+</li>
+      <li><a href="modules.html#oscilate.MMS.steady_state.Steady_state.solve_LC_x">solve_LC_x() (oscilate.MMS.steady_state.Steady_state method)</a>
+</li>
+      <li><a href="modules.html#oscilate.MMS.steady_state.Steady_state.solve_LC_xmax">solve_LC_xmax() (oscilate.MMS.steady_state.Steady_state method)</a>
+</li>
       <li><a href="modules.html#oscilate.MMS.steady_state.Steady_state.solve_phase">solve_phase() (oscilate.MMS.steady_state.Steady_state method)</a>
 </li>
       <li><a href="modules.html#oscilate.sympy_functions.solve_poly2">solve_poly2() (in module oscilate.sympy_functions)</a>
 </li>
       <li><a href="modules.html#oscilate.MMS.steady_state.Steady_state.solve_sigma">solve_sigma() (oscilate.MMS.steady_state.Steady_state method)</a>
 </li>
-      <li><a href="modules.html#oscilate.MMS.steady_state.Stab_SS">Stab_SS (class in oscilate.MMS.steady_state)</a>
+      <li><a href="modules.html#oscilate.MMS.mms.Multiple_scales_system.solve_slow_time">solve_slow_time() (oscilate.MMS.mms.Multiple_scales_system method)</a>
 </li>
-      <li><a href="modules.html#oscilate.MMS.steady_state.Steady_state.stability_analysis">stability_analysis() (oscilate.MMS.steady_state.Steady_state method)</a>
+      <li><a href="modules.html#oscilate.MMS.mms.Multiple_scales_system.solve_transient">solve_transient() (oscilate.MMS.mms.Multiple_scales_system method)</a>
+</li>
+      <li><a href="modules.html#oscilate.MMS.mms.Multiple_scales_system.solve_x_transient">solve_x_transient() (oscilate.MMS.mms.Multiple_scales_system method)</a>
+</li>
+      <li><a href="modules.html#oscilate.MMS.steady_state.Stability">Stability (class in oscilate.MMS.steady_state)</a>
+</li>
+      <li><a href="modules.html#oscilate.MMS.steady_state.Steady_state.stability_analysis_forced">stability_analysis_forced() (oscilate.MMS.steady_state.Steady_state method)</a>
 </li>
       <li><a href="modules.html#oscilate.MMS.steady_state.Steady_state">Steady_state (class in oscilate.MMS.steady_state)</a>
 </li>
       <li><a href="modules.html#oscilate.sympy_functions.sub_deep">sub_deep() (in module oscilate.sympy_functions)</a>
 </li>
-      <li><a href="modules.html#oscilate.MMS.steady_state.Steady_state.substitution_solve_dof">substitution_solve_dof() (oscilate.MMS.steady_state.Steady_state method)</a>
+      <li><a href="modules.html#oscilate.MMS.mms.Multiple_scales_system.substitution_solve_dof">substitution_solve_dof() (oscilate.MMS.mms.Multiple_scales_system method)</a>
+
+      <ul>
+        <li><a href="modules.html#oscilate.MMS.steady_state.Steady_state.substitution_solve_dof">(oscilate.MMS.steady_state.Steady_state method)</a>
 </li>
+      </ul></li>
       <li><a href="modules.html#oscilate.MMS.mms.Substitutions_MMS">Substitutions_MMS (class in oscilate.MMS.mms)</a>
 </li>
       <li><a href="modules.html#oscilate.MMS.steady_state.Substitutions_SS">Substitutions_SS (class in oscilate.MMS.steady_state)</a>
 </li>
       <li><a href="modules.html#oscilate.sympy_functions.sympy_to_numpy">sympy_to_numpy() (in module oscilate.sympy_functions)</a>
 </li>
-      <li><a href="modules.html#oscilate.MMS.mms.Multiple_scales_system.system_t0">system_t0() (oscilate.MMS.mms.Multiple_scales_system method)</a>
+      <li><a href="modules.html#oscilate.MMS.mms_complex.Multiple_scales_complex.system_t0">system_t0() (oscilate.MMS.mms_complex.Multiple_scales_complex method)</a>
+
+      <ul>
+        <li><a href="modules.html#oscilate.MMS.mms_oscillator.Multiple_scales_oscillator.system_t0">(oscilate.MMS.mms_oscillator.Multiple_scales_oscillator method)</a>
 </li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -407,6 +559,8 @@
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="modules.html#oscilate.MMS.steady_state.Steady_state.trace_curves">trace_curves() (oscilate.MMS.steady_state.Steady_state method)</a>
+</li>
+      <li><a href="modules.html#oscilate.MMS.visualisation.Transient_response">Transient_response (class in oscilate.MMS.visualisation)</a>
 </li>
   </ul></td>
 </tr></table>

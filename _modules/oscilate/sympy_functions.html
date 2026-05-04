@@ -46,12 +46,13 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../readme.html">README</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../mms.html">The Method of Multiple Scales</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../modules.html">Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../architecture.html">Main module architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">Modules</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../examples.html">Application examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../sympy_basics.html">SymPy basics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../citation.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../references.html">References</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../notice.html">Legal notices</a></li>
 </ul>
@@ -165,7 +166,7 @@
     <span class="c1"># Check the solvability</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">check_solvability</span><span class="p">(</span><span class="n">poly</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The polynomial cannot be solved&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">None</span>
 
     <span class="c1"># Polynomial terms</span>
     <span class="n">dic_x</span> <span class="o">=</span> <span class="n">polynomial_terms</span><span class="p">(</span><span class="n">poly</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
