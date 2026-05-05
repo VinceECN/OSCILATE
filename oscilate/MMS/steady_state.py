@@ -1186,8 +1186,8 @@ class Steady_state:
         detJ: sympy.Expr
             The determinant of the matrix.
         sol_type: str, optional
-            The solution type, among {"forced", "bbc", "LC"}
-            Default is forced.
+            The solution type, among `{"forced", "bbc", "LC"}`
+            Default is `"forced"`.
         var_a: bool, optional
             Consider the :math:`i^{\textrm{th}}` oscillator's amplitude :math:`a_i` as the variable and find the bifurcation curve as an expression for :math:`a_i`.
             `detJ` is rarely a quadratic polynomial in :math:`a_i`, so this can rarely be computed easily.
@@ -1263,8 +1263,8 @@ class Steady_state:
         trJ: sympy.Expr
             The trace of the matrix.
         sol_type: str, optional
-            The solution type, among {"forced", "bbc", "LC"}
-            Default is forced.
+            The solution type, among `{"forced", "bbc", "LC"}`
+            Default is `"forced"`.
         var_a: bool, optional
             Consider the :math:`i^{\textrm{th}}` oscillator's amplitude :math:`a_i` as the variable and find the trace curve as an expression for :math:`a_i`.
             Default is `False`.

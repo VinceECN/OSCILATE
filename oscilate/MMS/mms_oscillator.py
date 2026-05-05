@@ -297,33 +297,29 @@ class Multiple_scales_oscillator(Multiple_scales_system):
 
            After cancelling the secular terms the higher order equations are solved successively to express the higher order solutions :math:`x_{i,j}(\boldsymbol{t}),\; j>0` in terms of the leading order ones.
 
-        #. :meth:`~oscilate.MMS.mms.Multiple_scales_system.autonomous_phases`: The phase coordinates are changed from :math:`\phi_i(\boldsymbol{t}_s)` to :math:`\beta_i(\boldsymbol{t}_s)` to cancel the slow time :math:`t_1` in the secular terms. This will be used afterwards to obtain an autonomous system.
-
         #. :meth:`~oscilate.MMS.mms.Multiple_scales_system.apply_MMS_shared`: The functions that are shared among various MMS forms (oscillator and complex). This calls
 
-            #. :meth:`~oscilate.MMS.mms.Multiple_scales_system.autonomous_phases`: The phase coordinates are changed from :math:`\phi_i(\boldsymbol{t}_s)` to :math:`\beta_i(\boldsymbol{t}_s)` to cancel the slow time :math:`t_1` in the secular terms. This will be used afterwards to obtain an autonomous system.
+            #.  :meth:`~oscilate.MMS.mms.Multiple_scales_system.autonomous_phases`: The phase coordinates are changed from :math:`\phi_i(\boldsymbol{t}_s)` to :math:`\beta_i(\boldsymbol{t}_s)` to eliminate the slow time :math:`t_1` from the secular terms. This will be used afterwards to obtain an autonomous system.
 
-            #. :meth:`~oscilate.MMS.mms.Multiple_scales_system.modulation_equations`: The secular conditions are split into real and imaginary parts, polar coordinates are used and the autonomous phases are introduced,
-            resulting in an autonomous system of modulation equations on polar coordinates. 
-            Equations come by two, one representing the amplitude modulation while the other represents the phase's, such that
+            #.  :meth:`~oscilate.MMS.mms.Multiple_scales_system.modulation_equations`: The secular conditions are split into real and imaginary parts, polar coordinates are used and the autonomous phases are introduced, resulting in an autonomous system of modulation equations on polar coordinates. Equations come by two, one representing the amplitude modulation while the other represents the phase's, such that
             
-            .. math::
-                \begin{cases}
-                \textrm{D}_{j} a_i(\boldsymbol{t}_s) & = f_{a_i}^{(j)}(\boldsymbol{a}, \boldsymbol{\beta}), \\
-                a_i \textrm{D}_{j} \beta_i(\boldsymbol{t}_s) & = f_{\beta_i}^{(j)}(\boldsymbol{a}, \boldsymbol{\beta}).
-                \end{cases}
+                .. math::
+                    \begin{cases}
+                    \textrm{D}_{j} a_i(\boldsymbol{t}_s) & = f_{a_i}^{(j)}(\boldsymbol{a}, \boldsymbol{\beta}), \\
+                    a_i \textrm{D}_{j} \beta_i(\boldsymbol{t}_s) & = f_{\beta_i}^{(j)}(\boldsymbol{a}, \boldsymbol{\beta}).
+                    \end{cases}
+                    
+                This is the key result of the MMS. 
 
-            This is the key result of the MMS. 
+            #.  :meth:`~oscilate.MMS.mms.Multiple_scales_system.reconstitution`: The modulations on each time scale are now combined to reintroduce the physical time, resulting in a system of the form
 
-            #. :meth:`~oscilate.MMS.mms.Multiple_scales_system.reconstitution`: The modulations on each time scale are now combined to reintroduce the physical time, resulting in a system of the form
+                .. math::
+                    \begin{cases}
+                    \dfrac{\textrm{d}}{dt} a_i(t) & = f_{a_i}(\boldsymbol{a}, \boldsymbol{\beta}), \\
+                    a_i \dfrac{\textrm{d}}{dt} \beta_i(t) & = f_{\beta_i}(\boldsymbol{a}, \boldsymbol{\beta}).
+                    \end{cases}
 
-            .. math::
-                \begin{cases}
-                \dfrac{\textrm{d}}{dt} a_i(t) & = f_{a_i}(\boldsymbol{a}, \boldsymbol{\beta}), \\
-                a_i \dfrac{\textrm{d}}{dt} \beta_i(t) & = f_{\beta_i}(\boldsymbol{a}, \boldsymbol{\beta}).
-                \end{cases}
-
-            This is known as the reconstitution method.
+                This is known as the reconstitution method.
 
         #. :meth:`~oscilate.MMS.mms.Multiple_scales_system.sol_x_polar`: The leading and higher order solutions are rewritten in terms of polar coordinates using :math:`\cos` and :math:`\sin` functions.
         """

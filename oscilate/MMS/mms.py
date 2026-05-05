@@ -415,7 +415,7 @@ class Multiple_scales_system:
         r"""
         Apply the MMS. 
         This method contains the operations that are common to the oscillator and complex form. These include a change of phase variables to make the system autonomous, a separation of solvability conditions into real and imaginary parts, and their reconstitution, resulting in the modulation equations.
-        See :meth:`~oscilate.MMS.mms_oscillator.Multiple_scales_oscillator.apply_func` or :meth:`~oscilate.MMS.mms_complex.Multiple_scales_complex.apply_func` for details.
+        See :meth:`~oscilate.MMS.mms_oscillator.Multiple_scales_oscillator.apply_MMS` or :meth:`~oscilate.MMS.mms_complex.Multiple_scales_complex.apply_MMS` for details.
         """
         
         # Change the phase coordinates for autonomous purposes
