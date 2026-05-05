@@ -456,7 +456,7 @@ The introduction of that absolute phase is useful to write the time response in 
 <span class="sig-name descname"><span class="pre">apply_MMS_shared</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/oscilate/MMS/mms.html#Multiple_scales_system.apply_MMS_shared"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oscilate.MMS.mms.Multiple_scales_system.apply_MMS_shared" title="Link to this definition"></a></dt>
 <dd><p>Apply the MMS.
 This method contains the operations that are common to the oscillator and complex form. These include a change of phase variables to make the system autonomous, a separation of solvability conditions into real and imaginary parts, and their reconstitution, resulting in the modulation equations.
-See <code class="xref py py-meth docutils literal notranslate"><span class="pre">apply_func()</span></code> or <code class="xref py py-meth docutils literal notranslate"><span class="pre">apply_func()</span></code> for details.</p>
+See <a class="reference internal" href="#oscilate.MMS.mms_oscillator.Multiple_scales_oscillator.apply_MMS" title="oscilate.MMS.mms_oscillator.Multiple_scales_oscillator.apply_MMS"><code class="xref py py-meth docutils literal notranslate"><span class="pre">apply_MMS()</span></code></a> or <a class="reference internal" href="#oscilate.MMS.mms_complex.Multiple_scales_complex.apply_MMS" title="oscilate.MMS.mms_complex.Multiple_scales_complex.apply_MMS"><code class="xref py py-meth docutils literal notranslate"><span class="pre">apply_MMS()</span></code></a> for details.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -808,30 +808,27 @@ Each equation takes the form</p>
 \[\textrm{D}_{j} A_i(\boldsymbol{t}_s) = f_{A_i}^{(j)}(\boldsymbol{A}, t_1).\]</div>
 <p>After cancelling the secular terms the higher order equations are solved successively to express the higher order solutions <span class="math notranslate nohighlight">\(x_{i,j}(\boldsymbol{t}),\; j&gt;0\)</span> in terms of the leading order ones.</p>
 </li>
-<li><p><a class="reference internal" href="#oscilate.MMS.mms.Multiple_scales_system.autonomous_phases" title="oscilate.MMS.mms.Multiple_scales_system.autonomous_phases"><code class="xref py py-meth docutils literal notranslate"><span class="pre">autonomous_phases()</span></code></a>: The phase coordinates are changed from <span class="math notranslate nohighlight">\(\phi_i(\boldsymbol{t}_s)\)</span> to <span class="math notranslate nohighlight">\(\beta_i(\boldsymbol{t}_s)\)</span> to cancel the slow time <span class="math notranslate nohighlight">\(t_1\)</span> in the secular terms. This will be used afterwards to obtain an autonomous system.</p></li>
 <li><p><a class="reference internal" href="#oscilate.MMS.mms.Multiple_scales_system.apply_MMS_shared" title="oscilate.MMS.mms.Multiple_scales_system.apply_MMS_shared"><code class="xref py py-meth docutils literal notranslate"><span class="pre">apply_MMS_shared()</span></code></a>: The functions that are shared among various MMS forms (oscillator and complex). This calls</p>
 <blockquote>
-<div><ol class="arabic simple">
-<li><p><a class="reference internal" href="#oscilate.MMS.mms.Multiple_scales_system.autonomous_phases" title="oscilate.MMS.mms.Multiple_scales_system.autonomous_phases"><code class="xref py py-meth docutils literal notranslate"><span class="pre">autonomous_phases()</span></code></a>: The phase coordinates are changed from <span class="math notranslate nohighlight">\(\phi_i(\boldsymbol{t}_s)\)</span> to <span class="math notranslate nohighlight">\(\beta_i(\boldsymbol{t}_s)\)</span> to cancel the slow time <span class="math notranslate nohighlight">\(t_1\)</span> in the secular terms. This will be used afterwards to obtain an autonomous system.</p></li>
-</ol>
-<p>#. <a class="reference internal" href="#oscilate.MMS.mms.Multiple_scales_system.modulation_equations" title="oscilate.MMS.mms.Multiple_scales_system.modulation_equations"><code class="xref py py-meth docutils literal notranslate"><span class="pre">modulation_equations()</span></code></a>: The secular conditions are split into real and imaginary parts, polar coordinates are used and the autonomous phases are introduced,
-resulting in an autonomous system of modulation equations on polar coordinates.
-Equations come by two, one representing the amplitude modulation while the other represents the phase’s, such that</p>
+<div><ol class="arabic">
+<li><p><a class="reference internal" href="#oscilate.MMS.mms.Multiple_scales_system.autonomous_phases" title="oscilate.MMS.mms.Multiple_scales_system.autonomous_phases"><code class="xref py py-meth docutils literal notranslate"><span class="pre">autonomous_phases()</span></code></a>: The phase coordinates are changed from <span class="math notranslate nohighlight">\(\phi_i(\boldsymbol{t}_s)\)</span> to <span class="math notranslate nohighlight">\(\beta_i(\boldsymbol{t}_s)\)</span> to eliminate the slow time <span class="math notranslate nohighlight">\(t_1\)</span> from the secular terms. This will be used afterwards to obtain an autonomous system.</p></li>
+<li><p><a class="reference internal" href="#oscilate.MMS.mms.Multiple_scales_system.modulation_equations" title="oscilate.MMS.mms.Multiple_scales_system.modulation_equations"><code class="xref py py-meth docutils literal notranslate"><span class="pre">modulation_equations()</span></code></a>: The secular conditions are split into real and imaginary parts, polar coordinates are used and the autonomous phases are introduced, resulting in an autonomous system of modulation equations on polar coordinates. Equations come by two, one representing the amplitude modulation while the other represents the phase’s, such that</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{cases}
 \textrm{D}_{j} a_i(\boldsymbol{t}_s) &amp; = f_{a_i}^{(j)}(\boldsymbol{a}, \boldsymbol{\beta}), \\
 a_i \textrm{D}_{j} \beta_i(\boldsymbol{t}_s) &amp; = f_{\beta_i}^{(j)}(\boldsymbol{a}, \boldsymbol{\beta}).
 \end{cases}\end{split}\]</div>
 <p>This is the key result of the MMS.</p>
-<ol class="arabic simple">
-<li><p><a class="reference internal" href="#oscilate.MMS.mms.Multiple_scales_system.reconstitution" title="oscilate.MMS.mms.Multiple_scales_system.reconstitution"><code class="xref py py-meth docutils literal notranslate"><span class="pre">reconstitution()</span></code></a>: The modulations on each time scale are now combined to reintroduce the physical time, resulting in a system of the form</p></li>
-</ol>
+</li>
+<li><p><a class="reference internal" href="#oscilate.MMS.mms.Multiple_scales_system.reconstitution" title="oscilate.MMS.mms.Multiple_scales_system.reconstitution"><code class="xref py py-meth docutils literal notranslate"><span class="pre">reconstitution()</span></code></a>: The modulations on each time scale are now combined to reintroduce the physical time, resulting in a system of the form</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{cases}
 \dfrac{\textrm{d}}{dt} a_i(t) &amp; = f_{a_i}(\boldsymbol{a}, \boldsymbol{\beta}), \\
 a_i \dfrac{\textrm{d}}{dt} \beta_i(t) &amp; = f_{\beta_i}(\boldsymbol{a}, \boldsymbol{\beta}).
 \end{cases}\end{split}\]</div>
 <p>This is known as the reconstitution method.</p>
+</li>
+</ol>
 </div></blockquote>
 </li>
 <li><p><a class="reference internal" href="#oscilate.MMS.mms.Multiple_scales_system.sol_x_polar" title="oscilate.MMS.mms.Multiple_scales_system.sol_x_polar"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sol_x_polar()</span></code></a>: The leading and higher order solutions are rewritten in terms of polar coordinates using <span class="math notranslate nohighlight">\(\cos\)</span> and <span class="math notranslate nohighlight">\(\sin\)</span> functions.</p></li>
@@ -1003,27 +1000,25 @@ Each equation takes the form</p>
 </li>
 <li><p><a class="reference internal" href="#oscilate.MMS.mms.Multiple_scales_system.apply_MMS_shared" title="oscilate.MMS.mms.Multiple_scales_system.apply_MMS_shared"><code class="xref py py-meth docutils literal notranslate"><span class="pre">apply_MMS_shared()</span></code></a>: The functions that are shared among various MMS forms (oscillator and complex). This calls</p>
 <blockquote>
-<div><ol class="arabic simple">
-<li><p><a class="reference internal" href="#oscilate.MMS.mms.Multiple_scales_system.autonomous_phases" title="oscilate.MMS.mms.Multiple_scales_system.autonomous_phases"><code class="xref py py-meth docutils literal notranslate"><span class="pre">autonomous_phases()</span></code></a>: The phase coordinates are changed from <span class="math notranslate nohighlight">\(\phi_i(\boldsymbol{t}_s)\)</span> to <span class="math notranslate nohighlight">\(\beta_i(\boldsymbol{t}_s)\)</span> to cancel the slow time <span class="math notranslate nohighlight">\(t_1\)</span> in the secular terms. This will be used afterwards to obtain an autonomous system.</p></li>
-</ol>
-<p>#. <a class="reference internal" href="#oscilate.MMS.mms.Multiple_scales_system.modulation_equations" title="oscilate.MMS.mms.Multiple_scales_system.modulation_equations"><code class="xref py py-meth docutils literal notranslate"><span class="pre">modulation_equations()</span></code></a>: The secular conditions are split into real and imaginary parts, polar coordinates are used and the autonomous phases are introduced,
-resulting in an autonomous system of modulation equations on polar coordinates.
-Equations come by two, one representing the amplitude modulation while the other represents the phase’s, such that</p>
+<div><ol class="arabic">
+<li><p><a class="reference internal" href="#oscilate.MMS.mms.Multiple_scales_system.autonomous_phases" title="oscilate.MMS.mms.Multiple_scales_system.autonomous_phases"><code class="xref py py-meth docutils literal notranslate"><span class="pre">autonomous_phases()</span></code></a>: The phase coordinates are changed from <span class="math notranslate nohighlight">\(\phi_i(\boldsymbol{t}_s)\)</span> to <span class="math notranslate nohighlight">\(\beta_i(\boldsymbol{t}_s)\)</span> to eliminate the slow time <span class="math notranslate nohighlight">\(t_1\)</span> from the secular terms. This will be used afterwards to obtain an autonomous system.</p></li>
+<li><p><a class="reference internal" href="#oscilate.MMS.mms.Multiple_scales_system.modulation_equations" title="oscilate.MMS.mms.Multiple_scales_system.modulation_equations"><code class="xref py py-meth docutils literal notranslate"><span class="pre">modulation_equations()</span></code></a>: The secular conditions are split into real and imaginary parts, polar coordinates are used and the autonomous phases are introduced, resulting in an autonomous system of modulation equations on polar coordinates. Equations come by two, one representing the amplitude modulation while the other represents the phase’s, such that</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{cases}
 \textrm{D}_{j} a_i(\boldsymbol{t}_s) &amp; = f_{a_i}^{(j)}(\boldsymbol{a}, \boldsymbol{\beta}), \\
 a_i \textrm{D}_{j} \beta_i(\boldsymbol{t}_s) &amp; = f_{\beta_i}^{(j)}(\boldsymbol{a}, \boldsymbol{\beta}).
 \end{cases}\end{split}\]</div>
 <p>This is the key result of the MMS.</p>
-<ol class="arabic simple">
-<li><p><a class="reference internal" href="#oscilate.MMS.mms.Multiple_scales_system.reconstitution" title="oscilate.MMS.mms.Multiple_scales_system.reconstitution"><code class="xref py py-meth docutils literal notranslate"><span class="pre">reconstitution()</span></code></a>: The modulations on each time scale are now combined to reintroduce the physical time, resulting in a system of the form</p></li>
-</ol>
+</li>
+<li><p><a class="reference internal" href="#oscilate.MMS.mms.Multiple_scales_system.reconstitution" title="oscilate.MMS.mms.Multiple_scales_system.reconstitution"><code class="xref py py-meth docutils literal notranslate"><span class="pre">reconstitution()</span></code></a>: The modulations on each time scale are now combined to reintroduce the physical time, resulting in a system of the form</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{cases}
 \dfrac{\textrm{d}}{dt} a_i(t) &amp; = f_{a_i}(\boldsymbol{a}, \boldsymbol{\beta}), \\
 a_i \dfrac{\textrm{d}}{dt} \beta_i(t) &amp; = f_{\beta_i}(\boldsymbol{a}, \boldsymbol{\beta}).
 \end{cases}\end{split}\]</div>
 <p>This is known as the reconstitution method.</p>
+</li>
+</ol>
 </div></blockquote>
 </li>
 <li><p><a class="reference internal" href="#oscilate.MMS.mms.Multiple_scales_system.sol_x_polar" title="oscilate.MMS.mms.Multiple_scales_system.sol_x_polar"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sol_x_polar()</span></code></a>: The leading and higher order solutions are rewritten in terms of polar coordinates using <span class="math notranslate nohighlight">\(\cos\)</span> and <span class="math notranslate nohighlight">\(\sin\)</span> functions.</p></li>
@@ -1302,8 +1297,8 @@ Additional substitutions were performed to get rid of polar coordinates.</p></li
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>detJ</strong> (<em>sympy.Expr</em>) – The determinant of the matrix.</p></li>
-<li><p><strong>sol_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>, </em><em>optional</em>) – The solution type, among {“forced”, “bbc”, “LC”}
-Default is forced.</p></li>
+<li><p><strong>sol_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>, </em><em>optional</em>) – The solution type, among <cite>{“forced”, “bbc”, “LC”}</cite>
+Default is <cite>“forced”</cite>.</p></li>
 <li><p><strong>var_a</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a><em>, </em><em>optional</em>) – Consider the <span class="math notranslate nohighlight">\(i^{\textrm{th}}\)</span> oscillator’s amplitude <span class="math notranslate nohighlight">\(a_i\)</span> as the variable and find the bifurcation curve as an expression for <span class="math notranslate nohighlight">\(a_i\)</span>.
 <cite>detJ</cite> is rarely a quadratic polynomial in <span class="math notranslate nohighlight">\(a_i\)</span>, so this can rarely be computed easily.
 Default is <cite>False</cite>.</p></li>
@@ -1611,8 +1606,8 @@ Default is <cite>dict()</cite>.</p></li>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>trJ</strong> (<em>sympy.Expr</em>) – The trace of the matrix.</p></li>
-<li><p><strong>sol_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>, </em><em>optional</em>) – The solution type, among {“forced”, “bbc”, “LC”}
-Default is forced.</p></li>
+<li><p><strong>sol_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>, </em><em>optional</em>) – The solution type, among <cite>{“forced”, “bbc”, “LC”}</cite>
+Default is <cite>“forced”</cite>.</p></li>
 <li><p><strong>var_a</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a><em>, </em><em>optional</em>) – Consider the <span class="math notranslate nohighlight">\(i^{\textrm{th}}\)</span> oscillator’s amplitude <span class="math notranslate nohighlight">\(a_i\)</span> as the variable and find the trace curve as an expression for <span class="math notranslate nohighlight">\(a_i\)</span>.
 Default is <cite>False</cite>.</p></li>
 <li><p><strong>var_sig</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a><em>, </em><em>optional</em>) – Consider the detuning <span class="math notranslate nohighlight">\(\sigma\)</span> as the variable and find the trace curve as an expression for <span class="math notranslate nohighlight">\(\sigma\)</span>.
