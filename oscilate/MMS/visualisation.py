@@ -651,7 +651,7 @@ def numpise_omegaMMS(mms, param):
     ----------
     mms: Multiple_scales_system
     param: dict
-        See :func:`~MMS.sympy_functions.sympy_to_numpy`.
+        See :func:`~oscilate.sympy_functions.sympy_to_numpy`.
 
     Returns
     -------
@@ -670,7 +670,7 @@ def numpise_omega_bbc(mms, ss, param):
     mms: Multiple_scales_system
     ss: Steady_state
     param: dict
-        See :func:`~MMS.sympy_functions.sympy_to_numpy`.
+        See :func:`~oscilate.sympy_functions.sympy_to_numpy`.
 
     Returns
     -------
@@ -689,7 +689,7 @@ def numpise_xmax_bbc(mms, ss, param):
     mms: Multiple_scales_system
     ss: Steady_state
     param: dict
-        See :func:`~MMS.sympy_functions.sympy_to_numpy`.
+        See :func:`~oscilate.sympy_functions.sympy_to_numpy`.
 
     Returns
     -------
@@ -708,7 +708,7 @@ def numpise_omega_FRC(mms, ss, param):
     mms: Multiple_scales_system
     ss: Steady_state
     param: dict
-        See :func:`~MMS.sympy_functions.sympy_to_numpy`.
+        See :func:`~oscilate.sympy_functions.sympy_to_numpy`.
 
     Returns
     -------
@@ -727,7 +727,7 @@ def numpise_omega_bif(mms, ss, param):
     mms: Multiple_scales_system
     ss: Steady_state
     param: dict
-        See :func:`~MMS.sympy_functions.sympy_to_numpy`.
+        See :func:`~oscilate.sympy_functions.sympy_to_numpy`.
 
     Returns
     -------
@@ -747,7 +747,7 @@ def numpise_phase(mms, ss, dyn, param, omega, F):
     ss: Steady_state
     dyn: Dynamical_system
     param: dict
-        See :func:`~MMS.sympy_functions.sympy_to_numpy`.
+        See :func:`~oscilate.sympy_functions.sympy_to_numpy`.
     omega: numpy.ndarray
         The frequency array.
     F: numpy.ndarray
@@ -775,7 +775,7 @@ def numpise_F_ARC(mms, ss, param):
     mms: Multiple_scales_system
     ss: Steady_state
     param: dict
-        See :func:`~MMS.sympy_functions.sympy_to_numpy`.
+        See :func:`~oscilate.sympy_functions.sympy_to_numpy`.
 
     Returns
     -------
@@ -796,7 +796,7 @@ def numpise_transient_slow_time(mms, param):
     ----------
     mms: Multiple_scales_system
     param: dict
-        See :func:`~MMS.sympy_functions.sympy_to_numpy`.
+        See :func:`~oscilate.sympy_functions.sympy_to_numpy`.
 
     Returns
     -------
@@ -825,7 +825,7 @@ def numpise_transient_trajectory(mms, param):
     ----------
     mms: Multiple_scales_system
     param: dict
-        See :func:`~MMS.sympy_functions.sympy_to_numpy`.
+        See :func:`~oscilate.sympy_functions.sympy_to_numpy`.
 
     Returns
     -------
@@ -849,7 +849,7 @@ def numpise_LC(mms, ss, param):
     mms: Multiple_scales_system
     ss: Steady_state_system
     param: dict
-        See :func:`~MMS.sympy_functions.sympy_to_numpy`.
+        See :func:`~oscilate.sympy_functions.sympy_to_numpy`.
 
     Returns
     -------
@@ -876,7 +876,7 @@ def numpise_LC_trajectory(mms, ss, param):
     mms: Multiple_scales_system
     ss: Steady_state_system
     param: dict
-        See :func:`~MMS.sympy_functions.sympy_to_numpy`.
+        See :func:`~oscilate.sympy_functions.sympy_to_numpy`.
 
     Returns
     -------
