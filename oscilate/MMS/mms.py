@@ -5,7 +5,7 @@ Started on Tue Feb 15 17:25:59 2022
 @author: Vincent MAHE
 
 Analyse systems of coupled nonlinear equations using the Method of Multiple Scales (MMS).
-This sub-module defines the multiple scales system from the dynamical one, and the application of the MMS.
+This sub-module defines the multiple scales system from the dynamical one, and allows to apply the MMS.
 """
 
 #%% Imports and initialisation

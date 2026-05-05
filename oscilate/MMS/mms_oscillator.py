@@ -5,7 +5,7 @@ Started on Tue Feb 15 17:25:59 2022
 @author: Vincent MAHE
 
 Analyse systems of coupled nonlinear equations using the Method of Multiple Scales (MMS).
-This sub-module defines the multiple scales system from the dynamical one with an oscillator form.
+This sub-module defines the multiple scales system from the dynamical one with an oscillator form, i.e. 2nd order real differential equations.
 It also carries out the MMS derivations, still in oscillator form.
 """
 
