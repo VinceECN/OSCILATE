@@ -164,8 +164,10 @@ It is therefore chosen here to scale the damping and forcing at maximum order.</
 span.prompt1:before {
   content: " ";
 }
-</style><span class="prompt1"><span class="n">mms</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">fbeta</span>  <span class="c1"># Display the symbolic expression for :math:`f_\beta(a, \beta)`</span></span>
-</pre></div></div><p>in the Interactive Window.</p>
+</style><span class="prompt1"><span class="n">mms</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">fbeta</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># Display the symbolic expression for `f_beta(a, beta)`</span></span>
+</pre></div></div><p>in the Interactive Window, and the output will be</p>
+<div class="math notranslate nohighlight">
+\[\epsilon^{3} \left(\frac{\tilde{F} \cos{\left(\beta_{0} \right)}}{2 \omega_{0} a_{0}} - \frac{123 \tilde{\gamma}^{3} a_{0}^{6}}{8192 \omega_{0}^{5}}\right) a_{0} + \frac{15 \epsilon^{2} \tilde{\gamma}^{2} a_{0}^{5}}{256 \omega_{0}^{3}} + \epsilon \left(\sigma - \frac{3 \tilde{\gamma} a_{0}^{2}}{8 \omega_{0}}\right) a_{0}.\]</div>
 </li>
 <li><p>Evaluate the MMS results at steady state. The solutions are stored in <code class="docutils literal notranslate"><span class="pre">ss.sol</span></code> (e.g., <code class="docutils literal notranslate"><span class="pre">ss.sol.fa</span></code>, <code class="docutils literal notranslate"><span class="pre">ss.sol.fbeta</span></code>).</p></li>
 <li><p>Compute the forced response and the backbone curve. These results are stored in <code class="docutils literal notranslate"><span class="pre">ss.sol_forced</span></code> and <code class="docutils literal notranslate"><span class="pre">ss.sol_bbc</span></code> (e.g., <code class="docutils literal notranslate"><span class="pre">ss.sol_forced.sigma</span></code>, <code class="docutils literal notranslate"><span class="pre">ss.sol_forced.F</span></code>, <code class="docutils literal notranslate"><span class="pre">ss.sol_bbc.omega</span></code>).</p></li>

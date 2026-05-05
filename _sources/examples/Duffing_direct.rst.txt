@@ -58,9 +58,12 @@ The script below allows to
 
   .. prompt:: python
 
-     mms.sol.fbeta  # Display the symbolic expression for :math:`f_\beta(a, \beta)`
+     mms.sol.fbeta[0]  # Display the symbolic expression for `f_beta(a, beta)`
 
-  in the Interactive Window.
+  in the Interactive Window, and the output will be
+
+  .. math::
+     \epsilon^{3} \left(\frac{\tilde{F} \cos{\left(\beta_{0} \right)}}{2 \omega_{0} a_{0}} - \frac{123 \tilde{\gamma}^{3} a_{0}^{6}}{8192 \omega_{0}^{5}}\right) a_{0} + \frac{15 \epsilon^{2} \tilde{\gamma}^{2} a_{0}^{5}}{256 \omega_{0}^{3}} + \epsilon \left(\sigma - \frac{3 \tilde{\gamma} a_{0}^{2}}{8 \omega_{0}}\right) a_{0}.
 
 - Evaluate the MMS results at steady state. The solutions are stored in ``ss.sol`` (e.g., ``ss.sol.fa``, ``ss.sol.fbeta``).
 - Compute the forced response and the backbone curve. These results are stored in ``ss.sol_forced`` and ``ss.sol_bbc`` (e.g., ``ss.sol_forced.sigma``, ``ss.sol_forced.F``, ``ss.sol_bbc.omega``).
