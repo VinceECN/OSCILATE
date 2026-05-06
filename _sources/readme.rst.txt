@@ -3,7 +3,7 @@ README
 
 Presentation
 ------------
-The **OSCILATE** project allows the application of the **Method of Multiple Scales** (MMS) to a nonlinear equation or systems of :math:`N` coupled nonlinear equations
+The **OSCILATE** project allows the application of the **Method of Multiple Scales** (MMS) to a nonlinear equation or systems of :math:`N` coupled nonlinear equations.
 
 The source codes for **OSCILATE** (Oscillators' nonlinear analysis through SymboliC ImpLementATion of the mEthod of multiple scales) are hosted on `GitHub <https://github.com/VinceECN/OSCILATE>`_.
 
