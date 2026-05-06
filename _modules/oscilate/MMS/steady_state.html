@@ -731,7 +731,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_solve_bbc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">substitution_solve_dof</span><span class="p">(</span><span class="n">solve_dof</span><span class="p">)</span>
 
         <span class="c1"># Phase solution</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sol_bbc</span><span class="o">.</span><span class="n">beta</span> <span class="o">=</span> <span class="n">pi</span><span class="o">/</span><span class="mi">2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sol_bbc</span><span class="o">.</span><span class="n">beta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ratio_omega_osc</span><span class="p">[</span><span class="n">solve_dof</span><span class="p">]</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">ratio_omegaMMS</span> <span class="o">*</span> <span class="n">pi</span><span class="o">/</span><span class="mi">2</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_solve_bbc</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">beta</span><span class="p">[</span><span class="n">solve_dof</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">sol_bbc</span><span class="o">.</span><span class="n">beta</span><span class="p">))</span>
         
         <span class="c1"># Substitutions for the free response</span>
@@ -798,10 +798,19 @@
 <span class="sd">        dominates, such that</span>
 
 <span class="sd">        .. math::</span>
-<span class="sd">            t_{\textrm{max}} = \frac{\pi}{2} \frac{r_{\textrm{MMS}}}{r_i \omega}.</span>
+<span class="sd">            t_{\textrm{max}} = \beta_{i, \text{bbc}} \frac{r_{\textrm{MMS}}}{r_i \omega},</span>
+
+<span class="sd">        where :math:`\beta_{i, \text{bbc}}` denotes the phase value associated to the backbone curve.</span>
+<span class="sd">        Note that for a direct response,</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">            \beta_{i, \text{bbc}} = \frac{\pi}{2},</span>
+
+<span class="sd">        such that the forcing and displacement are in phase quadrature on the backbone curve. </span>
+<span class="sd">        This phase value at resonance is multiplied by a rational in the case of secondary resonance. </span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">tmax</span> <span class="o">=</span> <span class="n">pi</span><span class="o">/</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">ratio_omegaMMS</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ratio_omega_osc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sol_bbc</span><span class="o">.</span><span class="n">solve_dof</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">omega</span><span class="p">)</span>
+        <span class="n">tmax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sol_bbc</span><span class="o">.</span><span class="n">beta</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">ratio_omegaMMS</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ratio_omega_osc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sol_bbc</span><span class="o">.</span><span class="n">solve_dof</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">omega</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sol_bbc</span><span class="o">.</span><span class="n">xmax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sol_bbc</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">tmax</span><span class="p">)</span></div>
 
 
@@ -901,10 +910,12 @@
 <span class="sd">        dominates, such that</span>
 
 <span class="sd">        .. math::</span>
-<span class="sd">            t_{\textrm{max}} = \frac{\pi}{2} \frac{r_{\textrm{MMS}}}{r_i \omega}.</span>
+<span class="sd">            t_{\textrm{max}} = \beta_{i, \text{LC}} \frac{r_{\textrm{MMS}}}{r_i \omega},</span>
+
+<span class="sd">        where :math:`\beta_{i, \text{LC}}` denotes the phase value associated to the Limit cycle.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">tmax</span> <span class="o">=</span> <span class="n">pi</span><span class="o">/</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">ratio_omegaMMS</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ratio_omega_osc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sol_LC</span><span class="o">.</span><span class="n">solve_dof</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">omega</span><span class="p">)</span>
+        <span class="n">tmax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sol_LC</span><span class="o">.</span><span class="n">beta</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">ratio_omegaMMS</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ratio_omega_osc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sol_LC</span><span class="o">.</span><span class="n">solve_dof</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">omega</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sol_LC</span><span class="o">.</span><span class="n">xmax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sol_LC</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">tmax</span><span class="p">)</span></div>
 
 

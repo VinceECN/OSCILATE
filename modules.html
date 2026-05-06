@@ -1469,7 +1469,8 @@ The choice of the time <span class="math notranslate nohighlight">\(t_{\textrm{m
 \[x^{\textrm{h}}_{i,0}(t) = a_i \cos\left( \frac{r_i}{r_{\textrm{MMS}}} \omega t - \beta_i\right),\]</div>
 <p>dominates, such that</p>
 <div class="math notranslate nohighlight">
-\[t_{\textrm{max}} = \frac{\pi}{2} \frac{r_{\textrm{MMS}}}{r_i \omega}.\]</div>
+\[t_{\textrm{max}} = \beta_{i, \text{LC}} \frac{r_{\textrm{MMS}}}{r_i \omega},\]</div>
+<p>where <span class="math notranslate nohighlight">\(\beta_{i, \text{LC}}\)</span> denotes the phase value associated to the Limit cycle.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1520,7 +1521,13 @@ The choice of the time <span class="math notranslate nohighlight">\(t_{\textrm{m
 \[x^{\textrm{h}}_{i,0}(t) = a_i \cos\left( \frac{r_i}{r_{\textrm{MMS}}} \omega t - \beta_i\right),\]</div>
 <p>dominates, such that</p>
 <div class="math notranslate nohighlight">
-\[t_{\textrm{max}} = \frac{\pi}{2} \frac{r_{\textrm{MMS}}}{r_i \omega}.\]</div>
+\[t_{\textrm{max}} = \beta_{i, \text{bbc}} \frac{r_{\textrm{MMS}}}{r_i \omega},\]</div>
+<p>where <span class="math notranslate nohighlight">\(\beta_{i, \text{bbc}}\)</span> denotes the phase value associated to the backbone curve.
+Note that for a direct response,</p>
+<div class="math notranslate nohighlight">
+\[\beta_{i, \text{bbc}} = \frac{\pi}{2},\]</div>
+<p>such that the forcing and displacement are in phase quadrature on the backbone curve.
+This phase value at resonance is multiplied by a rational in the case of secondary resonance.</p>
 </dd></dl>
 
 <dl class="py method">
