@@ -601,7 +601,7 @@ class Multiple_scales_system:
         
         # Orders to rewrite
         if orders_polar=="all":
-            orders_polar = range(self.Ne+1)
+            orders_polar = list(range(self.Ne+1))
         elif not isinstance(orders_polar, list):
             orders_polar = [orders_polar]
         if max(orders_polar)>self.Ne:

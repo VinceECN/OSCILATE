@@ -555,7 +555,7 @@ class Limit_cycle:
     def __init__(self, mms, ss, param, Npts=1000):
         
         # Information
-        print("Converting sympy transient response expressions to numpy")
+        print("Converting sympy limit cycle expressions to numpy")
 
         # Construct a dictionary of substitutions
         param_dic = {}

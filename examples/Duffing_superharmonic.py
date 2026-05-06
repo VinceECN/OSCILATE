@@ -29,7 +29,7 @@ param_scaled, sub_scaling = MMS.scale_parameters(param_to_scale, scaling, eps)
 mms = MMS.Multiple_scales_oscillator(dyn, eps, Ne, omega_ref, sub_scaling, ratio_omegaMMS=ratio_omegaMMS)
 
 # Application of the MMS
-mms.apply_MMS(orders_polar=0)
+mms.apply_MMS(orders_polar="all")
 
 # Evaluation at steady state
 ss = MMS.Steady_state(mms)
