@@ -728,7 +728,7 @@
         
         <span class="c1"># Orders to rewrite</span>
         <span class="k">if</span> <span class="n">orders_polar</span><span class="o">==</span><span class="s2">&quot;all&quot;</span><span class="p">:</span>
-            <span class="n">orders_polar</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Ne</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">orders_polar</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Ne</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
         <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">orders_polar</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
             <span class="n">orders_polar</span> <span class="o">=</span> <span class="p">[</span><span class="n">orders_polar</span><span class="p">]</span>
         <span class="k">if</span> <span class="nb">max</span><span class="p">(</span><span class="n">orders_polar</span><span class="p">)</span><span class="o">&gt;</span><span class="bp">self</span><span class="o">.</span><span class="n">Ne</span><span class="p">:</span>

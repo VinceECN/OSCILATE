@@ -191,7 +191,7 @@ This configuration was studied by Nayfeh and Mook <span id="id1">[<a class="refe
 <span class="linenos">29</span><span class="n">mms</span> <span class="o">=</span> <span class="n">MMS</span><span class="o">.</span><span class="n">Multiple_scales_oscillator</span><span class="p">(</span><span class="n">dyn</span><span class="p">,</span> <span class="n">eps</span><span class="p">,</span> <span class="n">Ne</span><span class="p">,</span> <span class="n">omega_ref</span><span class="p">,</span> <span class="n">sub_scaling</span><span class="p">,</span> <span class="n">ratio_omegaMMS</span><span class="o">=</span><span class="n">ratio_omegaMMS</span><span class="p">)</span>
 <span class="linenos">30</span>
 <span class="linenos">31</span><span class="c1"># Application of the MMS</span>
-<span class="linenos">32</span><span class="n">mms</span><span class="o">.</span><span class="n">apply_MMS</span><span class="p">(</span><span class="n">orders_polar</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="linenos">32</span><span class="n">mms</span><span class="o">.</span><span class="n">apply_MMS</span><span class="p">(</span><span class="n">orders_polar</span><span class="o">=</span><span class="s2">&quot;all&quot;</span><span class="p">)</span>
 <span class="linenos">33</span>
 <span class="linenos">34</span><span class="c1"># Evaluation at steady state</span>
 <span class="linenos">35</span><span class="n">ss</span> <span class="o">=</span> <span class="n">MMS</span><span class="o">.</span><span class="n">Steady_state</span><span class="p">(</span><span class="n">mms</span><span class="p">)</span>
