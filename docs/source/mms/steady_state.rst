@@ -18,7 +18,7 @@ At steady state, the solutions' amplitudes and phases are time-independent. One 
 and the homogeneous steady state solutions take the form
 
 .. math::
-    x^{\textrm{h}}_{i,0}(t) = a_i \cos\left( \frac{r_i}{r_{\textrm{MMS}}} \omega t - \frac{r_i}{r_{\textrm{MMS}}} \beta_i \right).    
+    x^{\textrm{h}}_{i,0}(t) = a_i \cos\left( \frac{r_i}{r_{\textrm{MMS}}} \omega t - \beta_i \right).    
 
 MMS modulation equations at steady state
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
