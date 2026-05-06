@@ -1,8 +1,11 @@
-# Nonlinear systems considered
+# Presentation
+
 The **OSCILATE** (Oscillators' nonlinear analysis through Symbolic ImplementATion of the mEthod of multiple scales) project allows the application of the **Method of Multiple Scales** (MMS) to a nonlinear equation or systems of $N$ coupled nonlinear equations. 
 A full [Documentation](https://vinceECN.github.io/OSCILATE/) is available.
 
-The systems tackled are of the form
+# Nonlinear systems considered
+
+The nonlinear systems tackled are of the form
 
 $$
 \begin{cases}

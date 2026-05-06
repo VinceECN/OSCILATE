@@ -1,13 +1,16 @@
 
-Project Home
+Presentation
 ============
-The source codes for the **OSCILATE** (Oscillators' nonlinear analysis through SymboliC ImpLementATion of the mEthod of multiple scales) project are hosted on `GitHub <https://github.com/VinceECN/OSCILATE>`_. A full `documentation <https://vinceECN.github.io/OSCILATE/>`_ is available.
+
+The **OSCILATE** project allows the application of the **Method of Multiple Scales** (MMS) to a nonlinear equation or systems of :math:`N` coupled nonlinear equations. 
+
+The source codes of **OSCILATE** (Oscillators' nonlinear analysis through SymboliC ImpLementATion of the mEthod of multiple scales) are hosted on `GitHub <https://github.com/VinceECN/OSCILATE>`_. A full `documentation <https://vinceECN.github.io/OSCILATE/>`_ is available.
 
 
 Nonlinear systems considered
 ============================
 
-The **OSCILATE** project allows the application of the **Method of Multiple Scales** (MMS) to a nonlinear equation or systems of :math:`N` coupled nonlinear equations. The systems tackled are of the form
+The nonlinear systems tackled are of the form
 
 .. math::
     \begin{cases}
