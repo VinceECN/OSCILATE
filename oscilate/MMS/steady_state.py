@@ -595,7 +595,7 @@ class Steady_state:
         self.sub.sub_solve_bbc = self.substitution_solve_dof(solve_dof)
 
         # Phase solution
-        self.sol_bbc.beta = pi/2
+        self.sol_bbc.beta = self.ratio_omega_osc[solve_dof] / self.ratio_omegaMMS * pi/2
         self.sub.sub_solve_bbc.append((self.coord.beta[solve_dof], self.sol_bbc.beta))
         
         # Substitutions for the free response
@@ -656,10 +656,19 @@ class Steady_state:
         dominates, such that
 
         .. math::
-            t_{\textrm{max}} = \frac{\pi}{2} \frac{r_{\textrm{MMS}}}{r_i \omega}.
+            t_{\textrm{max}} = \beta_{i, \text{bbc}} \frac{r_{\textrm{MMS}}}{r_i \omega},
+
+        where :math:`\beta_{i, \text{bbc}}` denotes the phase value associated to the backbone curve.
+        Note that for a direct response,
+
+        .. math::
+            \beta_{i, \text{bbc}} = \frac{\pi}{2},
+
+        such that the forcing and displacement are in phase quadrature on the backbone curve. 
+        This phase value at resonance is multiplied by a rational in the case of secondary resonance. 
         """
 
-        tmax = pi/2 * self.ratio_omegaMMS / (self.ratio_omega_osc[self.sol_bbc.solve_dof]*self.omega)
+        tmax = self.sol_bbc.beta * self.ratio_omegaMMS / (self.ratio_omega_osc[self.sol_bbc.solve_dof]*self.omega)
         self.sol_bbc.xmax = self.sol_bbc.x.subs(self.t, tmax)
 
     def solve_LC(self, solve_dof=None, betai=0):
@@ -744,10 +753,12 @@ class Steady_state:
         dominates, such that
 
         .. math::
-            t_{\textrm{max}} = \frac{\pi}{2} \frac{r_{\textrm{MMS}}}{r_i \omega}.
+            t_{\textrm{max}} = \beta_{i, \text{LC}} \frac{r_{\textrm{MMS}}}{r_i \omega},
+
+        where :math:`\beta_{i, \text{LC}}` denotes the phase value associated to the Limit cycle.
         """
 
-        tmax = pi/2 * self.ratio_omegaMMS / (self.ratio_omega_osc[self.sol_LC.solve_dof]*self.omega)
+        tmax = self.sol_LC.beta * self.ratio_omegaMMS / (self.ratio_omega_osc[self.sol_LC.solve_dof]*self.omega)
         self.sol_LC.xmax = self.sol_LC.x.subs(self.t, tmax)
 
     def Jacobian_polar(self):
