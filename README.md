@@ -13,7 +13,7 @@ $$
     \ddot{x}_0 + \omega_0^2 x_0 & = f_0(\boldsymbol{x}, \dot{\boldsymbol{x}}, \ddot{\boldsymbol{x}}, t), \\
     & \vdots \\
     \ddot{x}_{N-1} + \omega_{N-1}^2 x_{N-1} & = f_{N-1}(\boldsymbol{x}, \dot{\boldsymbol{x}}, \ddot{\boldsymbol{x}}, t).
-  \end{cases}
+\end{cases}
 $$
 
 The $x_i(t)$ ($i=0,...,N-1$) are the oscillators' coordinates, 
