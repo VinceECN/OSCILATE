@@ -542,9 +542,6 @@ class Steady_state:
         elif set(Eq_F.collect(F, evaluate=False).keys()) == set([1, F**2, F**4]):
             print('   Computing the response with respect to the forcing amplitude - 2nd order polynomial in F**2')
             sol_F = [sqrt(abs(F2)) for F2 in sfun.solve_poly2(Eq_F, F**2)]
-        elif set(Eq_F.collect(F, evaluate=False).keys()) == set([1, F**2, F**4, F**6]):
-            print('   Computing the response with respect to the forcing amplitude - 3rd order polynomial in F**2')
-            sol_F = [sqrt(abs(F2)) for F2 in solve(Eq_F, F**2)]
         else:
             print('   Not computing the response with respect to the forcing amplitude as the equation to solve is not of 2nd degree')
             sol_F = None
