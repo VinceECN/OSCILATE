@@ -1,0 +1,13 @@
+name: Save to Software Heritage
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  save:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Save to Software Heritage
+        uses: sdruskat/swh-save-action@v1.0.1
