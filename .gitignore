@@ -1,5 +1,6 @@
 venv_mms/
 dev_tests/
+logo/
 .vscode/
 .env
 docs/build/
