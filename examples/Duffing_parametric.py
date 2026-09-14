@@ -41,7 +41,7 @@ ss.solve_bbc(solve_dof=solve_dof, c=param_scaled[-1])
 ss.solve_forced(solve_dof=solve_dof)
 
 # Stability analysis
-ss.stability_analysis_forced(coord="polar", eigenvalues=True)
+ss.stability_analysis_forced(coord="polar", eigenvalues=True, bifurcation_curves=True)
 
 # Plot the steady state results
 # -----------------------------
@@ -56,7 +56,7 @@ param = [(omega0, 1),
 # Frequency response
 param_FRC = param + [(dyn.forcing.F, 2e-2)]
 BBC = MMS.visualisation.Backbone_curve(mms, ss, dyn, param_FRC)
-FRC = MMS.visualisation.Frequency_response_curve(mms, ss, dyn, param_FRC, bif=False)
+FRC = MMS.visualisation.Frequency_response_curve(mms, ss, dyn, param_FRC, bif=True)
 FRC.plot(ss=ss, bbc=BBC)
 
 # Amplitude response

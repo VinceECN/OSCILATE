@@ -109,7 +109,7 @@ class Backbone_curve:
         ax.axvline(omegaMMS, c="k")
         
         ax.set_xlim(xlim)
-        ax.set_xlabel(r"$\omega_{\textrm{nl}}$")
+        ax.set_xlabel(r"$\omega_{\text{nl}}$")
         ax.set_ylabel(r"${}$".format(amp_name))
         ax.margins(y=0)
 
