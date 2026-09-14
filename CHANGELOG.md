@@ -63,3 +63,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### General changes
 - Renamed `Duffing_SupH_plots` to `Duffing_supH_plots`
 - Added more description to the GitHub repo
+
+## [1.0.7] - 2026-09-14
+- Correct a bug on the visualisation of the backbone curve
+- Add a logo
