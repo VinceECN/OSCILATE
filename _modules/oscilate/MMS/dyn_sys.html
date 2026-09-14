@@ -83,14 +83,14 @@
              
   <h1>Source code for oscilate.MMS.dyn_sys</h1><div class="highlight"><pre>
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="sd">Started on Tue Feb 15 17:25:59 2022</span>
 
 <span class="sd">@author: Vincent MAHE</span>
 
 <span class="sd">Analyse systems of coupled nonlinear equations using the Method of Multiple Scales (MMS).</span>
 <span class="sd">This sub-module defines the dynamical system.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="c1">#%% Imports and initialisation</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sympy</span><span class="w"> </span><span class="kn">import</span> <span class="n">sympify</span><span class="p">,</span> <span class="n">Symbol</span><span class="p">,</span> <span class="n">Function</span><span class="p">,</span> <span class="n">Expr</span><span class="p">,</span> <span class="n">I</span>
@@ -101,7 +101,7 @@
 <div class="viewcode-block" id="Forcing">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.dyn_sys.Forcing">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Forcing</span><span class="p">:</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">    Define the forcing on the system as</span>
 
 <span class="sd">    - A forcing amplitude `F`,</span>
@@ -110,7 +110,7 @@
 <span class="sd">    </span>
 <span class="sd">    For the :math:`i^\textrm{th}` oscillator, denoting `fF[i]` as :math:`f_{F,i}(\boldsymbol{x}(t), \dot{\boldsymbol{x}}(t), \ddot{\boldsymbol{x}}(t))`, </span>
 <span class="sd">    the forcing term on that oscillator is :math:`f_{F,i} F \cos(\omega t)`.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1"># Class-level annotations for pyreverse</span>
     <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
@@ -125,7 +125,7 @@
 <div class="viewcode-block" id="Dynamical_system">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.dyn_sys.Dynamical_system">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Dynamical_system</span><span class="p">:</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">    The dynamical system studied. </span>
 <span class="sd">    See :ref:`dyn_sys` for a detailed description of the dynamical system.</span>
 
@@ -136,8 +136,8 @@
 <span class="sd">    x : sympy.Function or list of sympy.Function</span>
 <span class="sd">        Unknown(s) of the problem.</span>
 <span class="sd">    Eq : sympy.Expr or list of sympy.Expr</span>
-<span class="sd">        System&#39;s equations without forcing, which can be defined separately (see parameters `F` and `fF`).</span>
-<span class="sd">        Eq is the unforced system of equations describing the system&#39;s dynamics. </span>
+<span class="sd">        System's equations without forcing, which can be defined separately (see parameters `F` and `fF`).</span>
+<span class="sd">        Eq is the unforced system of equations describing the system's dynamics. </span>
 <span class="sd">    omegas : sympy.Symbol or list of sympy.Symbol</span>
 <span class="sd">        The natural frequency of each oscillator.</span>
 <span class="sd">    F : sympy.Symbol or 0, optional</span>
@@ -147,7 +147,7 @@
 <span class="sd">        For each oscillator, specify the coefficient multiplying the forcing terms in the equation.</span>
 <span class="sd">        It can be used to define parametric forcing. Typically, if the forcing is :math:`x F \cos(\omega t)`, then ``fF = x``.</span>
 <span class="sd">        Default is a list of 1, so the forcing is direct. </span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1"># Class-level annotations for pyreverse</span>
     <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
@@ -163,12 +163,12 @@
         <span class="n">z</span><span class="p">:</span>       <span class="nb">list</span><span class="p">[</span><span class="n">Function</span><span class="p">]</span>
         
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">Eq</span><span class="p">,</span> <span class="n">omegas</span><span class="p">,</span> <span class="n">F</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">fF</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">        Initialisation of the dynamical system.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         
         <span class="c1"># Information</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Creation of the dynamical system&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">'Creation of the dynamical system'</span><span class="p">)</span>
         
         <span class="c1"># Time</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="n">t</span>
@@ -198,15 +198,15 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">forcing</span> <span class="o">=</span> <span class="n">Forcing</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">fF</span><span class="p">)</span>
 
         <span class="c1"># System form</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">form</span> <span class="o">=</span> <span class="s2">&quot;oscillator&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">form</span> <span class="o">=</span> <span class="s2">"oscillator"</span>
         
 <div class="viewcode-block" id="Dynamical_system.complex_form">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.dyn_sys.Dynamical_system.complex_form">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">complex_form</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">        Rewrite the dynamical system in complex form, resulting in a system of complex 1st order coupled ODEs from the initial real 2nd order ODEs. </span>
 <span class="sd">        See :ref:`dyn_sys` for details.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="c1"># Create the complex coordinates</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">complex_coordinates</span><span class="p">()</span>
@@ -222,13 +222,13 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">forcing</span><span class="o">.</span><span class="n">fFz</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="p">(</span><span class="o">-</span><span class="n">I</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">omegai</span><span class="p">)</span> <span class="o">*</span> <span class="n">fFi</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sub_z</span><span class="p">))</span><span class="o">.</span><span class="n">simplify</span><span class="p">()</span> <span class="p">)</span>
         
         <span class="c1"># System form</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">form</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">form</span><span class="p">,</span> <span class="s2">&quot;complex&quot;</span><span class="p">]</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">form</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">form</span><span class="p">,</span> <span class="s2">"complex"</span><span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="Dynamical_system.complex_coordinates">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.dyn_sys.Dynamical_system.complex_coordinates">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">complex_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">        Introduce the complex coordinates, denoted :math:`z_i` for oscillator :math:`i`, and defined as</span>
 <span class="sd">        </span>
 <span class="sd">        .. math::</span>
@@ -238,13 +238,13 @@
 <span class="sd">            \end{cases}</span>
 
 <span class="sd">        where :math:`\bar{\bullet}` denotes the transpose. </span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="c1"># Create the complex coordinates</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">z</span>     <span class="o">=</span> <span class="p">[]</span> <span class="c1"># Complex coordinates</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sub_z</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># Substitutions from x (real coordinates) to z</span>
         <span class="k">for</span> <span class="n">ix</span><span class="p">,</span> <span class="p">(</span><span class="n">xi</span><span class="p">,</span> <span class="n">omegai</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">omegas</span><span class="p">)):</span>
-            <span class="n">zi</span> <span class="o">=</span> <span class="n">Function</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;z_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ix</span><span class="p">),</span> <span class="nb">complex</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">)</span>
+            <span class="n">zi</span> <span class="o">=</span> <span class="n">Function</span><span class="p">(</span><span class="sa">r</span><span class="s1">'z_</span><span class="si">{}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ix</span><span class="p">),</span> <span class="nb">complex</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">zi</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">sub_z</span> <span class="o">+=</span> <span class="p">[(</span><span class="n">xi</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">2</span><span class="o">*</span><span class="n">I</span><span class="o">*</span><span class="n">omegai</span><span class="o">*</span><span class="n">zi</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">)</span> <span class="o">+</span> <span class="n">omegai</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">zi</span> <span class="o">-</span> <span class="n">zi</span><span class="o">.</span><span class="n">conjugate</span><span class="p">())),</span>
                            <span class="p">(</span><span class="n">xi</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">)</span>   <span class="p">,</span> <span class="n">I</span><span class="o">*</span><span class="n">omegai</span><span class="o">*</span><span class="p">(</span><span class="n">zi</span> <span class="o">-</span> <span class="n">zi</span><span class="o">.</span><span class="n">conjugate</span><span class="p">())),</span>

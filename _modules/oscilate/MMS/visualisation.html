@@ -83,14 +83,14 @@
              
   <h1>Source code for oscilate.MMS.visualisation</h1><div class="highlight"><pre>
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="sd">Started on Tue Feb 15 17:25:59 2022</span>
 
 <span class="sd">@author: Vincent MAHE</span>
 
 <span class="sd">Analyse systems of coupled nonlinear equations using the Method of Multiple Scales (MMS).</span>
 <span class="sd">This sub-module evaluates the symbolic expressions for given numerical parameters and allows to plot the resulting numerical results.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="c1">#%% Imports and initialisation</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..</span><span class="w"> </span><span class="kn">import</span> <span class="n">sympy_functions</span> <span class="k">as</span> <span class="n">sfun</span>
@@ -105,7 +105,7 @@
 <div class="viewcode-block" id="Backbone_curve">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.visualisation.Backbone_curve">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Backbone_curve</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Evaluate the backbone curve for given numerical parameters. This transforms the sympy expressions to numpy arrays. They can then be plotted.</span>
 
 <span class="sd">    Parameters</span>
@@ -123,7 +123,7 @@
 
 <span class="sd">        2. The numerical value(s) taken by that parameter.</span>
 <span class="sd">    </span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1"># Class-level annotations for pyreverse</span>
     <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
@@ -135,20 +135,20 @@
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mms</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">dyn</span><span class="p">,</span> <span class="n">param</span><span class="p">):</span>
         
         <span class="c1"># Information</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Converting sympy BBC expressions to numpy&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Converting sympy BBC expressions to numpy"</span><span class="p">)</span>
 
         <span class="c1"># Construct a dictionary of substitutions</span>
         <span class="n">param_dic</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">param</span><span class="p">)):</span>
             <span class="k">if</span> <span class="n">param</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">ss</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="n">ss</span><span class="o">.</span><span class="n">sol_bbc</span><span class="o">.</span><span class="n">solve_dof</span><span class="p">]:</span>
-                <span class="n">param_dic</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">param</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span>
+                <span class="n">param_dic</span><span class="p">[</span><span class="s2">"a"</span><span class="p">]</span> <span class="o">=</span> <span class="n">param</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span>
             <span class="k">elif</span> <span class="n">param</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">dyn</span><span class="o">.</span><span class="n">forcing</span><span class="o">.</span><span class="n">F</span><span class="p">:</span>
-                <span class="n">param_dic</span><span class="p">[</span><span class="s2">&quot;F&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">param</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span>
+                <span class="n">param_dic</span><span class="p">[</span><span class="s2">"F"</span><span class="p">]</span> <span class="o">=</span> <span class="n">param</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">param_dic</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;param_</span><span class="si">{</span><span class="n">ii</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">param</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span>
+                <span class="n">param_dic</span><span class="p">[</span><span class="sa">f</span><span class="s2">"param_</span><span class="si">{</span><span class="n">ii</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span> <span class="o">=</span> <span class="n">param</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span>
                 
         <span class="c1"># Initialisation</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">a</span>        <span class="o">=</span> <span class="n">param_dic</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">a</span>        <span class="o">=</span> <span class="n">param_dic</span><span class="p">[</span><span class="s2">"a"</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">param</span>    <span class="o">=</span> <span class="n">param_dic</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">omegaMMS</span> <span class="o">=</span> <span class="n">numpise_omegaMMS</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">param_dic</span><span class="p">)</span>
 
@@ -160,7 +160,7 @@
 <div class="viewcode-block" id="Backbone_curve.plot">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.visualisation.Backbone_curve.plot">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">        Plots the backbone curve.</span>
 
 <span class="sd">        Parameters</span>
@@ -172,33 +172,33 @@
 <span class="sd">        -------</span>
 <span class="sd">        fig : Figure</span>
 <span class="sd">            The amplitude plot :math:`a(\omega)`.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="c1"># Extract the bbc data</span>
-        <span class="n">a</span>        <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span>        <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">))</span>
-        <span class="n">omega</span>    <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;omega&quot;</span><span class="p">,</span>    <span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">))</span>
-        <span class="n">omegaMMS</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;omegaMMS&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+        <span class="n">a</span>        <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span>        <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">))</span>
+        <span class="n">omega</span>    <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"omega"</span><span class="p">,</span>    <span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">))</span>
+        <span class="n">omegaMMS</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"omegaMMS"</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
         
         <span class="c1"># Extract the keyword arguments</span>
-        <span class="n">fig_param</span>  <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fig_param&quot;</span><span class="p">,</span> <span class="nb">dict</span><span class="p">())</span>
-        <span class="k">if</span> <span class="s2">&quot;ss&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="n">ss</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ss&quot;</span><span class="p">)</span>
-            <span class="n">amp_name</span>   <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;amp_name&quot;</span><span class="p">,</span> <span class="n">vlatex</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="n">ss</span><span class="o">.</span><span class="n">sol_forced</span><span class="o">.</span><span class="n">solve_dof</span><span class="p">]))</span>
+        <span class="n">fig_param</span>  <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"fig_param"</span><span class="p">,</span> <span class="nb">dict</span><span class="p">())</span>
+        <span class="k">if</span> <span class="s2">"ss"</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">ss</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"ss"</span><span class="p">)</span>
+            <span class="n">amp_name</span>   <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"amp_name"</span><span class="p">,</span> <span class="n">vlatex</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="n">ss</span><span class="o">.</span><span class="n">sol_forced</span><span class="o">.</span><span class="n">solve_dof</span><span class="p">]))</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">amp_name</span>   <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;amp_name&quot;</span><span class="p">,</span> <span class="s2">&quot;amplitude&quot;</span><span class="p">)</span>
+            <span class="n">amp_name</span>   <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"amp_name"</span><span class="p">,</span> <span class="s2">"amplitude"</span><span class="p">)</span>
 
-        <span class="n">xlim</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;xlim&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">coeff</span><span class="o">*</span><span class="n">omegaMMS</span> <span class="k">for</span> <span class="n">coeff</span> <span class="ow">in</span> <span class="p">(</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">)])</span>
+        <span class="n">xlim</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"xlim"</span><span class="p">,</span> <span class="p">[</span><span class="n">coeff</span><span class="o">*</span><span class="n">omegaMMS</span> <span class="k">for</span> <span class="n">coeff</span> <span class="ow">in</span> <span class="p">(</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">)])</span>
         <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">xlim</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
             <span class="n">xlim</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
 
         <span class="c1"># Backbone curve </span>
         <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="o">**</span><span class="n">fig_param</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">omega</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;tab:grey&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">omegaMMS</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">omega</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"tab:grey"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">omegaMMS</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"k"</span><span class="p">)</span>
         
         <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">xlim</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\omega_{\textrm</span><span class="si">{nl}</span><span class="s2">}$&quot;</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$</span><span class="si">{}</span><span class="s2">$&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">amp_name</span><span class="p">))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">"$\omega_{\text</span><span class="si">{nl}</span><span class="s2">}$"</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">"$</span><span class="si">{}</span><span class="s2">$"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">amp_name</span><span class="p">))</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">margins</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
         <span class="c1"># Return</span>
@@ -209,7 +209,7 @@
 <div class="viewcode-block" id="Frequency_response_curve">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.visualisation.Frequency_response_curve">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Frequency_response_curve</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Evaluate the frequency response curves (FRC) and bifurcation curves (if computed) for given numerical parameters. This transforms the sympy expressions to numpy arrays. They can then be plotted.</span>
 
 <span class="sd">    Parameters</span>
@@ -230,7 +230,7 @@
 <span class="sd">    bif : bool, optional</span>
 <span class="sd">        Evaluate the bifurcation curves. </span>
 <span class="sd">        Default is `True`.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1"># Class-level annotations for pyreverse</span>
     <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
@@ -245,20 +245,20 @@
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mms</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">dyn</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="n">bif</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         
         <span class="c1"># Information</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Converting sympy FRC expressions to numpy&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Converting sympy FRC expressions to numpy"</span><span class="p">)</span>
 
         <span class="c1"># Construct a dictionary of substitutions</span>
         <span class="n">param_dic</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">param</span><span class="p">)):</span>
             <span class="k">if</span> <span class="n">param</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">ss</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="n">ss</span><span class="o">.</span><span class="n">sol_forced</span><span class="o">.</span><span class="n">solve_dof</span><span class="p">]:</span>
-                <span class="n">param_dic</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">param</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span>
+                <span class="n">param_dic</span><span class="p">[</span><span class="s2">"a"</span><span class="p">]</span> <span class="o">=</span> <span class="n">param</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span>
             <span class="k">elif</span> <span class="n">param</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">dyn</span><span class="o">.</span><span class="n">forcing</span><span class="o">.</span><span class="n">F</span><span class="p">:</span>
-                <span class="n">param_dic</span><span class="p">[</span><span class="s2">&quot;F&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">param</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span>
+                <span class="n">param_dic</span><span class="p">[</span><span class="s2">"F"</span><span class="p">]</span> <span class="o">=</span> <span class="n">param</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">param_dic</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;param_</span><span class="si">{</span><span class="n">ii</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">param</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span>
+                <span class="n">param_dic</span><span class="p">[</span><span class="sa">f</span><span class="s2">"param_</span><span class="si">{</span><span class="n">ii</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span> <span class="o">=</span> <span class="n">param</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span>
                 
         <span class="c1"># Initialisation</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">a</span>        <span class="o">=</span> <span class="n">param_dic</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">a</span>        <span class="o">=</span> <span class="n">param_dic</span><span class="p">[</span><span class="s2">"a"</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">param</span>    <span class="o">=</span> <span class="n">param_dic</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">omegaMMS</span> <span class="o">=</span> <span class="n">numpise_omegaMMS</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">param_dic</span><span class="p">)</span>
 
@@ -266,21 +266,21 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">omega</span> <span class="o">=</span> <span class="n">numpise_omega_FRC</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">param_dic</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">phase</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">omegai</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">omega</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">phase</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">numpise_phase</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">dyn</span><span class="p">,</span> <span class="n">param_dic</span><span class="p">,</span> <span class="n">omegai</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">param</span><span class="p">[</span><span class="s2">&quot;F&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">phase</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">numpise_phase</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">dyn</span><span class="p">,</span> <span class="n">param_dic</span><span class="p">,</span> <span class="n">omegai</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">param</span><span class="p">[</span><span class="s2">"F"</span><span class="p">][</span><span class="mi">1</span><span class="p">]))</span>
 
         <span class="k">if</span> <span class="n">bif</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">omega_bif</span> <span class="o">=</span> <span class="n">numpise_omega_bif</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">param_dic</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">omega_bif</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">phase_bif</span> <span class="o">=</span> <span class="n">numpise_phase</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">dyn</span><span class="p">,</span> <span class="n">param_dic</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">omega_bif</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">param</span><span class="p">[</span><span class="s2">&quot;F&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">phase_bif</span> <span class="o">=</span> <span class="n">numpise_phase</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">dyn</span><span class="p">,</span> <span class="n">param_dic</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">omega_bif</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">param</span><span class="p">[</span><span class="s2">"F"</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
             <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">omega_bif</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">phase_bif</span> <span class="o">=</span> <span class="p">[]</span>
                 <span class="k">for</span> <span class="n">omegai</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">omega_bif</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">phase_bif</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">numpise_phase</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">dyn</span><span class="p">,</span> <span class="n">param_dic</span><span class="p">,</span> <span class="n">omegai</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">param</span><span class="p">[</span><span class="s2">&quot;F&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]))</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">phase_bif</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">numpise_phase</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">dyn</span><span class="p">,</span> <span class="n">param_dic</span><span class="p">,</span> <span class="n">omegai</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">param</span><span class="p">[</span><span class="s2">"F"</span><span class="p">][</span><span class="mi">1</span><span class="p">]))</span>
     
 <div class="viewcode-block" id="Frequency_response_curve.plot">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.visualisation.Frequency_response_curve.plot">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bbc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">        Plots the frequency response curves (FRC), both frequency-amplitude and frequency-phase.</span>
 <span class="sd">        Also includes the stability information if computed, and the backbone curve if given.</span>
 
@@ -298,48 +298,48 @@
 <span class="sd">            The amplitude plot :math:`a(\omega)`.</span>
 <span class="sd">        fig2 : Figure</span>
 <span class="sd">            The phase plot :math:`\beta(\omega)`.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="c1"># Extract the FRC data</span>
-        <span class="n">a</span>         <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span>          <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">))</span>
-        <span class="n">omega</span>     <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;omega&quot;</span><span class="p">,</span>      <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)])</span>
-        <span class="n">omegaMMS</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;omegaMMS&quot;</span><span class="p">,</span>   <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
-        <span class="n">phase</span>     <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;phase&quot;</span><span class="p">,</span>      <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)])</span>
-        <span class="n">omega_bif</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;omega_bif&quot;</span><span class="p">,</span>  <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)])</span>
-        <span class="n">phase_bif</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;phase_bif&quot;</span><span class="p">,</span>  <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)])</span>
+        <span class="n">a</span>         <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span>          <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">))</span>
+        <span class="n">omega</span>     <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"omega"</span><span class="p">,</span>      <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)])</span>
+        <span class="n">omegaMMS</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"omegaMMS"</span><span class="p">,</span>   <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+        <span class="n">phase</span>     <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"phase"</span><span class="p">,</span>      <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)])</span>
+        <span class="n">omega_bif</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"omega_bif"</span><span class="p">,</span>  <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)])</span>
+        <span class="n">phase_bif</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"phase_bif"</span><span class="p">,</span>  <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)])</span>
 
         <span class="c1"># Extract the backbone curve data if any</span>
         <span class="k">if</span> <span class="n">bbc</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">a_bbc</span>     <span class="o">=</span> <span class="n">bbc</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;a&quot;</span>    <span class="p">,</span>  <span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">))</span>
-            <span class="n">omega_bbc</span> <span class="o">=</span> <span class="n">bbc</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;omega&quot;</span><span class="p">,</span>  <span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">))</span>
+            <span class="n">a_bbc</span>     <span class="o">=</span> <span class="n">bbc</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"a"</span>    <span class="p">,</span>  <span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">))</span>
+            <span class="n">omega_bbc</span> <span class="o">=</span> <span class="n">bbc</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"omega"</span><span class="p">,</span>  <span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">))</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">omega_bbc</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
                 <span class="n">omega_bbc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">a_bbc</span><span class="p">,</span> <span class="n">omega_bbc</span><span class="p">)</span>
         
         <span class="c1"># Extract the keyword arguments</span>
-        <span class="n">fig_param</span>  <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fig_param&quot;</span><span class="p">,</span> <span class="nb">dict</span><span class="p">())</span>
-        <span class="k">if</span> <span class="s2">&quot;ss&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="n">ss</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ss&quot;</span><span class="p">)</span>
-            <span class="n">amp_name</span>   <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;amp_name&quot;</span><span class="p">,</span> <span class="n">vlatex</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="n">ss</span><span class="o">.</span><span class="n">sol_forced</span><span class="o">.</span><span class="n">solve_dof</span><span class="p">]))</span>
-            <span class="n">phase_name</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;phase_name&quot;</span><span class="p">,</span> <span class="n">vlatex</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">sol_forced</span><span class="o">.</span><span class="n">cos_phase</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+        <span class="n">fig_param</span>  <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"fig_param"</span><span class="p">,</span> <span class="nb">dict</span><span class="p">())</span>
+        <span class="k">if</span> <span class="s2">"ss"</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">ss</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"ss"</span><span class="p">)</span>
+            <span class="n">amp_name</span>   <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"amp_name"</span><span class="p">,</span> <span class="n">vlatex</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="n">ss</span><span class="o">.</span><span class="n">sol_forced</span><span class="o">.</span><span class="n">solve_dof</span><span class="p">]))</span>
+            <span class="n">phase_name</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"phase_name"</span><span class="p">,</span> <span class="n">vlatex</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">sol_forced</span><span class="o">.</span><span class="n">cos_phase</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">amp_name</span>   <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;amp_name&quot;</span><span class="p">,</span> <span class="s2">&quot;amplitude&quot;</span><span class="p">)</span>
-            <span class="n">phase_name</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;phase_name&quot;</span><span class="p">,</span> <span class="s2">&quot;phase&quot;</span><span class="p">)</span>
+            <span class="n">amp_name</span>   <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"amp_name"</span><span class="p">,</span> <span class="s2">"amplitude"</span><span class="p">)</span>
+            <span class="n">phase_name</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"phase_name"</span><span class="p">,</span> <span class="s2">"phase"</span><span class="p">)</span>
 
-        <span class="n">xlim</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;xlim&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">coeff</span><span class="o">*</span><span class="n">omegaMMS</span> <span class="k">for</span> <span class="n">coeff</span> <span class="ow">in</span> <span class="p">(</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">)])</span>
+        <span class="n">xlim</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"xlim"</span><span class="p">,</span> <span class="p">[</span><span class="n">coeff</span><span class="o">*</span><span class="n">omegaMMS</span> <span class="k">for</span> <span class="n">coeff</span> <span class="ow">in</span> <span class="p">(</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">)])</span>
         <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">xlim</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
             <span class="n">xlim</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
 
         <span class="c1"># FRC - amplitude </span>
         <span class="n">fig1</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="o">**</span><span class="n">fig_param</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">bbc</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span> 
-            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">omega_bbc</span><span class="p">,</span> <span class="n">a_bbc</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;tab:grey&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">omegaMMS</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">)</span>
-        <span class="p">[</span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">omegai</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;tab:blue&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">omegai</span> <span class="ow">in</span> <span class="n">omega</span><span class="p">]</span>
-        <span class="p">[</span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">omegai</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;tab:red&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span> <span class="k">for</span> <span class="n">omegai</span> <span class="ow">in</span> <span class="n">omega_bif</span><span class="p">]</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">omega_bbc</span><span class="p">,</span> <span class="n">a_bbc</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"tab:grey"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">omegaMMS</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"k"</span><span class="p">)</span>
+        <span class="p">[</span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">omegai</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"tab:blue"</span><span class="p">)</span> <span class="k">for</span> <span class="n">omegai</span> <span class="ow">in</span> <span class="n">omega</span><span class="p">]</span>
+        <span class="p">[</span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">omegai</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"tab:red"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span> <span class="k">for</span> <span class="n">omegai</span> <span class="ow">in</span> <span class="n">omega_bif</span><span class="p">]</span>
         
         <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">xlim</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\omega$&quot;</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$</span><span class="si">{}</span><span class="s2">$&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">amp_name</span><span class="p">))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">"$\omega$"</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">"$</span><span class="si">{}</span><span class="s2">$"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">amp_name</span><span class="p">))</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">margins</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">bbc</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
@@ -347,14 +347,14 @@
         
         <span class="c1"># FRC - phase</span>
         <span class="n">fig2</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="o">**</span><span class="n">fig_param</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">omegaMMS</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
-        <span class="p">[</span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">omegai</span><span class="p">,</span> <span class="n">phasei</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;tab:blue&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">omegai</span><span class="p">,</span> <span class="n">phasei</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">omega</span><span class="p">,</span> <span class="n">phase</span><span class="p">)]</span>
-        <span class="p">[</span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">omegai</span><span class="p">,</span> <span class="n">phasei</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;tab:red&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">omegai</span><span class="p">,</span> <span class="n">phasei</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">omega_bif</span><span class="p">,</span> <span class="n">phase_bif</span><span class="p">)]</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">omegaMMS</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"k"</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"k"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+        <span class="p">[</span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">omegai</span><span class="p">,</span> <span class="n">phasei</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"tab:blue"</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">omegai</span><span class="p">,</span> <span class="n">phasei</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">omega</span><span class="p">,</span> <span class="n">phase</span><span class="p">)]</span>
+        <span class="p">[</span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">omegai</span><span class="p">,</span> <span class="n">phasei</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"tab:red"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">omegai</span><span class="p">,</span> <span class="n">phasei</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">omega_bif</span><span class="p">,</span> <span class="n">phase_bif</span><span class="p">)]</span>
         
         <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">xlim</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\omega$&quot;</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$</span><span class="si">{}</span><span class="s2"> \; [\pi]$&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">phase_name</span><span class="p">))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">"$\omega$"</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">"$</span><span class="si">{}</span><span class="s2"> \; [\pi]$"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">phase_name</span><span class="p">))</span>
         
         <span class="c1"># Return</span>
         <span class="k">return</span> <span class="n">fig1</span><span class="p">,</span> <span class="n">fig2</span></div>
@@ -364,9 +364,9 @@
 <div class="viewcode-block" id="Amplitude_response_curve">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.visualisation.Amplitude_response_curve">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Amplitude_response_curve</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Evaluate the amplitude response curves (ARC) for given numerical parameters. </span>
-<span class="sd">    &#39;Amplitude&#39; refers to the forcing amplitude.</span>
+<span class="sd">    'Amplitude' refers to the forcing amplitude.</span>
 <span class="sd">    This transforms the sympy expressions to numpy arrays.</span>
 <span class="sd">    They can then be plotted.</span>
 
@@ -384,7 +384,7 @@
 <span class="sd">        1. The sympy symbol of a parameter,</span>
 
 <span class="sd">        2. The numerical value(s) taken by that parameter.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1"># Class-level annotations for pyreverse</span>
     <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
@@ -397,37 +397,37 @@
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mms</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">dyn</span><span class="p">,</span> <span class="n">param</span><span class="p">):</span>
         
         <span class="c1"># Information</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Converting sympy ARC expressions to numpy&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Converting sympy ARC expressions to numpy"</span><span class="p">)</span>
 
         <span class="c1"># Construct a dictionary of substitutions</span>
         <span class="n">param_dic</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">param</span><span class="p">)):</span>
             <span class="k">if</span> <span class="n">param</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">ss</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="n">ss</span><span class="o">.</span><span class="n">sol_forced</span><span class="o">.</span><span class="n">solve_dof</span><span class="p">]:</span>
-                <span class="n">param_dic</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">param</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span>
+                <span class="n">param_dic</span><span class="p">[</span><span class="s2">"a"</span><span class="p">]</span> <span class="o">=</span> <span class="n">param</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span>
             <span class="k">elif</span> <span class="n">param</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">mms</span><span class="o">.</span><span class="n">omega</span><span class="p">:</span>
-                <span class="n">param_dic</span><span class="p">[</span><span class="s2">&quot;omega&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">param</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span>
+                <span class="n">param_dic</span><span class="p">[</span><span class="s2">"omega"</span><span class="p">]</span> <span class="o">=</span> <span class="n">param</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">param_dic</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;param_</span><span class="si">{</span><span class="n">ii</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">param</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span>
+                <span class="n">param_dic</span><span class="p">[</span><span class="sa">f</span><span class="s2">"param_</span><span class="si">{</span><span class="n">ii</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span> <span class="o">=</span> <span class="n">param</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span>
                 
         <span class="c1"># Initialisation</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">a</span>        <span class="o">=</span> <span class="n">param_dic</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">a</span>        <span class="o">=</span> <span class="n">param_dic</span><span class="p">[</span><span class="s2">"a"</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">param</span>    <span class="o">=</span> <span class="n">param_dic</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">omegaMMS</span> <span class="o">=</span> <span class="n">numpise_omegaMMS</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">param_dic</span><span class="p">)</span>
 
         <span class="c1"># Evaluation of the ARC</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">F</span>     <span class="o">=</span> <span class="n">numpise_F_ARC</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">param</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">F</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">phase</span> <span class="o">=</span> <span class="n">numpise_phase</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">dyn</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">param</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">param</span><span class="p">[</span><span class="s2">&quot;omega&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">F</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">phase</span> <span class="o">=</span> <span class="n">numpise_phase</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">dyn</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">param</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">param</span><span class="p">[</span><span class="s2">"omega"</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">F</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">F</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">phase</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">Fi</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">F</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">phase</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">numpise_phase</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">dyn</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">param</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">param</span><span class="p">[</span><span class="s2">&quot;omega&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">Fi</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">phase</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">numpise_phase</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">dyn</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">param</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">param</span><span class="p">[</span><span class="s2">"omega"</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">Fi</span><span class="p">))</span>
 
 
 <div class="viewcode-block" id="Amplitude_response_curve.plot">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.visualisation.Amplitude_response_curve.plot">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">        Plots the amplitude-response curves (ARC), both forcing amplitude-amplitude and forcing amplitude-phase.</span>
 
 <span class="sd">        Parameters</span>
@@ -441,53 +441,53 @@
 <span class="sd">            The amplitude plot :math:`a(F)`.</span>
 <span class="sd">        fig2 : Figure</span>
 <span class="sd">            The phase plot :math:`\beta(F)`.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="c1"># Extract the FRC data and keyword arguments</span>
-        <span class="n">a</span>     <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">))</span>
-        <span class="n">F</span>     <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">))</span>
-        <span class="n">phase</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;phase&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">))</span>
+        <span class="n">a</span>     <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"a"</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">))</span>
+        <span class="n">F</span>     <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"F"</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">))</span>
+        <span class="n">phase</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"phase"</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">))</span>
         
         <span class="c1"># Extract the keyword arguments</span>
-        <span class="n">fig_param</span>  <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fig_param&quot;</span><span class="p">,</span> <span class="nb">dict</span><span class="p">())</span>
-        <span class="k">if</span> <span class="s2">&quot;ss&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="n">ss</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ss&quot;</span><span class="p">)</span>
-            <span class="n">amp_name</span>   <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;amp_name&quot;</span><span class="p">,</span> <span class="n">vlatex</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="n">ss</span><span class="o">.</span><span class="n">sol_forced</span><span class="o">.</span><span class="n">solve_dof</span><span class="p">]))</span>
-            <span class="n">phase_name</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;phase_name&quot;</span><span class="p">,</span> <span class="n">vlatex</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">sol_forced</span><span class="o">.</span><span class="n">cos_phase</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+        <span class="n">fig_param</span>  <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"fig_param"</span><span class="p">,</span> <span class="nb">dict</span><span class="p">())</span>
+        <span class="k">if</span> <span class="s2">"ss"</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">ss</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"ss"</span><span class="p">)</span>
+            <span class="n">amp_name</span>   <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"amp_name"</span><span class="p">,</span> <span class="n">vlatex</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="n">ss</span><span class="o">.</span><span class="n">sol_forced</span><span class="o">.</span><span class="n">solve_dof</span><span class="p">]))</span>
+            <span class="n">phase_name</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"phase_name"</span><span class="p">,</span> <span class="n">vlatex</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">sol_forced</span><span class="o">.</span><span class="n">cos_phase</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">amp_name</span>   <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;amp_name&quot;</span><span class="p">,</span> <span class="s2">&quot;amplitude&quot;</span><span class="p">)</span>
-            <span class="n">phase_name</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;phase_name&quot;</span><span class="p">,</span> <span class="s2">&quot;phase&quot;</span><span class="p">)</span>
+            <span class="n">amp_name</span>   <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"amp_name"</span><span class="p">,</span> <span class="s2">"amplitude"</span><span class="p">)</span>
+            <span class="n">phase_name</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"phase_name"</span><span class="p">,</span> <span class="s2">"phase"</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
-            <span class="n">xlim</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;xlim&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">F</span><span class="p">)])</span>
+            <span class="n">xlim</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"xlim"</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">F</span><span class="p">)])</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-            <span class="n">xlim</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;xlim&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span><span class="n">F</span><span class="p">))])</span>
+            <span class="n">xlim</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"xlim"</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span><span class="n">F</span><span class="p">))])</span>
         <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">xlim</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
             <span class="n">xlim</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
 
         <span class="c1"># ARC - amplitude </span>
         <span class="n">fig1</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="o">**</span><span class="n">fig_param</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;tab:blue&quot;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"tab:blue"</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-            <span class="p">[</span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Fi</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;tab:blue&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">Fi</span> <span class="ow">in</span> <span class="n">F</span><span class="p">]</span>
+            <span class="p">[</span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Fi</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"tab:blue"</span><span class="p">)</span> <span class="k">for</span> <span class="n">Fi</span> <span class="ow">in</span> <span class="n">F</span><span class="p">]</span>
         
         <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">xlim</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$F$&quot;</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$</span><span class="si">{}</span><span class="s2">$&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">amp_name</span><span class="p">))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">"$F$"</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">"$</span><span class="si">{}</span><span class="s2">$"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">amp_name</span><span class="p">))</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">margins</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
         <span class="c1"># ARC - phase</span>
         <span class="n">fig2</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="o">**</span><span class="n">fig_param</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"k"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">phase</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;tab:blue&quot;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">phase</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"tab:blue"</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-            <span class="p">[</span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Fi</span><span class="p">,</span> <span class="n">phasei</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;tab:blue&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">Fi</span><span class="p">,</span> <span class="n">phasei</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">phase</span><span class="p">)]</span>
+            <span class="p">[</span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Fi</span><span class="p">,</span> <span class="n">phasei</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"tab:blue"</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">Fi</span><span class="p">,</span> <span class="n">phasei</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">phase</span><span class="p">)]</span>
         
         <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">xlim</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$F$&quot;</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$</span><span class="si">{}</span><span class="s2"> \; [\pi]$&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">phase_name</span><span class="p">))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">"$F$"</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">"$</span><span class="si">{}</span><span class="s2"> \; [\pi]$"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">phase_name</span><span class="p">))</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">margins</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         
         <span class="c1"># Return</span>
@@ -498,7 +498,7 @@
 <div class="viewcode-block" id="Transient_response">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.visualisation.Transient_response">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Transient_response</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Evaluate the transient response for given numerical parameters. </span>
 <span class="sd">    This transforms the sympy expressions to numpy arrays.</span>
 <span class="sd">    They can then be plotted in the phase portrait and as time signals.</span>
@@ -513,7 +513,7 @@
 <span class="sd">        1. The sympy symbol of a parameter,</span>
 
 <span class="sd">        2. The numerical value(s) taken by that parameter.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1"># Class-level annotations for pyreverse</span>
     <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
@@ -528,35 +528,35 @@
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mms</span><span class="p">,</span> <span class="n">param</span><span class="p">):</span>
         
         <span class="c1"># Information</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Converting sympy transient response expressions to numpy&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Converting sympy transient response expressions to numpy"</span><span class="p">)</span>
 
         <span class="c1"># Construct a dictionary of substitutions</span>
         <span class="n">param_dic</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">param</span><span class="p">)):</span>
             <span class="k">if</span> <span class="n">param</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">mms</span><span class="o">.</span><span class="n">t</span><span class="p">:</span>
-                <span class="n">param_dic</span><span class="p">[</span><span class="s2">&quot;t&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">param</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span>
-            <span class="k">elif</span> <span class="n">param</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="n">mms</span><span class="o">.</span><span class="n">sol_transient</span><span class="o">.</span><span class="n">IC</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
-                <span class="n">param_dic</span><span class="p">[</span><span class="s2">&quot;ai&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">param</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span>
-            <span class="k">elif</span> <span class="n">param</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="n">mms</span><span class="o">.</span><span class="n">sol_transient</span><span class="o">.</span><span class="n">IC</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
-                <span class="n">param_dic</span><span class="p">[</span><span class="s2">&quot;betai&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">param</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span>
+                <span class="n">param_dic</span><span class="p">[</span><span class="s2">"t"</span><span class="p">]</span> <span class="o">=</span> <span class="n">param</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">param</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="n">mms</span><span class="o">.</span><span class="n">sol_transient</span><span class="o">.</span><span class="n">IC</span><span class="p">[</span><span class="s2">"a"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                <span class="n">param_dic</span><span class="p">[</span><span class="s2">"ai"</span><span class="p">]</span> <span class="o">=</span> <span class="n">param</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">param</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="n">mms</span><span class="o">.</span><span class="n">sol_transient</span><span class="o">.</span><span class="n">IC</span><span class="p">[</span><span class="s2">"a"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                <span class="n">param_dic</span><span class="p">[</span><span class="s2">"betai"</span><span class="p">]</span> <span class="o">=</span> <span class="n">param</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">param_dic</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;param_</span><span class="si">{</span><span class="n">ii</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">param</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span>
+                <span class="n">param_dic</span><span class="p">[</span><span class="sa">f</span><span class="s2">"param_</span><span class="si">{</span><span class="n">ii</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span> <span class="o">=</span> <span class="n">param</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span>
 
         <span class="c1"># Compute the slow time solutions</span>
         <span class="n">a</span><span class="p">,</span> <span class="n">psi</span><span class="p">,</span> <span class="n">dadt</span><span class="p">,</span> <span class="n">dpsidt</span> <span class="o">=</span> <span class="n">numpise_transient_slow_time</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">param_dic</span><span class="p">)</span>
 
         <span class="n">slow_sol</span>           <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-        <span class="n">slow_sol</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">]</span>      <span class="o">=</span> <span class="p">(</span><span class="n">mms</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">mms</span><span class="o">.</span><span class="n">sol_transient</span><span class="o">.</span><span class="n">solve_dof</span><span class="p">],</span> <span class="n">a</span><span class="p">)</span>
-        <span class="n">slow_sol</span><span class="p">[</span><span class="s2">&quot;psi&quot;</span><span class="p">]</span>    <span class="o">=</span> <span class="p">(</span><span class="n">mms</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">psi</span><span class="p">,</span> <span class="n">psi</span><span class="p">)</span>
-        <span class="n">slow_sol</span><span class="p">[</span><span class="s2">&quot;dadt&quot;</span><span class="p">]</span>   <span class="o">=</span> <span class="p">(</span><span class="n">mms</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">mms</span><span class="o">.</span><span class="n">sol_transient</span><span class="o">.</span><span class="n">solve_dof</span><span class="p">]</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">mms</span><span class="o">.</span><span class="n">t</span><span class="p">),</span> <span class="n">dadt</span><span class="p">)</span>
-        <span class="n">slow_sol</span><span class="p">[</span><span class="s2">&quot;dpsidt&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">mms</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">psi</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">mms</span><span class="o">.</span><span class="n">t</span><span class="p">),</span> <span class="n">dpsidt</span><span class="p">)</span>
+        <span class="n">slow_sol</span><span class="p">[</span><span class="s2">"a"</span><span class="p">]</span>      <span class="o">=</span> <span class="p">(</span><span class="n">mms</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">mms</span><span class="o">.</span><span class="n">sol_transient</span><span class="o">.</span><span class="n">solve_dof</span><span class="p">],</span> <span class="n">a</span><span class="p">)</span>
+        <span class="n">slow_sol</span><span class="p">[</span><span class="s2">"psi"</span><span class="p">]</span>    <span class="o">=</span> <span class="p">(</span><span class="n">mms</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">psi</span><span class="p">,</span> <span class="n">psi</span><span class="p">)</span>
+        <span class="n">slow_sol</span><span class="p">[</span><span class="s2">"dadt"</span><span class="p">]</span>   <span class="o">=</span> <span class="p">(</span><span class="n">mms</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">mms</span><span class="o">.</span><span class="n">sol_transient</span><span class="o">.</span><span class="n">solve_dof</span><span class="p">]</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">mms</span><span class="o">.</span><span class="n">t</span><span class="p">),</span> <span class="n">dadt</span><span class="p">)</span>
+        <span class="n">slow_sol</span><span class="p">[</span><span class="s2">"dpsidt"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">mms</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">psi</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">mms</span><span class="o">.</span><span class="n">t</span><span class="p">),</span> <span class="n">dpsidt</span><span class="p">)</span>
 
         <span class="c1"># Compute the time signals</span>
         <span class="n">x</span><span class="p">,</span> <span class="n">dxdt</span> <span class="o">=</span> <span class="n">numpise_transient_trajectory</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">param_dic</span> <span class="o">|</span> <span class="n">slow_sol</span><span class="p">)</span>
 
         <span class="c1"># Store the results</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">param</span> <span class="o">=</span> <span class="n">param_dic</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">t</span>     <span class="o">=</span> <span class="n">param_dic</span><span class="p">[</span><span class="s2">&quot;t&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t</span>     <span class="o">=</span> <span class="n">param_dic</span><span class="p">[</span><span class="s2">"t"</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">a</span>     <span class="o">=</span> <span class="n">a</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">psi</span>   <span class="o">=</span> <span class="n">psi</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">x</span>     <span class="o">=</span> <span class="n">x</span>
@@ -565,8 +565,8 @@
 
 <div class="viewcode-block" id="Transient_response.plot_PP">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.visualisation.Transient_response.plot_PP">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">plot_PP</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;tab:blue&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_PP</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"tab:blue"</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">        Plots the transient trajectory in the phase portrait.</span>
 
 <span class="sd">        Parameters</span>
@@ -578,19 +578,19 @@
 <span class="sd">        -------</span>
 <span class="sd">        fig : Figure</span>
 <span class="sd">            The phase portrait plot.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="c1"># Extract the keyword arguments</span>
-        <span class="n">fig_param</span>  <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fig_param&quot;</span><span class="p">,</span> <span class="nb">dict</span><span class="p">())</span>
+        <span class="n">fig_param</span>  <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"fig_param"</span><span class="p">,</span> <span class="nb">dict</span><span class="p">())</span>
         
         <span class="c1"># Trajectory plot</span>
         <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="o">**</span><span class="n">fig_param</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dxdt</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">c</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">dxdt</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">mfc</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">mec</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">dxdt</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s2">"o"</span><span class="p">,</span> <span class="n">mfc</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">mec</span><span class="o">=</span><span class="s2">"none"</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
         
         <span class="c1"># Labels</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$x_</span><span class="si">{}</span><span class="s2">$&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">solve_dof</span><span class="p">))</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\dot{{x}}_</span><span class="si">{}</span><span class="s2">$&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">solve_dof</span><span class="p">))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">"$x_</span><span class="si">{}</span><span class="s2">$"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">solve_dof</span><span class="p">))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">"$\dot{{x}}_</span><span class="si">{}</span><span class="s2">$"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">solve_dof</span><span class="p">))</span>
 
         <span class="c1"># Return</span>
         <span class="k">return</span> <span class="n">fig</span></div>
@@ -598,8 +598,8 @@
     
 <div class="viewcode-block" id="Transient_response.plot_time">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.visualisation.Transient_response.plot_time">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">plot_time</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;tab:blue&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_time</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"tab:blue"</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">        Plots the transient time response.</span>
 
 <span class="sd">        Parameters</span>
@@ -611,18 +611,18 @@
 <span class="sd">        -------</span>
 <span class="sd">        fig : Figure</span>
 <span class="sd">            The time plot.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="c1"># Extract the keyword arguments</span>
-        <span class="n">fig_param</span>  <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fig_param&quot;</span><span class="p">,</span> <span class="nb">dict</span><span class="p">())</span>
+        <span class="n">fig_param</span>  <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"fig_param"</span><span class="p">,</span> <span class="nb">dict</span><span class="p">())</span>
         
         <span class="c1"># Time plot</span>
         <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="o">**</span><span class="n">fig_param</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">c</span><span class="p">)</span>
         
         <span class="c1"># Labels</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$t$&quot;</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$x_</span><span class="si">{}</span><span class="s2">$&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">solve_dof</span><span class="p">))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">"$t$"</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">"$x_</span><span class="si">{}</span><span class="s2">$"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">solve_dof</span><span class="p">))</span>
 
         <span class="c1"># Return</span>
         <span class="k">return</span> <span class="n">fig</span></div>
@@ -633,7 +633,7 @@
 <div class="viewcode-block" id="Limit_cycle">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.visualisation.Limit_cycle">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Limit_cycle</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Evaluate the limit cycle for given numerical parameters. </span>
 <span class="sd">    This transforms the sympy expressions to numpy arrays.</span>
 <span class="sd">    They can then be plotted in the phase portrait and as time signals.</span>
@@ -653,7 +653,7 @@
 <span class="sd">    Npts: int, optional</span>
 <span class="sd">        Number of time points.</span>
 <span class="sd">        Default is 1000.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1"># Class-level annotations for pyreverse</span>
     <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
@@ -668,27 +668,27 @@
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mms</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="n">Npts</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
         
         <span class="c1"># Information</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Converting sympy limit cycle expressions to numpy&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Converting sympy limit cycle expressions to numpy"</span><span class="p">)</span>
 
         <span class="c1"># Construct a dictionary of substitutions</span>
         <span class="n">param_dic</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">param</span><span class="p">)):</span>
-            <span class="n">param_dic</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;param_</span><span class="si">{</span><span class="n">ii</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">param</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span>
+            <span class="n">param_dic</span><span class="p">[</span><span class="sa">f</span><span class="s2">"param_</span><span class="si">{</span><span class="n">ii</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span> <span class="o">=</span> <span class="n">param</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span>
 
         <span class="c1"># Compute the LC amplitude, phase and frequency.</span>
         <span class="n">a</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">omega</span> <span class="o">=</span> <span class="n">numpise_LC</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">param_dic</span><span class="p">)</span>
         <span class="n">LC_sol</span>          <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-        <span class="n">LC_sol</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">]</span>     <span class="o">=</span> <span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="n">ss</span><span class="o">.</span><span class="n">sol_LC</span><span class="o">.</span><span class="n">solve_dof</span><span class="p">],</span> <span class="n">a</span><span class="p">)</span>
-        <span class="n">LC_sol</span><span class="p">[</span><span class="s2">&quot;beta&quot;</span><span class="p">]</span>  <span class="o">=</span> <span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">beta</span><span class="p">[</span><span class="n">ss</span><span class="o">.</span><span class="n">sol_LC</span><span class="o">.</span><span class="n">solve_dof</span><span class="p">],</span> <span class="n">beta</span><span class="p">)</span>
-        <span class="n">LC_sol</span><span class="p">[</span><span class="s2">&quot;omega&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">omega</span><span class="p">,</span> <span class="n">omega</span><span class="p">)</span>
+        <span class="n">LC_sol</span><span class="p">[</span><span class="s2">"a"</span><span class="p">]</span>     <span class="o">=</span> <span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="n">ss</span><span class="o">.</span><span class="n">sol_LC</span><span class="o">.</span><span class="n">solve_dof</span><span class="p">],</span> <span class="n">a</span><span class="p">)</span>
+        <span class="n">LC_sol</span><span class="p">[</span><span class="s2">"beta"</span><span class="p">]</span>  <span class="o">=</span> <span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">beta</span><span class="p">[</span><span class="n">ss</span><span class="o">.</span><span class="n">sol_LC</span><span class="o">.</span><span class="n">solve_dof</span><span class="p">],</span> <span class="n">beta</span><span class="p">)</span>
+        <span class="n">LC_sol</span><span class="p">[</span><span class="s2">"omega"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">omega</span><span class="p">,</span> <span class="n">omega</span><span class="p">)</span>
 
         <span class="c1"># Compute the time signals</span>
-        <span class="n">param_dic</span><span class="p">[</span><span class="s2">&quot;t&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">mms</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="n">omega</span><span class="p">,</span> <span class="n">Npts</span><span class="p">))</span>
+        <span class="n">param_dic</span><span class="p">[</span><span class="s2">"t"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">mms</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="n">omega</span><span class="p">,</span> <span class="n">Npts</span><span class="p">))</span>
         <span class="n">x</span><span class="p">,</span> <span class="n">dxdt</span> <span class="o">=</span> <span class="n">numpise_LC_trajectory</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">param_dic</span> <span class="o">|</span> <span class="n">LC_sol</span><span class="p">)</span>
 
         <span class="c1"># Store the results</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">param</span> <span class="o">=</span> <span class="n">param_dic</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">t</span>     <span class="o">=</span> <span class="n">param_dic</span><span class="p">[</span><span class="s2">&quot;t&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t</span>     <span class="o">=</span> <span class="n">param_dic</span><span class="p">[</span><span class="s2">"t"</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">a</span>     <span class="o">=</span> <span class="n">a</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">beta</span>  <span class="o">=</span> <span class="n">beta</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">x</span>     <span class="o">=</span> <span class="n">x</span>
@@ -697,8 +697,8 @@
 
 <div class="viewcode-block" id="Limit_cycle.plot_PP">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.visualisation.Limit_cycle.plot_PP">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">plot_PP</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;tab:blue&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_PP</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"tab:blue"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">        Plots the transient trajectory in the phase portrait.</span>
 
 <span class="sd">        Parameters</span>
@@ -713,18 +713,18 @@
 <span class="sd">        -------</span>
 <span class="sd">        fig : Figure</span>
 <span class="sd">            The phase portrait plot.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="c1"># Extract the keyword arguments</span>
-        <span class="n">fig_param</span>  <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fig_param&quot;</span><span class="p">,</span> <span class="nb">dict</span><span class="p">())</span>
+        <span class="n">fig_param</span>  <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"fig_param"</span><span class="p">,</span> <span class="nb">dict</span><span class="p">())</span>
         
         <span class="c1"># Trajectory plot</span>
         <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="o">**</span><span class="n">fig_param</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dxdt</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="n">lw</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
         
         <span class="c1"># Labels</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$x_</span><span class="si">{}</span><span class="s2">$&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">solve_dof</span><span class="p">))</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\dot{{x}}_</span><span class="si">{}</span><span class="s2">$&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">solve_dof</span><span class="p">))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">"$x_</span><span class="si">{}</span><span class="s2">$"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">solve_dof</span><span class="p">))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">"$\dot{{x}}_</span><span class="si">{}</span><span class="s2">$"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">solve_dof</span><span class="p">))</span>
 
         <span class="c1"># Return</span>
         <span class="k">return</span> <span class="n">fig</span></div>
@@ -732,8 +732,8 @@
     
 <div class="viewcode-block" id="Limit_cycle.plot_time">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.visualisation.Limit_cycle.plot_time">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">plot_time</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;tab:blue&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_time</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"tab:blue"</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">        Plots the transient time response.</span>
 
 <span class="sd">        Parameters</span>
@@ -745,18 +745,18 @@
 <span class="sd">        -------</span>
 <span class="sd">        fig : Figure</span>
 <span class="sd">            The time plot.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="c1"># Extract the keyword arguments</span>
-        <span class="n">fig_param</span>  <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fig_param&quot;</span><span class="p">,</span> <span class="nb">dict</span><span class="p">())</span>
+        <span class="n">fig_param</span>  <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"fig_param"</span><span class="p">,</span> <span class="nb">dict</span><span class="p">())</span>
         
         <span class="c1"># Time plot</span>
         <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="o">**</span><span class="n">fig_param</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">c</span><span class="p">)</span>
         
         <span class="c1"># Labels</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$t$&quot;</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$x_</span><span class="si">{}</span><span class="s2">$&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">solve_dof</span><span class="p">))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">"$t$"</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">"$x_</span><span class="si">{}</span><span class="s2">$"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">solve_dof</span><span class="p">))</span>
 
         <span class="c1"># Return</span>
         <span class="k">return</span> <span class="n">fig</span></div>
@@ -766,7 +766,7 @@
 <div class="viewcode-block" id="numpise_omegaMMS">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.visualisation.numpise_omegaMMS">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">numpise_omegaMMS</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">param</span><span class="p">):</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">    Numpise the frequency around which a solution is sought.</span>
 
 <span class="sd">    Parameters</span>
@@ -779,7 +779,7 @@
 <span class="sd">    -------</span>
 <span class="sd">    omegaMMS: float</span>
 <span class="sd">        Numpised MMS frequency.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">omegaMMS</span>  <span class="o">=</span> <span class="n">sfun</span><span class="o">.</span><span class="n">sympy_to_numpy</span><span class="p">(</span><span class="n">mms</span><span class="o">.</span><span class="n">omegaMMS</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">omegaMMS</span></div>
 
@@ -787,8 +787,8 @@
 <div class="viewcode-block" id="numpise_omega_bbc">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.visualisation.numpise_omega_bbc">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">numpise_omega_bbc</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">param</span><span class="p">):</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Numpise the backbone curve&#39;s frequency :math:`\omega_{\textrm{bbc}}`.</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">"""</span>
+<span class="sd">    Numpise the backbone curve's frequency :math:`\omega_{\textrm{bbc}}`.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -800,8 +800,8 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    omega_bbc: numpy.ndarray</span>
-<span class="sd">        Numpised backbone curve&#39;s frequency.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        Numpised backbone curve's frequency.</span>
+<span class="sd">    """</span>
     <span class="n">omega_bbc</span>  <span class="o">=</span> <span class="n">sfun</span><span class="o">.</span><span class="n">sympy_to_numpy</span><span class="p">(</span><span class="n">rescale</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">sol_bbc</span><span class="o">.</span><span class="n">omega</span><span class="p">,</span> <span class="n">mms</span><span class="p">),</span> <span class="n">param</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">omega_bbc</span></div>
 
@@ -809,8 +809,8 @@
 <div class="viewcode-block" id="numpise_xmax_bbc">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.visualisation.numpise_xmax_bbc">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">numpise_xmax_bbc</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">param</span><span class="p">):</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Numpise the peak oscillator&#39;s amplitude :math:`x_{\textrm{max}}` on the backbone curve.</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">"""</span>
+<span class="sd">    Numpise the peak oscillator's amplitude :math:`x_{\textrm{max}}` on the backbone curve.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -823,7 +823,7 @@
 <span class="sd">    -------</span>
 <span class="sd">    xmax: numpy.ndarray</span>
 <span class="sd">        Numpised peak amplitude on the backbone curve.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">xmax</span>  <span class="o">=</span> <span class="n">sfun</span><span class="o">.</span><span class="n">sympy_to_numpy</span><span class="p">(</span><span class="n">rescale</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">sol_bbc</span><span class="o">.</span><span class="n">xmax</span><span class="p">,</span> <span class="n">mms</span><span class="p">),</span> <span class="n">param</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">xmax</span></div>
 
@@ -831,8 +831,8 @@
 <div class="viewcode-block" id="numpise_omega_FRC">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.visualisation.numpise_omega_FRC">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">numpise_omega_FRC</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">param</span><span class="p">):</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Numpise the forced response&#39;s frequency :math:`\omega`.</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">"""</span>
+<span class="sd">    Numpise the forced response's frequency :math:`\omega`.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -844,8 +844,8 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    omega: numpy.ndarray</span>
-<span class="sd">        Numpised forced response&#39;s frequency.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        Numpised forced response's frequency.</span>
+<span class="sd">    """</span>
     <span class="n">omega</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">sfun</span><span class="o">.</span><span class="n">sympy_to_numpy</span><span class="p">(</span><span class="n">mms</span><span class="o">.</span><span class="n">omegaMMS</span> <span class="o">+</span> <span class="n">rescale</span><span class="p">(</span><span class="n">mms</span><span class="o">.</span><span class="n">eps</span><span class="o">*</span><span class="n">sigmai</span><span class="p">,</span> <span class="n">mms</span><span class="p">),</span> <span class="n">param</span><span class="p">))</span> <span class="k">for</span> <span class="n">sigmai</span> <span class="ow">in</span> <span class="n">ss</span><span class="o">.</span><span class="n">sol_forced</span><span class="o">.</span><span class="n">sigma</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">omega</span></div>
 
@@ -853,8 +853,8 @@
 <div class="viewcode-block" id="numpise_omega_bif">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.visualisation.numpise_omega_bif">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">numpise_omega_bif</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">param</span><span class="p">):</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Numpise the bifurcation curves&#39; frequency :math:`\omega_{\textrm{bif}}`.</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">"""</span>
+<span class="sd">    Numpise the bifurcation curves' frequency :math:`\omega_{\textrm{bif}}`.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -866,8 +866,8 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    omega_bif: list of numpy.ndarray</span>
-<span class="sd">        Numpised bifurcation curves&#39; frequency.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        Numpised bifurcation curves' frequency.</span>
+<span class="sd">    """</span>
     <span class="n">omega_bif</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">sfun</span><span class="o">.</span><span class="n">sympy_to_numpy</span><span class="p">(</span><span class="n">mms</span><span class="o">.</span><span class="n">omegaMMS</span> <span class="o">+</span> <span class="n">rescale</span><span class="p">(</span><span class="n">mms</span><span class="o">.</span><span class="n">eps</span><span class="o">*</span><span class="n">sigmai</span><span class="p">,</span> <span class="n">mms</span><span class="p">),</span> <span class="n">param</span><span class="p">))</span> <span class="k">for</span> <span class="n">sigmai</span> <span class="ow">in</span> <span class="n">ss</span><span class="o">.</span><span class="n">sol_forced</span><span class="o">.</span><span class="n">stab</span><span class="o">.</span><span class="n">bif_sigma</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">omega_bif</span></div>
 
@@ -875,7 +875,7 @@
 <div class="viewcode-block" id="numpise_phase">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.visualisation.numpise_phase">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">numpise_phase</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">dyn</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="n">omega</span><span class="p">,</span> <span class="n">F</span><span class="p">):</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">    Numpise the phase :math:`\beta_i`.</span>
 
 <span class="sd">    Parameters</span>
@@ -894,7 +894,7 @@
 <span class="sd">    -------</span>
 <span class="sd">    phase: numpy.ndarray</span>
 <span class="sd">        Numpised phase.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     
     <span class="n">param_phase</span> <span class="o">=</span> <span class="n">param</span> <span class="o">|</span> <span class="nb">dict</span><span class="p">(</span><span class="n">omega</span><span class="o">=</span><span class="p">(</span><span class="n">mms</span><span class="o">.</span><span class="n">omega</span><span class="p">,</span> <span class="n">omega</span><span class="p">),</span> <span class="n">F</span><span class="o">=</span><span class="p">(</span><span class="n">dyn</span><span class="o">.</span><span class="n">forcing</span><span class="o">.</span><span class="n">F</span><span class="p">,</span> <span class="n">F</span><span class="p">))</span>
     <span class="n">sin_phase</span> <span class="o">=</span> <span class="n">sfun</span><span class="o">.</span><span class="n">sympy_to_numpy</span><span class="p">(</span> <span class="n">rescale</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">sol_forced</span><span class="o">.</span><span class="n">sin_phase</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">mms</span><span class="p">),</span> <span class="n">param_phase</span><span class="p">)</span>
@@ -907,8 +907,8 @@
 <div class="viewcode-block" id="numpise_F_ARC">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.visualisation.numpise_F_ARC">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">numpise_F_ARC</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">param</span><span class="p">):</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Numpise the forced response&#39;s forcing amplitude :math:`F`.</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">"""</span>
+<span class="sd">    Numpise the forced response's forcing amplitude :math:`F`.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -920,8 +920,8 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    F: numpy.ndarray</span>
-<span class="sd">        Numpised forced response&#39;s forcing amplitude.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        Numpised forced response's forcing amplitude.</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">sol_forced</span><span class="o">.</span><span class="n">F</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
         <span class="n">F</span> <span class="o">=</span> <span class="n">sfun</span><span class="o">.</span><span class="n">sympy_to_numpy</span><span class="p">(</span><span class="n">rescale</span><span class="p">(</span><span class="n">mms</span><span class="o">.</span><span class="n">eps</span><span class="o">**</span><span class="n">mms</span><span class="o">.</span><span class="n">forcing</span><span class="o">.</span><span class="n">f_order</span> <span class="o">*</span> <span class="n">ss</span><span class="o">.</span><span class="n">sol_forced</span><span class="o">.</span><span class="n">F</span><span class="p">,</span> <span class="n">mms</span><span class="p">),</span> <span class="n">param</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
@@ -932,7 +932,7 @@
 <div class="viewcode-block" id="numpise_transient_slow_time">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.visualisation.numpise_transient_slow_time">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">numpise_transient_slow_time</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">param</span><span class="p">):</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">    Numpise the slow time transient response.</span>
 
 <span class="sd">    Parameters</span>
@@ -951,7 +951,7 @@
 <span class="sd">        Numpised time derivative of the transient amplitude.</span>
 <span class="sd">    dpsidt: numpy.ndarray</span>
 <span class="sd">        Numpised time derivative of the transient absolute phase.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">a</span>      <span class="o">=</span> <span class="n">sfun</span><span class="o">.</span><span class="n">sympy_to_numpy</span><span class="p">(</span><span class="n">rescale</span><span class="p">(</span><span class="n">mms</span><span class="o">.</span><span class="n">sol_transient</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="n">mms</span><span class="p">),</span> <span class="n">param</span><span class="p">)</span>
     <span class="n">psi</span>    <span class="o">=</span> <span class="n">sfun</span><span class="o">.</span><span class="n">sympy_to_numpy</span><span class="p">(</span><span class="n">rescale</span><span class="p">(</span><span class="n">mms</span><span class="o">.</span><span class="n">sol_transient</span><span class="o">.</span><span class="n">psi</span><span class="p">,</span> <span class="n">mms</span><span class="p">),</span> <span class="n">param</span><span class="p">)</span>
@@ -964,8 +964,8 @@
 <div class="viewcode-block" id="numpise_transient_trajectory">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.visualisation.numpise_transient_trajectory">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">numpise_transient_trajectory</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">param</span><span class="p">):</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Numpise the transient oscillator&#39;s trajectory</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">"""</span>
+<span class="sd">    Numpise the transient oscillator's trajectory</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -979,7 +979,7 @@
 <span class="sd">        Numpised transient motion.</span>
 <span class="sd">    dxdt: numpy.ndarray</span>
 <span class="sd">        Numpised transient velocity.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">x</span>    <span class="o">=</span> <span class="n">sfun</span><span class="o">.</span><span class="n">sympy_to_numpy</span><span class="p">(</span><span class="n">rescale</span><span class="p">(</span><span class="n">mms</span><span class="o">.</span><span class="n">sol_transient</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">mms</span><span class="p">),</span> <span class="n">param</span><span class="p">)</span>
     <span class="n">dxdt</span> <span class="o">=</span> <span class="n">sfun</span><span class="o">.</span><span class="n">sympy_to_numpy</span><span class="p">(</span><span class="n">rescale</span><span class="p">(</span><span class="n">mms</span><span class="o">.</span><span class="n">sol_transient</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">mms</span><span class="o">.</span><span class="n">t</span><span class="p">),</span> <span class="n">mms</span><span class="p">),</span> <span class="n">param</span><span class="p">)</span>
@@ -990,7 +990,7 @@
 <div class="viewcode-block" id="numpise_LC">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.visualisation.numpise_LC">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">numpise_LC</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">param</span><span class="p">):</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">    Numpise the limit cycle solution.</span>
 
 <span class="sd">    Parameters</span>
@@ -1008,7 +1008,7 @@
 <span class="sd">        Numpised LC initial phase.</span>
 <span class="sd">    omega: float</span>
 <span class="sd">        Numpised LC frequency.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">a</span>     <span class="o">=</span> <span class="n">sfun</span><span class="o">.</span><span class="n">sympy_to_numpy</span><span class="p">(</span><span class="n">rescale</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">sol_LC</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="n">mms</span><span class="p">),</span> <span class="n">param</span><span class="p">)</span>
     <span class="n">beta</span>  <span class="o">=</span> <span class="n">sfun</span><span class="o">.</span><span class="n">sympy_to_numpy</span><span class="p">(</span><span class="n">rescale</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">sol_LC</span><span class="o">.</span><span class="n">beta</span><span class="p">,</span> <span class="n">mms</span><span class="p">),</span> <span class="n">param</span><span class="p">)</span>
@@ -1020,8 +1020,8 @@
 <div class="viewcode-block" id="numpise_LC_trajectory">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.visualisation.numpise_LC_trajectory">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">numpise_LC_trajectory</span><span class="p">(</span><span class="n">mms</span><span class="p">,</span> <span class="n">ss</span><span class="p">,</span> <span class="n">param</span><span class="p">):</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Numpise the oscillator&#39;s LC trajectory</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">"""</span>
+<span class="sd">    Numpise the oscillator's LC trajectory</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1036,7 +1036,7 @@
 <span class="sd">        Numpised LC motion.</span>
 <span class="sd">    dxdt: numpy.ndarray</span>
 <span class="sd">        Numpised LC velocity.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">x</span>    <span class="o">=</span> <span class="n">sfun</span><span class="o">.</span><span class="n">sympy_to_numpy</span><span class="p">(</span><span class="n">rescale</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">sol_LC</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">mms</span><span class="p">),</span> <span class="n">param</span><span class="p">)</span>
     <span class="n">dxdt</span> <span class="o">=</span> <span class="n">sfun</span><span class="o">.</span><span class="n">sympy_to_numpy</span><span class="p">(</span><span class="n">rescale</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">sol_LC</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">mms</span><span class="o">.</span><span class="n">t</span><span class="p">),</span> <span class="n">mms</span><span class="p">),</span> <span class="n">param</span><span class="p">)</span>

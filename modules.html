@@ -266,20 +266,20 @@ This sub-module defines the dynamical system.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="oscilate.MMS.dyn_sys.Dynamical_system">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">oscilate.MMS.dyn_sys.</span></span><span class="sig-name descname"><span class="pre">Dynamical_system</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Eq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">omegas</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">F</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fF</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/oscilate/MMS/dyn_sys.html#Dynamical_system"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oscilate.MMS.dyn_sys.Dynamical_system" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>The dynamical system studied.
 See <a class="reference internal" href="mms.html#dyn-sys"><span class="std std-ref">Dynamical systems of interest</span></a> for a detailed description of the dynamical system.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>t</strong> (<em>sympy.Symbol</em>) – time <span class="math notranslate nohighlight">\(t\)</span>.</p></li>
-<li><p><strong>x</strong> (<em>sympy.Function</em><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><em>sympy.Function</em>) – Unknown(s) of the problem.</p></li>
-<li><p><strong>Eq</strong> (<em>sympy.Expr</em><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><em>sympy.Expr</em>) – System’s equations without forcing, which can be defined separately (see parameters <cite>F</cite> and <cite>fF</cite>).
+<li><p><strong>x</strong> (<em>sympy.Function</em><em> or </em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><em>sympy.Function</em>) – Unknown(s) of the problem.</p></li>
+<li><p><strong>Eq</strong> (<em>sympy.Expr</em><em> or </em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><em>sympy.Expr</em>) – System’s equations without forcing, which can be defined separately (see parameters <cite>F</cite> and <cite>fF</cite>).
 Eq is the unforced system of equations describing the system’s dynamics.</p></li>
-<li><p><strong>omegas</strong> (<em>sympy.Symbol</em><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><em>sympy.Symbol</em>) – The natural frequency of each oscillator.</p></li>
+<li><p><strong>omegas</strong> (<em>sympy.Symbol</em><em> or </em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><em>sympy.Symbol</em>) – The natural frequency of each oscillator.</p></li>
 <li><p><strong>F</strong> (<em>sympy.Symbol</em><em> or </em><em>0</em><em>, </em><em>optional</em>) – Forcing amplitude <span class="math notranslate nohighlight">\(F\)</span>.
 Default is 0.</p></li>
-<li><p><strong>fF</strong> (<em>sympy.Expr</em><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><em>sympy.Expr</em><em>, </em><em>optional</em>) – For each oscillator, specify the coefficient multiplying the forcing terms in the equation.
+<li><p><strong>fF</strong> (<em>sympy.Expr</em><em> or </em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><em>sympy.Expr</em><em>, </em><em>optional</em>) – For each oscillator, specify the coefficient multiplying the forcing terms in the equation.
 It can be used to define parametric forcing. Typically, if the forcing is <span class="math notranslate nohighlight">\(x F \cos(\omega t)\)</span>, then <code class="docutils literal notranslate"><span class="pre">fF</span> <span class="pre">=</span> <span class="pre">x</span></code>.
 Default is a list of 1, so the forcing is direct.</p></li>
 </ul>
@@ -309,7 +309,7 @@ See <a class="reference internal" href="mms.html#dyn-sys"><span class="std std-r
 <dl class="py class">
 <dt class="sig sig-object py" id="oscilate.MMS.dyn_sys.Forcing">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">oscilate.MMS.dyn_sys.</span></span><span class="sig-name descname"><span class="pre">Forcing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">F</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fF</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/oscilate/MMS/dyn_sys.html#Forcing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oscilate.MMS.dyn_sys.Forcing" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Define the forcing on the system as</p>
 <ul class="simple">
 <li><p>A forcing amplitude <cite>F</cite>,</p></li>
@@ -334,7 +334,7 @@ This sub-module defines the multiple scales system from the dynamical one, and a
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>f</strong> (<em>sympy.Function</em>) – Time scales-dependent function <span class="math notranslate nohighlight">\(f(\boldsymbol{t})\)</span>.</p></li>
-<li><p><strong>tS</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a>) – Time scales <span class="math notranslate nohighlight">\(\boldsymbol{t}^\intercal = [t_0, \cdots, t_{N_e}]\)</span>.</p></li>
+<li><p><strong>tS</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a>) – Time scales <span class="math notranslate nohighlight">\(\boldsymbol{t}^\intercal = [t_0, \cdots, t_{N_e}]\)</span>.</p></li>
 <li><p><strong>eps</strong> (<em>sympy.Symbol</em>) – Small parameter <span class="math notranslate nohighlight">\(\epsilon\)</span>.</p></li>
 </ul>
 </dd>
@@ -358,7 +358,7 @@ The Chain Rule is applied to give the expression of <span class="math notranslat
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>f</strong> (<em>sympy.Function</em>) – Time scales-dependent function <span class="math notranslate nohighlight">\(f(\boldsymbol{t})\)</span>.</p></li>
-<li><p><strong>tS</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a>) – Time scales <span class="math notranslate nohighlight">\(\boldsymbol{t}^\intercal = [t_0, \cdots, t_{N_e}]\)</span>.</p></li>
+<li><p><strong>tS</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a>) – Time scales <span class="math notranslate nohighlight">\(\boldsymbol{t}^\intercal = [t_0, \cdots, t_{N_e}]\)</span>.</p></li>
 <li><p><strong>eps</strong> (<em>sympy.Symbol</em>) – Small parameter <span class="math notranslate nohighlight">\(\epsilon\)</span>.</p></li>
 </ul>
 </dd>
@@ -377,7 +377,7 @@ The Chain Rule is applied to give the expression of <span class="math notranslat
 <dl class="py class">
 <dt class="sig sig-object py" id="oscilate.MMS.mms.Forcing_MMS">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">oscilate.MMS.mms.</span></span><span class="sig-name descname"><span class="pre">Forcing_MMS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">F</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f_order</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fF</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">forcing_term</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/oscilate/MMS/mms.html#Forcing_MMS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oscilate.MMS.mms.Forcing_MMS" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Define the forcing on the system as</p>
 <ul class="simple">
 <li><p>A forcing amplitude <cite>F</cite></p></li>
@@ -390,7 +390,7 @@ The Chain Rule is applied to give the expression of <span class="math notranslat
 <dl class="py class">
 <dt class="sig sig-object py" id="oscilate.MMS.mms.Multiple_scales_system">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">oscilate.MMS.mms.</span></span><span class="sig-name descname"><span class="pre">Multiple_scales_system</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dynamical_system</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ne</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">omega_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_scaling</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ratio_omegaMMS</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps_pow_0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ratio_omega_osc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detunings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/oscilate/MMS/mms.html#Multiple_scales_system"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oscilate.MMS.mms.Multiple_scales_system" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>The multiple scales system.
 See <a class="reference internal" href="mms.html#mms"><span class="std std-ref">Application of the MMS</span></a> for a detailed description of the dynamical system.</p>
 <dl class="field-list simple">
@@ -398,12 +398,12 @@ See <a class="reference internal" href="mms.html#mms"><span class="std std-ref">
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>dynamical_system</strong> (<a class="reference internal" href="#oscilate.MMS.dyn_sys.Dynamical_system" title="oscilate.MMS.dyn_sys.Dynamical_system"><em>Dynamical_system</em></a>) – The dynamical system.</p></li>
 <li><p><strong>eps</strong> (<em>sympy.Symbol</em>) – Small perturbation parameter <span class="math notranslate nohighlight">\(\epsilon\)</span>.</p></li>
-<li><p><strong>Ne</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Truncation order of the asymptotic series and order of the slowest time scale.</p></li>
+<li><p><strong>Ne</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Truncation order of the asymptotic series and order of the slowest time scale.</p></li>
 <li><p><strong>omega_ref</strong> (<em>sympy.Symbol</em>) – Reference frequency <span class="math notranslate nohighlight">\(\omega_{\textrm{ref}}\)</span> of the MMS.
 Not necessarily the frequency around which the MMS is going to be applied, see <cite>ratio_omegaMMS</cite>.</p></li>
-<li><p><strong>sub_scaling</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><em>tuples</em>) – Substitutions to do to scale the equations.
+<li><p><strong>sub_scaling</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><em>tuples</em>) – Substitutions to do to scale the equations.
 Links small parameters to their scaled counterpart through <span class="math notranslate nohighlight">\(\epsilon\)</span>.</p></li>
-<li><p><strong>ratio_omegaMMS</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a><em> or </em><em>sympy.Rational</em><em>, </em><em>optional</em>) – <p>Specify the frequency <cite>omegaMMS</cite> around which the MMS is going to be applied in terms of <span class="math notranslate nohighlight">\(\omega_{\textrm{ref}}\)</span>.
+<li><p><strong>ratio_omegaMMS</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><em>int</em></a><em> or </em><em>sympy.Rational</em><em>, </em><em>optional</em>) – <p>Specify the frequency <cite>omegaMMS</cite> around which the MMS is going to be applied in terms of <span class="math notranslate nohighlight">\(\omega_{\textrm{ref}}\)</span>.
 Denoting <cite>ratio_omegaMMS</cite> as <span class="math notranslate nohighlight">\(r_{\textrm{MMS}}\)</span>, this means that</p>
 <div class="math notranslate nohighlight">
 \[\omega_{\textrm{MMS}} = r_{\textrm{MMS}} \omega_{\textrm{ref}}.\]</div>
@@ -413,13 +413,13 @@ Denoting <cite>ratio_omegaMMS</cite> as <span class="math notranslate nohighligh
 <p>to get better-looking results than the float <span class="math notranslate nohighlight">\(p/q\)</span>.
 Default is 1.</p>
 </p></li>
-<li><p><strong>eps_pow_0</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a><em>, </em><em>optional</em>) – <p>Order of the leading order term in the asymptotic series of each oscillators’ response.
+<li><p><strong>eps_pow_0</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><em>int</em></a><em>, </em><em>optional</em>) – <p>Order of the leading order term in the asymptotic series of each oscillators’ response.
 For the <span class="math notranslate nohighlight">\(i^{\textrm{th}}\)</span> oscillator and denoting <cite>eps_pow_0</cite> as <span class="math notranslate nohighlight">\(\lambda_0\)</span>, this means that</p>
 <div class="math notranslate nohighlight">
 \[x_i = \epsilon^{\lambda_0} x_{i,0} + \epsilon^{\lambda_0+1} x_{i,1} + \cdots.\]</div>
 <p>Default is 0.</p>
 </p></li>
-<li><p><strong>ratio_omega_osc</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a><em> or </em><em>sympy.Rational</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – <p>Specify the natural frequencies of the oscillators <span class="math notranslate nohighlight">\(\omega_i\)</span> in terms of the reference frequency <span class="math notranslate nohighlight">\(\omega_{\textrm{ref}}\)</span>.
+<li><p><strong>ratio_omega_osc</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><em>int</em></a><em> or </em><em>sympy.Rational</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – <p>Specify the natural frequencies of the oscillators <span class="math notranslate nohighlight">\(\omega_i\)</span> in terms of the reference frequency <span class="math notranslate nohighlight">\(\omega_{\textrm{ref}}\)</span>.
 Denoting <code class="docutils literal notranslate"><span class="pre">ratio_omega_osc[i]</span></code> as <span class="math notranslate nohighlight">\(r_i\)</span>, this means that</p>
 <div class="math notranslate nohighlight">
 \[\omega_i \approx r_i \omega_{\textrm{ref}}.\]</div>
@@ -430,7 +430,7 @@ Denoting <code class="docutils literal notranslate"><span class="pre">ratio_omeg
 Default is <cite>None</cite> for each oscillator, so the <span class="math notranslate nohighlight">\(\omega_i\)</span> are arbitrary and there are no internal resonances.
 Detuning can be introduced through the <cite>detunings</cite> keyword argument.</p>
 </p></li>
-<li><p><strong>detunings</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><em>sympy.Symbol</em><em> or </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a><em>, </em><em>optional</em>) – <p>The detuning of each oscillator. Denoting <code class="docutils literal notranslate"><span class="pre">detunings[i]</span></code> as <span class="math notranslate nohighlight">\(\delta_i\)</span>, this means that</p>
+<li><p><strong>detunings</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><em>sympy.Symbol</em><em> or </em><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><em>int</em></a><em>, </em><em>optional</em>) – <p>The detuning of each oscillator. Denoting <code class="docutils literal notranslate"><span class="pre">detunings[i]</span></code> as <span class="math notranslate nohighlight">\(\delta_i\)</span>, this means that</p>
 <div class="math notranslate nohighlight">
 \[\omega_i = r_i \omega_{\textrm{ref}} + \delta_i.\]</div>
 <p>Default is 0 for each oscillator.</p>
@@ -482,7 +482,7 @@ See details on this choice in <a class="reference internal" href="mms.html#mms">
 <dd class="field-odd"><p><strong>harmonics</strong> – list of the harmonics appearing in the MMS solutions.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)">list</a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)">list</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -561,7 +561,7 @@ a_i \dfrac{\textrm{d} \beta_i}{\textrm{d} t} &amp; = f_{\beta_i}(\boldsymbol{a},
 <dd><p>Write the solutions using the polar coordinates and <span class="math notranslate nohighlight">\(\cos\)</span> and <span class="math notranslate nohighlight">\(\sin\)</span> functions.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>orders_polar</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a><em>, </em><em>optional</em>) – The orders at which the solutions will be rewritten in polar form.
+<dd class="field-odd"><p><strong>orders_polar</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><em>int</em></a><em>, </em><em>optional</em>) – The orders at which the solutions will be rewritten in polar form.
 If <code class="docutils literal notranslate"><span class="pre">&quot;all&quot;</span></code>, then all solution orders will be rewritten.
 If <cite>int</cite>, then only a single order will be rewritten.
 If <cite>list</cite> of <cite>int</cite>, then the listed orders will be rewritten.
@@ -582,7 +582,7 @@ Default is 0, so only the leading order solution will be rewritten.</p>
 <dd><p>Compute the slow time evolution of the amplitude and phase of an oscillator.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>IC</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a><em>(</em><em>)</em><em>, </em><em>optional</em>) – Initial conditions on <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span>, given as a <cite>dict</cite> with keys <cite>a</cite> and <cite>beta</cite>.
+<dd class="field-odd"><p><strong>IC</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a><em>(</em><em>)</em><em>, </em><em>optional</em>) – Initial conditions on <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span>, given as a <cite>dict</cite> with keys <cite>a</cite> and <cite>beta</cite>.
 The values associated to these keys are <cite>dict</cite> of the form <span class="math notranslate nohighlight">\(\{\dot{a}(0), a_{\text{IC}} \}\)</span> and <span class="math notranslate nohighlight">\(\{\dot{\beta}(0), \beta_{\text{IC}} \}\)</span>
 Default is an empty <cite>dict</cite>, subsequently filled with some symbols for the <span class="math notranslate nohighlight">\(a_{\text{IC}}\)</span> and <span class="math notranslate nohighlight">\(\beta_{\text{IC}}\)</span>.</p>
 </dd>
@@ -596,10 +596,10 @@ Default is an empty <cite>dict</cite>, subsequently filled with some symbols for
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>solve_dof</strong> (<em>None</em><em> or </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a><em>, </em><em>optional</em>) – The oscillator to solve for.
+<li><p><strong>solve_dof</strong> (<em>None</em><em> or </em><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><em>int</em></a><em>, </em><em>optional</em>) – The oscillator to solve for.
 If <cite>None</cite>, no oscillator is solved for.
 Default is <cite>None</cite>.</p></li>
-<li><p><strong>IC</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a><em>(</em><em>)</em><em>, </em><em>optional</em>) – See <a class="reference internal" href="#oscilate.MMS.mms.Multiple_scales_system.solve_slow_time" title="oscilate.MMS.mms.Multiple_scales_system.solve_slow_time"><code class="xref py py-meth docutils literal notranslate"><span class="pre">solve_slow_time()</span></code></a>.</p></li>
+<li><p><strong>IC</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a><em>(</em><em>)</em><em>, </em><em>optional</em>) – See <a class="reference internal" href="#oscilate.MMS.mms.Multiple_scales_system.solve_slow_time" title="oscilate.MMS.mms.Multiple_scales_system.solve_slow_time"><code class="xref py py-meth docutils literal notranslate"><span class="pre">solve_slow_time()</span></code></a>.</p></li>
 </ul>
 </dd>
 </dl>
@@ -639,14 +639,14 @@ Other time scales are refered-to as slow time as they capture the modulations.</
 <dl class="py class">
 <dt class="sig sig-object py" id="oscilate.MMS.mms.Sol_MMS">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">oscilate.MMS.mms.</span></span><span class="sig-name descname"><span class="pre">Sol_MMS</span></span><a class="reference internal" href="_modules/oscilate/MMS/mms.html#Sol_MMS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oscilate.MMS.mms.Sol_MMS" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Solutions obtained when applying the MMS.</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="oscilate.MMS.mms.Sol_harmonics">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">oscilate.MMS.mms.</span></span><span class="sig-name descname"><span class="pre">Sol_harmonics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">omega</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/oscilate/MMS/mms.html#Sol_harmonics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oscilate.MMS.mms.Sol_harmonics" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Harmonic decomposition of the solution.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -658,14 +658,14 @@ Other time scales are refered-to as slow time as they capture the modulations.</
 <dl class="py class">
 <dt class="sig sig-object py" id="oscilate.MMS.mms.Sol_transient">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">oscilate.MMS.mms.</span></span><span class="sig-name descname"><span class="pre">Sol_transient</span></span><a class="reference internal" href="_modules/oscilate/MMS/mms.html#Sol_transient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oscilate.MMS.mms.Sol_transient" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Solutions obtained when applying the MMS and solving for the transient response.</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="oscilate.MMS.mms.Substitutions_MMS">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">oscilate.MMS.mms.</span></span><span class="sig-name descname"><span class="pre">Substitutions_MMS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sub_t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_scaling</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_omega</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_sigma</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/oscilate/MMS/mms.html#Substitutions_MMS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oscilate.MMS.mms.Substitutions_MMS" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Substitutions used in the MMS.</p>
 </dd></dl>
 
@@ -677,8 +677,8 @@ Other time scales are refered-to as slow time as they capture the modulations.</
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>y</strong> (<em>sympy.Expr</em><em> or </em><em>sympy.Matrix</em>) – A sympy expression or matrix written in cartesian coordinates.</p></li>
-<li><p><strong>sub_polar</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a>) – A list of substitutions to perform to go from cartesian to polar coordinates.</p></li>
-<li><p><strong>sub_phase</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em>, </em><em>optional</em>) – Additional substitutions to try and get rid of phases, so that only the amplitude remains in the expression.
+<li><p><strong>sub_polar</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a>) – A list of substitutions to perform to go from cartesian to polar coordinates.</p></li>
+<li><p><strong>sub_phase</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em>, </em><em>optional</em>) – Additional substitutions to try and get rid of phases, so that only the amplitude remains in the expression.
 Default is <cite>None</cite>.</p></li>
 </ul>
 </dd>
@@ -707,7 +707,7 @@ Default is <cite>None</cite>.</p></li>
 <dd class="field-even"><p><strong>harmonics</strong> – The harmonics contained in x.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)">list</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)">list</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -739,8 +739,8 @@ Default is <cite>None</cite>.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>param</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><em>sympy.Symbol and/or sympy.Function</em>) – Unscaled parameters.</p></li>
-<li><p><strong>scaling</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – The scaling for each parameter.</p></li>
+<li><p><strong>param</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><em>sympy.Symbol and/or sympy.Function</em>) – Unscaled parameters.</p></li>
+<li><p><strong>scaling</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><em>float</em></a>) – The scaling for each parameter.</p></li>
 <li><p><strong>eps</strong> (<em>sympy.Symbol</em>) – Small parameter <span class="math notranslate nohighlight">\(\epsilon\)</span>.</p></li>
 </ul>
 </dd>
@@ -774,7 +774,7 @@ It also carries out the MMS derivations, still in oscillator form.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="oscilate.MMS.mms_oscillator.Coord_MMS_oscillator">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">oscilate.MMS.mms_oscillator.</span></span><span class="sig-name descname"><span class="pre">Coord_MMS_oscillator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mms</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/oscilate/MMS/mms_oscillator.html#Coord_MMS_oscillator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oscilate.MMS.mms_oscillator.Coord_MMS_oscillator" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>The coordinates used in the MMS.</p>
 </dd></dl>
 
@@ -790,7 +790,7 @@ See the parent class <a class="reference internal" href="#oscilate.MMS.mms.Multi
 <dd><p>Apply the MMS.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>orders_polar</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a><em>, </em><em>optional</em>) – The orders at which the solutions will be rewritten in polar form.
+<dd class="field-odd"><p><strong>orders_polar</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><em>int</em></a><em>, </em><em>optional</em>) – The orders at which the solutions will be rewritten in polar form.
 See <a class="reference internal" href="#oscilate.MMS.mms.Multiple_scales_system.sol_x_polar" title="oscilate.MMS.mms.Multiple_scales_system.sol_x_polar"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sol_x_polar()</span></code></a>.</p>
 </dd>
 </dl>
@@ -916,10 +916,10 @@ This allows to:</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>EqO_t0</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><em>sympy.Expr</em>) – The MMS equations at each order and for each oscillator written with <span class="math notranslate nohighlight">\(t_0\)</span> as the only independent variable.</p></li>
-<li><p><strong>xO_t0</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><em>sympy.Function</em>) – Oscillators’ response at each order written in terms of <span class="math notranslate nohighlight">\(t_0\)</span> only, <span class="math notranslate nohighlight">\(\tilde{x}_{i,j}(t_0)\)</span>.</p></li>
-<li><p><strong>io</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – The order of <span class="math notranslate nohighlight">\(\epsilon\)</span>.</p></li>
-<li><p><strong>ix</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – The dof number.</p></li>
+<li><p><strong>EqO_t0</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><em>sympy.Expr</em>) – The MMS equations at each order and for each oscillator written with <span class="math notranslate nohighlight">\(t_0\)</span> as the only independent variable.</p></li>
+<li><p><strong>xO_t0</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><em>sympy.Function</em>) – Oscillators’ response at each order written in terms of <span class="math notranslate nohighlight">\(t_0\)</span> only, <span class="math notranslate nohighlight">\(\tilde{x}_{i,j}(t_0)\)</span>.</p></li>
+<li><p><strong>io</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – The order of <span class="math notranslate nohighlight">\(\epsilon\)</span>.</p></li>
+<li><p><strong>ix</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – The dof number.</p></li>
 </ul>
 </dd>
 </dl>
@@ -964,7 +964,7 @@ It also carries out the MMS derivations, still in complex form, and ends up tran
 <dl class="py class">
 <dt class="sig sig-object py" id="oscilate.MMS.mms_complex.Coord_MMS_complex">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">oscilate.MMS.mms_complex.</span></span><span class="sig-name descname"><span class="pre">Coord_MMS_complex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mms</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/oscilate/MMS/mms_complex.html#Coord_MMS_complex"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oscilate.MMS.mms_complex.Coord_MMS_complex" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>The coordinates used in the MMS.</p>
 </dd></dl>
 
@@ -980,7 +980,7 @@ See the parent class <a class="reference internal" href="#oscilate.MMS.mms.Multi
 <dd><p>Apply the MMS in complex form.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>orders_polar</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a><em>, </em><em>optional</em>) – The orders at which the solutions will be rewritten in polar form.
+<dd class="field-odd"><p><strong>orders_polar</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><em>int</em></a><em>, </em><em>optional</em>) – The orders at which the solutions will be rewritten in polar form.
 See <a class="reference internal" href="#oscilate.MMS.mms.Multiple_scales_system.sol_x_polar" title="oscilate.MMS.mms.Multiple_scales_system.sol_x_polar"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sol_x_polar()</span></code></a>.</p>
 </dd>
 </dl>
@@ -1113,10 +1113,10 @@ This allows to:</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>EqO_t0</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><em>sympy.Expr</em>) – The MMS equations at each order and for each oscillator written with <span class="math notranslate nohighlight">\(t_0\)</span> as the only independent variable.</p></li>
-<li><p><strong>zO_t0</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><em>sympy.Function</em>) – Oscillators’ response at each order written in terms of <span class="math notranslate nohighlight">\(t_0\)</span> only, <span class="math notranslate nohighlight">\(\tilde{z}_{i,j}(t_0)\)</span>.</p></li>
-<li><p><strong>io</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – The order of <span class="math notranslate nohighlight">\(\epsilon\)</span>.</p></li>
-<li><p><strong>ix</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – The dof number.</p></li>
+<li><p><strong>EqO_t0</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><em>sympy.Expr</em>) – The MMS equations at each order and for each oscillator written with <span class="math notranslate nohighlight">\(t_0\)</span> as the only independent variable.</p></li>
+<li><p><strong>zO_t0</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><em>sympy.Function</em>) – Oscillators’ response at each order written in terms of <span class="math notranslate nohighlight">\(t_0\)</span> only, <span class="math notranslate nohighlight">\(\tilde{z}_{i,j}(t_0)\)</span>.</p></li>
+<li><p><strong>io</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – The order of <span class="math notranslate nohighlight">\(\epsilon\)</span>.</p></li>
+<li><p><strong>ix</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – The dof number.</p></li>
 </ul>
 </dd>
 </dl>
@@ -1179,56 +1179,56 @@ This sub-module defines the steady state system from the multiple scales one, an
 <dl class="py class">
 <dt class="sig sig-object py" id="oscilate.MMS.steady_state.Coord_SS">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">oscilate.MMS.steady_state.</span></span><span class="sig-name descname"><span class="pre">Coord_SS</span></span><a class="reference internal" href="_modules/oscilate/MMS/steady_state.html#Coord_SS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oscilate.MMS.steady_state.Coord_SS" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>The coordinates used in the steady state analysis.</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="oscilate.MMS.steady_state.Forcing_SS">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">oscilate.MMS.steady_state.</span></span><span class="sig-name descname"><span class="pre">Forcing_SS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mms</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/oscilate/MMS/steady_state.html#Forcing_SS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oscilate.MMS.steady_state.Forcing_SS" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Define the forcing on the system.</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="oscilate.MMS.steady_state.Sol_LC">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">oscilate.MMS.steady_state.</span></span><span class="sig-name descname"><span class="pre">Sol_LC</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ss</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mms</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/oscilate/MMS/steady_state.html#Sol_LC"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oscilate.MMS.steady_state.Sol_LC" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Solutions obtained when evaluating the limit cycle (LC) of the system.</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="oscilate.MMS.steady_state.Sol_SS">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">oscilate.MMS.steady_state.</span></span><span class="sig-name descname"><span class="pre">Sol_SS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ss</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mms</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/oscilate/MMS/steady_state.html#Sol_SS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oscilate.MMS.steady_state.Sol_SS" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Solutions obtained when evaluating at steady state.</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="oscilate.MMS.steady_state.Sol_bbc">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">oscilate.MMS.steady_state.</span></span><span class="sig-name descname"><span class="pre">Sol_bbc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ss</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mms</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/oscilate/MMS/steady_state.html#Sol_bbc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oscilate.MMS.steady_state.Sol_bbc" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Solutions obtained when evaluating the backbone curve of the response.</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="oscilate.MMS.steady_state.Sol_forced">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">oscilate.MMS.steady_state.</span></span><span class="sig-name descname"><span class="pre">Sol_forced</span></span><a class="reference internal" href="_modules/oscilate/MMS/steady_state.html#Sol_forced"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oscilate.MMS.steady_state.Sol_forced" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Solutions obtained when evaluating the forced response of the system.</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="oscilate.MMS.steady_state.Stability">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">oscilate.MMS.steady_state.</span></span><span class="sig-name descname"><span class="pre">Stability</span></span><a class="reference internal" href="_modules/oscilate/MMS/steady_state.html#Stability"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oscilate.MMS.steady_state.Stability" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Stability analysis parameters and outputs.</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="oscilate.MMS.steady_state.Steady_state">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">oscilate.MMS.steady_state.</span></span><span class="sig-name descname"><span class="pre">Steady_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mms</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/oscilate/MMS/steady_state.html#Steady_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oscilate.MMS.steady_state.Steady_state" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Steady state analysis of the multiple scales system.
 See <a class="reference internal" href="mms.html#steady-state"><span class="std std-ref">Evaluation at steady state</span></a> for a detailed description of the dynamical system.</p>
 <dl class="field-list simple">
@@ -1271,9 +1271,9 @@ See <a class="reference internal" href="mms.html#steady-state"><span class="std 
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>fp</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><em>sympy.Expr</em>) – Evolution functions for the cartesian coordinates <span class="math notranslate nohighlight">\(p_i\)</span>.
+<li><p><strong>fp</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><em>sympy.Expr</em>) – Evolution functions for the cartesian coordinates <span class="math notranslate nohighlight">\(p_i\)</span>.
 There are polar coordinates remaining.</p></li>
-<li><p><strong>fq</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><em>sympy.Expr</em>) – Evolution functions for the cartesian coordinates <span class="math notranslate nohighlight">\(q_i\)</span>.
+<li><p><strong>fq</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><em>sympy.Expr</em>) – Evolution functions for the cartesian coordinates <span class="math notranslate nohighlight">\(q_i\)</span>.
 There are polar coordinates remaining.</p></li>
 </ul>
 </dd>
@@ -1297,12 +1297,12 @@ Additional substitutions were performed to get rid of polar coordinates.</p></li
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>detJ</strong> (<em>sympy.Expr</em>) – The determinant of the matrix.</p></li>
-<li><p><strong>sol_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>, </em><em>optional</em>) – The solution type, among <cite>{“forced”, “bbc”, “LC”}</cite>
+<li><p><strong>sol_type</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>, </em><em>optional</em>) – The solution type, among <cite>{“forced”, “bbc”, “LC”}</cite>
 Default is <cite>“forced”</cite>.</p></li>
-<li><p><strong>var_a</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a><em>, </em><em>optional</em>) – Consider the <span class="math notranslate nohighlight">\(i^{\textrm{th}}\)</span> oscillator’s amplitude <span class="math notranslate nohighlight">\(a_i\)</span> as the variable and find the bifurcation curve as an expression for <span class="math notranslate nohighlight">\(a_i\)</span>.
+<li><p><strong>var_a</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a><em>, </em><em>optional</em>) – Consider the <span class="math notranslate nohighlight">\(i^{\textrm{th}}\)</span> oscillator’s amplitude <span class="math notranslate nohighlight">\(a_i\)</span> as the variable and find the bifurcation curve as an expression for <span class="math notranslate nohighlight">\(a_i\)</span>.
 <cite>detJ</cite> is rarely a quadratic polynomial in <span class="math notranslate nohighlight">\(a_i\)</span>, so this can rarely be computed easily.
 Default is <cite>False</cite>.</p></li>
-<li><p><strong>var_sig</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a><em>, </em><em>optional</em>) – Consider the detuning <span class="math notranslate nohighlight">\(\sigma\)</span> as the variable and find the bifurcation curve as an expression for <span class="math notranslate nohighlight">\(\sigma\)</span>.
+<li><p><strong>var_sig</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a><em>, </em><em>optional</em>) – Consider the detuning <span class="math notranslate nohighlight">\(\sigma\)</span> as the variable and find the bifurcation curve as an expression for <span class="math notranslate nohighlight">\(\sigma\)</span>.
 <cite>detJ</cite> is often a quadratic polynomial in <span class="math notranslate nohighlight">\(\sigma\)</span>, so this can often be computed.
 Default is <cite>True</cite>.</p></li>
 <li><p><strong>solver</strong> (<em>function</em><em>, </em><em>optional</em>) – The solver to use to compute the bifurcation curves.
@@ -1353,10 +1353,10 @@ q_i = a_i \sin (\beta_i),
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>a</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><em>sympy.Symbol</em>) – Amplitudes of the leading order solutions.</p></li>
-<li><p><strong>beta</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><em>sympy.Symbol</em>) – Phases of the leading order solutions.</p></li>
-<li><p><strong>fp</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><em>sympy.Expr</em>) – Evolution functions for the cartesian coordinates <span class="math notranslate nohighlight">\(p_i\)</span>.</p></li>
-<li><p><strong>fq</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><em>sympy.Expr</em>) – Evolution functions for the cartesian coordinates <span class="math notranslate nohighlight">\(q_i\)</span>.</p></li>
+<li><p><strong>a</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><em>sympy.Symbol</em>) – Amplitudes of the leading order solutions.</p></li>
+<li><p><strong>beta</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><em>sympy.Symbol</em>) – Phases of the leading order solutions.</p></li>
+<li><p><strong>fp</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><em>sympy.Expr</em>) – Evolution functions for the cartesian coordinates <span class="math notranslate nohighlight">\(p_i\)</span>.</p></li>
+<li><p><strong>fq</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><em>sympy.Expr</em>) – Evolution functions for the cartesian coordinates <span class="math notranslate nohighlight">\(q_i\)</span>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1364,7 +1364,7 @@ q_i = a_i \sin (\beta_i),
 <cite>False</cite> otherwise.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)">bool</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.14)">bool</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1387,7 +1387,7 @@ Default is <cite>None</cite>.</p></li>
 <dd class="field-even"><p><strong>eigvals</strong> – The eigenvalues of <span class="math notranslate nohighlight">\(\textrm{A}\)</span>.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)">list</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)">list</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1432,10 +1432,10 @@ For oscillator <span class="math notranslate nohighlight">\(i\)</span>, this res
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>solve_dof</strong> (<em>None</em><em> or </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a><em>, </em><em>oprtional</em>) – The oscillator number to solve for.
+<li><p><strong>solve_dof</strong> (<em>None</em><em> or </em><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><em>int</em></a><em>, </em><em>oprtional</em>) – The oscillator number to solve for.
 If <cite>None</cite>, no oscillator is solved for.
 Default is <cite>None</cite>.</p></li>
-<li><p><strong>betai</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a><em> or </em><em>Expr</em><em>, </em><em>optional</em>) – The initial phase.
+<li><p><strong>betai</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><em>int</em></a><em> or </em><em>Expr</em><em>, </em><em>optional</em>) – The initial phase.
 Default is 0.</p></li>
 </ul>
 </dd>
@@ -1487,10 +1487,10 @@ For readability, the output actually returned is <span class="math notranslate n
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>c</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em>, </em><em>optional</em>) – Damping terms. They will be set to 0 to compute the backbone curve.
+<li><p><strong>c</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em>, </em><em>optional</em>) – Damping terms. They will be set to 0 to compute the backbone curve.
 Note that these are the scaled damping terms.
 Default is <cite>[]</cite>.</p></li>
-<li><p><strong>solve_dof</strong> (<em>None</em><em> or </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a><em>, </em><em>oprtional</em>) – The oscillator number to solve for.
+<li><p><strong>solve_dof</strong> (<em>None</em><em> or </em><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><em>int</em></a><em>, </em><em>oprtional</em>) – The oscillator number to solve for.
 If <cite>None</cite>, no oscillator is solved for.
 Default is <cite>None</cite>.</p></li>
 </ul>
@@ -1536,7 +1536,7 @@ This phase value at resonance is multiplied by a rational in the case of seconda
 <dd><p>Solve the forced response of an oscillator.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>solve_dof</strong> (<em>None</em><em> or </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a><em>, </em><em>optional</em>) – The oscillator to solve for.
+<dd class="field-odd"><p><strong>solve_dof</strong> (<em>None</em><em> or </em><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><em>int</em></a><em>, </em><em>optional</em>) – The oscillator to solve for.
 If <cite>None</cite>, no oscillator is solved for.
 Default is <cite>None</cite>.</p>
 </dd>
@@ -1576,21 +1576,21 @@ See <a class="reference internal" href="mms.html#stability"><span class="std std
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>coord</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>, </em><em>optional</em>) – Either <code class="docutils literal notranslate"><span class="pre">&quot;cartesian&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;polar&quot;</span></code>.
+<li><p><strong>coord</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>, </em><em>optional</em>) – Either <code class="docutils literal notranslate"><span class="pre">&quot;cartesian&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;polar&quot;</span></code>.
 Specifies the coordinates to use for the stability analysis.
 <code class="docutils literal notranslate"><span class="pre">&quot;cartesian&quot;</span></code> is recommended as it prevents divisions by 0, which occur when at least one of the oscillator has a 0 ampliutude.
 Default is <code class="docutils literal notranslate"><span class="pre">&quot;cartesian&quot;</span></code>.</p></li>
-<li><p><strong>rewrite_polar</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a><em>, </em><em>optional</em>) – Rewrite the Jacobian’s determinant and trace in polar coordinates (if computed using cartesian ones).
+<li><p><strong>rewrite_polar</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a><em>, </em><em>optional</em>) – Rewrite the Jacobian’s determinant and trace in polar coordinates (if computed using cartesian ones).
 This can be time consuming and the current back substitutions from cartesian to polar coordinates are not always sufficient.
 Default is <cite>True</cite>.</p></li>
-<li><p><strong>eigenvalues</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a><em>, </em><em>optional</em>) – Compute the eigenvalues of the Jacobian.
+<li><p><strong>eigenvalues</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a><em>, </em><em>optional</em>) – Compute the eigenvalues of the Jacobian.
 Default is <cite>False</cite>.</p></li>
-<li><p><strong>bifurcation_curves</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a><em>, </em><em>optional</em>) – Compute the bifurcation curves.
+<li><p><strong>bifurcation_curves</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a><em>, </em><em>optional</em>) – Compute the bifurcation curves.
 Default is <cite>False</cite>.</p></li>
-<li><p><strong>trace_curves</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a><em>, </em><em>optional</em>) – Compute the trace curves, i.e. the zeros of the Jacobian’s trace.
+<li><p><strong>trace_curves</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a><em>, </em><em>optional</em>) – Compute the trace curves, i.e. the zeros of the Jacobian’s trace.
 Default is <cite>False</cite>.</p></li>
-<li><p><strong>analyse_blocks</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a><em>, </em><em>optional</em>) – Analyse the diagonal blocks of the Jacobian rather than the Jacobian itself. This is relevant if the Jacobian is block-diagonal.</p></li>
-<li><p><strong>kwargs_bif</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a><em>, </em><em>optional</em>) – Passed to <a class="reference internal" href="#oscilate.MMS.steady_state.Steady_state.bifurcation_curves" title="oscilate.MMS.steady_state.Steady_state.bifurcation_curves"><code class="xref py py-meth docutils literal notranslate"><span class="pre">bifurcation_curves()</span></code></a>
+<li><p><strong>analyse_blocks</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a><em>, </em><em>optional</em>) – Analyse the diagonal blocks of the Jacobian rather than the Jacobian itself. This is relevant if the Jacobian is block-diagonal.</p></li>
+<li><p><strong>kwargs_bif</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a><em>, </em><em>optional</em>) – Passed to <a class="reference internal" href="#oscilate.MMS.steady_state.Steady_state.bifurcation_curves" title="oscilate.MMS.steady_state.Steady_state.bifurcation_curves"><code class="xref py py-meth docutils literal notranslate"><span class="pre">bifurcation_curves()</span></code></a>
 Default is <cite>dict()</cite>.</p></li>
 </ul>
 </dd>
@@ -1613,11 +1613,11 @@ Default is <cite>dict()</cite>.</p></li>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>trJ</strong> (<em>sympy.Expr</em>) – The trace of the matrix.</p></li>
-<li><p><strong>sol_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>, </em><em>optional</em>) – The solution type, among <cite>{“forced”, “bbc”, “LC”}</cite>
+<li><p><strong>sol_type</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>, </em><em>optional</em>) – The solution type, among <cite>{“forced”, “bbc”, “LC”}</cite>
 Default is <cite>“forced”</cite>.</p></li>
-<li><p><strong>var_a</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a><em>, </em><em>optional</em>) – Consider the <span class="math notranslate nohighlight">\(i^{\textrm{th}}\)</span> oscillator’s amplitude <span class="math notranslate nohighlight">\(a_i\)</span> as the variable and find the trace curve as an expression for <span class="math notranslate nohighlight">\(a_i\)</span>.
+<li><p><strong>var_a</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a><em>, </em><em>optional</em>) – Consider the <span class="math notranslate nohighlight">\(i^{\textrm{th}}\)</span> oscillator’s amplitude <span class="math notranslate nohighlight">\(a_i\)</span> as the variable and find the trace curve as an expression for <span class="math notranslate nohighlight">\(a_i\)</span>.
 Default is <cite>False</cite>.</p></li>
-<li><p><strong>var_sig</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a><em>, </em><em>optional</em>) – Consider the detuning <span class="math notranslate nohighlight">\(\sigma\)</span> as the variable and find the trace curve as an expression for <span class="math notranslate nohighlight">\(\sigma\)</span>.
+<li><p><strong>var_sig</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a><em>, </em><em>optional</em>) – Consider the detuning <span class="math notranslate nohighlight">\(\sigma\)</span> as the variable and find the trace curve as an expression for <span class="math notranslate nohighlight">\(\sigma\)</span>.
 Default is <cite>True</cite>.</p></li>
 <li><p><strong>solver</strong> (<em>function</em><em>, </em><em>optional</em>) – The solver to use to compute the trace curves.
 Available are solver called as <cite>solve(expr, x)</cite>, which solve <cite>expr=0</cite> for <cite>x</cite>.
@@ -1640,7 +1640,7 @@ Default is <a class="reference internal" href="#oscilate.sympy_functions.solve_p
 <dl class="py class">
 <dt class="sig sig-object py" id="oscilate.MMS.steady_state.Substitutions_SS">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">oscilate.MMS.steady_state.</span></span><span class="sig-name descname"><span class="pre">Substitutions_SS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mms</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/oscilate/MMS/steady_state.html#Substitutions_SS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oscilate.MMS.steady_state.Substitutions_SS" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Substitutions used in the steady state evaluations.</p>
 </dd></dl>
 
@@ -1654,7 +1654,7 @@ This sub-module evaluates the symbolic expressions for given numerical parameter
 <dl class="py class">
 <dt class="sig sig-object py" id="oscilate.MMS.visualisation.Amplitude_response_curve">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">oscilate.MMS.visualisation.</span></span><span class="sig-name descname"><span class="pre">Amplitude_response_curve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ss</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dyn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/oscilate/MMS/visualisation.html#Amplitude_response_curve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oscilate.MMS.visualisation.Amplitude_response_curve" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Evaluate the amplitude response curves (ARC) for given numerical parameters.
 ‘Amplitude’ refers to the forcing amplitude.
 This transforms the sympy expressions to numpy arrays.
@@ -1665,7 +1665,7 @@ They can then be plotted.</p>
 <li><p><strong>mms</strong> (<a class="reference internal" href="#oscilate.MMS.mms.Multiple_scales_system" title="oscilate.MMS.mms.Multiple_scales_system"><em>Multiple_scales_system</em></a>) – The MMS object.</p></li>
 <li><p><strong>ss</strong> (<a class="reference internal" href="#oscilate.MMS.steady_state.Steady_state" title="oscilate.MMS.steady_state.Steady_state"><em>Steady_state</em></a>) – The MMS results evaluated at steady state.</p></li>
 <li><p><strong>dyn</strong> (<a class="reference internal" href="#oscilate.MMS.dyn_sys.Dynamical_system" title="oscilate.MMS.dyn_sys.Dynamical_system"><em>Dynamical_system</em></a>) – The initial dynamical system.</p></li>
-<li><p><strong>param</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><em>tuple</em></a><em>]</em>) – <p>A list whose values are tuples with 2 elements:</p>
+<li><p><strong>param</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#tuple" title="(in Python v3.14)"><em>tuple</em></a><em>]</em>) – <p>A list whose values are tuples with 2 elements:</p>
 <ol class="arabic simple">
 <li><p>The sympy symbol of a parameter,</p></li>
 <li><p>The numerical value(s) taken by that parameter.</p></li>
@@ -1697,7 +1697,7 @@ They can then be plotted.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="oscilate.MMS.visualisation.Backbone_curve">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">oscilate.MMS.visualisation.</span></span><span class="sig-name descname"><span class="pre">Backbone_curve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ss</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dyn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/oscilate/MMS/visualisation.html#Backbone_curve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oscilate.MMS.visualisation.Backbone_curve" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Evaluate the backbone curve for given numerical parameters. This transforms the sympy expressions to numpy arrays. They can then be plotted.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1705,7 +1705,7 @@ They can then be plotted.</p>
 <li><p><strong>mms</strong> (<a class="reference internal" href="#oscilate.MMS.mms.Multiple_scales_system" title="oscilate.MMS.mms.Multiple_scales_system"><em>Multiple_scales_system</em></a>) – The MMS object.</p></li>
 <li><p><strong>ss</strong> (<a class="reference internal" href="#oscilate.MMS.steady_state.Steady_state" title="oscilate.MMS.steady_state.Steady_state"><em>Steady_state</em></a>) – The MMS results evaluated at steady state.</p></li>
 <li><p><strong>dyn</strong> (<a class="reference internal" href="#oscilate.MMS.dyn_sys.Dynamical_system" title="oscilate.MMS.dyn_sys.Dynamical_system"><em>Dynamical_system</em></a>) – The initial dynamical system.</p></li>
-<li><p><strong>param</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><em>tuple</em></a><em>]</em>) – <p>A list whose values are tuples with 2 elements:</p>
+<li><p><strong>param</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#tuple" title="(in Python v3.14)"><em>tuple</em></a><em>]</em>) – <p>A list whose values are tuples with 2 elements:</p>
 <ol class="arabic simple">
 <li><p>The sympy symbol of a parameter,</p></li>
 <li><p>The numerical value(s) taken by that parameter.</p></li>
@@ -1736,7 +1736,7 @@ They can then be plotted.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="oscilate.MMS.visualisation.Frequency_response_curve">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">oscilate.MMS.visualisation.</span></span><span class="sig-name descname"><span class="pre">Frequency_response_curve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ss</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dyn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bif</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/oscilate/MMS/visualisation.html#Frequency_response_curve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oscilate.MMS.visualisation.Frequency_response_curve" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Evaluate the frequency response curves (FRC) and bifurcation curves (if computed) for given numerical parameters. This transforms the sympy expressions to numpy arrays. They can then be plotted.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1744,13 +1744,13 @@ They can then be plotted.</p>
 <li><p><strong>mms</strong> (<a class="reference internal" href="#oscilate.MMS.mms.Multiple_scales_system" title="oscilate.MMS.mms.Multiple_scales_system"><em>Multiple_scales_system</em></a>) – The MMS object.</p></li>
 <li><p><strong>ss</strong> (<a class="reference internal" href="#oscilate.MMS.steady_state.Steady_state" title="oscilate.MMS.steady_state.Steady_state"><em>Steady_state</em></a>) – The MMS results evaluated at steady state.</p></li>
 <li><p><strong>dyn</strong> (<a class="reference internal" href="#oscilate.MMS.dyn_sys.Dynamical_system" title="oscilate.MMS.dyn_sys.Dynamical_system"><em>Dynamical_system</em></a>) – The initial dynamical system.</p></li>
-<li><p><strong>param</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><em>tuple</em></a><em>]</em>) – <p>A list whose values are tuples with 2 elements:</p>
+<li><p><strong>param</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#tuple" title="(in Python v3.14)"><em>tuple</em></a><em>]</em>) – <p>A list whose values are tuples with 2 elements:</p>
 <ol class="arabic simple">
 <li><p>The sympy symbol of a parameter,</p></li>
 <li><p>The numerical value(s) taken by that parameter.</p></li>
 </ol>
 </p></li>
-<li><p><strong>bif</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a><em>, </em><em>optional</em>) – Evaluate the bifurcation curves.
+<li><p><strong>bif</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a><em>, </em><em>optional</em>) – Evaluate the bifurcation curves.
 Default is <cite>True</cite>.</p></li>
 </ul>
 </dd>
@@ -1783,7 +1783,7 @@ Default is None.</p></li>
 <dl class="py class">
 <dt class="sig sig-object py" id="oscilate.MMS.visualisation.Limit_cycle">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">oscilate.MMS.visualisation.</span></span><span class="sig-name descname"><span class="pre">Limit_cycle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ss</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Npts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/oscilate/MMS/visualisation.html#Limit_cycle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oscilate.MMS.visualisation.Limit_cycle" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Evaluate the limit cycle for given numerical parameters.
 This transforms the sympy expressions to numpy arrays.
 They can then be plotted in the phase portrait and as time signals.</p>
@@ -1792,13 +1792,13 @@ They can then be plotted in the phase portrait and as time signals.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>mms</strong> (<a class="reference internal" href="#oscilate.MMS.mms.Multiple_scales_system" title="oscilate.MMS.mms.Multiple_scales_system"><em>Multiple_scales_system</em></a>) – The MMS object.</p></li>
 <li><p><strong>ss</strong> (<a class="reference internal" href="#oscilate.MMS.steady_state.Steady_state" title="oscilate.MMS.steady_state.Steady_state"><em>Steady_state</em></a>) – The SS object.</p></li>
-<li><p><strong>param</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><em>tuple</em></a><em>]</em>) – <p>A list whose values are tuples with 2 elements:</p>
+<li><p><strong>param</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#tuple" title="(in Python v3.14)"><em>tuple</em></a><em>]</em>) – <p>A list whose values are tuples with 2 elements:</p>
 <ol class="arabic simple">
 <li><p>The sympy symbol of a parameter,</p></li>
 <li><p>The numerical value(s) taken by that parameter.</p></li>
 </ol>
 </p></li>
-<li><p><strong>Npts</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a><em>, </em><em>optional</em>) – Number of time points.
+<li><p><strong>Npts</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><em>int</em></a><em>, </em><em>optional</em>) – Number of time points.
 Default is 1000.</p></li>
 </ul>
 </dd>
@@ -1810,8 +1810,8 @@ Default is 1000.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>c</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>, </em><em>optional</em>) – The color of the line.</p></li>
-<li><p><strong>lw</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><em>float</em></a><em>, </em><em>optional</em>) – The linewidth
+<li><p><strong>c</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>, </em><em>optional</em>) – The color of the line.</p></li>
+<li><p><strong>lw</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)"><em>float</em></a><em>, </em><em>optional</em>) – The linewidth
 Default is 2.</p></li>
 </ul>
 </dd>
@@ -1830,7 +1830,7 @@ Default is 2.</p></li>
 <dd><p>Plots the transient time response.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>c</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>, </em><em>optional</em>) – The color of the line.</p>
+<dd class="field-odd"><p><strong>c</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>, </em><em>optional</em>) – The color of the line.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>fig</strong> – The time plot.</p>
@@ -1846,7 +1846,7 @@ Default is 2.</p></li>
 <dl class="py class">
 <dt class="sig sig-object py" id="oscilate.MMS.visualisation.Transient_response">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">oscilate.MMS.visualisation.</span></span><span class="sig-name descname"><span class="pre">Transient_response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/oscilate/MMS/visualisation.html#Transient_response"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oscilate.MMS.visualisation.Transient_response" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Evaluate the transient response for given numerical parameters.
 This transforms the sympy expressions to numpy arrays.
 They can then be plotted in the phase portrait and as time signals.</p>
@@ -1854,7 +1854,7 @@ They can then be plotted in the phase portrait and as time signals.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>mms</strong> (<a class="reference internal" href="#oscilate.MMS.mms.Multiple_scales_system" title="oscilate.MMS.mms.Multiple_scales_system"><em>Multiple_scales_system</em></a>) – The MMS object.</p></li>
-<li><p><strong>param</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><em>tuple</em></a><em>]</em>) – <p>A list whose values are tuples with 2 elements:</p>
+<li><p><strong>param</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#tuple" title="(in Python v3.14)"><em>tuple</em></a><em>]</em>) – <p>A list whose values are tuples with 2 elements:</p>
 <ol class="arabic simple">
 <li><p>The sympy symbol of a parameter,</p></li>
 <li><p>The numerical value(s) taken by that parameter.</p></li>
@@ -1869,7 +1869,7 @@ They can then be plotted in the phase portrait and as time signals.</p>
 <dd><p>Plots the transient trajectory in the phase portrait.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>c</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>, </em><em>optional</em>) – The color of the line.</p>
+<dd class="field-odd"><p><strong>c</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>, </em><em>optional</em>) – The color of the line.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>fig</strong> – The phase portrait plot.</p>
@@ -1886,7 +1886,7 @@ They can then be plotted in the phase portrait and as time signals.</p>
 <dd><p>Plots the transient time response.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>c</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>, </em><em>optional</em>) – The color of the line.</p>
+<dd class="field-odd"><p><strong>c</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>, </em><em>optional</em>) – The color of the line.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>fig</strong> – The time plot.</p>
@@ -1908,7 +1908,7 @@ They can then be plotted in the phase portrait and as time signals.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>mms</strong> (<a class="reference internal" href="#oscilate.MMS.mms.Multiple_scales_system" title="oscilate.MMS.mms.Multiple_scales_system"><em>Multiple_scales_system</em></a>)</p></li>
 <li><p><strong>ss</strong> (<a class="reference internal" href="#oscilate.MMS.steady_state.Steady_state" title="oscilate.MMS.steady_state.Steady_state"><em>Steady_state</em></a>)</p></li>
-<li><p><strong>param</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a>) – See <a class="reference internal" href="#oscilate.sympy_functions.sympy_to_numpy" title="oscilate.sympy_functions.sympy_to_numpy"><code class="xref py py-func docutils literal notranslate"><span class="pre">sympy_to_numpy()</span></code></a>.</p></li>
+<li><p><strong>param</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a>) – See <a class="reference internal" href="#oscilate.sympy_functions.sympy_to_numpy" title="oscilate.sympy_functions.sympy_to_numpy"><code class="xref py py-func docutils literal notranslate"><span class="pre">sympy_to_numpy()</span></code></a>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1929,7 +1929,7 @@ They can then be plotted in the phase portrait and as time signals.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>mms</strong> (<a class="reference internal" href="#oscilate.MMS.mms.Multiple_scales_system" title="oscilate.MMS.mms.Multiple_scales_system"><em>Multiple_scales_system</em></a>)</p></li>
 <li><p><strong>ss</strong> (<em>Steady_state_system</em>)</p></li>
-<li><p><strong>param</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a>) – See <a class="reference internal" href="#oscilate.sympy_functions.sympy_to_numpy" title="oscilate.sympy_functions.sympy_to_numpy"><code class="xref py py-func docutils literal notranslate"><span class="pre">sympy_to_numpy()</span></code></a>.</p></li>
+<li><p><strong>param</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a>) – See <a class="reference internal" href="#oscilate.sympy_functions.sympy_to_numpy" title="oscilate.sympy_functions.sympy_to_numpy"><code class="xref py py-func docutils literal notranslate"><span class="pre">sympy_to_numpy()</span></code></a>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1952,7 +1952,7 @@ They can then be plotted in the phase portrait and as time signals.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>mms</strong> (<a class="reference internal" href="#oscilate.MMS.mms.Multiple_scales_system" title="oscilate.MMS.mms.Multiple_scales_system"><em>Multiple_scales_system</em></a>)</p></li>
 <li><p><strong>ss</strong> (<em>Steady_state_system</em>)</p></li>
-<li><p><strong>param</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a>) – See <a class="reference internal" href="#oscilate.sympy_functions.sympy_to_numpy" title="oscilate.sympy_functions.sympy_to_numpy"><code class="xref py py-func docutils literal notranslate"><span class="pre">sympy_to_numpy()</span></code></a>.</p></li>
+<li><p><strong>param</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a>) – See <a class="reference internal" href="#oscilate.sympy_functions.sympy_to_numpy" title="oscilate.sympy_functions.sympy_to_numpy"><code class="xref py py-func docutils literal notranslate"><span class="pre">sympy_to_numpy()</span></code></a>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1973,14 +1973,14 @@ They can then be plotted in the phase portrait and as time signals.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>mms</strong> (<a class="reference internal" href="#oscilate.MMS.mms.Multiple_scales_system" title="oscilate.MMS.mms.Multiple_scales_system"><em>Multiple_scales_system</em></a>)</p></li>
-<li><p><strong>param</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a>) – See <a class="reference internal" href="#oscilate.sympy_functions.sympy_to_numpy" title="oscilate.sympy_functions.sympy_to_numpy"><code class="xref py py-func docutils literal notranslate"><span class="pre">sympy_to_numpy()</span></code></a>.</p></li>
+<li><p><strong>param</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a>) – See <a class="reference internal" href="#oscilate.sympy_functions.sympy_to_numpy" title="oscilate.sympy_functions.sympy_to_numpy"><code class="xref py py-func docutils literal notranslate"><span class="pre">sympy_to_numpy()</span></code></a>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>omegaMMS</strong> – Numpised MMS frequency.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)">float</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#float" title="(in Python v3.14)">float</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1994,7 +1994,7 @@ They can then be plotted in the phase portrait and as time signals.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>mms</strong> (<a class="reference internal" href="#oscilate.MMS.mms.Multiple_scales_system" title="oscilate.MMS.mms.Multiple_scales_system"><em>Multiple_scales_system</em></a>)</p></li>
 <li><p><strong>ss</strong> (<a class="reference internal" href="#oscilate.MMS.steady_state.Steady_state" title="oscilate.MMS.steady_state.Steady_state"><em>Steady_state</em></a>)</p></li>
-<li><p><strong>param</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a>) – See <a class="reference internal" href="#oscilate.sympy_functions.sympy_to_numpy" title="oscilate.sympy_functions.sympy_to_numpy"><code class="xref py py-func docutils literal notranslate"><span class="pre">sympy_to_numpy()</span></code></a>.</p></li>
+<li><p><strong>param</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a>) – See <a class="reference internal" href="#oscilate.sympy_functions.sympy_to_numpy" title="oscilate.sympy_functions.sympy_to_numpy"><code class="xref py py-func docutils literal notranslate"><span class="pre">sympy_to_numpy()</span></code></a>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -2015,7 +2015,7 @@ They can then be plotted in the phase portrait and as time signals.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>mms</strong> (<a class="reference internal" href="#oscilate.MMS.mms.Multiple_scales_system" title="oscilate.MMS.mms.Multiple_scales_system"><em>Multiple_scales_system</em></a>)</p></li>
 <li><p><strong>ss</strong> (<a class="reference internal" href="#oscilate.MMS.steady_state.Steady_state" title="oscilate.MMS.steady_state.Steady_state"><em>Steady_state</em></a>)</p></li>
-<li><p><strong>param</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a>) – See <a class="reference internal" href="#oscilate.sympy_functions.sympy_to_numpy" title="oscilate.sympy_functions.sympy_to_numpy"><code class="xref py py-func docutils literal notranslate"><span class="pre">sympy_to_numpy()</span></code></a>.</p></li>
+<li><p><strong>param</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a>) – See <a class="reference internal" href="#oscilate.sympy_functions.sympy_to_numpy" title="oscilate.sympy_functions.sympy_to_numpy"><code class="xref py py-func docutils literal notranslate"><span class="pre">sympy_to_numpy()</span></code></a>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -2036,14 +2036,14 @@ They can then be plotted in the phase portrait and as time signals.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>mms</strong> (<a class="reference internal" href="#oscilate.MMS.mms.Multiple_scales_system" title="oscilate.MMS.mms.Multiple_scales_system"><em>Multiple_scales_system</em></a>)</p></li>
 <li><p><strong>ss</strong> (<a class="reference internal" href="#oscilate.MMS.steady_state.Steady_state" title="oscilate.MMS.steady_state.Steady_state"><em>Steady_state</em></a>)</p></li>
-<li><p><strong>param</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a>) – See <a class="reference internal" href="#oscilate.sympy_functions.sympy_to_numpy" title="oscilate.sympy_functions.sympy_to_numpy"><code class="xref py py-func docutils literal notranslate"><span class="pre">sympy_to_numpy()</span></code></a>.</p></li>
+<li><p><strong>param</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a>) – See <a class="reference internal" href="#oscilate.sympy_functions.sympy_to_numpy" title="oscilate.sympy_functions.sympy_to_numpy"><code class="xref py py-func docutils literal notranslate"><span class="pre">sympy_to_numpy()</span></code></a>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>omega_bif</strong> – Numpised bifurcation curves’ frequency.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)">list</a> of numpy.ndarray</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)">list</a> of numpy.ndarray</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2058,7 +2058,7 @@ They can then be plotted in the phase portrait and as time signals.</p>
 <li><p><strong>mms</strong> (<a class="reference internal" href="#oscilate.MMS.mms.Multiple_scales_system" title="oscilate.MMS.mms.Multiple_scales_system"><em>Multiple_scales_system</em></a>)</p></li>
 <li><p><strong>ss</strong> (<a class="reference internal" href="#oscilate.MMS.steady_state.Steady_state" title="oscilate.MMS.steady_state.Steady_state"><em>Steady_state</em></a>)</p></li>
 <li><p><strong>dyn</strong> (<a class="reference internal" href="#oscilate.MMS.dyn_sys.Dynamical_system" title="oscilate.MMS.dyn_sys.Dynamical_system"><em>Dynamical_system</em></a>)</p></li>
-<li><p><strong>param</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a>) – See <a class="reference internal" href="#oscilate.sympy_functions.sympy_to_numpy" title="oscilate.sympy_functions.sympy_to_numpy"><code class="xref py py-func docutils literal notranslate"><span class="pre">sympy_to_numpy()</span></code></a>.</p></li>
+<li><p><strong>param</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a>) – See <a class="reference internal" href="#oscilate.sympy_functions.sympy_to_numpy" title="oscilate.sympy_functions.sympy_to_numpy"><code class="xref py py-func docutils literal notranslate"><span class="pre">sympy_to_numpy()</span></code></a>.</p></li>
 <li><p><strong>omega</strong> (<em>numpy.ndarray</em>) – The frequency array.</p></li>
 <li><p><strong>F</strong> (<em>numpy.ndarray</em>) – The forcing amplitude array.</p></li>
 </ul>
@@ -2080,7 +2080,7 @@ They can then be plotted in the phase portrait and as time signals.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>mms</strong> (<a class="reference internal" href="#oscilate.MMS.mms.Multiple_scales_system" title="oscilate.MMS.mms.Multiple_scales_system"><em>Multiple_scales_system</em></a>)</p></li>
-<li><p><strong>param</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a>) – See <a class="reference internal" href="#oscilate.sympy_functions.sympy_to_numpy" title="oscilate.sympy_functions.sympy_to_numpy"><code class="xref py py-func docutils literal notranslate"><span class="pre">sympy_to_numpy()</span></code></a>.</p></li>
+<li><p><strong>param</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a>) – See <a class="reference internal" href="#oscilate.sympy_functions.sympy_to_numpy" title="oscilate.sympy_functions.sympy_to_numpy"><code class="xref py py-func docutils literal notranslate"><span class="pre">sympy_to_numpy()</span></code></a>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -2103,7 +2103,7 @@ They can then be plotted in the phase portrait and as time signals.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>mms</strong> (<a class="reference internal" href="#oscilate.MMS.mms.Multiple_scales_system" title="oscilate.MMS.mms.Multiple_scales_system"><em>Multiple_scales_system</em></a>)</p></li>
-<li><p><strong>param</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a>) – See <a class="reference internal" href="#oscilate.sympy_functions.sympy_to_numpy" title="oscilate.sympy_functions.sympy_to_numpy"><code class="xref py py-func docutils literal notranslate"><span class="pre">sympy_to_numpy()</span></code></a>.</p></li>
+<li><p><strong>param</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a>) – See <a class="reference internal" href="#oscilate.sympy_functions.sympy_to_numpy" title="oscilate.sympy_functions.sympy_to_numpy"><code class="xref py py-func docutils literal notranslate"><span class="pre">sympy_to_numpy()</span></code></a>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -2125,7 +2125,7 @@ They can then be plotted in the phase portrait and as time signals.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>mms</strong> (<a class="reference internal" href="#oscilate.MMS.mms.Multiple_scales_system" title="oscilate.MMS.mms.Multiple_scales_system"><em>Multiple_scales_system</em></a>)</p></li>
 <li><p><strong>ss</strong> (<a class="reference internal" href="#oscilate.MMS.steady_state.Steady_state" title="oscilate.MMS.steady_state.Steady_state"><em>Steady_state</em></a>)</p></li>
-<li><p><strong>param</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a>) – See <a class="reference internal" href="#oscilate.sympy_functions.sympy_to_numpy" title="oscilate.sympy_functions.sympy_to_numpy"><code class="xref py py-func docutils literal notranslate"><span class="pre">sympy_to_numpy()</span></code></a>.</p></li>
+<li><p><strong>param</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a>) – See <a class="reference internal" href="#oscilate.sympy_functions.sympy_to_numpy" title="oscilate.sympy_functions.sympy_to_numpy"><code class="xref py py-func docutils literal notranslate"><span class="pre">sympy_to_numpy()</span></code></a>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -2159,7 +2159,7 @@ They can then be plotted in the phase portrait and as time signals.</p>
 <dd class="field-even"><p><strong>bool</strong> – True is solvable, False otherwise.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)">bool</a>,</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.14)">bool</a>,</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2172,14 +2172,14 @@ They can then be plotted in the phase portrait and as time signals.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>matrix</strong> (<em>sympy.Matrix</em>) – The matrix to check for block diagonality.</p></li>
-<li><p><strong>block_sizes</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Size(s) of the diagonal blocks.</p></li>
+<li><p><strong>block_sizes</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Size(s) of the diagonal blocks.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>indices</strong> – A list of tuples <cite>(i, j)</cite> representing the indices of elements in the diagonal blocks.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)">list</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)">list</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -2206,7 +2206,7 @@ They can then be plotted in the phase portrait and as time signals.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>matrix</strong> (<em>sympy.Matrix</em>) – The matrix to check for block diagonality.</p></li>
-<li><p><strong>block_sizes</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Size(s) of the diagonal blocks.</p></li>
+<li><p><strong>block_sizes</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Size(s) of the diagonal blocks.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -2233,7 +2233,7 @@ They can then be plotted in the phase portrait and as time signals.</p>
 <dd class="field-even"><p><strong>dic_x</strong> – The polynomial terms.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)">dict</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)">dict</a></p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
@@ -2262,7 +2262,7 @@ then an auxiliary polynomial</p>
 <dd class="field-even"><p><strong>x_sol</strong> – list containing the two roots of the polynomial</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)">list</a> of sympy.Expr</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)">list</a> of sympy.Expr</p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
@@ -2283,7 +2283,7 @@ Note that <a class="reference external" href="https://docs.sympy.org/latest/modu
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>expr</strong> (<em>sympy.Expr</em>) – Expression on which substitutions are to be performed.</p></li>
-<li><p><strong>sub</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><em>tuples</em>) – The substitutions to perform.</p></li>
+<li><p><strong>sub</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em> of </em><em>tuples</em>) – The substitutions to perform.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -2306,7 +2306,7 @@ For instance, one wants to substitute <span class="math notranslate nohighlight"
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>expr_sy</strong> (<em>sympy.Expr</em>) – A sympy expression.</p></li>
-<li><p><strong>param</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a>) – <p>A dictionnary whose values are tuples with 2 elements:</p>
+<li><p><strong>param</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)"><em>dict</em></a>) – <p>A dictionnary whose values are tuples with 2 elements:</p>
 <ol class="arabic simple">
 <li><p>The sympy symbol of a parameter</p></li>
 <li><p>The numerical value(s) taken by that parameter</p></li>

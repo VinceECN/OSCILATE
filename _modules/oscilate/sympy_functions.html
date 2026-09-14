@@ -83,13 +83,13 @@
              
   <h1>Source code for oscilate.sympy_functions</h1><div class="highlight"><pre>
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="sd">Started on Wed Apr  9 13:39:41 2025</span>
 
 <span class="sd">@author: Vincent MAHE</span>
 
 <span class="sd">Sympy functions useful to the use of MMS functions.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="c1">#%% Imports</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
@@ -100,7 +100,7 @@
 <div class="viewcode-block" id="sub_deep">
 <a class="viewcode-back" href="../../modules.html#oscilate.sympy_functions.sub_deep">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">sub_deep</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="n">sub</span><span class="p">):</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">    Performs deep substitutions of an expression. </span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
@@ -120,7 +120,7 @@
 <span class="sd">    Deep substitutions are needed when a substitution involves terms that can still be substituted.</span>
 <span class="sd">    For instance, one wants to substitute :math:`a_1` and :math:`a_2` by expressions, but :math:`a_1` is actually a function of :math:`a_2`, so at least 2 substitutions are required.</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">expr_sub</span>  <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span> 
     <span class="n">expr_init</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">while</span> <span class="n">expr_init</span> <span class="o">!=</span> <span class="n">expr_sub</span><span class="p">:</span> <span class="c1"># Check if the 2 are the same</span>
@@ -133,7 +133,7 @@
 <div class="viewcode-block" id="solve_poly2">
 <a class="viewcode-back" href="../../modules.html#oscilate.sympy_functions.solve_poly2">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">solve_poly2</span><span class="p">(</span><span class="n">poly</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">    Finds the roots of a polynomial of degree 2. </span>
 
 <span class="sd">    Parameters</span>
@@ -161,11 +161,11 @@
 <span class="sd">    These two work but can be very long when coefficients :math:`a,\; b,\; c` are expressions involving many parameters.</span>
 <span class="sd">    Note that :func:`~sympy.solvers.solvers.solve` is significantly slower than :func:`~sympy.solvers.solveset.solveset`.</span>
 <span class="sd">    </span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1"># Check the solvability</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">check_solvability</span><span class="p">(</span><span class="n">poly</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The polynomial cannot be solved&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"The polynomial cannot be solved"</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">None</span>
 
     <span class="c1"># Polynomial terms</span>
@@ -195,7 +195,7 @@
 
     <span class="k">else</span><span class="p">:</span>
         <span class="n">x_sol</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Trying to use solve_poly2() with a polynomial different from p(x) = a*x**2 + b*x + c&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">'Trying to use solve_poly2() with a polynomial different from p(x) = a*x**2 + b*x + c'</span><span class="p">)</span>
         
     <span class="k">return</span> <span class="n">x_sol</span></div>
 
@@ -203,7 +203,7 @@
 <div class="viewcode-block" id="polynomial_terms">
 <a class="viewcode-back" href="../../modules.html#oscilate.sympy_functions.polynomial_terms">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">polynomial_terms</span><span class="p">(</span><span class="n">poly</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">    Identify the terms of a polynomial. </span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
@@ -232,7 +232,7 @@
 <span class="sd">        P(x) = \dfrac{p(x)}{x^{-n}} </span>
 <span class="sd">    </span>
 <span class="sd">    is constructed. It is the terms of that positive powers polynomial that are returned.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1"># Polynomial terms</span>
     <span class="n">dic_x</span> <span class="o">=</span> <span class="n">poly</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">evaluate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -253,7 +253,7 @@
 <div class="viewcode-block" id="check_solvability">
 <a class="viewcode-back" href="../../modules.html#oscilate.sympy_functions.check_solvability">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">check_solvability</span><span class="p">(</span><span class="n">poly</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">    Check the solvability of a polynomial :math:`p(x)`.</span>
 
 <span class="sd">    Parameters</span>
@@ -267,7 +267,7 @@
 <span class="sd">    -------</span>
 <span class="sd">    bool : bool,</span>
 <span class="sd">        True is solvable, False otherwise.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">dic_x</span> <span class="o">=</span> <span class="n">polynomial_terms</span><span class="p">(</span><span class="n">poly</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
     <span class="n">poly_terms</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">dic_x</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
     <span class="n">min_power</span>  <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">poly_terms</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">expr</span><span class="p">:</span> <span class="n">get_exponent</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
@@ -282,7 +282,7 @@
 <div class="viewcode-block" id="get_exponent">
 <a class="viewcode-back" href="../../modules.html#oscilate.sympy_functions.get_exponent">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_exponent</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">    Get the exponent of :math:`x` in an expression of the type :math:`\lambda x^n` where :math:`\lambda` is a constant while :math:`n` is an integer or rational.</span>
 
 <span class="sd">    Parameters</span>
@@ -291,7 +291,7 @@
 <span class="sd">        The expression in which one wants to identify the exponent of x.</span>
 <span class="sd">    x: sympy.Symbol</span>
 <span class="sd">        The variable whose exponent is to be known.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="c1"># This assumes expr is a power of x</span>
     <span class="k">if</span> <span class="n">expr</span><span class="o">.</span><span class="n">is_Number</span><span class="p">:</span>
         <span class="k">return</span> <span class="mi">0</span>
@@ -301,13 +301,13 @@
         <span class="k">return</span> <span class="n">expr</span><span class="o">.</span><span class="n">exp</span>
     
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">)</span>  <span class="c1"># Handle unexpected expressions</span></div>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="s1">'inf'</span><span class="p">)</span>  <span class="c1"># Handle unexpected expressions</span></div>
 
 
 <div class="viewcode-block" id="get_block_diagonal_indices">
 <a class="viewcode-back" href="../../modules.html#oscilate.sympy_functions.get_block_diagonal_indices">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_block_diagonal_indices</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">block_sizes</span><span class="p">):</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">    Generate a list of :math:`(i, j)` indices for all elements in the diagonal blocks of a block-diagonal matrix.</span>
 
 <span class="sd">    Parameters</span>
@@ -321,7 +321,7 @@
 <span class="sd">    -------</span>
 <span class="sd">    indices : list</span>
 <span class="sd">        A list of tuples `(i, j)` representing the indices of elements in the diagonal blocks.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">block_sizes</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
         <span class="n">block_sizes</span> <span class="o">=</span> <span class="p">[</span><span class="n">block_sizes</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">matrix</span><span class="o">.</span><span class="n">rows</span> <span class="o">//</span> <span class="n">block_sizes</span><span class="p">)</span>
@@ -343,7 +343,7 @@
 <div class="viewcode-block" id="is_block_diagonal">
 <a class="viewcode-back" href="../../modules.html#oscilate.sympy_functions.is_block_diagonal">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">is_block_diagonal</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">block_sizes</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Check if a matrix is block-diagonal given block sizes.</span>
 
 <span class="sd">    Parameters</span>
@@ -356,7 +356,7 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">        bool: `True` if the matrix is block-diagonal, `False` otherwise.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">n</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">rows</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">block_sizes</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
         <span class="n">block_sizes</span> <span class="o">=</span> <span class="p">[</span><span class="n">block_sizes</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">n</span> <span class="o">//</span> <span class="n">block_sizes</span><span class="p">)</span>
@@ -380,7 +380,7 @@
 <div class="viewcode-block" id="sympy_to_numpy">
 <a class="viewcode-back" href="../../modules.html#oscilate.sympy_functions.sympy_to_numpy">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">sympy_to_numpy</span><span class="p">(</span><span class="n">expr_sy</span><span class="p">,</span> <span class="n">param</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Transform a sympy expression into a numpy array.</span>
 
 <span class="sd">    Parameters</span>
@@ -398,12 +398,12 @@
 <span class="sd">    -------</span>
 <span class="sd">    expr_np : numpy.ndarray</span>
 <span class="sd">        The numerical values taken by the sympy expression evaluated.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     
     <span class="n">args</span><span class="p">,</span> <span class="n">values</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">param</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
     <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span> 
-        <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">&quot;invalid value encountered in sqrt&quot;</span><span class="p">)</span>
-        <span class="n">expr_np</span> <span class="o">=</span> <span class="n">lambdify</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">expr_sy</span><span class="p">,</span> <span class="n">modules</span><span class="o">=</span><span class="s2">&quot;numpy&quot;</span><span class="p">)(</span><span class="o">*</span><span class="n">values</span><span class="p">)</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">"ignore"</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">"invalid value encountered in sqrt"</span><span class="p">)</span>
+        <span class="n">expr_np</span> <span class="o">=</span> <span class="n">lambdify</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">expr_sy</span><span class="p">,</span> <span class="n">modules</span><span class="o">=</span><span class="s2">"numpy"</span><span class="p">)(</span><span class="o">*</span><span class="n">values</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">expr_np</span></div>
 

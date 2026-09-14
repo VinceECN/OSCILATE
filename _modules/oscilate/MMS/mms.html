@@ -83,14 +83,14 @@
              
   <h1>Source code for oscilate.MMS.mms</h1><div class="highlight"><pre>
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="sd">Started on Tue Feb 15 17:25:59 2022</span>
 
 <span class="sd">@author: Vincent MAHE</span>
 
 <span class="sd">Analyse systems of coupled nonlinear equations using the Method of Multiple Scales (MMS).</span>
 <span class="sd">This sub-module defines the multiple scales system from the dynamical one, and allows to apply the MMS.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="c1">#%% Imports and initialisation</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sympy</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span><span class="n">exp</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="n">re</span><span class="p">,</span> <span class="n">im</span><span class="p">,</span> <span class="n">Rational</span><span class="p">,</span> <span class="n">sqrt</span><span class="p">,</span>
@@ -104,7 +104,7 @@
 <div class="viewcode-block" id="scale_parameters">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.mms.scale_parameters">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">scale_parameters</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">scaling</span><span class="p">,</span> <span class="n">eps</span><span class="p">):</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">    Scale parameters with the scaling parameter :math:`\epsilon`.</span>
 
 <span class="sd">    Parameters</span>
@@ -133,16 +133,16 @@
 
 <span class="sd">    .. math::</span>
 <span class="sd">        p = \epsilon^{\lambda} \tilde{p} .</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     
     <span class="n">param_scaled</span>     <span class="o">=</span> <span class="p">[]</span>
     <span class="n">sub_scaling</span>      <span class="o">=</span> <span class="p">[[],</span> <span class="p">[]]</span>
     
     <span class="k">for</span> <span class="n">ii</span><span class="p">,</span> <span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">pow_p</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">scaling</span><span class="p">)):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">Symbol</span><span class="p">):</span>
-            <span class="n">param_scaled</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">symbols</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\tilde{{</span><span class="si">{}</span><span class="s2">}}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="p">),</span> <span class="o">**</span><span class="n">p</span><span class="o">.</span><span class="n">assumptions0</span><span class="p">))</span>
+            <span class="n">param_scaled</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">symbols</span><span class="p">(</span><span class="sa">r</span><span class="s2">"\tilde{{</span><span class="si">{}</span><span class="s2">}}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="p">),</span> <span class="o">**</span><span class="n">p</span><span class="o">.</span><span class="n">assumptions0</span><span class="p">))</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">Function</span><span class="p">):</span>
-            <span class="n">param_scaled</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Function</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\tilde{{</span><span class="si">{}</span><span class="s2">}}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="p">),</span> <span class="o">**</span><span class="n">p</span><span class="o">.</span><span class="n">assumptions0</span><span class="p">)(</span><span class="o">*</span><span class="n">p</span><span class="o">.</span><span class="n">args</span><span class="p">))</span>
+            <span class="n">param_scaled</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Function</span><span class="p">(</span><span class="sa">r</span><span class="s2">"\tilde{{</span><span class="si">{}</span><span class="s2">}}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="p">),</span> <span class="o">**</span><span class="n">p</span><span class="o">.</span><span class="n">assumptions0</span><span class="p">)(</span><span class="o">*</span><span class="n">p</span><span class="o">.</span><span class="n">args</span><span class="p">))</span>
             
         <span class="n">sub_scaling</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">param_scaled</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">*</span> <span class="n">eps</span><span class="o">**</span><span class="n">pow_p</span><span class="p">)</span> <span class="p">)</span>
         <span class="n">sub_scaling</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="p">(</span><span class="n">param_scaled</span><span class="p">[</span><span class="n">ii</span><span class="p">],</span> <span class="n">p</span> <span class="o">/</span> <span class="n">eps</span><span class="o">**</span><span class="n">pow_p</span><span class="p">)</span> <span class="p">)</span>
@@ -153,9 +153,9 @@
 <div class="viewcode-block" id="Substitutions_MMS">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.mms.Substitutions_MMS">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Substitutions_MMS</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Substitutions used in the MMS.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1"># Class-level annotations for pyreverse</span>
     <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
@@ -185,7 +185,7 @@
 <div class="viewcode-block" id="Forcing_MMS">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.mms.Forcing_MMS">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Forcing_MMS</span><span class="p">:</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">    Define the forcing on the system as</span>
 <span class="sd">    </span>
 <span class="sd">    - A forcing amplitude `F`</span>
@@ -195,7 +195,7 @@
 <span class="sd">    - Forcing coefficients `fF`</span>
 <span class="sd">    </span>
 <span class="sd">    - Forcing terms (direct or parametric) `forcing_term`</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1"># Class-level annotations for pyreverse</span>
     <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
@@ -214,9 +214,9 @@
 <div class="viewcode-block" id="Sol_MMS">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.mms.Sol_MMS">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Sol_MMS</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Solutions obtained when applying the MMS.</span>
-<span class="sd">    &quot;&quot;&quot;</span>             
+<span class="sd">    """</span>             
 
     <span class="c1"># Class-level annotations for pyreverse</span>
     <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
@@ -241,9 +241,9 @@
 <div class="viewcode-block" id="Sol_transient">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.mms.Sol_transient">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Sol_transient</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Solutions obtained when applying the MMS and solving for the transient response.</span>
-<span class="sd">    &quot;&quot;&quot;</span>             
+<span class="sd">    """</span>             
 
     <span class="c1"># Class-level annotations for pyreverse</span>
     <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
@@ -262,14 +262,14 @@
 <div class="viewcode-block" id="Sol_harmonics">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.mms.Sol_harmonics">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Sol_harmonics</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Harmonic decomposition of the solution.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    x: Expr</span>
 <span class="sd">        The x(t) solution of an oscillator</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1"># Class-level annotations for pyreverse</span>
     <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
@@ -305,7 +305,7 @@
 <div class="viewcode-block" id="Multiple_scales_system">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.mms.Multiple_scales_system">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Multiple_scales_system</span><span class="p">:</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">    The multiple scales system.</span>
 <span class="sd">    See :ref:`mms` for a detailed description of the dynamical system.</span>
 
@@ -344,7 +344,7 @@
 <span class="sd">        Default is 1.</span>
 
 <span class="sd">    eps_pow_0 : int, optional</span>
-<span class="sd">        Order of the leading order term in the asymptotic series of each oscillators&#39; response.</span>
+<span class="sd">        Order of the leading order term in the asymptotic series of each oscillators' response.</span>
 <span class="sd">        For the :math:`i^{\textrm{th}}` oscillator and denoting `eps_pow_0` as :math:`\lambda_0`, this means that</span>
 
 <span class="sd">        .. math::</span>
@@ -375,7 +375,7 @@
 <span class="sd">            \omega_i = r_i \omega_{\textrm{ref}} + \delta_i.</span>
 
 <span class="sd">        Default is 0 for each oscillator.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1"># Class-level annotations for pyreverse</span>
     <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
@@ -403,13 +403,13 @@
              <span class="n">ratio_omegaMMS</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">eps_pow_0</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">ratio_omega_osc</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
              <span class="n">detunings</span> <span class="o">=</span> <span class="mi">0</span>
              <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Transform the dynamical system introducing multiple time scales and frequency relations. </span>
 <span class="sd">        For a complete transformation, asymptotic series must also be introduced. This is done in the children classes :class:`~oscilate.MMS.mms_oscillator.Multiple_scales_oscillator` and :class:`~oscilate.MMS.mms_complex.Multiple_scales_complex`, which make use of an oscillator or complex form of the equations, respectively.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         
         <span class="c1"># Information</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Initialisation of the multiple scales sytem&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">'Initialisation of the multiple scales sytem'</span><span class="p">)</span>
         
         <span class="c1"># Order of the method</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">eps</span> <span class="o">=</span> <span class="n">eps</span>
@@ -422,8 +422,8 @@
         <span class="c1"># MMS frequencies of interest</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ratio_omegaMMS</span> <span class="o">=</span> <span class="n">ratio_omegaMMS</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">omegaMMS</span>       <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ratio_omegaMMS</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">omega_ref</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span>          <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\sigma&#39;</span><span class="p">,</span><span class="n">real</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># Detuning to investigate the response around omegaMMS</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">omega</span>          <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\omega&#39;</span><span class="p">,</span><span class="n">real</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># Frequencies investigated </span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span>          <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="sa">r</span><span class="s1">'\sigma'</span><span class="p">,</span><span class="n">real</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># Detuning to investigate the response around omegaMMS</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">omega</span>          <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="sa">r</span><span class="s1">'\omega'</span><span class="p">,</span><span class="n">real</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># Frequencies investigated </span>
         <span class="n">sub_omega</span>           <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">omega</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">omegaMMS</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="p">)</span> <span class="c1"># Definition of omega</span>
         <span class="n">sub_sigma</span>           <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">omega</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">omegaMMS</span><span class="p">)</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="p">)</span> <span class="c1"># Definition of sigma (equivalent to that of omega)</span>
         
@@ -437,7 +437,7 @@
         <span class="c1"># Substitutions</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sub</span> <span class="o">=</span> <span class="n">Substitutions_MMS</span><span class="p">(</span><span class="n">sub_t</span><span class="p">,</span> <span class="n">sub_scaling</span><span class="p">,</span> <span class="n">sub_omega</span><span class="p">,</span> <span class="n">sub_sigma</span><span class="p">)</span>
         
-        <span class="c1"># Oscillators&#39; frequencies (internal resonances and detuning)</span>
+        <span class="c1"># Oscillators' frequencies (internal resonances and detuning)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">omegas</span>          <span class="o">=</span> <span class="n">dynamical_system</span><span class="o">.</span><span class="n">omegas</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ratio_omega_osc</span> <span class="o">=</span> <span class="n">ratio_omega_osc</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">detunings</span>       <span class="o">=</span> <span class="n">detunings</span>
@@ -455,7 +455,7 @@
 <div class="viewcode-block" id="Multiple_scales_system.time_scales">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.mms.Multiple_scales_system.time_scales">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">time_scales</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">        Define the time scales.</span>
 
 <span class="sd">        Notes</span>
@@ -468,12 +468,12 @@
 <span class="sd">        Substitutions from the physical time :math:`t` to the time scales :math:`t_i, \; i=0, ..., N_e` are also prepared.</span>
 <span class="sd">        Note that :math:`t_0` is refered-to as the fast time as it captures the oscillations. </span>
 <span class="sd">        Other time scales are refered-to as slow time as they capture the modulations.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         
         <span class="n">tS</span>  <span class="o">=</span> <span class="p">[]</span>
         <span class="n">sub_t</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Ne</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
-            <span class="n">tS</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">symbols</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;t_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">it</span><span class="p">),</span> <span class="n">real</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">positive</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+            <span class="n">tS</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">symbols</span><span class="p">(</span><span class="sa">r</span><span class="s1">'t_</span><span class="si">{}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">it</span><span class="p">),</span> <span class="n">real</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">positive</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
             <span class="n">sub_t</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">eps</span><span class="o">**</span><span class="n">it</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">tS</span><span class="p">[</span><span class="n">it</span><span class="p">]))</span>
             
         <span class="n">sub_t</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span> <span class="c1"># Start substitutions with the slowest time scale</span>
@@ -485,7 +485,7 @@
 <div class="viewcode-block" id="Multiple_scales_system.oscillators_frequencies">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.mms.Multiple_scales_system.oscillators_frequencies">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">oscillators_frequencies</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">        Gives the expression of every oscillator frequency in terms of the reference frequency, possibly with a detuning.</span>
 <span class="sd">        </span>
 <span class="sd">        Notes</span>
@@ -499,10 +499,10 @@
 <span class="sd">        </span>
 <span class="sd">        .. math::</span>
 <span class="sd">            \omega_{i,0} = r_i \omega_{\textrm{ref}}.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_omegas</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># Substitutions from the omegas to their expression in terms of omega_ref</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">omegas_O0</span>      <span class="o">=</span> <span class="p">[]</span> <span class="c1"># Leading order oscillators&#39; natural frequencies</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">omegas_O0</span>      <span class="o">=</span> <span class="p">[]</span> <span class="c1"># Leading order oscillators' natural frequencies</span>
         <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">):</span>
             
             <span class="c1"># Check if ratio_omega_osc should be modified</span>
@@ -524,11 +524,11 @@
 <div class="viewcode-block" id="Multiple_scales_system.apply_MMS_shared">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.mms.Multiple_scales_system.apply_MMS_shared">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">apply_MMS_shared</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">        Apply the MMS. </span>
 <span class="sd">        This method contains the operations that are common to the oscillator and complex form. These include a change of phase variables to make the system autonomous, a separation of solvability conditions into real and imaginary parts, and their reconstitution, resulting in the modulation equations.</span>
 <span class="sd">        See :meth:`~oscilate.MMS.mms_oscillator.Multiple_scales_oscillator.apply_MMS` or :meth:`~oscilate.MMS.mms_complex.Multiple_scales_complex.apply_MMS` for details.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         
         <span class="c1"># Change the phase coordinates for autonomous purposes</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">autonomous_phases</span><span class="p">()</span>
@@ -544,7 +544,7 @@
 <div class="viewcode-block" id="Multiple_scales_system.polar_coordinates">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.mms.Multiple_scales_system.polar_coordinates">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">polar_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">        Define the polar coordinates.</span>
 
 <span class="sd">        Notes</span>
@@ -554,18 +554,18 @@
 <span class="sd">        .. math::</span>
 <span class="sd">            A_i(\boldsymbol{t}_s) = \frac{1}{2} a_i(\boldsymbol{t}_s) e^{\textrm{j} \phi_i(\boldsymbol{t}_s)},</span>
 
-<span class="sd">        where :math:`a_i(\boldsymbol{t}_s)` and :math:`\phi_i(\boldsymbol{t}_s)` are the solution&#39;s amplitude and phase, respectively. </span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        where :math:`a_i(\boldsymbol{t}_s)` and :math:`\phi_i(\boldsymbol{t}_s)` are the solution's amplitude and phase, respectively. </span>
+<span class="sd">        """</span>
         
-        <span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">a</span>   <span class="o">=</span> <span class="p">[</span> <span class="n">Function</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;a_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ix</span><span class="p">)</span>   <span class="p">,</span> <span class="n">real</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">positive</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">tS</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span> <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">)</span> <span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">phi</span> <span class="o">=</span> <span class="p">[</span> <span class="n">Function</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\phi_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ix</span><span class="p">),</span> <span class="n">real</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>               <span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">tS</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span> <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">)</span> <span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">a</span>   <span class="o">=</span> <span class="p">[</span> <span class="n">Function</span><span class="p">(</span><span class="sa">r</span><span class="s1">'a_</span><span class="si">{}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ix</span><span class="p">)</span>   <span class="p">,</span> <span class="n">real</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">positive</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">tS</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span> <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">)</span> <span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">phi</span> <span class="o">=</span> <span class="p">[</span> <span class="n">Function</span><span class="p">(</span><span class="sa">r</span><span class="s1">'\phi_</span><span class="si">{}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ix</span><span class="p">),</span> <span class="n">real</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>               <span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">tS</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span> <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">)</span> <span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_A</span> <span class="o">=</span> <span class="p">[</span> <span class="p">(</span> <span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">A</span><span class="p">[</span><span class="n">ix</span><span class="p">],</span> <span class="n">Rational</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">*</span><span class="n">exp</span><span class="p">(</span><span class="n">I</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">phi</span><span class="p">[</span><span class="n">ix</span><span class="p">])</span> <span class="p">)</span> <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">)]</span></div>
 
         
 <div class="viewcode-block" id="Multiple_scales_system.autonomous_phases">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.mms.Multiple_scales_system.autonomous_phases">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">autonomous_phases</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">        Define phase coordinates that render an autonomous system.</span>
 
 <span class="sd">        Notes</span>
@@ -579,9 +579,9 @@
 <span class="sd">        where we recall that</span>
 <span class="sd">        :math:`\omega = r_{\textrm{MMS}} \omega_{\textrm{ref}} + \epsilon \sigma` and :math:`\omega_{i,0} = r_i \omega_{\textrm{ref}}`. </span>
 <span class="sd">        See details on this choice in :ref:`mms`.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         
-        <span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">beta</span>   <span class="o">=</span> <span class="p">[</span> <span class="n">Function</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\beta_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ix</span><span class="p">),</span> <span class="n">real</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">tS</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>                                            <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">)</span> <span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">beta</span>   <span class="o">=</span> <span class="p">[</span> <span class="n">Function</span><span class="p">(</span><span class="sa">r</span><span class="s1">'\beta_</span><span class="si">{}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ix</span><span class="p">),</span> <span class="n">real</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">tS</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>                                            <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">)</span> <span class="p">]</span>
         <span class="n">def_beta</span>          <span class="o">=</span> <span class="p">[</span> <span class="n">Rational</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ratio_omega_osc</span><span class="p">[</span><span class="n">ix</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">ratio_omegaMMS</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">tS</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">phi</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span> <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">)</span> <span class="p">]</span>
         <span class="n">def_phi</span>           <span class="o">=</span> <span class="p">[</span> <span class="n">solve</span><span class="p">(</span><span class="n">def_beta</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">beta</span><span class="p">[</span><span class="n">ix</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">phi</span><span class="p">[</span><span class="n">ix</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>                                       <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">)</span> <span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_phi</span>  <span class="o">=</span> <span class="p">[</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">phi</span><span class="p">[</span><span class="n">ix</span><span class="p">],</span> <span class="n">def_phi</span><span class="p">[</span><span class="n">ix</span><span class="p">])</span>                                                                    <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">)</span> <span class="p">]</span>
@@ -591,7 +591,7 @@
 <div class="viewcode-block" id="Multiple_scales_system.modulation_equations">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.mms.Multiple_scales_system.modulation_equations">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">modulation_equations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">        Derive the modulation equations of the polar coordinates system.</span>
 <span class="sd">        </span>
 <span class="sd">        Notes</span>
@@ -617,10 +617,10 @@
 <span class="sd">        #. Using the autonomous phase coordinates</span>
 <span class="sd">        </span>
 <span class="sd">        #. Collecting the terms governing the slow amplitude and phase dynamics.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         
         <span class="c1"># Information</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Computing the modulation equations&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">'Computing the modulation equations'</span><span class="p">)</span>
 
         <span class="c1"># Initialisation</span>
         <span class="n">sec_re</span>    <span class="o">=</span> <span class="p">[[]</span> <span class="k">for</span> <span class="n">dummy</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">)]</span> <span class="c1"># Real part of the secular terms</span>
@@ -671,7 +671,7 @@
 <div class="viewcode-block" id="Multiple_scales_system.reconstitution">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.mms.Multiple_scales_system.reconstitution">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">reconstitution</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">        Use the reconstitution method to combine the modulation equations at each order. This reconstitution is based on the chain rule relation</span>
 
 <span class="sd">        .. math::</span>
@@ -686,14 +686,14 @@
 <span class="sd">            \end{cases}</span>
 
 <span class="sd">        Note that some MMS approaches do not apply this reconstitution step.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="c1"># Introduce amplitudes and phases as functions of the physical time</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">at</span>    <span class="o">=</span> <span class="p">[</span> <span class="n">Function</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;a_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ix</span><span class="p">),</span> <span class="n">real</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">positive</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">)</span> <span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">betat</span> <span class="o">=</span> <span class="p">[</span> <span class="n">Function</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\beta_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ix</span><span class="p">),</span> <span class="n">real</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">positive</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">)</span> <span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">at</span>    <span class="o">=</span> <span class="p">[</span> <span class="n">Function</span><span class="p">(</span><span class="sa">r</span><span class="s1">'a_</span><span class="si">{}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ix</span><span class="p">),</span> <span class="n">real</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">positive</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">)</span> <span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">betat</span> <span class="o">=</span> <span class="p">[</span> <span class="n">Function</span><span class="p">(</span><span class="sa">r</span><span class="s1">'\beta_</span><span class="si">{}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ix</span><span class="p">),</span> <span class="n">real</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">positive</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">)</span> <span class="p">]</span>
 
         <span class="c1"># Substitutions from functions of the tS (time scales) to t (physical time)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_tS_to_t_func</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([[(</span><span class="n">a</span><span class="p">,</span> <span class="n">at</span><span class="p">),</span> <span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">betat</span><span class="p">)]</span> <span class="k">for</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">at</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">betat</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span><span class="s2">&quot;at&quot;</span><span class="p">,</span><span class="s2">&quot;beta&quot;</span><span class="p">,</span><span class="s2">&quot;betat&quot;</span><span class="p">])))],</span> <span class="p">[])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_tS_to_t_func</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([[(</span><span class="n">a</span><span class="p">,</span> <span class="n">at</span><span class="p">),</span> <span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">betat</span><span class="p">)]</span> <span class="k">for</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">at</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">betat</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">,</span> <span class="p">[</span><span class="s2">"a"</span><span class="p">,</span><span class="s2">"at"</span><span class="p">,</span><span class="s2">"beta"</span><span class="p">,</span><span class="s2">"betat"</span><span class="p">])))],</span> <span class="p">[])</span>
 
         <span class="c1"># Reconstitute the modulation equations</span>
         <span class="n">fa</span>    <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">dummy</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">)]</span>  <span class="c1"># Defined as      da/dt = fa(a,beta)</span>
@@ -710,34 +710,34 @@
 <div class="viewcode-block" id="Multiple_scales_system.sol_x_polar">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.mms.Multiple_scales_system.sol_x_polar">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">sol_x_polar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">orders_polar</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">        Write the solutions using the polar coordinates and :math:`\cos` and :math:`\sin` functions.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        orders_polar : str or int or list of int, optional</span>
 <span class="sd">            The orders at which the solutions will be rewritten in polar form.</span>
-<span class="sd">            If ``&quot;all&quot;``, then all solution orders will be rewritten.</span>
+<span class="sd">            If ``"all"``, then all solution orders will be rewritten.</span>
 <span class="sd">            If `int`, then only a single order will be rewritten.</span>
 <span class="sd">            If `list` of `int`, then the listed orders will be rewritten.</span>
 <span class="sd">            Default is 0, so only the leading order solution will be rewritten.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         
         <span class="c1"># Information</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Rewritting the solutions in polar form&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Rewritting the solutions in polar form"</span><span class="p">)</span>
         
         <span class="c1"># Orders to rewrite</span>
-        <span class="k">if</span> <span class="n">orders_polar</span><span class="o">==</span><span class="s2">&quot;all&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">orders_polar</span><span class="o">==</span><span class="s2">"all"</span><span class="p">:</span>
             <span class="n">orders_polar</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Ne</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
         <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">orders_polar</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
             <span class="n">orders_polar</span> <span class="o">=</span> <span class="p">[</span><span class="n">orders_polar</span><span class="p">]</span>
         <span class="k">if</span> <span class="nb">max</span><span class="p">(</span><span class="n">orders_polar</span><span class="p">)</span><span class="o">&gt;</span><span class="bp">self</span><span class="o">.</span><span class="n">Ne</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Trying to rewrite a solution order that exceeds the maximum order computed.&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"Trying to rewrite a solution order that exceeds the maximum order computed."</span><span class="p">)</span>
             <span class="k">return</span>
         
         <span class="c1"># Test if all solution orders are rewritten</span>
         <span class="k">if</span> <span class="n">orders_polar</span> <span class="o">!=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Ne</span><span class="o">+</span><span class="mi">1</span><span class="p">)):</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;All solution orders were not rewritten in polar form&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"All solution orders were not rewritten in polar form"</span><span class="p">)</span>
 
         <span class="c1"># Prepare substitutions</span>
         <span class="n">sub_t_back</span> <span class="o">=</span> <span class="p">[</span> <span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_t</span><span class="p">]</span>
@@ -774,14 +774,14 @@
 <div class="viewcode-block" id="Multiple_scales_system.find_harmonics">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.mms.Multiple_scales_system.find_harmonics">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">find_harmonics</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Determine the harmonics contained in the MMS solutions. </span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        harmonics: list</span>
 <span class="sd">            list of the harmonics appearing in the MMS solutions.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">list_xO</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">chain</span><span class="o">.</span><span class="n">from_iterable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">xO</span><span class="p">))</span>
         <span class="n">harmonics</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">xO_ix</span> <span class="ow">in</span> <span class="n">list_xO</span><span class="p">:</span>
@@ -798,9 +798,9 @@
 <div class="viewcode-block" id="Multiple_scales_system.sol_x_harmonics">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.mms.Multiple_scales_system.sol_x_harmonics">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">sol_x_harmonics</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">        Extract the harmonics caracteristics from the x solution.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="c1"># Initialisation        </span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">x_harmonics</span> <span class="o">=</span> <span class="p">[]</span>
@@ -813,7 +813,7 @@
 <div class="viewcode-block" id="Multiple_scales_system.solve_transient">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.mms.Multiple_scales_system.solve_transient">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">solve_transient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">solve_dof</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">IC</span><span class="o">=</span><span class="nb">dict</span><span class="p">()):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">        Solve the transient response of an oscillator.</span>
 
 <span class="sd">        Parameters</span>
@@ -827,20 +827,20 @@
 <span class="sd">            </span>
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
-<span class="sd">        Find the transient solution for a given oscillator with the other oscillators&#39; amplitude set to 0. Setting the other oscillators&#39; amplitude to zero is done using the method :meth:`~oscilate.MMS.mms.Multiple_scales_system.substitution_solve_dof`.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        Find the transient solution for a given oscillator with the other oscillators' amplitude set to 0. Setting the other oscillators' amplitude to zero is done using the method :meth:`~oscilate.MMS.mms.Multiple_scales_system.substitution_solve_dof`.</span>
+<span class="sd">        """</span>
 
         <span class="c1"># Conditions for not solving the forced response</span>
         <span class="k">if</span> <span class="n">solve_dof</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span>
         
         <span class="c1"># Information</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Computing the transient response for oscillator </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">solve_dof</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">'Computing the transient response for oscillator </span><span class="si">{}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">solve_dof</span><span class="p">))</span>
         
         <span class="c1"># Store the oscillator that is solved for</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sol_transient</span><span class="o">.</span><span class="n">solve_dof</span> <span class="o">=</span> <span class="n">solve_dof</span>
         
-        <span class="c1"># Set the other oscillator&#39;s amplitudes to zero</span>
+        <span class="c1"># Set the other oscillator's amplitudes to zero</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">substitution_solve_dof</span><span class="p">(</span><span class="n">solve_dof</span><span class="p">)</span>
 
         <span class="c1"># Compute the slow time evolutions</span>
@@ -852,20 +852,20 @@
         <span class="c1"># Compute the instantaneous frequency</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">solve_instantaneous_frequency</span><span class="p">()</span>
 
-        <span class="c1">#Compute the oscillator&#39;s motion</span>
+        <span class="c1">#Compute the oscillator's motion</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">solve_x_transient</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="Multiple_scales_system.substitution_solve_dof">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.mms.Multiple_scales_system.substitution_solve_dof">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">substitution_solve_dof</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">solve_dof</span><span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">        Set every oscillator amplitude to 0 except the one to solve for.</span>
 
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
 <span class="sd">        If one wants to solve for :math:`a_i`, then the system is evaluated for :math:`a_j=0, \; \forall j \neq i`.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">sub_solve</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndof</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">ix</span> <span class="o">!=</span> <span class="n">solve_dof</span><span class="p">:</span>
@@ -877,7 +877,7 @@
 <div class="viewcode-block" id="Multiple_scales_system.solve_slow_time">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.mms.Multiple_scales_system.solve_slow_time">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">solve_slow_time</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">IC</span><span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">        Compute the slow time evolution of the amplitude and phase of an oscillator.</span>
 
 <span class="sd">        Parameters</span>
@@ -886,7 +886,7 @@
 <span class="sd">            Initial conditions on :math:`a` and :math:`\beta`, given as a `dict` with keys `a` and `beta`.</span>
 <span class="sd">            The values associated to these keys are `dict` of the form :math:`\{\dot{a}(0), a_{\text{IC}} \}` and :math:`\{\dot{\beta}(0), \beta_{\text{IC}} \}`</span>
 <span class="sd">            Default is an empty `dict`, subsequently filled with some symbols for the :math:`a_{\text{IC}}` and :math:`\beta_{\text{IC}}`.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="c1"># Construct the equations to solve</span>
         <span class="n">solve_dof</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sol_transient</span><span class="o">.</span><span class="n">solve_dof</span>
@@ -895,14 +895,14 @@
 
         <span class="c1"># Get the initial conditions</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">IC</span><span class="p">:</span>
-            <span class="n">ai</span>    <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;a_i&quot;</span><span class="p">,</span> <span class="n">real</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">positive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># Initial amplitude</span>
-            <span class="n">betai</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\beta_i&quot;</span><span class="p">,</span> <span class="n">real</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>            <span class="c1"># Initial phase</span>
-            <span class="n">IC</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">]</span>    <span class="o">=</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">solve_dof</span><span class="p">]</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="p">:</span> <span class="n">ai</span><span class="p">}</span>         <span class="c1"># Initial condition on a</span>
-            <span class="n">IC</span><span class="p">[</span><span class="s2">&quot;beta&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">betat</span><span class="p">[</span><span class="n">solve_dof</span><span class="p">]</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="p">:</span> <span class="n">betai</span><span class="p">}</span>   <span class="c1"># Initial condition on beta</span>
+            <span class="n">ai</span>    <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="sa">r</span><span class="s2">"a_i"</span><span class="p">,</span> <span class="n">real</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">positive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># Initial amplitude</span>
+            <span class="n">betai</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="sa">r</span><span class="s2">"\beta_i"</span><span class="p">,</span> <span class="n">real</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>            <span class="c1"># Initial phase</span>
+            <span class="n">IC</span><span class="p">[</span><span class="s2">"a"</span><span class="p">]</span>    <span class="o">=</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">solve_dof</span><span class="p">]</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="p">:</span> <span class="n">ai</span><span class="p">}</span>         <span class="c1"># Initial condition on a</span>
+            <span class="n">IC</span><span class="p">[</span><span class="s2">"beta"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">betat</span><span class="p">[</span><span class="n">solve_dof</span><span class="p">]</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="p">:</span> <span class="n">betai</span><span class="p">}</span>   <span class="c1"># Initial condition on beta</span>
 
         <span class="c1"># Solve the transient</span>
-        <span class="n">a_sol</span>    <span class="o">=</span> <span class="n">dsolve</span><span class="p">(</span><span class="n">Eqa</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">solve_dof</span><span class="p">],</span> <span class="n">ics</span><span class="o">=</span><span class="n">IC</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">rhs</span> 
-        <span class="n">beta_sol</span> <span class="o">=</span> <span class="n">dsolve</span><span class="p">(</span><span class="n">Eqbeta</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">betat</span><span class="p">[</span><span class="n">solve_dof</span><span class="p">],</span> <span class="n">ics</span><span class="o">=</span><span class="n">IC</span><span class="p">[</span><span class="s2">&quot;beta&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">rhs</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">solve_dof</span><span class="p">],</span> <span class="n">a_sol</span><span class="p">)</span><span class="o">.</span><span class="n">doit</span><span class="p">()</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span><span class="o">.</span><span class="n">simplify</span><span class="p">()</span>
+        <span class="n">a_sol</span>    <span class="o">=</span> <span class="n">dsolve</span><span class="p">(</span><span class="n">Eqa</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">solve_dof</span><span class="p">],</span> <span class="n">ics</span><span class="o">=</span><span class="n">IC</span><span class="p">[</span><span class="s2">"a"</span><span class="p">])</span><span class="o">.</span><span class="n">rhs</span> 
+        <span class="n">beta_sol</span> <span class="o">=</span> <span class="n">dsolve</span><span class="p">(</span><span class="n">Eqbeta</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">betat</span><span class="p">[</span><span class="n">solve_dof</span><span class="p">],</span> <span class="n">ics</span><span class="o">=</span><span class="n">IC</span><span class="p">[</span><span class="s2">"beta"</span><span class="p">])</span><span class="o">.</span><span class="n">rhs</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">solve_dof</span><span class="p">],</span> <span class="n">a_sol</span><span class="p">)</span><span class="o">.</span><span class="n">doit</span><span class="p">()</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span><span class="o">.</span><span class="n">simplify</span><span class="p">()</span>
 
         <span class="c1"># Store results</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sol_transient</span><span class="o">.</span><span class="n">IC</span>   <span class="o">=</span> <span class="n">IC</span>
@@ -915,7 +915,7 @@
 <div class="viewcode-block" id="Multiple_scales_system.absolute_phase">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.mms.Multiple_scales_system.absolute_phase">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">absolute_phase</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">        Introduce an absolute phase :math:`\psi` defined as (for oscillator :math:`i`)</span>
 
 <span class="sd">        .. math::</span>
@@ -928,11 +928,11 @@
 
 <span class="sd">        Then, deduce the solution on :math:`\psi` from that on :math:`\beta`.</span>
 <span class="sd">        The introduction of that absolute phase is useful to write the time response in a more compact way, and to derive the instantaneous frequency of oscillation.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">solve_dof</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sol_transient</span><span class="o">.</span><span class="n">solve_dof</span>
 
         <span class="c1"># Introduce psi and its relation with beta and omega</span>
-        <span class="n">psi</span> <span class="o">=</span> <span class="n">Function</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\psi&quot;</span><span class="p">,</span> <span class="n">real</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">positive</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">)</span> <span class="c1"># Absolute phase</span>
+        <span class="n">psi</span> <span class="o">=</span> <span class="n">Function</span><span class="p">(</span><span class="sa">r</span><span class="s2">"\psi"</span><span class="p">,</span> <span class="n">real</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">positive</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">)</span> <span class="c1"># Absolute phase</span>
         <span class="n">sub_psi</span> <span class="o">=</span> <span class="p">[(</span><span class="n">Rational</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ratio_omega_osc</span><span class="p">[</span><span class="n">solve_dof</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">ratio_omegaMMS</span><span class="p">)</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">omega</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">psi</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">coord</span><span class="o">.</span><span class="n">betat</span><span class="p">[</span><span class="n">solve_dof</span><span class="p">])]</span>                    <span class="c1"># Substitution from the relative phase beta to the absolute one psi</span>
         <span class="n">psi_sol</span> <span class="o">=</span> <span class="p">(</span><span class="n">Rational</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ratio_omega_osc</span><span class="p">[</span><span class="n">solve_dof</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">ratio_omegaMMS</span><span class="p">)</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">omega</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">sol_transient</span><span class="o">.</span><span class="n">beta</span><span class="p">)</span><span class="o">.</span><span class="n">subs</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_omega</span><span class="p">])</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span><span class="o">.</span><span class="n">simplify</span><span class="p">()</span> <span class="c1"># From the beta solution to the psi one</span>
 
@@ -946,9 +946,9 @@
 <div class="viewcode-block" id="Multiple_scales_system.solve_instantaneous_frequency">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.mms.Multiple_scales_system.solve_instantaneous_frequency">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">solve_instantaneous_frequency</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">        Compute the instantaneous frequency from the absolute phase through :math:`\omega_\text{NL} = \dot{\psi}`.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sol_transient</span><span class="o">.</span><span class="n">omega</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sol_transient</span><span class="o">.</span><span class="n">psi</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">)</span><span class="o">.</span><span class="n">simplify</span><span class="p">()</span><span class="o">.</span><span class="n">factor</span><span class="p">()</span> <span class="c1"># Instantaneous oscillation frequency</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_solve</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">omega</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sol_transient</span><span class="o">.</span><span class="n">omega</span><span class="p">)</span> <span class="p">)</span></div>
 
@@ -956,9 +956,9 @@
 <div class="viewcode-block" id="Multiple_scales_system.solve_x_transient">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.mms.Multiple_scales_system.solve_x_transient">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">solve_x_transient</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">        Compute the displacement :math:`x` associated to a transient trajectory.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sol_transient</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sol</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">sol_transient</span><span class="o">.</span><span class="n">solve_dof</span><span class="p">]</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_psi</span><span class="p">)</span><span class="o">.</span><span class="n">simplify</span><span class="p">()</span> <span class="c1"># Adding .subs(self.sub.sub_solve) would result in too complex expressions</span></div>
 </div>
 
@@ -966,8 +966,8 @@
 <div class="viewcode-block" id="Chain_rule_dfdt">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.mms.Chain_rule_dfdt">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">Chain_rule_dfdt</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">tS</span><span class="p">,</span> <span class="n">eps</span><span class="p">):</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Apply the chain rule to express first order time derivatives in terms of the time scales&#39; derivatives.</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">"""</span>
+<span class="sd">    Apply the chain rule to express first order time derivatives in terms of the time scales' derivatives.</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -987,7 +987,7 @@
 <span class="sd">    -----</span>
 <span class="sd">    Consider a time scales-dependent function :math:`f(t_0, t_1, ...)`, where :math:`t_0` is the fast time and :math:`t_1, ...` are the slow times. </span>
 <span class="sd">    The Chain Rule is applied to give the expression of :math:`\mathrm{d} f/ \mathrm{d}t` in terms of the time scales.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     
     <span class="n">Nt</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tS</span><span class="p">)</span>
     <span class="n">dfdt</span> <span class="o">=</span> <span class="mi">0</span>
@@ -1000,8 +1000,8 @@
 <div class="viewcode-block" id="Chain_rule_d2fdt2">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.mms.Chain_rule_d2fdt2">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">Chain_rule_d2fdt2</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">tS</span><span class="p">,</span> <span class="n">eps</span><span class="p">):</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Apply the chain rule to express second order time derivatives in terms of the time scales&#39; derivatives.</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">"""</span>
+<span class="sd">    Apply the chain rule to express second order time derivatives in terms of the time scales' derivatives.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1021,7 +1021,7 @@
 <span class="sd">    -----</span>
 <span class="sd">    Consider a time scales-dependent function :math:`f(t_0, t_1, ...)`, where :math:`t_0` is the fast time and :math:`t_1, ...` are the slow times. </span>
 <span class="sd">    The Chain Rule is applied to give the expression of :math:`\mathrm{d}^2 f/ \mathrm{d}t^2` in terms of the time scales.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     
     <span class="n">Nt</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tS</span><span class="p">)</span>
     <span class="n">d2fdt2</span> <span class="o">=</span> <span class="mi">0</span>
@@ -1035,7 +1035,7 @@
 <div class="viewcode-block" id="cartesian_to_polar">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.mms.cartesian_to_polar">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">cartesian_to_polar</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">sub_polar</span><span class="p">,</span> <span class="n">sub_phase</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">    Rewrites an expression or a matrix `y` from cartesian to polar coordinates.</span>
 
 <span class="sd">    Parameters</span>
@@ -1052,7 +1052,7 @@
 <span class="sd">    -------</span>
 <span class="sd">    yp: sympy.Expr or sympy.Matrix</span>
 <span class="sd">        The initial expression or matrix written in polar coordinates.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">if</span> <span class="n">y</span><span class="o">.</span><span class="n">is_Matrix</span><span class="p">:</span>
         <span class="n">yp</span> <span class="o">=</span> <span class="n">simplify</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">sub_polar</span><span class="p">))</span>
@@ -1069,7 +1069,7 @@
 <div class="viewcode-block" id="get_harmonics">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.mms.get_harmonics">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_harmonics</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">omega</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Extract the harmonic numbers from x(t).</span>
 
 <span class="sd">    Parameters</span>
@@ -1085,7 +1085,7 @@
 <span class="sd">    -------</span>
 <span class="sd">    harmonics: list</span>
 <span class="sd">        The harmonics contained in x.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     
     <span class="n">trig_terms</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">atoms</span><span class="p">(</span><span class="n">cos</span><span class="p">,</span> <span class="n">sin</span><span class="p">)</span>
 
@@ -1104,7 +1104,7 @@
 <div class="viewcode-block" id="rescale">
 <a class="viewcode-back" href="../../../modules.html#oscilate.MMS.mms.rescale">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">rescale</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="n">mms</span><span class="p">):</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">"""</span>
 <span class="sd">    Rescales a scaled expression.</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
@@ -1118,7 +1118,7 @@
 <span class="sd">    -------</span>
 <span class="sd">    expr_scaled: sympy.Expr</span>
 <span class="sd">        The scaled expression.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">expr_rescaled</span> <span class="o">=</span> <span class="n">expr</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="o">*</span><span class="n">mms</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_sigma</span><span class="p">)</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">mms</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">sub_scaling_back</span><span class="p">)</span><span class="o">.</span><span class="n">simplify</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">expr_rescaled</span></div>
 
